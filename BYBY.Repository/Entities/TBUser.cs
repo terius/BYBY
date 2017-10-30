@@ -11,6 +11,11 @@ namespace BYBY.Repository.Entities
     {
         [Required]
         [StringLength(20)]
+        public string UserName { get; set; }
+
+
+        [Required]
+        [StringLength(30)]
         public string Name { get; set; }
 
 
