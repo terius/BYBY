@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BYBY.Repository.Entities
 {
-    public class TBUser :BaseEntity<int>
+    public class TBUser : BaseEntity<int>, IUser<int>
     {
         [Required]
         [StringLength(20)]
@@ -20,8 +17,12 @@ namespace BYBY.Repository.Entities
 
 
         [Required]
-        [StringLength(18)]
-        public string SFZ { get; set; }
+        [StringLength(32)]
+        public string Password { get; set; }
+
+
+
+        public DateTime? LastLoginTime { get; set; }
 
     }
 }

@@ -36,11 +36,15 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,8 +53,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataContextFactory.cs" />
+    <Compile Include="DataContextStorage\DataContextStorageFactory.cs" />
+    <Compile Include="DataContextStorage\HttpDataContextStorageContainer.cs" />
+    <Compile Include="DataContextStorage\IDataContextStorageContainer.cs" />
+    <Compile Include="DataContextStorage\ThreadDataContextStorageContainer.cs" />
+    <Compile Include="EFUnitOfWork.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\TBRole.cs" />
     <Compile Include="Entities\TBUser.cs" />
+    <Compile Include="Entities\TBUserRole.cs" />
     <Compile Include="Migrations\201710300752132_1030.cs" />
     <Compile Include="Migrations\201710300752132_1030.Designer.cs">
       <DependentUpon>201710300752132_1030.cs</DependentUpon>
@@ -70,6 +82,8 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ReadOnlyRepository.cs" />
+    <Compile Include="Repositories\Repository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -88,6 +102,12 @@
     <EmbeddedResource Include="Migrations\201710300759069_1030-4.resx">
       <DependentUpon>201710300759069_1030-4.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BYBY.Infrastructure\BYBY.Infrastructure.csproj">
+      <Project>{f0090aa7-49c1-490e-881b-d621e4140121}</Project>
+      <Name>BYBY.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

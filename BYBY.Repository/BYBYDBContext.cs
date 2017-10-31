@@ -1,10 +1,7 @@
 namespace BYBY.Repository
 {
-    using System;
-    using System.Data.Entity;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
     using BYBY.Repository.Entities;
+    using System.Data.Entity;
 
     public partial class BYBYDBContext : DbContext
     {

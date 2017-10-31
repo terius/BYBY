@@ -1,10 +1,11 @@
-﻿using System;
+﻿using BYBY.Infrastructure.Domain;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace BYBY.Repository.Entities
 {
     [Serializable]
-    public abstract class BaseEntity<T>
+    public abstract class BaseEntity<T> : IEntity
     {
         public T Id { get; set; }
 
