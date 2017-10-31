@@ -1,15 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BYBY.Infrastructure.Domain
 {
     public interface IReadOnlyRepository<T, EntityKey> where T : class, IEntity
     {
 
-        T Single(EntityKey Id);
+        Task<T> FindById(EntityKey Id);
 
         //   IQueryable<T> Query(Query<T> query);
 
-        IEnumerable<T> FindAll();
+        Task<IEnumerable<T>> FindAll();
+        Task<T> FindSingleBy(Func<T, bool> sqlWhere);
 
         //   IList<T> PageQuery(Query<T> query,int pageIndex,int pageSize,out int allCount);
     }

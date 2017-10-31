@@ -1,9 +1,10 @@
 ﻿using BYBY.Infrastructure.Domain;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
-
+using System.Threading.Tasks;
 
 namespace BYBY.Repository.Repositories
 {
@@ -17,18 +18,22 @@ namespace BYBY.Repository.Repositories
 
 
 
-        public T Single(EntityKey Id)
+        public async Task<T> FindById(EntityKey Id)
         {
             Contract.Requires(Id != null);
-            var instance = DataContextFactory.GetDataContext().Set<T>().Find(Id);
-            return instance;
+            return await DataContextFactory.GetDataContext().Set<T>().FindAsync(Id);
         }
 
 
 
-        public IEnumerable<T> FindAll()
+        public async Task<IEnumerable<T>> FindAll()
         {
-            return GetDbQuerySet().ToList<T>();
+            return await GetDbQuerySet().ToListAsync<T>();
+        }
+
+        public async Task<T> FindSingleBy(Func<T, bool> whereCnd)
+        {
+            return await Task.FromResult(GetDbQuerySet().Where(whereCnd).FirstOrDefault());
         }
 
 

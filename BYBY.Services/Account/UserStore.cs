@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace Sceneray.CSCenter.AppService.SSUser
 {
-    public class UserStore : IUserPasswordStore<TBUser, int>, IUserRoleStore<TBUser,int>, IUserSecurityStampStore<TBUser,int>
+    public class UserStore : IUserPasswordStore<TBUser, int>, IUserRoleStore<TBUser, int>, IUserSecurityStampStore<TBUser, int>
     {
-        //readonly IRepository<TBUser,int> _userRepository;
-        //readonly IRepository<TBRole, int> _roleRepository;
-        //readonly IRepository<AbpUserRoles, int> _userRoleRepository;
+        readonly IRepository<TBUser, int> _userRepository;
+        readonly IRepository<TBRole, int> _roleRepository;
+        readonly IRepository<TBUserRole, int> _userRoleRepository;
         readonly IUnitOfWork _unitOfWork;
-      //  readonly int defaultTenantId = ApplicationSettingsFactory.GetApplicationSettings().ProductTenantId;
+        //  readonly int defaultTenantId = ApplicationSettingsFactory.GetApplicationSettings().ProductTenantId;
         public UserStore(
-            IRepository<TBUser,int> userRepository,
+            IRepository<TBUser, int> userRepository,
             IUnitOfWork unitOfWork,
             IRepository<TBRole, int> roleRepository,
-            IRepository<AbpUserRoles, int> userRoleRepository
+            IRepository<TBUserRole, int> userRoleRepository
             )
         {
             _userRepository = userRepository;
@@ -30,7 +30,7 @@ namespace Sceneray.CSCenter.AppService.SSUser
         }
         public async Task CreateAsync(TBUser user)
         {
-            user.TenantId = defaultTenantId;
+            // user.TenantId = defaultTenantId;
             await _userRepository.InsertAsync(user);
             _unitOfWork.Commit();
 
@@ -45,16 +45,16 @@ namespace Sceneray.CSCenter.AppService.SSUser
         }
 
 
-        public async Task<TBUser> FindByIdAsync(long userId)
+        public async Task<TBUser> FindByIdAsync(int userId)
         {
 
-            return await Task.FromResult(_userRepository.FindBy(userId));
+            return await _userRepository.FindById(userId);
         }
 
 
         public async Task<TBUser> FindByNameAsync(string userName)
         {
-            return await Task.FromResult(_userRepository.GetObjectSet().FirstOrDefault(d => d.UserName == userName && d.TenantId == defaultTenantId));
+            return await _userRepository.FindSingleBy(d => d.UserName == userName);
 
         }
 
@@ -74,9 +74,9 @@ namespace Sceneray.CSCenter.AppService.SSUser
 
 
 
-        public List<TBUser> FindAllUser()
+        public async Task<IEnumerable<TBUser>> FindAllUser()
         {
-            return _userRepository.GetObjectSet().ToList();
+            return await _userRepository.FindAll();
         }
 
 
@@ -121,20 +121,19 @@ namespace Sceneray.CSCenter.AppService.SSUser
         #region IUserRoleStore
         public async Task AddToRoleAsync(TBUser user, string roleName)
         {
-            AbpUserRoles userRole = new AbpUserRoles();
-            var roleInfo = _roleRepository.GetObjectSet().FirstOrDefault(d => d.Name == roleName && d.TenantId == defaultTenantId);
+            TBUserRole userRole = new TBUserRole();
+            var roleInfo = await _roleRepository.FindSingleBy(d => d.Name == roleName);
             userRole.RoleId = roleInfo.Id;
             userRole.UserId = user.Id;
-            userRole.CreationTime = DateTime.Now;
-            userRole.TenantId = defaultTenantId;
-            _userRoleRepository.Add(userRole);
+
+            await _userRoleRepository.InsertAsync(userRole);
             _unitOfWork.Commit();
             await Task.FromResult(0);
 
         }
         public async Task<IList<string>> GetRolesAsync(TBUser user)
         {
-            var roleIds = user.AbpUserRoles.Select(d => d.RoleId);
+            var roleIds = user.UserRoles.Select(d => d.RoleId);
             IList<string> roles = _roleRepository.GetObjectSet().Where(d => roleIds.Contains(d.Id)).Select(d => d.Name).ToList();
             return await Task.FromResult(roles);
         }
@@ -153,7 +152,7 @@ namespace Sceneray.CSCenter.AppService.SSUser
         public async Task RemoveFromRoleAsync(TBUser user, string roleName)
         {
             var roleInfo = _roleRepository.GetObjectSet().FirstOrDefault(d => d.Name == roleName && d.TenantId == defaultTenantId);
-            AbpUserRoles userRole = _userRoleRepository.GetObjectSet().FirstOrDefault(d => d.UserId == user.Id
+            TBUserRole userRole = _userRoleRepository.GetObjectSet().FirstOrDefault(d => d.UserId == user.Id
             && d.RoleId == roleInfo.Id && d.TenantId == defaultTenantId);
             _userRoleRepository.Remove(userRole);
             _unitOfWork.Commit();

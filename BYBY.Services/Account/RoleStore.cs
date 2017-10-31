@@ -30,11 +30,11 @@ namespace Sceneray.CSCenter.AppService.SSUser
         }
         public async Task<TBRole> FindByIdAsync(int roleId)
         {
-            return await Task.FromResult(_roleRepository.FindBy(roleId));
+            return await _roleRepository.FindById(roleId);
         }
         public async Task<TBRole> FindByNameAsync(string roleName)
         {
-            return await Task.FromResult(_roleRepository.GetObjectSet().FirstOrDefault(d => d.Name == roleName));
+            return await _roleRepository.FindSingleBy(d => d.Name == roleName);
         }
         public async Task UpdateAsync(TBRole role)
         {

@@ -28,12 +28,13 @@ namespace BYBY.Repository.Repositories
             return DataContextFactory.GetDataContext().Set<T>();
         }
 
-        public Task InsertAsync(T entity)
+        public async Task InsertAsync(T entity)
         {
             //  entity.ThrowExceptionIfInvalid(DBAction.Add);
             //try
             //{
-            _uow.RegisterNew(entity, this);
+            GetDbSet().Add((T)entity);
+            await Task.FromResult(0);
             //}
             //catch (Exception ex)
             //{
@@ -42,15 +43,18 @@ namespace BYBY.Repository.Repositories
             //}
         }
 
-        public void Remove(T entity)
+        public async Task DeleteAsync(T entity)
         {
-            _uow.RegisterRemoved(entity, this);
+            GetDbSet().Remove((T)entity);
+            await Task.FromResult(0);
+            //  _uow.RegisterRemoved(entity, this);
         }
 
-        public void Save(T entity)
+        public async Task UpdateAsync(T entity)
         {
+            await Task.FromResult(0);
             //   entity.ThrowExceptionIfInvalid(DBAction.Edit);
-            _uow.RegisterAmended(entity, this);
+            //   _uow.RegisterAmended(entity, this);
 
             // Do nothing as EF tracks changes
         }
@@ -80,24 +84,24 @@ namespace BYBY.Repository.Repositories
 
 
 
-        public int RemoveALL()
-        {
-            int icount = 0;
-            var list = GetDbSet();
-            foreach (var item in list)
-            {
-                Remove(item);
-                icount++;
-            }
-            return icount;
-        }
+        //public int RemoveALL()
+        //{
+        //    int icount = 0;
+        //    var list = GetDbSet();
+        //    foreach (var item in list)
+        //    {
+        //        Remove(item);
+        //        icount++;
+        //    }
+        //    return icount;
+        //}
 
-        public int RemoveByWhere(Func<T, bool> wherefun)
-        {
-            int icount = 0;
-            GetDbSet().Where(wherefun).ToList().ForEach(d => { Remove(d); icount++; });
-            return icount;
-        }
+        //public int RemoveByWhere(Func<T, bool> wherefun)
+        //{
+        //    int icount = 0;
+        //    GetDbSet().Where(wherefun).ToList().ForEach(d => { Remove(d); icount++; });
+        //    return icount;
+        //}
 
 
     }

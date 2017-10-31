@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
-using Sceneray.CSCenter.Model;
+﻿using BYBY.Repository.Entities;
+using Microsoft.AspNet.Identity;
 
 namespace Sceneray.CSCenter.AppService.SSUser
 {

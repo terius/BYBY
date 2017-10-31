@@ -1,6 +1,6 @@
 ﻿namespace BYBY.Repository.Entities
 {
-    partial class TBUserRole : BaseEntity<int>
+    public class TBUserRole : BaseEntity<int>
     {
 
         public int UserId { get; set; }

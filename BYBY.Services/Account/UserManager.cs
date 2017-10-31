@@ -3,6 +3,7 @@ using BYBY.Services.Request;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Sceneray.CSCenter.AppService.SSUser
 {
@@ -22,7 +23,7 @@ namespace Sceneray.CSCenter.AppService.SSUser
         protected UserStore UserStore { get; set; }
 
 
-        public IdentityResult CreateUser(UserRegRequest request, out long newUserId)
+        public IdentityResult CreateUser(UserRegRequest request, out int newUserId)
         {
 
             var user = new TBUser();
@@ -44,7 +45,7 @@ namespace Sceneray.CSCenter.AppService.SSUser
             //user.IsTwoFactorEnabled = false;
             //user.SecurityStamp = Guid.NewGuid().ToString();
             var result = this.Create(user);
-            //newUserId = user.Id;
+            newUserId = user.Id;
             return result;
 
         }
@@ -74,9 +75,9 @@ namespace Sceneray.CSCenter.AppService.SSUser
             return this.Delete(user);
         }
 
-        public IList<TBUser> GetAllUsers()
+        public async Task<IEnumerable<TBUser>> GetAllUsers()
         {
-            return UserStore.FindAllUser();
+            return await UserStore.FindAllUser();
 
         }
 
