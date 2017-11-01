@@ -134,7 +134,7 @@ namespace Sceneray.CSCenter.AppService.SSUser
         public async Task<IList<string>> GetRolesAsync(TBUser user)
         {
             var roleIds = user.UserRoles.Select(d => d.RoleId);
-            IList<string> roles = _roleRepository.GetObjectSet().Where(d => roleIds.Contains(d.Id)).Select(d => d.Name).ToList();
+            IList<string> roles =  _roleRepository.FindBy(d => roleIds.Contains(d.Id)).Select(d => d.Name).ToList();
             return await Task.FromResult(roles);
         }
         public async Task<bool> IsInRoleAsync(TBUser user, string roleName)

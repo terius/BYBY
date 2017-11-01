@@ -36,6 +36,12 @@ namespace BYBY.Repository.Repositories
             return await Task.FromResult(GetDbQuerySet().Where(whereCnd).FirstOrDefault());
         }
 
+        public async Task<IQueryable<T>> FindBy(Func<T, bool> whereCnd)
+        {
+           
+            return await Task.FromResult(GetDbQuerySet().Where(whereCnd).AsQueryable());
+        }
+
 
         //public IEnumerable<T> FindBy(Query<T> query)
         //{
