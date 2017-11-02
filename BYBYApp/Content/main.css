@@ -17,3 +17,7 @@ div {
 .page-content-wrapper .page-content {
     padding: 10px !important;
 }
+
+.page-footer-fixed .page-footer {
+    background-color: #ffffff !important;
+}
