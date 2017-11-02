@@ -1,7 +1,7 @@
 ﻿using BYBY.Repository.Entities;
 using Microsoft.AspNet.Identity;
 
-namespace Sceneray.CSCenter.AppService.SSUser
+namespace BYBY.Services.Account
 {
     public class RoleManager : RoleManager<TBRole, int>
     {

@@ -1,0 +1,19 @@
+﻿body {
+}
+
+/*@font-face {
+    font-family: myfont;
+    src: url('../fonts/Bad Script regular.ttf');
+}
+
+div {
+    font-family: myfont;
+}*/
+
+.page-content-white .page-title {
+    margin: 0 0 10px !important;
+}
+
+.page-content-wrapper .page-content {
+    padding: 10px !important;
+}

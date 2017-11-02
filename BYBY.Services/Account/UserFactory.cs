@@ -1,4 +1,4 @@
-﻿namespace Sceneray.CSCenter.AppService.SSUser
+﻿namespace BYBY.Services.Account
 {
     public class UserFactory
     {

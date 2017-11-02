@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sceneray.CSCenter.AppService.SSUser
+namespace BYBY.Services.Account
 {
-    public class UserStore : IUserPasswordStore<TBUser, int>, IUserRoleStore<TBUser, int>, IUserSecurityStampStore<TBUser, int>
+    public class UserStore : IUserPasswordStore<TBUser, int>, IUserRoleStore<TBUser, int>
     {
         readonly IRepository<TBUser, int> _userRepository;
         readonly IRepository<TBRole, int> _roleRepository;
@@ -48,13 +48,13 @@ namespace Sceneray.CSCenter.AppService.SSUser
         public async Task<TBUser> FindByIdAsync(int userId)
         {
 
-            return await _userRepository.FindById(userId);
+            return await _userRepository.GetAsync(userId);
         }
 
 
         public async Task<TBUser> FindByNameAsync(string userName)
         {
-            return await _userRepository.FindSingleBy(d => d.UserName == userName);
+            return await _userRepository.FindSingleAsync(d => d.UserName == userName);
 
         }
 
@@ -76,7 +76,7 @@ namespace Sceneray.CSCenter.AppService.SSUser
 
         public async Task<IEnumerable<TBUser>> FindAllUser()
         {
-            return await _userRepository.FindAll();
+            return await _userRepository.FindAllAsync();
         }
 
 
@@ -122,7 +122,7 @@ namespace Sceneray.CSCenter.AppService.SSUser
         public async Task AddToRoleAsync(TBUser user, string roleName)
         {
             TBUserRole userRole = new TBUserRole();
-            var roleInfo = await _roleRepository.FindSingleBy(d => d.Name == roleName);
+            var roleInfo = await _roleRepository.FindSingleAsync(d => d.Name == roleName);
             userRole.RoleId = roleInfo.Id;
             userRole.UserId = user.Id;
 
@@ -134,8 +134,9 @@ namespace Sceneray.CSCenter.AppService.SSUser
         public async Task<IList<string>> GetRolesAsync(TBUser user)
         {
             var roleIds = user.UserRoles.Select(d => d.RoleId);
-            IList<string> roles =  _roleRepository.FindBy(d => roleIds.Contains(d.Id)).Select(d => d.Name).ToList();
-            return await Task.FromResult(roles);
+            var roles = await _roleRepository.FindAsync(d => roleIds.Contains(d.Id));
+            var roleNameList = roles.Select(d => d.Name).ToList();
+            return roleNameList;
         }
         public async Task<bool> IsInRoleAsync(TBUser user, string roleName)
         {
@@ -151,28 +152,26 @@ namespace Sceneray.CSCenter.AppService.SSUser
         }
         public async Task RemoveFromRoleAsync(TBUser user, string roleName)
         {
-            var roleInfo = _roleRepository.GetObjectSet().FirstOrDefault(d => d.Name == roleName && d.TenantId == defaultTenantId);
-            TBUserRole userRole = _userRoleRepository.GetObjectSet().FirstOrDefault(d => d.UserId == user.Id
-            && d.RoleId == roleInfo.Id && d.TenantId == defaultTenantId);
-            _userRoleRepository.Remove(userRole);
+            var roleInfo = await _roleRepository.FindSingleAsync(d => d.Name == roleName);
+            TBUserRole userRole = await _userRoleRepository.FindSingleAsync(d => d.UserId == user.Id && d.RoleId == roleInfo.Id);
+            await _userRoleRepository.DeleteAsync(userRole);
             _unitOfWork.Commit();
-            await Task.FromResult(0);
         }
 
         #endregion
 
         #region IUserSecurityStampStore
 
-        public Task SetSecurityStampAsync(TBUser user, string stamp)
-        {
-            user.SecurityStamp = stamp;
-            return Task.FromResult(0);
-        }
+        //public Task SetSecurityStampAsync(TBUser user, string stamp)
+        //{
+        //    user.SecurityStamp = stamp;
+        //    return Task.FromResult(0);
+        //}
 
-        public Task<string> GetSecurityStampAsync(TBUser user)
-        {
-            return Task.FromResult(user.SecurityStamp);
-        }
+        //public Task<string> GetSecurityStampAsync(TBUser user)
+        //{
+        //    return Task.FromResult(user.SecurityStamp);
+        //}
 
         #endregion
 

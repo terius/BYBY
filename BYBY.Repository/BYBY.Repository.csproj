@@ -54,10 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContextFactory.cs" />
-    <Compile Include="DataContextStorage\DataContextStorageFactory.cs" />
-    <Compile Include="DataContextStorage\HttpDataContextStorageContainer.cs" />
-    <Compile Include="DataContextStorage\IDataContextStorageContainer.cs" />
-    <Compile Include="DataContextStorage\ThreadDataContextStorageContainer.cs" />
     <Compile Include="EFUnitOfWork.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\TBRole.cs" />
@@ -78,6 +74,14 @@
     <Compile Include="Migrations\201710300759069_1030-4.cs" />
     <Compile Include="Migrations\201710300759069_1030-4.Designer.cs">
       <DependentUpon>201710300759069_1030-4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711020710411_1102.cs" />
+    <Compile Include="Migrations\201711020710411_1102.Designer.cs">
+      <DependentUpon>201711020710411_1102.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711020735454_1102-2.cs" />
+    <Compile Include="Migrations\201711020735454_1102-2.Designer.cs">
+      <DependentUpon>201711020735454_1102-2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
@@ -101,6 +105,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710300759069_1030-4.resx">
       <DependentUpon>201710300759069_1030-4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711020710411_1102.resx">
+      <DependentUpon>201711020710411_1102.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711020735454_1102-2.resx">
+      <DependentUpon>201711020735454_1102-2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

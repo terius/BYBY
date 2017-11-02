@@ -1,26 +1,19 @@
-﻿using BYBY.Repository.DataContextStorage;
-
-
-namespace BYBY.Repository
+﻿namespace BYBY.Repository
 {
     public class DataContextFactory
     {
+        static BYBYDBContext _context;
+
         public static BYBYDBContext GetDataContext()
         {
-          //  DateTime dt1 = DateTime.Now;
-            IDataContextStorageContainer _dataContextStorageContainer = DataContextStorageFactory.CreateStorageContainer();
-            BYBYDBContext BYBYDBContext = _dataContextStorageContainer.GetDataContext();
-            if (BYBYDBContext == null)
+            if (_context == null)
             {
-                BYBYDBContext = new BYBYDBContext();
-                _dataContextStorageContainer.Store(BYBYDBContext);
+                _context = new BYBYDBContext();
             }
-           // var ts = DateTime.Now.Subtract(dt1).TotalSeconds.ToString("0.00");
-           // BYBY.Infrastructure.Logging.LoggingFactory.GetLogger().Log("加载Context时间"+ ts + "秒");
-            return BYBYDBContext;
+            return _context;
         }
 
-     
+
     }
 
 }

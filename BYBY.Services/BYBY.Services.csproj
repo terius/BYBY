@@ -34,6 +34,7 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,11 +49,18 @@
     <Compile Include="Account\UserFactory.cs" />
     <Compile Include="Account\UserManager.cs" />
     <Compile Include="Account\UserStore.cs" />
+    <Compile Include="Implementations\BaseService.cs" />
+    <Compile Include="Implementations\UserAccountService.cs" />
+    <Compile Include="Interfaces\IUserAccountService.cs" />
+    <Compile Include="Interfaces\IBaseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Request\UserRegRequest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="App.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BYBY.Infrastructure\BYBY.Infrastructure.csproj">
@@ -64,5 +72,6 @@
       <Name>BYBY.Repository</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

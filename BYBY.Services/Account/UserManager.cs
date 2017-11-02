@@ -1,15 +1,14 @@
 ﻿using BYBY.Repository.Entities;
 using BYBY.Services.Request;
 using Microsoft.AspNet.Identity;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Sceneray.CSCenter.AppService.SSUser
+namespace BYBY.Services.Account
 {
     public class UserManager : UserManager<TBUser, int>
     {
-        private const string defaultPwd = "changeme/123";
+        private const string defaultPwd = "123456";
         //  readonly RoleManager _roleManager;
         public UserManager(UserStore store) : base(store)
         {
@@ -27,6 +26,9 @@ namespace Sceneray.CSCenter.AppService.SSUser
         {
 
             var user = new TBUser();
+            user.Password = defaultPwd;
+            user.UserName = request.UserName;
+            user.Name = request.Name;
             //user.Name = user.Surname = request.Name;
             //user.UserName = request.LoginUserName;
             //user.Password = new PasswordHasher().HashPassword(defaultPwd);

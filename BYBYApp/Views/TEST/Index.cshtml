@@ -3,5 +3,59 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+ <!-- BEGIN PAGE TITLE-->
+<h1 class="page-title">
+  标题
+</h1>
+<!-- END PAGE TITLE-->
+<!-- END PAGE HEADER-->
+<div class="page-content-body">
+    @*<div class="note note-info">
+        <p> 页面信息</p>
+    </div>*@
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="icon-share font-dark hide"></i>
+                <span class="caption-subject font-dark bold uppercase">Quick Info</span>
+            </div>
+            <div class="actions">
+                <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
+                    <i class="icon-cloud-upload"></i>
+                </a>
+                <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
+                    <i class="icon-wrench"></i>
+                </a>
+                <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;"> </a>
+                <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
+                    <i class="icon-trash"></i>
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <form id="formadd" method="post" action="/TEST/CreateUser">
+                <table cellpadding="3">
+                    <tr>
+                        <td>用户名</td>
+                        <td>
+                            <input id="UserName" name="UserName" style="width: 250px" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>姓名</td>
+                        <td>
+                            <input id="Name" name="Name" style="width: 250px" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2"><input id="Submit1" type="submit" value="提交" /></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 

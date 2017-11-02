@@ -28,13 +28,13 @@ namespace BYBY.Repository.Repositories
             return DataContextFactory.GetDataContext().Set<T>();
         }
 
-        public async Task InsertAsync(T entity)
+        public virtual Task InsertAsync(T entity)
         {
             //  entity.ThrowExceptionIfInvalid(DBAction.Add);
             //try
             //{
-            GetDbSet().Add((T)entity);
-            await Task.FromResult(0);
+            GetDbSet().Add(entity);
+            return Task.FromResult(0);
             //}
             //catch (Exception ex)
             //{
@@ -43,16 +43,16 @@ namespace BYBY.Repository.Repositories
             //}
         }
 
-        public async Task DeleteAsync(T entity)
+        public virtual Task DeleteAsync(T entity)
         {
-            GetDbSet().Remove((T)entity);
-            await Task.FromResult(0);
+            GetDbSet().Remove(entity);
+            return Task.FromResult(0);
             //  _uow.RegisterRemoved(entity, this);
         }
 
-        public async Task UpdateAsync(T entity)
+        public virtual Task UpdateAsync(T entity)
         {
-            await Task.FromResult(0);
+            return Task.FromResult(0);
             //   entity.ThrowExceptionIfInvalid(DBAction.Edit);
             //   _uow.RegisterAmended(entity, this);
 

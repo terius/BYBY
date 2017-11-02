@@ -5,7 +5,7 @@ using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sceneray.CSCenter.AppService.SSUser
+namespace BYBY.Services.Account
 {
     public class RoleStore : IRoleStore<TBRole, int>
     {
@@ -30,11 +30,11 @@ namespace Sceneray.CSCenter.AppService.SSUser
         }
         public async Task<TBRole> FindByIdAsync(int roleId)
         {
-            return await _roleRepository.FindById(roleId);
+            return await _roleRepository.GetAsync(roleId);
         }
         public async Task<TBRole> FindByNameAsync(string roleName)
         {
-            return await _roleRepository.FindSingleBy(d => d.Name == roleName);
+            return await _roleRepository.FindSingleAsync(d => d.Name == roleName);
         }
         public async Task UpdateAsync(TBRole role)
         {
