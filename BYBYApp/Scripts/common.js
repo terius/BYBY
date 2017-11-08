@@ -8,3 +8,16 @@ com.valtrim = function (val) {
     return val;
 
 }
+
+com.jqFormOption = {
+    data: {},
+    error: function (result, textStatus, errorThrown) {
+        alert('查询出错');
+    },
+    beforeSerialize: function ($form, options) {
+        $form.find(":text,select,:hidden").each(function (index, ele) {
+            ele.value = com.valtrim(ele.value);
+        })
+
+    }
+}

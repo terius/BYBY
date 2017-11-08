@@ -4,6 +4,6 @@ namespace BYBYApp.Controllers
 {
     public class BaseController : Controller
     {
-     
+      
     }
 }

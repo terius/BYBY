@@ -33,7 +33,7 @@
         <div class="logo">
         </div>
         <h3>医生登录</h3>
-        <form action="/Account/Login" method="post">
+        <form action="/Account/Login" method="post" id="form1">
             @Html.AntiForgeryToken()
             <div class="content">
                 <div class="form-group">
@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div class="login-submit text-center">
-                <button href="javascript:;" type="submit" class="btn btn-success" style="width:100%" data-loading-text="登录中，请稍候..." onclick="return CheckInput()" id="loginButton" tabindex="4">登 录</button>
+                <button href="javascript:;" type="button" class="btn btn-success" style="width:100%" data-loading-text="登录中，请稍候..."  id="loginButton" tabindex="4">登 录</button>
             </div>
 
         </form>
@@ -94,7 +94,26 @@
             }
             $("#UserName").val(user);
             $("#Password").val(pwd);
+            return true;
         }
+
+        $(function() {
+            $("#loginButton").on("click", function () {
+                if (CheckInput()) {
+                    com.jqFormOption.success = function (result) {
+                        if (result == "") {
+                            alert("ok")
+                        }
+                        else {
+                            alert(result);
+                        }
+                    }
+                    // com.jqFormOption.url = km.model.urls["add"];
+                    $("#form1").ajaxSubmit(com.jqFormOption);
+                }
+            })
+        })
+    
     </script>
 </body>
 </html>

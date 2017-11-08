@@ -1,9 +1,8 @@
 ﻿using BYBY.Infrastructure.Helpers;
 using BYBY.Services.Interfaces;
-using BYBY.Services.Request;
-using BYBYApp.Models;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+
 
 namespace BYBYApp.Controllers
 {
@@ -38,21 +37,21 @@ namespace BYBYApp.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginModel loginModel)
+        public async Task<ActionResult> Login(string aaa)
         {
-            loginModel.Password = StringHelper.Sha256(loginModel.Password);
-            if (!CheckValidCode(loginModel.ValidCode))
-            {
-                ModelState.AddModelError("", "验证码错误");
-                return View();
-            }
 
-            var request = new UserLoginRequest { UserName = loginModel.UserName, Password = loginModel.Password, Role = BYBY.Infrastructure.RoleType.Doctor };
-            var response = await _userAccountService.UserLogin(request);
-            if (!response.Result)
-            {
-                ModelState.AddModelError("", response.ErrorMessage);
-            }
+           // loginModel.Password = StringHelper.Sha256(loginModel.Password);
+            //if (!CheckValidCode(loginModel.ValidCode))
+            //{
+            //    return Json("aaa", JsonRequestBehavior.AllowGet);
+            //}
+
+            //var request = new UserLoginRequest { UserName = loginModel.UserName, Password = loginModel.Password, Role = BYBY.Infrastructure.RoleType.Doctor };
+            //var response = await _userAccountService.UserLogin(request);
+            //if (!response.Result)
+            //{
+            //    ModelState.AddModelError("", response.ErrorMessage);
+            //}
 
             //var userinfo = _userService.GetDbQuerySet().FirstOrDefault(d => d.UserName.Equals(UserName) && d.Password.Equals(Password));
             //if (userinfo != null)
@@ -63,7 +62,7 @@ namespace BYBYApp.Controllers
             //    return Redirect("~/Home/Index");
             //}
     
-            return View();
+            return Content("ok");
         }
 
 
