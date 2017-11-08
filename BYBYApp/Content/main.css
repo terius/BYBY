@@ -1,4 +1,7 @@
 ﻿body {
+    padding: 0;
+    margin: 0;
+    font-family:'Microsoft YaHei',STSong
 }
 
 /*@font-face {
@@ -20,4 +23,9 @@ div {
 
 .page-footer-fixed .page-footer {
     background-color: #ffffff !important;
+}
+
+.margin-right-10
+{
+    margin-right:10px;
 }

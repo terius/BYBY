@@ -26,7 +26,7 @@ namespace BYBY.Services.Account
         {
 
             var user = new TBUser();
-            user.Password = defaultPwd;
+            user.Password = new PasswordHasher().HashPassword(defaultPwd);
             user.UserName = request.UserName;
             user.Name = request.Name;
             //user.Name = user.Surname = request.Name;

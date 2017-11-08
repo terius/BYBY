@@ -1,0 +1,82 @@
+﻿body {
+    background: url(/images/doctorback.png) no-repeat 100% 100% fixed;
+}
+
+.menu {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    z-index: 999999;
+}
+
+    .menu > ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .menu > ul > li:not(:last-child) {
+            margin-bottom: 20px;
+        }
+
+        .menu > ul > li > a {
+            width: 130px;
+            letter-spacing: 2px;
+        }
+
+.login-panel {
+    position: absolute;
+    background-color: #fff;
+    width: 360px;
+    padding: 40px;
+    padding-top: 0px;
+    padding-bottom: 15px;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    -ms-border-radius: 7px;
+    -o-border-radius: 7px;
+    border-radius: 7px;
+    height: 420px;
+    left: 50%;
+    top: 50%;
+    margin-left: -180px;
+    margin-top: -300px;
+    -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+    box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+    text-align: left;
+    border-top: 4px solid #fff;
+}
+
+    .login-panel .logo {
+        margin: 20px auto;
+        width: 68px;
+        height: 68px;
+        background: url(/images/doctor.png);
+    }
+
+    .login-panel .content {
+        padding: 10px 0 30px;
+    }
+
+    .login-panel .valid-code {
+        display: inline-block;
+        height: 34px;
+    }
+
+.alert.alert-danger {
+    margin: 10px auto;
+    padding: 10px;
+}
+
+
+    .alert.alert-danger ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+.validation-summary-errors
+{
+    padding-left:10px;
+    display:inline-block;
+}

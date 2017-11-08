@@ -25,7 +25,7 @@ namespace BYBY.Repository.Entities
 
 
         [Required]
-        [StringLength(32)]
+        [StringLength(200)]
         public string Password { get; set; }
 
 

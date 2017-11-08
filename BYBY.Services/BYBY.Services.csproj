@@ -54,7 +54,11 @@
     <Compile Include="Interfaces\IUserAccountService.cs" />
     <Compile Include="Interfaces\IBaseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\UserLoginRequest.cs" />
     <Compile Include="Request\UserRegRequest.cs" />
+    <Compile Include="Response\LoginResponse.cs" />
+    <Compile Include="Response\ResponseBase.cs" />
+    <Compile Include="ServiceExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
