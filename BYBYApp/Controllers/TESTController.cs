@@ -3,6 +3,7 @@ using BYBY.Services.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -25,11 +26,11 @@ namespace BYBYApp.Controllers
         }
 
         [HttpPost]
-        public string CreateUser(UserRegRequest request)
+        public async Task<ActionResult> CreateUser(UserCreateRequest request)
         {
-            var res = _userService.CreateUser(request);
+            var res = await _userService.CreateUserAsync(request);
 
-            return "";
+            return Json(res, JsonRequestBehavior.AllowGet);
         }
 
 

@@ -32,6 +32,7 @@ namespace BYBYApp.App_Start {
     using StructureMap;
     using BYBY.Services.Account;
     using System.Web;
+    using BYBY.Infrastructure.Loger;
 
     public static class StructuremapMvc {
         #region Public Properties
@@ -54,6 +55,7 @@ namespace BYBYApp.App_Start {
             DynamicModuleUtility.RegisterModule(typeof(StructureMapScopeModule));
 
             UserFactory.InitializeLogFactory(container.GetInstance<UserManager>());
+            LoggingFactory.InitializeLogFactory(container.GetInstance<ILogger>());
         }
 
         #endregion

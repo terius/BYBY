@@ -8,7 +8,7 @@ namespace BYBY.Infrastructure
 {
     public enum RoleType
     {
-        Patient,
-        Doctor
+        patient = 1,
+        doctor
     }
 }

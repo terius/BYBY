@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace BYBYApp.Models
+﻿namespace BYBYApp.Models
 {
     public class LoginModel
     {
@@ -12,5 +7,7 @@ namespace BYBYApp.Models
         public string Password { get; set; }
 
         public string ValidCode { get; set; }
+
+        public int RoleId { get; set; }
     }
 }

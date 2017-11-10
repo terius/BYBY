@@ -8,6 +8,6 @@ namespace BYBY.Services.Request
 
         public string Password { get; set; }
 
-        public RoleType Role { get; set; }
+        public int RoleId { get; set; }
     }
 }

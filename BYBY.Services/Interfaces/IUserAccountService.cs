@@ -7,7 +7,7 @@ namespace BYBY.Services.Interfaces
 {
     public interface IUserAccountService
     {
-        IdentityResult CreateUser(UserRegRequest request);
+        Task<EmptyResponse> CreateUserAsync(UserCreateRequest request);
 
         Task<EmptyResponse> UserLogin(UserLoginRequest request);
     }

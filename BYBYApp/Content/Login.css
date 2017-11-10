@@ -51,9 +51,15 @@
         margin: 20px auto;
         width: 68px;
         height: 68px;
+      
+    }
+    .login-panel.doctor .logo {
         background: url(/images/doctor.png);
     }
-
+    .login-panel.patient .logo {
+        background: url(/images/patient.png);
+    }
+    
     .login-panel .content {
         padding: 10px 0 30px;
     }

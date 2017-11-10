@@ -5,7 +5,7 @@ using BYBY.Services.Response;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
 using BYBY.Services;
-
+using BYBY.Repository.Entities;
 
 namespace BYBY.Services.Implementations
 {
@@ -17,9 +17,20 @@ namespace BYBY.Services.Implementations
 
         }
 
-        public IdentityResult CreateUser(UserRegRequest request)
+        public async Task<EmptyResponse> CreateUserAsync(UserCreateRequest request)
         {
-            return _userManager.CreateUser(request, out int newId);
+            var response = new EmptyResponse();
+            var result = await _userManager.CreateUserAsync(request);
+            if (result.Succeeded)
+            {
+                response.CreateSuccessResponse();
+            }
+            else
+            {
+                string errors = string.Join(",", result.Errors);
+                response.CreateErrorResponse(errors);
+            }
+            return response;
         }
 
         public async Task<EmptyResponse> UserLogin(UserLoginRequest request)
@@ -31,7 +42,15 @@ namespace BYBY.Services.Implementations
                 var verificationResult = _userManager.PasswordHasher.VerifyHashedPassword(userInfo.Password, request.Password);
                 if (verificationResult == PasswordVerificationResult.Success)
                 {
-                    response.CreateSuccessResponse();
+                    if (CheckUserRole(userInfo, request.RoleId))
+                    {
+                        response.CreateSuccessResponse();
+                    }
+                    else
+                    {
+                        response.CreateErrorResponse("登录角色错误");
+                    }
+
                 }
                 else
                 {
@@ -44,6 +63,18 @@ namespace BYBY.Services.Implementations
             }
             return response;
 
+        }
+
+        private bool CheckUserRole(TBUser user, int roleId)
+        {
+            foreach (var userRole in user.UserRoles)
+            {
+                if (userRole.RoleId == roleId)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

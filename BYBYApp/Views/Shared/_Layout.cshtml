@@ -10,27 +10,32 @@
     <title>@ViewBag.Title</title>
 
 
-    <link href="~/Content/main.css" rel="stylesheet" />
+
 
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     @*<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />*@
-    <link href="~/Scripts/Metronic/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/Scripts/Metronic/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/Scripts/Metronic/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/Scripts/Metronic/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Metronic/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Metronic/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Metronic/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Metronic/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
     <!-- BEGIN THEME GLOBAL STYLES -->
-    <link href="~/Scripts/Metronic/assets/global/css/components-rounded.min.css" rel="stylesheet" id="style_components" type="text/css" />
-    <link href="~/Scripts/Metronic/assets/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Metronic/assets/global/css/components-rounded.min.css" rel="stylesheet" id="style_components" type="text/css" />
+    <link href="~/Metronic/assets/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
     <!-- END THEME GLOBAL STYLES -->
     <!-- BEGIN THEME LAYOUT STYLES -->
-    <link href="~/Scripts/Metronic/assets/layouts/layout/css/layout.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/Scripts/Metronic/assets/layouts/layout/css/themes/blue.min.css" rel="stylesheet" type="text/css" id="style_color" />
-    <link href="~/Scripts/Metronic/assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Metronic/assets/layouts/layout/css/layout.css" rel="stylesheet" type="text/css" />
+    <link href="~/Metronic/assets/layouts/layout/css/themes/mycolor.css" rel="stylesheet" type="text/css" id="style_color" />
+
     <!-- END THEME LAYOUT STYLES -->
-    <link rel="shortcut icon" href="favicon.ico" /> 
+    @RenderSection("styles", required: false)
+    <link href="~/Content/main.css" rel="stylesheet" />
+    <script src="~/Metronic/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+  
+    @RenderSection("headjs", required: false)
+    <link rel="shortcut icon" href="favicon.ico" />
 </head>
-<body class="page-sidebar-closed-hide-logo page-content-white page-header-fixed page-sidebar-fixed page-footer-fixed">
+<body class="page-sidebar-closed-hide-logo page-content-white page-header-fixed page-sidebar-fixed">
     <div class="page-wrapper">
         <!-- BEGIN HEADER -->
         <div class="page-header navbar navbar-fixed-top">
@@ -39,7 +44,7 @@
                 <!-- BEGIN LOGO -->
                 <div class="page-logo">
                     <a href="index.html">
-                        <img src="~/Scripts/Metronic/assets/layouts/layout/img/logo.png" alt="logo" class="logo-default" />
+                        <img src="~/Metronic/assets/layouts/layout/img/logo.png" alt="logo" class="logo-default" />
                     </a>
                     <div class="menu-toggler sidebar-toggler">
                         <span></span>
@@ -54,54 +59,31 @@
                 <!-- BEGIN TOP NAVIGATION MENU -->
                 <div class="top-menu">
                     <ul class="nav navbar-nav pull-right">
-                      
-                      
+
+
                         <!-- BEGIN USER LOGIN DROPDOWN -->
                         <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
                         <li class="dropdown dropdown-user">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                <img alt="" class="img-circle" src="~/Scripts/Metronic/assets/layouts/layout/img/avatar3_small.jpg" />
+                                <img alt="" class="img-circle" src="~/Metronic/assets/layouts/layout/img/avatar3_small.jpg" />
                                 <span class="username username-hide-on-mobile"> Nick </span>
                                 <i class="fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
                                 <li>
                                     <a href="page_user_profile_1.html">
-                                        <i class="icon-user"></i> My Profile
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="app_calendar.html">
-                                        <i class="icon-calendar"></i> My Calendar
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="app_inbox.html">
-                                        <i class="icon-envelope-open"></i> My Inbox
-                                        <span class="badge badge-danger"> 3 </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="app_todo.html">
-                                        <i class="icon-rocket"></i> My Tasks
-                                        <span class="badge badge-success"> 7 </span>
-                                    </a>
-                                </li>
-                                <li class="divider"> </li>
-                                <li>
-                                    <a href="page_user_lock_1.html">
-                                        <i class="icon-lock"></i> Lock Screen
+                                        <i class="icon-user"></i> 修改密码
                                     </a>
                                 </li>
                                 <li>
                                     <a href="page_user_login_1.html">
-                                        <i class="icon-key"></i> Log Out
+                                        <i class="icon-key"></i> 退出
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <!-- END USER LOGIN DROPDOWN -->
-                     
+
                     </ul>
                 </div>
                 <!-- END TOP NAVIGATION MENU -->
@@ -115,7 +97,7 @@
         <!-- BEGIN CONTAINER -->
         <div class="page-container">
             <!-- BEGIN SIDEBAR -->
-            <div class="page-sidebar-wrapper" >
+            <div class="page-sidebar-wrapper">
                 <!-- BEGIN SIDEBAR -->
                 <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
                 <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
@@ -127,74 +109,149 @@
                     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
                     <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
                     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-                    <ul class="page-sidebar-menu  page-header-fixed "  data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 10px">
-                        <!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
-                        <li class="sidebar-toggler-wrapper hide">
-                            <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
-                            <div class="sidebar-toggler">
-                                <span></span>
-                            </div>
-                            <!-- END SIDEBAR TOGGLER BUTTON -->
+                    <ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 10px">
+
+
+                        <li class="nav-item">
+                            <a href="~/MedicalHistory/Index" class="nav-link">
+                                <i class="icon-notebook"></i>
+                                <span class="title">@*病历管理*@BLGL</span>
+                            </a>
                         </li>
-                    
-                        <li class="nav-item active">
-                            <a href="javascript:;" class="nav-link">
+                        <li class="nav-item">
+                            <a href="~/Consultation/Index" class="nav-link">
                                 <i class="icon-user"></i>
-                                <span class="title">菜单1</span>
+                                <span class="title">@*会诊管理*@HZGL</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="javascript:;" class="nav-link">
                                 <i class="icon-user"></i>
-                                <span class="title">菜单2</span>
+                                <span class="title">转诊管理</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="icon-folder"></i>
-                                <span class="title">Section 4</span>
+                                <span class="title">子菜单1</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
                                 <li class="nav-item">
-                                    <a href="layout_ajax_page_content_5.html" class="ajaxify nav-link">
+                                    <a href="~/TEST/Index" class="nav-link">
                                         <i class="icon-camera"></i>
-                                        <span class="title">Sample Link 1</span>
+                                        <span class="title">测试页面</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="layout_ajax_page_content_1.html" class="ajaxify nav-link">
+                                    <a href="~/Tranfer/Index" class="nav-link">
                                         <i class="icon-link"></i>
-                                        <span class="title">Sample Link 2</span>
+                                        <span class="title">ZZGL</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="layout_ajax_page_content_2.html" class="ajaxify nav-link">
+                                    <a href="javascript:;" class="nav-link">
                                         <i class="icon-pointer"></i>
                                         <span class="title">Sample Link 3</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="layout_ajax_page_content_3.html" class="ajaxify nav-link">
-                                        <i class="icon-camera"></i>
-                                        <span class="title">Sample Link 4</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="layout_ajax_page_content_4.html" class="ajaxify nav-link">
-                                        <i class="icon-link"></i>
-                                        <span class="title">Sample Link 5</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="layout_ajax_page_content_5.html" class="ajaxify nav-link">
+                                    <a href="javascript:;" class="nav-link">
                                         <i class="icon-pointer"></i>
-                                        <span class="title">Sample Link 6</span>
+                                        <span class="title">Sample Link 3</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="javascript:;" class="nav-link">
+                                        <i class="icon-pointer"></i>
+                                        <span class="title">Sample Link 3</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="javascript:;" class="nav-link">
+                                        <i class="icon-pointer"></i>
+                                        <span class="title">Sample Link 3</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-folder"></i>
+                                <span class="title">子菜单2</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item">
+                                    <a href="~/TEST1/Index" class="nav-link">
+                                        <i class="icon-camera"></i>
+                                        <span class="title">测试页面</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="~/Tranfer1/Index" class="nav-link">
+                                        <i class="icon-link"></i>
+                                        <span class="title">ZZGL</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="javascript:;" class="nav-link">
+                                        <i class="icon-pointer"></i>
+                                        <span class="title">Sample Link 3</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="javascript:;" class="nav-link">
+                                        <i class="icon-pointer"></i>
+                                        <span class="title">Sample Link 3</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="javascript:;" class="nav-link">
+                                        <i class="icon-pointer"></i>
+                                        <span class="title">Sample Link 3</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="javascript:;" class="nav-link">
+                                        <i class="icon-pointer"></i>
+                                        <span class="title">Sample Link 3</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="javascript:;" class="nav-link">
+                                        <i class="icon-pointer"></i>
+                                        <span class="title">Sample Link 3</span>
                                     </a>
                                 </li>
                             </ul>
                         </li>
                     </ul>
+                    <script>
+
+                        var url = location.pathname;
+                        var $menuRoot = $(".page-sidebar-menu");
+                        $(".nav-item.active", $menuRoot).removeClass("active");
+                        //  $(".page-sidebar-menu .nav-item.active").removeClass("active");
+                        $(".nav-link", $menuRoot).each(function () {
+                            if ($(this).attr("href").indexOf(url) >= 0) {
+                                $(this).parent().addClass("active");
+                                var $navLink = $(this).closest(".sub-menu").prev();
+                                if ($navLink.length > 0) {
+                                    //$menuRoot.children('li.open').children('a').children('.arrow').removeClass('open');
+                                    //$menuRoot.children('li.open').children('.sub-menu:not(.always-open)').slideUp(200);
+                                    //$menuRoot.children('li.open').removeClass('open');
+
+                                    $navLink.children(".arrow").addClass("open");
+                                    $navLink.parent().addClass("open");
+                                    $navLink.next().slideDown(200);
+                                }
+                                return false;
+                            }
+                        })
+
+
+                    </script>
                     <!-- END SIDEBAR MENU -->
                     <!-- END SIDEBAR MENU -->
                 </div>
@@ -212,11 +269,11 @@
 
             </div>
             <!-- END CONTENT -->
-           
+
         </div>
         <!-- END CONTAINER -->
         <!-- BEGIN FOOTER -->
-        <div class="page-footer " style="margin-left:235px !important;">
+        <div class="page-footer">
             <div class="page-footer-inner text-center" style="width:100%;color:#808080">
                 2016 &copy; Metronic Theme By
             </div>
@@ -226,38 +283,40 @@
         </div>
         <!-- END FOOTER -->
     </div>
-  
+
     @*@Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
         @RenderSection("scripts", required: false)*@
 
 
-    
+
 
 
     <!--[if lt IE 9]>
-    <script src="~/Scripts/Metronic/assets/global/plugins/respond.min.js"></script>
-    <script src="~/Scripts/Metronic/assets/global/plugins/excanvas.min.js"></script>
-    <script src="~/Scripts/Metronic/assets/global/plugins/ie8.fix.min.js"></script>
+    <script src="~/Metronic/assets/global/plugins/respond.min.js"></script>
+    <script src="~/Metronic/assets/global/plugins/excanvas.min.js"></script>
+    <script src="~/Metronic/assets/global/plugins/ie8.fix.min.js"></script>
     <![endif]-->
-
-
     <!-- BEGIN CORE PLUGINS -->
-    <script src="~/Scripts/Metronic/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
-    <script src="~/Scripts/Metronic/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="~/Scripts/Metronic/assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
-    <script src="~/Scripts/Metronic/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-    <script src="~/Scripts/Metronic/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
-    <script src="~/Scripts/Metronic/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+
+    <script src="~/Metronic/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="~/Metronic/assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
+    <script src="~/Metronic/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src="~/Metronic/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+    <script src="~/Metronic/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
     <!-- END CORE PLUGINS -->
     <!-- BEGIN THEME GLOBAL SCRIPTS -->
-    <script src="~/Scripts/Metronic/assets/global/scripts/app.min.js" type="text/javascript"></script>
+    <script src="~/Metronic/assets/global/scripts/app.js" type="text/javascript"></script>
     <!-- END THEME GLOBAL SCRIPTS -->
     <!-- BEGIN THEME LAYOUT SCRIPTS -->
-    <script src="~/Scripts/Metronic/assets/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>
-    <script src="~/Scripts/Metronic/assets/layouts/layout/scripts/demo.min.js" type="text/javascript"></script>
-    <script src="~/Scripts/Metronic/assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
-    <script src="~/Scripts/Metronic/assets/layouts/global/scripts/quick-nav.min.js" type="text/javascript"></script>
+    <script src="~/Metronic/assets/layouts/layout/scripts/layout.js" type="text/javascript"></script>
+
+    @*<script src="~/Metronic/assets/layouts/layout/scripts/demo.js" type="text/javascript"></script>*@
+    @*<script src="~/Metronic/assets/layouts/global/scripts/quick-sidebar.js" type="text/javascript"></script>
+        <script src="~/Metronic/assets/layouts/global/scripts/quick-nav.js" type="text/javascript"></script>*@
     <!-- END THEME LAYOUT SCRIPTS -->
+ 
+    <script src="~/Scripts/common.js"></script>
+    @RenderSection("pagejs", required: false)
 </body>
 </html>

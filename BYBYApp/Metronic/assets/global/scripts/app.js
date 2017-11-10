@@ -526,11 +526,14 @@ var App = function() {
             $.fn.select2.defaults.set("theme", "bootstrap");
             $('.select2me').select2({
                 placeholder: "Select",
-                width: 'auto', 
-                allowClear: true
+                width: "resolve", 
+                allowClear: true,
+                language: "zh-CN"
             });
         }
     };
+
+
 
     // handle group element heights
    var handleHeight = function() {

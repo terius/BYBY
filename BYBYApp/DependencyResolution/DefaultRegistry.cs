@@ -18,6 +18,7 @@
 namespace BYBYApp.DependencyResolution
 {
     using BYBY.Infrastructure.Domain;
+    using BYBY.Infrastructure.Loger;
     using BYBY.Infrastructure.UnitOfWork;
     using BYBY.Repository;
     using BYBY.Repository.Repositories;
@@ -39,6 +40,7 @@ namespace BYBYApp.DependencyResolution
                     scan.WithDefaultConventions();
                     scan.With(new ControllerConvention());
                 });
+            For<ILogger>().Use<Log4NetAdapter>();
             For<IUnitOfWork>().Use<EFUnitOfWork>();
             //   For<DbContext>().Use<BYBYDBContext>();
             For(typeof(IRepository<,>)).Use(typeof(Repository<,>));

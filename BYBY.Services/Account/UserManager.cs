@@ -1,6 +1,7 @@
 ﻿using BYBY.Repository.Entities;
 using BYBY.Services.Request;
 using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@ namespace BYBY.Services.Account
     public class UserManager : UserManager<TBUser, int>
     {
         private const string defaultPwd = "123456";
-        //  readonly RoleManager _roleManager;
+        //   readonly RoleManager _roleManager;
         public UserManager(UserStore store) : base(store)
         {
             UserStore = store;
@@ -17,40 +18,37 @@ namespace BYBY.Services.Account
             //UserTokenProvider = new DataProtectorTokenProvider<TBUser,int>(
             //  provider.Create("UserToken"));
             PasswordValidator = new PasswordValidator { RequiredLength = 1 };
-            //_roleManager = roleManager;
+            //  _roleManager = roleManager;
         }
         protected UserStore UserStore { get; set; }
 
 
-        public IdentityResult CreateUser(UserRegRequest request, out int newUserId)
+        public async Task<IdentityResult> CreateUserAsync(UserCreateRequest request)
         {
-
+            if (await CheckUserNameExist(request.UserName))
+            {
+                throw new Exception("该用户名已存在，无法创建");
+            }
             var user = new TBUser();
             user.Password = new PasswordHasher().HashPassword(defaultPwd);
             user.UserName = request.UserName;
             user.Name = request.Name;
-            //user.Name = user.Surname = request.Name;
-            //user.UserName = request.LoginUserName;
-            //user.Password = new PasswordHasher().HashPassword(defaultPwd);
-            //user.EmailAddress = request.LoginUserName + "@sceneray.com";
-            //user.IsEmailConfirmed = true;
-            //user.IsActive = true;
-            //user.IsDeleted = false;
-            //user.CreationTime = DateTime.Now;
-            //if (request.CurrUserId > 0)
-            //{
-            //    user.CreatorUserId = request.CurrUserId;
-            //}
-            //user.AccessFailedCount = 0;
-            //user.IsLockoutEnabled = true;
-            //user.IsPhoneNumberConfirmed = false;
-            //user.IsTwoFactorEnabled = false;
-            //user.SecurityStamp = Guid.NewGuid().ToString();
-            var result = this.Create(user);
-            newUserId = user.Id;
+            var result = await CreateAsync(user);
+            // newUserId = user.Id;
+            if (result.Succeeded)
+            {
+                await AddToRoleAsync(user.Id, request.RoleName);
+            }
             return result;
-
         }
+
+        private async Task<bool> CheckUserNameExist(string userName)
+        {
+            var info = await FindByNameAsync(userName);
+            return info != null;
+        }
+
+
 
 
         public void UpdateUserTrueName(string userName, string newTrueName)

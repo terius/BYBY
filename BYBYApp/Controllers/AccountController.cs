@@ -1,8 +1,10 @@
 ﻿using BYBY.Infrastructure.Helpers;
 using BYBY.Services.Interfaces;
+using BYBY.Services.Request;
+using BYBYApp.Models;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-
+using System.Web.Security;
 
 namespace BYBYApp.Controllers
 {
@@ -37,32 +39,20 @@ namespace BYBYApp.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(string aaa)
+        public async Task<ActionResult> Login(LoginModel loginModel)
         {
+            if (!CheckValidCode(loginModel.ValidCode))
+            {
+                return ErrorJson("验证码错误");
+            }
+            var request = new UserLoginRequest { UserName = loginModel.UserName, Password = loginModel.Password, RoleId = loginModel.RoleId };
+            var response = await _userAccountService.UserLogin(request);
+            if (response.Result)
+            {
+                FormsAuthentication.SetAuthCookie(loginModel.UserName, false);
 
-           // loginModel.Password = StringHelper.Sha256(loginModel.Password);
-            //if (!CheckValidCode(loginModel.ValidCode))
-            //{
-            //    return Json("aaa", JsonRequestBehavior.AllowGet);
-            //}
-
-            //var request = new UserLoginRequest { UserName = loginModel.UserName, Password = loginModel.Password, Role = BYBY.Infrastructure.RoleType.Doctor };
-            //var response = await _userAccountService.UserLogin(request);
-            //if (!response.Result)
-            //{
-            //    ModelState.AddModelError("", response.ErrorMessage);
-            //}
-
-            //var userinfo = _userService.GetDbQuerySet().FirstOrDefault(d => d.UserName.Equals(UserName) && d.Password.Equals(Password));
-            //if (userinfo != null)
-            //{
-            //    GetRoles(userinfo.Id, UserName);
-            //    FormsAuthentication.SetAuthCookie(userinfo.UserName, false);
-
-            //    return Redirect("~/Home/Index");
-            //}
-    
-            return Content("ok");
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
 

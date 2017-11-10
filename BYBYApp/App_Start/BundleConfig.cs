@@ -26,6 +26,15 @@ namespace BYBYApp
             //bundles.Add(new StyleBundle("~/Content/css").Include(
             //          "~/Content/bootstrap.css",
             //          "~/Content/site.css"));
+
+            //select2
+            bundles.Add(new StyleBundle("~/bundles/css/select2")
+                .Include("~/Metronic/assets/global/plugins/select2/css/select2.css", new CssRewriteUrlTransform())
+                .Include("~/Metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css", new CssRewriteUrlTransform())
+              );
+            bundles.Add(new ScriptBundle("~/bundles/js/select2").Include(
+                      "~/Metronic/assets/global/plugins/select2/js/select2.full.js",
+                      "~/Metronic/assets/global/plugins/select2/js/i18n/zh-CN.js"));
         }
     }
 }
