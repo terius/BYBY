@@ -181,6 +181,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DataTablesEntity.cs" />
+    <Compile Include="Models\MedicalHistoryListModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="MVCExtensions\ViewExtensions.cs" />
     <Compile Include="MVCHelpers\ErrorJsonResult.cs" />
@@ -5674,6 +5676,9 @@
     <Content Include="Metronic\assets\pages\scripts\widgets.js" />
     <Content Include="Metronic\assets\pages\scripts\widgets.min.js" />
     <Content Include="Scripts\validate-ex.js" />
+    <Content Include="Scripts\vue.js" />
+    <Content Include="Scripts\vue.min.js" />
+    <Content Include="testpage.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -5692,6 +5697,7 @@
     <Content Include="Views\MedicalHistory\Index.cshtml" />
     <Content Include="Views\Consultation\Index.cshtml" />
     <Content Include="Views\Tranfer\Index.cshtml" />
+    <Content Include="Views\Shared\_Paginator.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

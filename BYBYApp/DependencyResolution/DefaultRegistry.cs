@@ -46,6 +46,7 @@ namespace BYBYApp.DependencyResolution
             For(typeof(IRepository<,>)).Use(typeof(Repository<,>));
 
             For<IUserAccountService>().Use<UserAccountService>();
+            For<IMedicalHistoryService>().Use<MedicalHistoryService>();
         }
 
         #endregion

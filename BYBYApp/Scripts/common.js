@@ -9,6 +9,25 @@ com.valtrim = function (val) {
 
 }
 
+if ($.fn.dataTable) {
+
+    $.extend(true, $.fn.dataTable.defaults, {
+        "oLanguage": {
+            "sLengthMenu": "每页 _MENU_ 条记录 ",
+            "sZeroRecords": "没有找到记录",
+            "sInfo": "第 _PAGE_ 页 ( 总共 _PAGES_ 页,共 _TOTAL_ 条记录 )",
+            "sInfoEmpty": "",
+            "sInfoFiltered": "(从 _MAX_ 条记录过滤)",
+            "sSearch": "综合搜索:",
+            "sloadingRecords": "加载中",
+            "sProcessing": "",
+            "sEmptyTable": "未查找到数据",
+            oPaginate: { sFirst: "首页", sLast: "末页", sNext: "下一页", sPrevious: "上一页" }
+        }
+      
+    });
+}
+
 var errorHtml = " <div  class=\"layui-layer-content\" style=\"background-color: rgb(242, 65, 0);\">{0}"
     + "<i class=\"layui-layer-TipsG layui-layer-TipsR\" style= \"border-bottom-color: rgb(242, 65, 0);\" ></i></div>"
 

@@ -56,6 +56,8 @@
     <Compile Include="DataContextFactory.cs" />
     <Compile Include="EFUnitOfWork.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\TBMedicalHistory.cs" />
+    <Compile Include="Entities\TBPatient.cs" />
     <Compile Include="Entities\TBRole.cs" />
     <Compile Include="Entities\TBUser.cs" />
     <Compile Include="Entities\TBUserRole.cs" />
@@ -86,6 +88,18 @@
     <Compile Include="Migrations\201711081116056_1108.cs" />
     <Compile Include="Migrations\201711081116056_1108.Designer.cs">
       <DependentUpon>201711081116056_1108.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711130826390_1113.cs" />
+    <Compile Include="Migrations\201711130826390_1113.Designer.cs">
+      <DependentUpon>201711130826390_1113.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711130836518_1113-2.cs" />
+    <Compile Include="Migrations\201711130836518_1113-2.Designer.cs">
+      <DependentUpon>201711130836518_1113-2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711201309098_1120.cs" />
+    <Compile Include="Migrations\201711201309098_1120.Designer.cs">
+      <DependentUpon>201711201309098_1120.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
@@ -118,6 +132,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711081116056_1108.resx">
       <DependentUpon>201711081116056_1108.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711130826390_1113.resx">
+      <DependentUpon>201711130826390_1113.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711130836518_1113-2.resx">
+      <DependentUpon>201711130836518_1113-2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711201309098_1120.resx">
+      <DependentUpon>201711201309098_1120.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

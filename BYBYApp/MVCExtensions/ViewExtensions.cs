@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 
@@ -23,6 +24,11 @@ namespace BYBYApp
                 "<div class=\"alert alert-danger\"><i class=\"fa fa-warning\"></i>"
                 + htmlHelper.ValidationSummary()
                 + "</div>");
+        }
+
+        public static IHtmlString RenderAsJson(this HtmlHelper helper, object model)
+        {
+            return helper.Raw(Json.Encode(model));
         }
 
 
