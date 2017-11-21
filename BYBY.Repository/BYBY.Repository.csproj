@@ -57,6 +57,7 @@
     <Compile Include="EFUnitOfWork.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\TBMedicalHistory.cs" />
+    <Compile Include="Entities\TBHospital.cs" />
     <Compile Include="Entities\TBPatient.cs" />
     <Compile Include="Entities\TBRole.cs" />
     <Compile Include="Entities\TBUser.cs" />

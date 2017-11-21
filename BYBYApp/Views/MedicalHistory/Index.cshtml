@@ -27,8 +27,12 @@
                     <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
                 </div>
                 <div class="form-group margin-left-20">
-                    <label for="exampleInputName2">患者信息：</label>
-                    <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+                    <label for="exampleInputName2">申请日期：</label>
+                    <div class="input-group date-picker input-daterange">
+                        <input type="text" id="txt_stime" class="form-control" name="from">
+                        <span class="input-group-addon"> 到 </span>
+                        <input type="text" id="txt_etime" class="form-control" name="to">
+                    </div>
                 </div>
                 <button type="button" class="btn blue btn-outline margin-left-20">
                     <i class="fa fa-search"></i> 查询
@@ -101,12 +105,14 @@
 @section styles
 {
     @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
+    @System.Web.Optimization.Styles.Render("~/bundles/css/datetimepicker")
 
 }
 
 @section pagejs
 {
     @System.Web.Optimization.Scripts.Render("~/bundles/js/select2")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/datetimepicker")
     <script>
         $(function () {
             // $("#ddlpatient").select2.defaults.set("width", "resolve");

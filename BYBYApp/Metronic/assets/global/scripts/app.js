@@ -572,6 +572,20 @@ var App = function() {
             }
        });       
     }
+
+
+    //terius function
+   var handleDateRangePicker = function() {
+       if ($.fn.datepicker) {
+           $('.input-daterange').datepicker({
+               language: "zh-CN",
+               autoclose: true,
+               format: "yyyy-mm-dd",
+               clearBtn: true,
+               todayHighlight: true
+           });
+       }
+   }
     
     //* END:CORE HANDLERS *//
 
@@ -583,7 +597,11 @@ var App = function() {
 
             //Core handlers
             handleInit(); // initialize core variables
-            handleOnResize(); // set and handle responsive    
+            handleOnResize(); // set and handle responsive  
+
+
+            //terius add 2017/11/21
+            handleDateRangePicker();
 
             //UI Component handlers     
             handleMaterialDesign(); // handle material design       
@@ -1016,7 +1034,7 @@ var App = function() {
 
 }();
 
-<!-- END THEME LAYOUT SCRIPTS -->
+
 
 jQuery(document).ready(function() {    
    App.init(); // init metronic core componets

@@ -125,24 +125,24 @@ div {
     display: none;
 }
 
-.detail-view table {
-    width: 100%;
-}
+    .detail-view table {
+        width: 100%;
+    }
 
-.detail-view .left {
-    text-align: left !important;
-}
+    .detail-view .left {
+        text-align: left !important;
+    }
 
-.detail-view .right {
-    text-align: right !important;
-}
+    .detail-view .right {
+        text-align: right !important;
+    }
 
-.detail-view.open {
-    display: table-row;
-}
+    .detail-view.open {
+        display: table-row;
+    }
 
 .table > tfoot > tr > td {
-    padding:0 18px !important;
+    padding: 0 18px !important;
 }
 
 
@@ -151,19 +151,32 @@ div {
     padding: 3px 10px !important;
 }
 
-.page-num-input input {
-    width: 40px !important;
-    text-align:center;
-}
+    .page-num-input input {
+        width: 40px !important;
+        text-align: center;
+    }
 
-    .page-num-input a{
-        margin-left:10px;
-        text-decoration:none;
-        border:1px solid #ddd;
-        padding:2px;
+    .page-num-input a {
+        margin-left: 10px;
+        text-decoration: none;
+        border: 1px solid #ddd;
+        padding: 2px;
     }
 
         .page-num-input a:hover {
             background-color: #4a83b6;
-            color:#fff;
+            color: #fff;
         }
+
+.input-daterange {
+    width: auto !important;
+}
+
+    .input-daterange input {
+        width: 130px !important;
+    }
+
+.input-daterange .input-group-addon {
+    border-left:none;
+    border-right:none;
+}

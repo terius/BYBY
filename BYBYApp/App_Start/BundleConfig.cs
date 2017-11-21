@@ -35,6 +35,25 @@ namespace BYBYApp
             bundles.Add(new ScriptBundle("~/bundles/js/select2").Include(
                       "~/Metronic/assets/global/plugins/select2/js/select2.full.js",
                       "~/Metronic/assets/global/plugins/select2/js/i18n/zh-CN.js"));
+
+
+
+            //datetimepicker
+            bundles.Add(
+           new StyleBundle("~/bundles/css/datetimepicker")
+               .Include("~/Metronic/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css", new CssRewriteUrlTransform())
+               );
+            bundles.Add(
+             new ScriptBundle("~/bundles/js/datetimepicker")
+                 .Include(
+                 "~/Metronic/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js",
+                 "~/Metronic/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"
+                 ));
+
+
+
+
+
         }
     }
 }
