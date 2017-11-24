@@ -25,6 +25,20 @@ namespace BYBY.Services.Implementations
                 SortType = request.SortType,
                 PageInfo = pageListData.GetMetaData()
             };
+            switch (request.SortType)
+            {
+                case Infrastructure.SortType.None:
+                   
+                    break;
+                case Infrastructure.SortType.Normal:
+                    break;
+                case Infrastructure.SortType.Asc:
+                    break;
+                case Infrastructure.SortType.Desc:
+                    break;
+                default:
+                    break;
+            }
             return newPageView;
 
         }

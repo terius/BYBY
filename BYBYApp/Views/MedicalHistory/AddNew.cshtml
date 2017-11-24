@@ -1,0 +1,143 @@
+﻿
+@{
+    ViewBag.Title = "新增病历";
+}
+
+@*<div class="page-content-title">
+        <span class="title">新增病历</span>
+    </div>*@
+
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            新增病历
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <div class="form-inline">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="form-section">患者卡号信息</h3>
+                    <div class="form-group margin-left-20">
+                        <label for="search-key">患者信息：</label>
+                        <input type="text" class="form-control" id="search-key" placeholder="请输入">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <h3 class="form-section">女方信息</h3>
+                    <div class="col-md-12">
+                        <div class="form-group margin-left-20">
+                            <label for="search-key">姓名：</label>
+                            <input type="text" class="form-control" id="search-key" placeholder="请输入">
+                        </div>
+                        <div class="form-group margin-left-20">
+                            <label for="search-key">证件类型：</label>
+                            <select class="form-control select2me" style="width:200px" name="ddlpatient" id="ddlpatient"
+                                    data-placeholder="--请选择医院--">
+                                <option></option>
+                                <option value="1">丈夫</option>
+                                <option value="2">丈夫1</option>
+                                <option value="3">丈夫2</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="margin-top:20px">
+                        <div class="form-group margin-left-20">
+                            <label for="search-key">姓名：</label>
+                            <input type="text" class="form-control" id="search-key" placeholder="请输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h3 class="form-section">男方信息</h3>
+                    <div class="form-group margin-left-20">
+                        <label for="search-key">姓名：</label>
+                        <input type="text" class="form-control" id="search-key" placeholder="请输入">
+                    </div>
+                    <div class="form-group margin-left-20">
+                        <label for="search-key">证件类型：</label>
+                        <select class="form-control select2me" style="width:200px" name="ddlpatient" id="ddlpatient"
+                                data-placeholder="--请选择医院--">
+                            <option></option>
+                            <option value="1">丈夫</option>
+                            <option value="2">丈夫1</option>
+                            <option value="3">丈夫2</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BEGIN FORM-->
+        @*<form action="#" class="form-horizontal">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 class="form-section">患者卡号信息</h3>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" style="width:100px">病历号：</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" placeholder="Enter text">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h3 class="form-section">女方信息</h3>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">姓名</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="female-name" name="female-name" >
+                                </div>
+                                <label class="col-sm-2 control-label">证件类型</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="female-name" name="female-name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="form-section">男方信息</h3>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">姓名</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="female-name" name="female-name">
+                                </div>
+                                <label class="col-sm-2 control-label">证件类型</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="female-name" name="female-name">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-md-offset-3 col-md-4">
+                            <button type="submit" class="btn green">Submit</button>
+                            <button type="button" class="btn default">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </form>*@
+        <!-- END FORM-->
+    </div>
+</div>
+
+@section styles
+{
+    @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
+    @System.Web.Optimization.Styles.Render("~/bundles/css/datetimepicker")
+
+}
+
+@section pagejs
+{
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/select2")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/datetimepicker")
+}
+

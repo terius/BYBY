@@ -24,7 +24,7 @@ if ($.fn.dataTable) {
             "sEmptyTable": "未查找到数据",
             oPaginate: { sFirst: "首页", sLast: "末页", sNext: "下一页", sPrevious: "上一页" }
         }
-      
+
     });
 }
 
@@ -48,7 +48,7 @@ $.fn.validateForm = function (option) {
                 error.insertAfter(element);
             }
             else if (element.parent(".input-group").size() > 0) {
-              
+
                 error.insertAfter(element.parent(".input-group"));
             } else if (element.attr("data-error-container")) {
                 error.appendTo(element.attr("data-error-container"));
@@ -120,7 +120,7 @@ com.jqFormOption = {
             return $form.valid();
         }
         return true;
-     
+
     }
 }
 
@@ -188,4 +188,67 @@ com.formatDate = function (now) {
     var minute = "" + now.getMinutes(); if (minute.length == 1) { minute = "0" + minute; }
     var second = "" + now.getSeconds(); if (second.length == 1) { second = "0" + second; }
     return year + "/" + month + "/" + day + "   " + hour + ":" + minute + ":" + second;
+}
+
+
+com.ajaxquery = function (url, request, ajaxParams) {
+    return abp.ajax($.extend({
+        url: url,
+        type: 'POST',
+        data: JSON.stringify(request)
+    }, ajaxParams));
+}
+
+com.responsiveHeight = function (dom, rootDom, ignoreDom) {
+    if (!rootDom) {
+        rootDom = "#divroot";
+    }
+    var $rootDom = $(rootDom);
+    var allheight = $rootDom.height();
+    var checkIsIgnoreDom = function (ob) {
+        if (!ignoreDom) {
+            return false;
+        }
+        var cls = ob.attr("class");
+        var id = ob.attr("id");
+        if ((cls && cls.indexOf(ignoreDom) >= 0) || (id && id.indexOf(ignoreDom) >= 0)) {
+            return true;
+        }
+        return false;
+    }
+
+    // com.showLog("begin set " + dom + " height  " + rootDom + " height:" + allheight);
+    $rootDom.find(dom).each(function () {
+        var $dom = $(this);
+        var borderWidth = 0;
+        var otherHeight = 0;
+        $dom.parentsUntil(rootDom).each(function (index, ele) {
+            if (!checkIsIgnoreDom($(ele))) {
+                borderWidth += $(ele).outerHeight(true) - $(ele).height();
+                $(ele).siblings().each(function (index, element) {
+                  //  var html = $(element)[0].outerHTML;
+                    if (element.tagName != "SCRIPT")
+                    {
+                    //    com.showLog($(element).attr("class") + "    height:" + $(element).outerHeight(true));
+                        otherHeight += $(element).outerHeight(true);
+                    }
+                  
+                })
+            }
+
+        })
+
+        $dom.siblings().each(function (index, element) {
+            if (!checkIsIgnoreDom($(element))) {
+                if (element.tagName != "SCRIPT") {
+                //    com.showLog($(element).attr("class") + "    height:" + $(element).outerHeight(true));
+                    otherHeight += $(element).outerHeight(true);
+                }
+            }
+        })
+     //   com.showLog("other height:" + otherHeight);
+        //  document.querySelector(dom).style.height = (allheight - otherHeight - borderWidth) + "px";
+      //  com.showLog("allheight:" + allheight + "  otherHeight:" + otherHeight + "    borderWidth:" + borderWidth);
+        $dom.outerHeight(allheight - otherHeight - borderWidth);
+    })
 }

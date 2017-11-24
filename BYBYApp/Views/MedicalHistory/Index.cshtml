@@ -3,12 +3,18 @@
     ViewBag.Title = "病历管理";
 }
 
-<div class="page-content-title">
+@*<div class="page-content-title">
     <span class="title">病历管理</span>
-</div>
+</div>*@
 
 <div class="portlet light bordered">
-    <div class="portlet-title">
+    <div class="portlet-title fixed">
+        <div class="caption">
+            病历管理
+        </div>
+    </div>
+
+    <div class="portlet-title fixed">
         <div class="querycontent">
             <div class="form-inline">
                 @*<button type="button" class="btn blue btn-outline">
@@ -23,8 +29,8 @@
                     <option value="3">丈夫2</option>
                 </select>
                 <div class="form-group margin-left-20">
-                    <label for="exampleInputName2">患者信息：</label>
-                    <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+                    <label for="search-key">患者信息：</label>
+                    <input type="text" class="form-control" id="search-key" placeholder="请输入">
                 </div>
                 <div class="form-group margin-left-20">
                     <label for="exampleInputName2">申请日期：</label>
@@ -34,19 +40,19 @@
                         <input type="text" id="txt_etime" class="form-control" name="to">
                     </div>
                 </div>
-                <button type="button" class="btn blue btn-outline margin-left-20">
+                <button type="button" class="btn blue btn-outline margin-left-20" id="btn-query">
                     <i class="fa fa-search"></i> 查询
                 </button>
             </div>
         </div>
         <div class="actions">
-            <button type="button" class="btn blue btn-outline">
+            <a href="@Url.Action("AddNew","MedicalHistory")" class="btn blue btn-outline">
                 <i class="fa fa-plus"></i> 新增患者
-            </button>
+            </a>
             <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
         </div>
     </div>
-    <div class="portlet-body">
+    <div class="portlet-body" id="tableshow">
         <table class="table  table-bordered" id="query-table" v-cloak>
             <thead>
                 <tr>
@@ -79,15 +85,39 @@
                         <td>{{info.FeMaleAge}}</td>
                         <td>{{info.MaleName}}</td>
                         <td>{{info.MaleAge}}</td>
+                        <td>{{info.FeMalePhone}}</td>
+                        <td>{{info.MalePhone}}</td>
+                        <td><button type="button" class="btn btn-outline blue" style="width:100px" onclick="alert('aaa')">{{info.ConsultationStatus}}</button></td>
+                        <td>{{info.ReferralStatus}}</td>
+                        <td>{{info.Addtime}}</td>
+                        <td>aaa</td>
                     </tr>
                     <tr class="detail-view">
                         <td colspan="11">
-                            <table border="0" cellpadding="10" cellspacing="0">
-                                <tr><td class="left">女方姓名:艾斯德斯</td><td class="right">男方姓名：张玲</td></tr>
-                                <tr><td class="left">女方姓名:艾斯德斯</td><td class="right">男方姓名：张玲</td></tr>
-                                <tr><td class="left">女方姓名:艾斯德斯</td><td class="right">男方姓名：张玲</td></tr>
-                                <tr><td class="left">女方姓名:艾斯德斯</td><td class="right">男方姓名：张玲</td></tr>
-                            </table>
+                            <div class="col-md-6">
+                                <p><b>女方姓名:</b>{{info.FeMaleName}}</p>
+                                <p><b>女方年龄:</b>{{info.FeMaleAge}}</p>
+                                <p><b>女方出生日期:</b>{{info.FeMaleBirthday}}</p>
+                                <p><b>女方婚姻状态:</b>{{info.FeMaleMarrad}}</p>
+                                <p><b>女方电话:</b>{{info.FeMalePhone}}</p>
+                                <p><b>固定电话:</b>{{info.FeMaleFixPhone}}</p>
+                                <p><b>会诊状态:</b>{{info.ConsultationStatus}}</p>
+                                <p><b>转诊状态:</b>{{info.ReferralStatus}}</p>
+                                <p><b>录入时间:</b>{{info.Addtime}}</p>
+                                <p><b>录入人:</b>{{info.AddUserName}}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><b>男方姓名:</b>{{info.MaleName}}</p>
+                                <p><b>男方年龄:</b>{{info.MaleAge}}</p>
+                                <p><b>男方出生日期:</b>{{info.MaleBirthday}}</p>
+                                <p><b>男方婚姻状态:</b>{{info.MaleMarrad}}</p>
+                                <p><b>男方电话:</b>{{info.MalePhone}}</p>
+                                <p><b>固定电话:</b>{{info.MaleFixPhone}}</p>
+                                <p><b>会诊状态:</b>{{info.ConsultationStatus}}</p>
+                                <p><b>转诊状态:</b>{{info.ReferralStatus}}</p>
+                                <p><b>录入时间:</b>{{info.Addtime}}</p>
+                                <p><b>录入人:</b>{{info.AddUserName}}</p>
+                            </div>
                         </td>
                     </tr>
 
@@ -115,51 +145,67 @@
     @System.Web.Optimization.Scripts.Render("~/bundles/js/datetimepicker")
     <script>
         $(function () {
-            // $("#ddlpatient").select2.defaults.set("width", "resolve");
-
+            var vuetable;
+            com.responsiveHeight("#tableshow", ".page-content");
             Vue.component('v-page', {
                 template: "#vuetmp-paginator",
                 props: ["page"]
             })
 
+            //    $(window).on("resize", App.initSlimScroll('#tableshow'));
 
+            var search = function (pageIndex, sortIndex, sortType) {
+                var para = {};
+                para.PageIndex = pageIndex || 1;
+                para.SortIndex = sortIndex || -1;
+                para.SortType = sortType || 0;
+                para.SearchKey = $("#search-key").val();
+                com.ajaxquery("/MedicalHistory/PageQuery", para).then(function (mydata) {
+                    mydata.query = function (pageIndex, sortIndex, sortType) {
+                        search(pageIndex, sortIndex, sortType);
+                    }
+                    //  com.showLog(mydata);
+                    if (vuetable == null) {
+                        vuetable = new Vue({
+                            el: '#query-table',
+                            data: {
+                                datas: mydata
+                            },
+                            mounted: function () {
+                                App.initSlimScroll('#tableshow');
+                            },
+                            methods: {
+                                showDetail: function (event) {
+                                    //  alert(event);
+                                    if (event) {
+                                        var $currBtn = $(event.target);
+                                        $("#query-table tbody .detail-view").removeClass("open");
+                                        var isDetailClosed = $currBtn.hasClass("fa-plus");
+                                        //  alert(isDetailClosed);
+                                        if (isDetailClosed) {
+                                            $("#query-table tbody .fa-minus").removeClass("fa-minus").addClass("fa-plus");
+                                            $currBtn.removeClass("fa-plus").addClass("fa-minus").closest("tr").next().addClass("open");
 
-            $.getJSON("@Url.Action("PageQuery", "MedicalHistory")").then(function (mydata) {
-                mydata.query = function(pageNum,sortIndex,sortType) {
-                    alert(pageNum);
-                }
-                com.showLog(mydata);
-                var vuetable = new Vue({
-                    el: '#query-table',
-                    data: {
-                        datas: mydata
-                    },
-                    mounted: function () {
-                        //   App.initSlimScroll('#programList');
-                    },
-                    methods: {
-                        showDetail: function (event) {
-                          //  alert(event);
-                            if (event) {
-                                var $currBtn = $(event.target);
-                                $("#query-table tbody .detail-view").removeClass("open");
-                                var isDetailClosed = $currBtn.hasClass("fa-plus");
-                              //  alert(isDetailClosed);
-                                if (isDetailClosed) {
+                                        }
+                                        else {
+                                            $currBtn.removeClass("fa-minus").addClass("fa-plus");
 
-                                    $currBtn.removeClass("fa-plus").addClass("fa-minus").closest("tr").next().addClass("open");
+                                        }
+
+                                    }
                                 }
-                                else {
-                                    $currBtn.removeClass("fa-minus").addClass("fa-plus");
-
-                                }
-
                             }
-                        }
+                        })
+                    }
+                    else {
+                        vuetable.datas = mydata;
                     }
                 })
+            }
+            search();
+            $("#btn-query").on("click", function () {
+                search();
             })
-
 
 
         })

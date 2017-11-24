@@ -1,4 +1,5 @@
 ﻿using BYBY.Services.Interfaces;
+using BYBY.Services.Request;
 using BYBYApp.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -26,10 +27,15 @@ namespace BYBYApp.Controllers
             return View();
         }
 
-        public async Task<JsonResult> PageQuery()
+        public async Task<JsonResult> PageQuery(MedicalHistoryListSearchRequest request)
         {
-            var pageData = await _medicalHistoryService.GetMedicalHistoryList(new BYBY.Services.Request.PageQueryRequest());
+            var pageData = await _medicalHistoryService.GetMedicalHistoryList(request);
             return Json(pageData, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult AddNew()
+        {
+            return View();
         }
     }
 }

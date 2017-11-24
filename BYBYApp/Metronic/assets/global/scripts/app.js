@@ -705,7 +705,7 @@ var App = function() {
                 $(this).slimScroll({
                     allowPageScroll: true, // allow page scroll when the element scroll is ended
                     size: '7px',
-                    color: ($(this).attr("data-handle-color") ? $(this).attr("data-handle-color") : '#bbb'),
+                    color: ($(this).attr("data-handle-color") ? $(this).attr("data-handle-color") : '#2D5F8B'),
                     wrapperClass: ($(this).attr("data-wrapper-class") ? $(this).attr("data-wrapper-class") : 'slimScrollDiv'),
                     railColor: ($(this).attr("data-rail-color") ? $(this).attr("data-rail-color") : '#eaeaea'),
                     position: isRTL ? 'left' : 'right',

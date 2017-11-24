@@ -56,10 +56,14 @@
     <Compile Include="DataContextFactory.cs" />
     <Compile Include="EFUnitOfWork.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
-    <Compile Include="Entities\TBMedicalHistory.cs" />
+    <Compile Include="Entities\TBEthnic.cs" />
+    <Compile Include="Entities\TBMedicalDetail.cs" />
     <Compile Include="Entities\TBHospital.cs" />
+    <Compile Include="Entities\TBMedicalHistory.cs" />
+    <Compile Include="Entities\TBJob.cs" />
     <Compile Include="Entities\TBPatient.cs" />
     <Compile Include="Entities\TBRole.cs" />
+    <Compile Include="Entities\TBNation.cs" />
     <Compile Include="Entities\TBUser.cs" />
     <Compile Include="Entities\TBUserRole.cs" />
     <Compile Include="Migrations\201710300752132_1030.cs" />
@@ -102,6 +106,26 @@
     <Compile Include="Migrations\201711201309098_1120.Designer.cs">
       <DependentUpon>201711201309098_1120.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711220718190_1122.cs" />
+    <Compile Include="Migrations\201711220718190_1122.Designer.cs">
+      <DependentUpon>201711220718190_1122.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711220812480_1122-2.cs" />
+    <Compile Include="Migrations\201711220812480_1122-2.Designer.cs">
+      <DependentUpon>201711220812480_1122-2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711220818350_1122-3.cs" />
+    <Compile Include="Migrations\201711220818350_1122-3.Designer.cs">
+      <DependentUpon>201711220818350_1122-3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711221204559_1122-4.cs" />
+    <Compile Include="Migrations\201711221204559_1122-4.Designer.cs">
+      <DependentUpon>201711221204559_1122-4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711221221179_1122-5.cs" />
+    <Compile Include="Migrations\201711221221179_1122-5.Designer.cs">
+      <DependentUpon>201711221221179_1122-5.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -142,6 +166,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711201309098_1120.resx">
       <DependentUpon>201711201309098_1120.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711220718190_1122.resx">
+      <DependentUpon>201711220718190_1122.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711220812480_1122-2.resx">
+      <DependentUpon>201711220812480_1122-2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711220818350_1122-3.resx">
+      <DependentUpon>201711220818350_1122-3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711221204559_1122-4.resx">
+      <DependentUpon>201711221204559_1122-4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711221221179_1122-5.resx">
+      <DependentUpon>201711221221179_1122-5.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

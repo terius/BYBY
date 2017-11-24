@@ -4,6 +4,11 @@
     font-family: 'Microsoft YaHei',STSong
 }
 
+/*vue加载不闪动*/
+[v-cloak] {
+    display: none;
+}
+
 /*@font-face {
     font-family: myfont;
     src: url('../fonts/Bad Script regular.ttf');
@@ -104,46 +109,86 @@ div {
     border: 1px solid #3598dc;
 }*/
 
-.table thead th {
-    background-color: #4a83b6;
-    color: #fff;
-    text-align: center;
+
+
+/*********************************************表格样式*********************************************/
+
+.table {
+    position: relative;
 }
+
+    .table thead th {
+        background-color: #4a83b6;
+        color: #fff;
+        text-align: center;
+    }
+
+    .table tbody td {
+        padding-top: 4px !important; 
+        padding-bottom: 4px !important;
+    }
 
 .portlet-body .table td {
     text-align: center;
     vertical-align: middle;
 }
 
-/*vue加载不闪动*/
-[v-cloak] {
-    display: none;
-}
+
 
 
 .detail-view {
     display: none;
 }
 
-    .detail-view table {
-        width: 100%;
-    }
-
-    .detail-view .left {
+    .detail-view > td {
         text-align: left !important;
     }
 
-    .detail-view .right {
-        text-align: right !important;
+
+    .detail-view p {
+        margin: 5px auto !important;
     }
+
+        .detail-view p > b {
+            margin-right: 10px;
+        }
+
 
     .detail-view.open {
         display: table-row;
     }
 
+
+
 .table > tfoot > tr > td {
     padding: 0 18px !important;
+    border:none;
+    text-align:right !important;
 }
+
+
+/*查询表格排序图标*/
+.table .sorting {
+    padding-right: 19px;
+    background: url('/images/sort_both.png') no-repeat center right;
+    cursor: pointer;
+}
+
+.table .sorting_asc {
+    padding-right: 19px;
+    background: url('/images/sort_asc.png') no-repeat center right;
+    cursor: pointer;
+}
+
+.table .sorting_desc {
+    padding-right: 19px;
+    background: url('/images/sort_desc.png') no-repeat center right;
+    cursor: pointer;
+}
+
+    .table .sorting span, .table .sorting_asc span, .table .sorting_desc span {
+        margin-left: 10px;
+    }
 
 
 
@@ -152,7 +197,7 @@ div {
 }
 
     .page-num-input input {
-        width: 40px !important;
+        width: 50px !important;
         text-align: center;
     }
 
@@ -176,7 +221,29 @@ div {
         width: 130px !important;
     }
 
-.input-daterange .input-group-addon {
-    border-left:none;
-    border-right:none;
+    .input-daterange .input-group-addon {
+        border-left: none;
+        border-right: none;
+    }
+
+.myloading {
+    position: absolute;
+    width: 120px;
+    height: 50px;
+    border: 1px solid #ddd;
+    left: 50%;
+    top: 50%;
+    margin-left: -60px;
+    margin-top: -20px;
+    z-index: 9999;
+    line-height: 50px;
+    display: none;
+    padding-left: 40px;
+    background: #fff url(/images/loading.gif) no-repeat center left;
+    color: #908989;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    border-radius: 4px;
 }

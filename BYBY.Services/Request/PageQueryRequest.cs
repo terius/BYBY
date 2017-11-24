@@ -19,7 +19,7 @@ namespace BYBY.Services.Request
 
         public int PageSize
         {
-            get { return _PageSize > 0 ? _PageSize : 5; }
+            get { return _PageSize > 0 ? _PageSize : 20; }
             set { _PageSize = value; }
         }
 
@@ -34,6 +34,8 @@ namespace BYBY.Services.Request
         /// 排序类型:0-不排序 1-asc 2-desc
         /// </summary>
         public SortType SortType { get; set; }
+
+       // public string SortClass { get; set; }
 
     }
 }

@@ -206,7 +206,11 @@
     <Content Include="images\doctor.png" />
     <Content Include="images\doctorback.png" />
     <Content Include="images\icon_edit.png" />
+    <Content Include="images\loading.gif" />
     <Content Include="images\patient.png" />
+    <Content Include="images\sort_asc.png" />
+    <Content Include="images\sort_both.png" />
+    <Content Include="images\sort_desc.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\common.js" />
@@ -5675,6 +5679,7 @@
     <Content Include="Metronic\assets\pages\scripts\v,..min.js" />
     <Content Include="Metronic\assets\pages\scripts\widgets.js" />
     <Content Include="Metronic\assets\pages\scripts\widgets.min.js" />
+    <Content Include="Scripts\myajax.js" />
     <Content Include="Scripts\validate-ex.js" />
     <Content Include="Scripts\vue.js" />
     <Content Include="Scripts\vue.min.js" />
@@ -5698,6 +5703,7 @@
     <Content Include="Views\Consultation\Index.cshtml" />
     <Content Include="Views\Tranfer\Index.cshtml" />
     <Content Include="Views\Shared\_Paginator.cshtml" />
+    <Content Include="Views\MedicalHistory\AddNew.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

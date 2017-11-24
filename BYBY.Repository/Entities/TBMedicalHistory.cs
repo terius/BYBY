@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BYBY.Infrastructure;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BYBY.Repository.Entities
@@ -20,7 +21,18 @@ namespace BYBY.Repository.Entities
         public virtual TBPatient MalePatient { get; set; }
 
         [ForeignKey("FeMalePatientId")]
-
         public virtual TBPatient FeMalePatient { get; set; }
+
+        [StringLength(30)]
+        public string LandlinePhone { get; set; }
+
+        [StringLength(100)]
+        public string Address { get; set; }
+        [StringLength(200)]
+        public string Remark { get; set; }
+
+        public ConsultationStatus ConsultationStatus { get; set; }
+
+        public ReferralStatus ReferralStatus { get; set; }
     }
 }

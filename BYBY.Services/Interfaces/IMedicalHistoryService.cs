@@ -7,6 +7,6 @@ namespace BYBY.Services.Interfaces
 {
     public interface IMedicalHistoryService
     {
-        Task<PagedData<MedicalHistoryListView>> GetMedicalHistoryList(PageQueryRequest request);
+        Task<PagedData<MedicalHistoryListView>> GetMedicalHistoryList(MedicalHistoryListSearchRequest request);
     }
 }

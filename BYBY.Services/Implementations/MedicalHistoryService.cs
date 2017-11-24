@@ -4,9 +4,8 @@ using BYBY.Services.Interfaces;
 using BYBY.Services.Request;
 using BYBY.Services.Response;
 using BYBY.Services.Views;
-using System.Threading.Tasks;
-using BYBY.Services;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BYBY.Services.Implementations
 {
@@ -21,12 +20,20 @@ namespace BYBY.Services.Implementations
         }
 
 
-        public async Task<PagedData<MedicalHistoryListView>> GetMedicalHistoryList(PageQueryRequest request)
+        public async Task<PagedData<MedicalHistoryListView>> GetMedicalHistoryList(MedicalHistoryListSearchRequest request)
         {
-            var data = await _repository.FindAsync(d => d.MedicalHistoryNo == "9999");
-            data = data.OrderBy(d => d.Id);
-            var pageData = PageQuery(data, request, d => d.C_To_MedicalHistoryListViews());
-            return pageData;
+            var query = _repository.GetDbQuerySet();
+            if (!string.IsNullOrWhiteSpace(request.SearchKey))
+            {
+                query = query.Where(d => d.MalePatient.Name.StartsWith(request.SearchKey)
+                || d.MalePatient.CardNo.StartsWith(request.SearchKey)
+                || d.FeMalePatient.Name.StartsWith(request.SearchKey)
+                || d.FeMalePatient.CardNo.StartsWith(request.SearchKey)
+                );
+            }
+            //   var data = await _repository.FindAsync(d => d.MedicalHistoryNo == "9999");
+            var pageData = PageQuery(query.OrderBy(d => d.Id), request, d => d.C_To_MedicalHistoryListViews());
+            return await Task.FromResult(pageData);
 
         }
 

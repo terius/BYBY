@@ -25,9 +25,9 @@
                 <a v-else href="javascript:;" v-on:click="page.query(page.PageInfo.PageCount,page.SortIndex,page.SortType)">末页</a>
             </li>
             <li class="disabled">
-                <span class="page-num-input ">跳转到第 <input  type="text" value="1" /> 页<a href="javascript:;">go</a></span>
+                <span class="page-num-input ">跳转到第 <input min="1" v-bind:max="page.PageInfo.PageCount" v-model.number="page.gotoindex"  type="number"/> 页<a href="javascript:;" v-on:click="page.query(page.gotoindex,page.SortIndex,page.SortType)">go</a></span>
             </li>
-            <li class="disabled"><span>当前第 {{page.PageInfo.PageNumber}}  页</span></li>
+            <li class="disabled"><span>当前页:{{page.PageInfo.PageNumber}} / 总页数:{{page.PageInfo.PageCount}}</span></li>
             <li class="disabled"><span>总记录数：{{page.PageInfo.TotalItemCount}}</span></li>
         </ul>
     </div>

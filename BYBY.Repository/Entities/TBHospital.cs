@@ -9,7 +9,7 @@ namespace BYBY.Repository.Entities
     {
         public TBHospital()
         {
-           
+
         }
 
         [Required]

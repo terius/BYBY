@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -12,5 +14,7 @@ namespace BYBY.Infrastructure.Helpers
             byte[] _cipherText = _sha256.ComputeHash(Encoding.Default.GetBytes(plainText));
             return Convert.ToBase64String(_cipherText);
         }
+
+     
     }
 }
