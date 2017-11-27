@@ -334,4 +334,42 @@ div {
 
 .editmode .form-group label {
     font-weight: 700 !important;
+    width: 80px;
+    text-align: right;
+}
+
+.editmode .col-md-6, .editmode .col-md-12 {
+    padding-left: 0;
+}
+
+.editmode .col-md-12 {
+    margin-bottom: 20px;
+}
+
+
+@media (min-width: 768px) {
+    .col-sm-lable {
+        float: left;
+        width: 80px;
+    }
+
+    .col-sm-ipt {
+        float: left;
+        width: calc(100% - 80px)
+    }
+}
+
+.col-sm-lable, .col-sm-ipt {
+    position: relative;
+    min-height: 1px;
+    padding-right: 5px;
+    padding-left: 5px
+}
+
+.ipt-con > .row > div {
+    margin-bottom: 15px;
+}
+
+.ipt-con > .row > .col-sm-6 > div {
+    margin-bottom: 15px;
 }

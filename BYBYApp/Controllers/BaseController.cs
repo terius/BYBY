@@ -29,18 +29,19 @@ namespace BYBYApp.Controllers
             return Json(dd, JsonRequestBehavior.AllowGet);
         }
 
-        public IList<ListItem> CreateEnumList(Type type, bool ValueIsInt = true)
+        public IList<SelectItem> CreateEnumList(Type type, bool ValueIsInt = true)
         {
-            IList<ListItem> list = new List<ListItem>();
+            IList<SelectItem> list = new List<SelectItem>();
+            string strName, strVaule, strTitle;
             foreach (var myCode in Enum.GetValues(type))
             {
 
                 FieldInfo field = type.GetField(myCode.ToString());
                 DescriptionAttribute[] attributes = (DescriptionAttribute[])field.GetCustomAttributes(typeof(DescriptionAttribute), false);
-                string strName = attributes[0].Description;
-                string strVaule = ValueIsInt ? ((int)myCode).ToString() : myCode.ToString();//获取值                 
-                ListItem myLi = new ListItem(strName, strVaule);
-                myLi.Attributes.Add("title", (ValueIsInt ? myCode.ToString() : ((int)myCode).ToString()));
+                strName = attributes[0].Description;
+                strVaule = ValueIsInt ? ((int)myCode).ToString() : myCode.ToString();//获取值  
+                strTitle = ValueIsInt ? myCode.ToString() : ((int)myCode).ToString();
+                SelectItem myLi = new SelectItem { id = strVaule, text = strName, title = strTitle };
                 list.Add(myLi);
             }
             return list;

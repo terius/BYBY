@@ -1,6 +1,7 @@
 ﻿Vue.component('select2', {
-    props: ['options', 'value'],
-    template: '#select2-template',
+    props: ['options', 'value','sattr'],
+    template: '<select class="form-control select2me" v-bind:class="sattr.class" '
+    + ' v-bind:data-placeholder="sattr.placeholder"  ></select>',
     mounted: function () {
         var vm = this
         $(this.$el)

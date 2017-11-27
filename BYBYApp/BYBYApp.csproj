@@ -185,6 +185,7 @@
     <Compile Include="Models\MedicalHistoryAddModel.cs" />
     <Compile Include="Models\MedicalHistoryListModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\SelectItem.cs" />
     <Compile Include="MVCExtensions\ViewExtensions.cs" />
     <Compile Include="MVCHelpers\ErrorJsonResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

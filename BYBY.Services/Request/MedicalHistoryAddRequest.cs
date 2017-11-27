@@ -9,6 +9,9 @@ namespace BYBY.Services.Request
 {
     public class MedicalHistoryAddRequest
     {
-        public CardType CardType { get; set; }
+        public string MedicalHistoryNo { get; set; }
+        public CardType? FemaleCardType { get; set; }
+        public CardType? MaleCardType { get; set; }
+
     }
 }

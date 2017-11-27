@@ -524,12 +524,12 @@ var App = function() {
     var handleSelect2 = function() {
         if ($().select2) {
             $.fn.select2.defaults.set("theme", "bootstrap");
-            $('.select2me').select2({
-                placeholder: "Select",
-                width: "resolve", 
-                allowClear: true,
-                language: "zh-CN"
-            });
+            //$('.select2me').select2({
+            //    placeholder: "Select",
+            //    width: "resolve", 
+            //    allowClear: true,
+            //    language: "zh-CN"
+            //});
         }
     };
 
@@ -609,7 +609,7 @@ var App = function() {
             handleBootstrapSwitch(); // handle bootstrap switch plugin
             handleScrollers(); // handles slim scrolling contents 
             handleFancybox(); // handle fancy box
-         //   handleSelect2(); // handle custom Select2 dropdowns
+            handleSelect2(); // handle custom Select2 dropdowns
             handlePortletTools(); // handles portlet action bar functionality(refresh, configure, toggle, remove)
             handleAlerts(); //handle closabled alerts
             handleDropdowns(); // handle dropdowns
