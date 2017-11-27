@@ -1,4 +1,5 @@
-﻿using BYBY.Services.Interfaces;
+﻿using BYBY.Infrastructure;
+using BYBY.Services.Interfaces;
 using BYBY.Services.Request;
 using BYBYApp.Models;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Web.Mvc;
 
 namespace BYBYApp.Controllers
 {
-    public class MedicalHistoryController : Controller
+    public class MedicalHistoryController : BaseController
     {
         readonly IMedicalHistoryService _medicalHistoryService;
 
@@ -35,7 +36,10 @@ namespace BYBYApp.Controllers
 
         public ActionResult AddNew()
         {
-            return View();
+            MedicalHistoryAddModel model = new MedicalHistoryAddModel();
+            model.CardTypeList = CreateEnumList(typeof(CardType));
+            
+            return View(model);
         }
     }
 }

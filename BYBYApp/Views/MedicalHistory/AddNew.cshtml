@@ -1,4 +1,4 @@
-﻿
+﻿@model BYBYApp.Models.MedicalHistoryAddModel
 @{
     ViewBag.Title = "新增病历";
 }
@@ -16,37 +16,38 @@
     </div>
     <div class="portlet-body form">
         <div class="form-inline">
-            <div class="row">
+            <div class="row editmode" id="editform">
                 <div class="col-md-12">
                     <h3 class="form-section">患者卡号信息</h3>
-                    <div class="form-group margin-left-20">
-                        <label for="search-key">患者信息：</label>
-                        <input type="text" class="form-control" id="search-key" placeholder="请输入">
+                    <div class="form-group">
+                        <label for="search-key">病历号：</label>
+                        <input type="text" class="form-control w300" id="MedicalHistoryNo" name="MedicalHistoryNo">
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <h3 class="form-section">女方信息</h3>
                     <div class="col-md-12">
-                        <div class="form-group margin-left-20">
-                            <label for="search-key">姓名：</label>
-                            <input type="text" class="form-control" id="search-key" placeholder="请输入">
+                        <div class="form-group">
+                            <label for="search-key">姓名：<span class="requiredspan">*</span></label>
+                            <input type="text" class="form-control required" id="FemaleName" name="FemaleName">
                         </div>
                         <div class="form-group margin-left-20">
-                            <label for="search-key">证件类型：</label>
-                            <select class="form-control select2me" style="width:200px" name="ddlpatient" id="ddlpatient"
-                                    data-placeholder="--请选择医院--">
+                            <label for="search-key">证件类型：<span class="requiredspan">*</span></label>
+                            <select class="form-control select2me w200 required" name="CardType" id="CardType"
+                                    data-placeholder="--请选择证件类型--" v-model="addinfo.CardType">
                                 <option></option>
-                                <option value="1">丈夫</option>
-                                <option value="2">丈夫1</option>
-                                <option value="3">丈夫2</option>
+                                @foreach (var cardType in Model.CardTypeList)
+                                {
+                                <option value="@cardType.Value">@cardType.Text</option>
+                                }
                             </select>
                         </div>
                     </div>
                     <div class="col-md-12" style="margin-top:20px">
-                        <div class="form-group margin-left-20">
+                        <div class="form-group">
                             <label for="search-key">姓名：</label>
-                            <input type="text" class="form-control" id="search-key" placeholder="请输入">
+                            <input type="text" class="form-control" id="search-key">
                         </div>
                     </div>
                 </div>
@@ -54,7 +55,7 @@
                     <h3 class="form-section">男方信息</h3>
                     <div class="form-group margin-left-20">
                         <label for="search-key">姓名：</label>
-                        <input type="text" class="form-control" id="search-key" placeholder="请输入">
+                        <input type="text" class="form-control" id="search-key">
                     </div>
                     <div class="form-group margin-left-20">
                         <label for="search-key">证件类型：</label>
@@ -66,6 +67,14 @@
                             <option value="3">丈夫2</option>
                         </select>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-actions">
+            <div class="row">
+                <div class="col-md-offset-3 col-md-4">
+                    <button type="submit" class="btn green" id="btnSave">提交</button>
+                    <button type="button" class="btn default" id="btnCancel">Cancel</button>
                 </div>
             </div>
         </div>
@@ -127,7 +136,16 @@
         <!-- END FORM-->
     </div>
 </div>
-
+<script type="text/x-template" id="select2-template">
+    <select>
+        <slot></slot>
+    </select>
+</script>
+<div id="el">
+    <select2 :options="options" v-model="selected">
+        <option disabled value="0">Select one</option>
+    </select2>
+</div>
 @section styles
 {
     @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
@@ -139,5 +157,49 @@
 {
     @System.Web.Optimization.Scripts.Render("~/bundles/js/select2")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/datetimepicker")
+    <script>
+        $(function () {
+            //   $(".required").prev().
+            var addData = @Html.RenderAsJson(Model.AddModel);
+
+            var vm = new Vue({
+                el: '#el',
+                data: {
+                    selected: 2,
+                    options: [
+                        { id: 1, text: 'Hello' },
+                        { id: 2, text: 'World' }
+                    ]
+                }
+            })
+
+            $("#btnCancel").on("click", function() {
+                alert(vm.selected);
+            })
+
+
+           var vueadd = new Vue({
+               el: '#editform',
+                data: {
+                    addinfo: addData
+                },
+                mounted: function () {
+                    //if ($().select2) {
+                    //    $.fn.select2.defaults.set("theme", "bootstrap");
+                    //    $('.select2me').select2({
+                    //        placeholder: "Select",
+                    //        width: "resolve",
+                    //        allowClear: true,
+                    //        language: "zh-CN"
+                    //    });
+                    //}
+                  //  App.initSlimScroll('#tableshow');
+                },
+                methods: {
+
+                }
+            })
+        })
+    </script>
 }
 

@@ -13,11 +13,22 @@ namespace BYBY.Infrastructure
         doctor
     }
 
+
+
     public enum CardType
     {
+        [Description("身份证")]
         SFZ,
+        [Description("居住证")]
+        JuZhuZheng,
+        [Description("签证")]
+        QianZheng,
+        [Description("护照")]
+        HuZhao,
+        [Description("户口本")]
         HuKouBen,
-        JunGuanZheng
+        [Description("军人证")]
+        JunRenZheng
     }
 
     /// <summary>

@@ -60,6 +60,7 @@
     <Compile Include="Interfaces\IUserAccountService.cs" />
     <Compile Include="Interfaces\IBaseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\MedicalHistoryAddRequest.cs" />
     <Compile Include="Request\MedicalHistoryListSearchRequest.cs" />
     <Compile Include="Request\PageQueryRequest.cs" />
     <Compile Include="Request\UserLoginRequest.cs" />
