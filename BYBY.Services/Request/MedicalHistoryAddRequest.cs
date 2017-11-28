@@ -13,5 +13,14 @@ namespace BYBY.Services.Request
         public CardType? FemaleCardType { get; set; }
         public CardType? MaleCardType { get; set; }
 
+        public string FemalePhone { get; set; }
+        public string MalePhone { get; set; }
+        public string FixPhone { get; set; }
+        public string Address { get; set; }
+        public string Remark { get; set; }
+        public string FemaleName { get; set; }
+        public string FemaleBirthday { get; set; }
+        public string FemaleCardNo { get; set; }
+        public MaritalStatus? FemaleMarriage { get; set; }
     }
 }

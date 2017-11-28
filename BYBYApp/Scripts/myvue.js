@@ -1,5 +1,5 @@
 ﻿Vue.component('select2', {
-    props: ['options', 'value','sattr'],
+    props: ['options', 'value', 'sattr'],
     template: '<select class="form-control select2me" v-bind:class="sattr.class" '
     + ' v-bind:data-placeholder="sattr.placeholder"  ></select>',
     mounted: function () {
@@ -32,6 +32,19 @@
     },
     destroyed: function () {
         $(this.$el).off().select2('destroy')
+    }
+})
+
+
+Vue.component('edit-input', {
+    props: ['id', 'text', 'myclass', 'value'],
+    template: '<div class="form-group">'
+    + '<label :for="id" > {{text }}<slot name="othertext"></slot></label > '
+    +'<input type="text" :value="value" @input="updateSelf($event.target.value)" class="form-control" :class="myclass" :id="id" :name="id" ></div > ',
+    methods: {
+        updateSelf(value) {
+            this.$emit('input', value)
+        }
     }
 })
 

@@ -13,10 +13,12 @@ namespace BYBYApp.Models
         public MedicalHistoryAddModel()
         {
             AddModel = new MedicalHistoryAddRequest();
-            AddModel.FemaleCardType = BYBY.Infrastructure.CardType.HuKouBen;
-            AddModel.MedicalHistoryNo = "9999";
+         //   AddModel.FemaleCardType = BYBY.Infrastructure.CardType.HuKouBen;
+        //    AddModel.MedicalHistoryNo = "9999";
         }
         public IList<SelectItem> CardTypeList { get; set; }
+
+        public IList<SelectItem> MarriageList { get; set; }
 
 
         public MedicalHistoryAddRequest AddModel { get; set; }

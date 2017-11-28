@@ -15,105 +15,81 @@
         </div>
     </div>
     <div class="portlet-body form">
-        @*<div class="editmode form-horizontal form">
-                <h4 class="form-section">患者卡号信息</h4>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <label class="col-sm-lable control-label">病历号</label>
-                        <div class="col-sm-ipt">
-                            <input type="text" class="form-control" name="currentpatientid">
-                        </div>
+        <form method="post" action="@Url.Action("SaveAdd","MedicalHistory")" id="saveForm">
+            @Html.AntiForgeryToken()
+            <div class="form-inline">
+                <div class="row editmode" id="editform">
+                    <div class="col-md-12">
+                        <div class="title">患者卡号信息</div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <h4 class="form-section">女方信息</h4>
-                        <div class="col-sm-6">
-                            <label class="col-sm-lable control-label">病历号</label>
-                            <div class="col-sm-ipt">
-                                <input type="text" class="form-control" name="currentpatientid">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <label class="col-sm-lable control-label">病历号</label>
-                            <div class="col-sm-ipt">
-                                <input type="text" class="form-control" name="currentpatientid">
-                            </div>
-                        </div>
+                    <div class="col-md-12">
+                        <edit-input id="MedicalHistoryNo" text="病历号" myclass="w300" v-model="info.AddModel.MedicalHistoryNo">
+                        </edit-input>
                     </div>
-                    <div class="col-sm-6">
-                        <h4 class="form-section">男方信息</h4>
+                    <div class="col-md-12">
+                        <div class="title">联系方式及备注</div>
                     </div>
-                </div>
-            </div>*@
-
-
-        <div class="form-inline">
-            <div class="row editmode" id="editform">
-                <div class="col-md-12">
-                    <h3 class="form-section">患者卡号信息</h3>
-                    <div class="form-group">
-                        <label for="search-key">病历号：</label>
-                        <input type="text" class="form-control w300" id="MedicalHistoryNo" name="MedicalHistoryNo" v-model="info.AddModel.MedicalHistoryNo">
+                    <div class="col-md-12">
+                        <edit-input id="FemalePhone" text="女方电话" v-model="info.AddModel.FemalePhone">
+                        </edit-input>
+                        <edit-input id="MalePhone" text="男方电话" v-model="info.AddModel.MalePhone">
+                        </edit-input>
+                        <edit-input id="FixPhone" text="固定电话" v-model="info.AddModel.FixPhone">
+                        </edit-input>
                     </div>
-                </div>
-
-                <div class="col-md-6">
-                    <h3 class="form-section">女方信息</h3>
+                    <div class="col-md-12">
+                        <edit-input id="Address" text="通讯地址" myclass="w450" v-model="info.AddModel.Address">
+                        </edit-input>
+                    </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="search-key">姓名：<span class="requiredspan">*</span></label>
-                            <input type="text" class="form-control required" id="FemaleName" name="FemaleName">
+                            <label for="Address">备注</label>
+                            <textarea id="Remark" name="Remark" class="form-control w450" rows="3" cols="20" v-model="info.AddModel.Remark"></textarea>
                         </div>
-                        <div class="form-group margin-left-20">
-                            <label for="search-key">证件类型：<span class="requiredspan">*</span></label>
-                            <select2 :options="info.CardTypeList" v-bind:sattr="femaleselect" v-model="info.AddModel.FemaleCardType">
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="title">女方信息</div>
+                    </div>
+                    <div class="col-md-12">
+                        <edit-input id="FemaleName" text="姓名" myclass="required" v-model="info.AddModel.FemaleName">
+                            <span slot="othertext" class="requiredspan">*</span>
+                        </edit-input>
+                        <edit-input id="FemaleBirthday" text="出生年月" myclass="required" v-model="info.AddModel.FemaleBirthday">
+                            <span slot="othertext" class="requiredspan">*</span>
+                        </edit-input>
+
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="FemaleCardType">证件类型<span class="requiredspan">*</span></label>
+                            <select2 id="FemaleCardType" name="FemaleCardType" :options="info.CardTypeList" v-bind:sattr="femaleselect" v-model="info.AddModel.FemaleCardType">
+                            </select2>
+                        </div>
+                        <edit-input id="FemaleCardNo" text="证件号" myclass="required" v-model="info.AddModel.FemaleCardNo">
+                            <span slot="othertext" class="requiredspan">*</span>
+                        </edit-input>
+                        <div class="form-group">
+                            <label for="FemaleCardType">婚姻状况</label>
+                            <select2 id="FemaleMarriage" name="FemaleMarriage" :options="info.MarriageList" v-bind:sattr="marriageselect" v-model="info.AddModel.FemaleMarriage">
                             </select2>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="search-key">证件号：</label>
-                            <input type="text" class="form-control" id="search-key">
-                        </div>
-                    </div>
                 </div>
-                <div class="col-md-6">
-                    <h3 class="form-section">男方信息</h3>
-                    <div class="form-group margin-left-20">
-                        <label for="search-key">姓名：</label>
-                        <input type="text" class="form-control" id="search-key">
-                    </div>
-                    <div class="form-group margin-left-20">
-                        <label for="search-key">证件类型：</label>
-                        <select2 :options="info.CardTypeList" v-bind:sattr="maleselect" v-model="info.AddModel.MaleCardType">
-                        </select2>
+            </div>
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-4">
+                        <button type="button" class="btn green" id="btnSave">提交</button>
+                        <button type="button" class="btn default" id="btnCancel">Cancel</button>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="form-actions">
-            <div class="row">
-                <div class="col-md-offset-3 col-md-4">
-                    <button type="submit" class="btn green" id="btnSave">提交</button>
-                    <button type="button" class="btn default" id="btnCancel">Cancel</button>
-                </div>
-            </div>
-        </div>
-
+        </form>
 
     </div>
 </div>
-@*<script type="text/x-template" id="select2-template">
-        <select>
-            <slot></slot>
-        </select>
-    </script>
-    <div id="el">
-        <select2 :options="options" v-model="selected">
-            <option disabled value="0">Select one</option>
-        </select2>
-    </div>*@
+
 @section styles
 {
     @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
@@ -126,9 +102,11 @@
 {
     @System.Web.Optimization.Scripts.Render("~/bundles/js/select2")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/datetimepicker")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
     <script>
         $(function () {
             //   $(".required").prev().
+            $("#saveForm").validateForm();
             var allData = @Html.RenderAsJson(Model);
 
             //var vm = new Vue({
@@ -142,8 +120,16 @@
             //    }
             //})
 
+            $("#btnSave").on("click", function () {
+                com.jqFormOption.success = function (result) {
+                    com.showLog(result);
+                }
+                // com.jqFormOption.url = km.model.urls["add"];
+                $("#saveForm").ajaxSubmit(com.jqFormOption);
+            })
+
             $("#btnCancel").on("click", function() {
-                alert(vueadd.info.AddModel.FemaleCardType + "  " + vueadd.info.AddModel.MaleCardType);
+                alert(vueadd.info.AddModel.FemaleCardType + "  " + vueadd.info.AddModel.MaleCardType + " " + vueadd.info.AddModel.MedicalHistoryNo);
             })
 
 
@@ -156,8 +142,12 @@
                        placeholder: "--请选择国籍--"
                    },
                    maleselect: {
-                       class: "required w200",
-                       placeholder: "--请选择男性国籍--"
+                       class: "w200",
+                       placeholder: "--请选择国籍--"
+                   },
+                   marriageselect: {
+                       class: "w200",
+                       placeholder: "--请选择婚姻状况--"
                    },
                 //   selected: allData.AddModel.CardType
                 },

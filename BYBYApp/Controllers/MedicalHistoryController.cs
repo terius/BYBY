@@ -1,6 +1,7 @@
 ﻿using BYBY.Infrastructure;
 using BYBY.Services.Interfaces;
 using BYBY.Services.Request;
+using BYBY.Services.Response;
 using BYBYApp.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -38,8 +39,16 @@ namespace BYBYApp.Controllers
         {
             MedicalHistoryAddModel model = new MedicalHistoryAddModel();
             model.CardTypeList = CreateEnumList(typeof(CardType));
-            
+            model.MarriageList = CreateEnumList(typeof(MaritalStatus));
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SaveAdd(MedicalHistoryAddRequest request)
+        {
+            var response = new EmptyResponse();
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
     }
 }

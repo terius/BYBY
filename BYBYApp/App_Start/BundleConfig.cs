@@ -50,8 +50,13 @@ namespace BYBYApp
                  "~/Metronic/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"
                  ));
 
-
-
+            //FormValidate
+            bundles.Add(
+           new ScriptBundle("~/bundles/js/jqueryvalidate")
+               .Include(
+               "~/Scripts/jquery.validate.js",
+               "~/Scripts/validate-ex.js"
+               ));
 
 
         }
