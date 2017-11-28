@@ -45,7 +45,7 @@ $.fn.validateForm = function (option) {
                 if (valInputWrap.length == 0) {
                     valInputWrap = element;
                 }
-                error.insertAfter(element);
+                error.insertAfter(valInputWrap);
             }
             else if (element.parent(".input-group").size() > 0) {
 

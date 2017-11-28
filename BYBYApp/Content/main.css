@@ -402,3 +402,12 @@ div {
 .ipt-con > .row > .col-sm-6 > div {
     margin-bottom: 15px;
 }
+.has-error  > label
+{
+    color:red;
+}
+
+.has-error .layui-layer.layui-layer-tips {
+    position: fixed !important;
+    z-index:99999;
+}

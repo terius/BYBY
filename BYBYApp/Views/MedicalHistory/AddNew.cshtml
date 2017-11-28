@@ -63,7 +63,8 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="FemaleCardType">证件类型<span class="requiredspan">*</span></label>
-                            <select2 id="FemaleCardType" name="FemaleCardType" :options="info.CardTypeList" v-bind:sattr="femaleselect" v-model="info.AddModel.FemaleCardType">
+                            <select2 id="FemaleCardType" errormessage="证件类型不能为空" name="FemaleCardType" :options="info.CardTypeList" v-bind:sattr="femaleselect" v-model="info.AddModel.FemaleCardType">
+                            
                             </select2>
                         </div>
                         <edit-input id="FemaleCardNo" text="证件号" myclass="required" v-model="info.AddModel.FemaleCardNo">
@@ -75,6 +76,34 @@
                             </select2>
                         </div>
                     </div>
+                    @*<div class="col-md-12">
+                            <div class="form-group has-error">
+                                <label for="FemaleCardType">证件类型<span class="requiredspan">*</span></label>
+                                <select data-placeholder="--请选择国籍--" class="form-control select2me required w200 select2-hidden-accessible" id="FemaleCardType" name="FemaleCardType" tabindex="-1" aria-hidden="true" aria-required="true" aria-describedby="FemaleCardType-error" aria-invalid="true">
+                                    <option value="0" title="SFZ">身份证</option>
+                                    <option value="1" title="JuZhuZheng">居住证</option>
+                                    <option value="2" title="QianZheng">签证</option>
+                                    <option value="3" title="HuZhao">护照</option>
+                                    <option value="4" title="HuKouBen">户口本</option>
+                                    <option value="5" title="JunRenZheng">军人证</option>
+                                </select>
+
+                                <span class="select2 select2-container select2-container--bootstrap" dir="ltr" style="width: 200px;">
+                                    <span class="selection">
+                                        <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-FemaleCardType-container">
+                                            <span class="select2-selection__rendered" id="select2-FemaleCardType-container" title="SFZ">
+                                                <span class="select2-selection__placeholder">--请选择国籍--</span>
+                                            </span>
+                                            <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
+                                        </span>
+                                    </span><span class="dropdown-wrapper" aria-hidden="true"></span>
+                                </span>
+                                <div id="FemaleCardType-error" class="layui-layer layui-layer-tips" style=" top: 19px; left: 208px;">
+                                    <div class="layui-layer-content" style="background-color: rgb(242, 65, 0);">带'*'的为必填项，不能为空值<i class="layui-layer-TipsG layui-layer-TipsR" style="border-bottom-color: rgb(242, 65, 0);"></i></div>
+                                </div>
+                            </div>
+                        </div>*@
+
                 </div>
             </div>
             <div class="form-actions">
@@ -106,7 +135,7 @@
     <script>
         $(function () {
             //   $(".required").prev().
-            $("#saveForm").validateForm();
+        
             var allData = @Html.RenderAsJson(Model);
 
             //var vm = new Vue({
@@ -121,11 +150,12 @@
             //})
 
             $("#btnSave").on("click", function () {
-                com.jqFormOption.success = function (result) {
-                    com.showLog(result);
-                }
-                // com.jqFormOption.url = km.model.urls["add"];
-                $("#saveForm").ajaxSubmit(com.jqFormOption);
+                alert($("#saveForm").valid())
+                //com.jqFormOption.success = function (result) {
+                //    com.showLog(result);
+                //}
+                //// com.jqFormOption.url = km.model.urls["add"];
+                //$("#saveForm").ajaxSubmit(com.jqFormOption);
             })
 
             $("#btnCancel").on("click", function() {
@@ -167,6 +197,8 @@
 
                 }
             })
+
+           $("#saveForm").validateForm();
         })
     </script>
 }
