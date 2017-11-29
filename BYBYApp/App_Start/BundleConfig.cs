@@ -58,6 +58,11 @@ namespace BYBYApp
                "~/Scripts/validate-ex.js"
                ));
 
+            //jquery.form.js
+            bundles.Add(new ScriptBundle("~/bundles/js/jqueryform")
+              .Include(
+              "~/Scripts/jquery.form.min.js"
+              ));
 
         }
     }

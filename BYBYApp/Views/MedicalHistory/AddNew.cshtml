@@ -23,7 +23,7 @@
                         <div class="title">患者卡号信息</div>
                     </div>
                     <div class="col-md-12">
-                        <edit-input id="MedicalHistoryNo" text="病历号" myclass="w300" v-model="info.AddModel.MedicalHistoryNo">
+                        <edit-input id="MedicalHistoryNo" text="病历号" myclass="w300" >
                         </edit-input>
                     </div>
                     <div class="col-md-12">
@@ -55,16 +55,16 @@
                         <edit-input id="FemaleName" text="姓名" myclass="required" v-model="info.AddModel.FemaleName">
                             <span slot="othertext" class="requiredspan">*</span>
                         </edit-input>
-                        <edit-input id="FemaleBirthday" text="出生年月" myclass="required" v-model="info.AddModel.FemaleBirthday">
+                        <date-picker id="FemaleBirthday" text="出生年月"  myclass="required" defaultDate="1980-01-01" v-model="info.AddModel.FemaleBirthday">
                             <span slot="othertext" class="requiredspan">*</span>
-                        </edit-input>
+                        </date-picker>
 
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="FemaleCardType">证件类型<span class="requiredspan">*</span></label>
-                            <select2 id="FemaleCardType" errormessage="证件类型不能为空" name="FemaleCardType" :options="info.CardTypeList" v-bind:sattr="femaleselect" v-model="info.AddModel.FemaleCardType">
-                            
+                            <select2 id="FemaleCardType" class="required w200" data-placeholder="--请选择证件类型--" errormessage="证件类型不能为空" :options="info.CardTypeList"  v-model="info.AddModel.FemaleCardType">
+
                             </select2>
                         </div>
                         <edit-input id="FemaleCardNo" text="证件号" myclass="required" v-model="info.AddModel.FemaleCardNo">
@@ -72,38 +72,14 @@
                         </edit-input>
                         <div class="form-group">
                             <label for="FemaleCardType">婚姻状况</label>
-                            <select2 id="FemaleMarriage" name="FemaleMarriage" :options="info.MarriageList" v-bind:sattr="marriageselect" v-model="info.AddModel.FemaleMarriage">
+                            <select2 id="FemaleMarriage" class="w200" data-placeholder="--请选择婚姻状况--"  :options="info.MarriageList"  v-model="info.AddModel.FemaleMarriage">
                             </select2>
                         </div>
                     </div>
-                    @*<div class="col-md-12">
-                            <div class="form-group has-error">
-                                <label for="FemaleCardType">证件类型<span class="requiredspan">*</span></label>
-                                <select data-placeholder="--请选择国籍--" class="form-control select2me required w200 select2-hidden-accessible" id="FemaleCardType" name="FemaleCardType" tabindex="-1" aria-hidden="true" aria-required="true" aria-describedby="FemaleCardType-error" aria-invalid="true">
-                                    <option value="0" title="SFZ">身份证</option>
-                                    <option value="1" title="JuZhuZheng">居住证</option>
-                                    <option value="2" title="QianZheng">签证</option>
-                                    <option value="3" title="HuZhao">护照</option>
-                                    <option value="4" title="HuKouBen">户口本</option>
-                                    <option value="5" title="JunRenZheng">军人证</option>
-                                </select>
-
-                                <span class="select2 select2-container select2-container--bootstrap" dir="ltr" style="width: 200px;">
-                                    <span class="selection">
-                                        <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-FemaleCardType-container">
-                                            <span class="select2-selection__rendered" id="select2-FemaleCardType-container" title="SFZ">
-                                                <span class="select2-selection__placeholder">--请选择国籍--</span>
-                                            </span>
-                                            <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
-                                        </span>
-                                    </span><span class="dropdown-wrapper" aria-hidden="true"></span>
-                                </span>
-                                <div id="FemaleCardType-error" class="layui-layer layui-layer-tips" style=" top: 19px; left: 208px;">
-                                    <div class="layui-layer-content" style="background-color: rgb(242, 65, 0);">带'*'的为必填项，不能为空值<i class="layui-layer-TipsG layui-layer-TipsR" style="border-bottom-color: rgb(242, 65, 0);"></i></div>
-                                </div>
-                            </div>
-                        </div>*@
-
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Start With Years</label>
+                        <input type="text" class="form-control date-picker11"  readonly>
+                    </div>
                 </div>
             </div>
             <div class="form-actions">
@@ -132,54 +108,30 @@
     @System.Web.Optimization.Scripts.Render("~/bundles/js/select2")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/datetimepicker")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
     <script>
         $(function () {
-            //   $(".required").prev().
-        
+
+         
             var allData = @Html.RenderAsJson(Model);
-
-            //var vm = new Vue({
-            //    el: '#el',
-            //    data: {
-            //        selected: 2,
-            //        options: [
-            //            { id: 1, text: 'Hello' },
-            //            { id: 2, text: 'World' }
-            //        ]
-            //    }
-            //})
-
             $("#btnSave").on("click", function () {
-                alert($("#saveForm").valid())
-                //com.jqFormOption.success = function (result) {
-                //    com.showLog(result);
-                //}
-                //// com.jqFormOption.url = km.model.urls["add"];
-                //$("#saveForm").ajaxSubmit(com.jqFormOption);
+                if ($("#saveForm").valid()) {
+                    com.jqFormOption.success = function (result) {
+                        com.showLog(result);
+                    }
+                    $("#saveForm").ajaxSubmit(com.jqFormOption);
+                }
             })
 
-            $("#btnCancel").on("click", function() {
-                alert(vueadd.info.AddModel.FemaleCardType + "  " + vueadd.info.AddModel.MaleCardType + " " + vueadd.info.AddModel.MedicalHistoryNo);
+            $("#btnCancel").on("click", function () {
+                com.showLog(vueadd.info.AddModel);
             })
 
 
            var vueadd = new Vue({
                el: '#editform',
                data: {
-                   info: allData,
-                   femaleselect: {
-                       class: "required w200",
-                       placeholder: "--请选择国籍--"
-                   },
-                   maleselect: {
-                       class: "w200",
-                       placeholder: "--请选择国籍--"
-                   },
-                   marriageselect: {
-                       class: "w200",
-                       placeholder: "--请选择婚姻状况--"
-                   },
-                //   selected: allData.AddModel.CardType
+                   info: allData
                 },
                 mounted: function () {
                     //if ($().select2) {
@@ -199,6 +151,13 @@
             })
 
            $("#saveForm").validateForm();
+           $('.date-picker').datepicker({
+               autoclose: true,
+               format: "yyyy-mm-dd",
+               language: "zh-CN",
+               clearBtn: true,
+               defaultViewDate:"2001-10-10"
+           });
         })
     </script>
 }

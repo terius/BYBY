@@ -13,8 +13,9 @@ namespace BYBYApp.Models
         public MedicalHistoryAddModel()
         {
             AddModel = new MedicalHistoryAddRequest();
-         //   AddModel.FemaleCardType = BYBY.Infrastructure.CardType.HuKouBen;
-        //    AddModel.MedicalHistoryNo = "9999";
+            //   AddModel.FemaleCardType = BYBY.Infrastructure.CardType.HuKouBen;
+            //    AddModel.MedicalHistoryNo = "9999";
+          //  AddModel.FemaleBirthday = "1980-10-10";
         }
         public IList<SelectItem> CardTypeList { get; set; }
 

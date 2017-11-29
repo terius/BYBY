@@ -411,3 +411,8 @@ div {
     position: fixed !important;
     z-index:99999;
 }
+
+.date-picker[readonly]
+{
+    background-color:#fff !important;
+}
