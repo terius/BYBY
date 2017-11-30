@@ -90,4 +90,25 @@ namespace BYBY.Infrastructure
     }
 
 
+   public enum Education
+    {
+        [Description("小学")]
+        XiaoXue,
+        [Description("初中")]
+        ChuZhong,
+        [Description("高中")]
+        GaoZhong,
+        [Description("中专")]
+        ZhongZhuan,
+        [Description("大专")]
+        DaZhuan,
+        [Description("本科")]
+        BenKe,
+        [Description("硕士")]
+        SuoShi,
+        [Description("博士")]
+        BoShi
+    }
+
+
 }

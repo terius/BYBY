@@ -17,6 +17,8 @@
 
 namespace BYBYApp.DependencyResolution
 {
+    using BYBY.Cache;
+    using BYBY.Cache.CacheStorage;
     using BYBY.Infrastructure.Domain;
     using BYBY.Infrastructure.Loger;
     using BYBY.Infrastructure.UnitOfWork;
@@ -42,11 +44,13 @@ namespace BYBYApp.DependencyResolution
                 });
             For<ILogger>().Use<Log4NetAdapter>();
             For<IUnitOfWork>().Use<EFUnitOfWork>();
+            For<ICacheStorage>().Use<HttpContextCacheAdapter>();
             //   For<DbContext>().Use<BYBYDBContext>();
             For(typeof(IRepository<,>)).Use(typeof(Repository<,>));
 
             For<IUserAccountService>().Use<UserAccountService>();
             For<IMedicalHistoryService>().Use<MedicalHistoryService>();
+            For<ICacheService>().Use<CacheService>();
         }
 
         #endregion

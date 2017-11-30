@@ -23,7 +23,7 @@
                         <div class="title">患者卡号信息</div>
                     </div>
                     <div class="col-md-12">
-                        <edit-input id="MedicalHistoryNo" text="病历号" myclass="w300" >
+                        <edit-input id="MedicalHistoryNo" text="病历号" myclass="w300">
                         </edit-input>
                     </div>
                     <div class="col-md-12">
@@ -55,7 +55,7 @@
                         <edit-input id="FemaleName" text="姓名" myclass="required" v-model="info.AddModel.FemaleName">
                             <span slot="othertext" class="requiredspan">*</span>
                         </edit-input>
-                        <date-picker id="FemaleBirthday" text="出生年月"  myclass="required" defaultDate="1980-01-01" v-model="info.AddModel.FemaleBirthday">
+                        <date-picker id="FemaleBirthday" text="出生年月" myclass="required" defaultDate="1980-01-01" v-model="info.AddModel.FemaleBirthday">
                             <span slot="othertext" class="requiredspan">*</span>
                         </date-picker>
 
@@ -63,7 +63,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="FemaleCardType">证件类型<span class="requiredspan">*</span></label>
-                            <select2 id="FemaleCardType" class="required w200" data-placeholder="--请选择证件类型--" errormessage="证件类型不能为空" :options="info.CardTypeList"  v-model="info.AddModel.FemaleCardType">
+                            <select2 id="FemaleCardType" class="required w200" data-placeholder="--请选择证件类型--" errormessage="证件类型不能为空" :options="info.CardTypeList" v-model="info.AddModel.FemaleCardType">
 
                             </select2>
                         </div>
@@ -72,14 +72,24 @@
                         </edit-input>
                         <div class="form-group">
                             <label for="FemaleCardType">婚姻状况</label>
-                            <select2 id="FemaleMarriage" class="w200" data-placeholder="--请选择婚姻状况--"  :options="info.MarriageList"  v-model="info.AddModel.FemaleMarriage">
+                            <select2 id="FemaleMarriage" class="w200" data-placeholder="--请选择婚姻状况--" :options="info.MarriageList" v-model="info.AddModel.FemaleMarriage">
                             </select2>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3">Start With Years</label>
-                        <input type="text" class="form-control date-picker11"  readonly>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="FemaleNation">国籍</label>
+                            <select2 id="FemaleNation" class="w200" data-placeholder="--请选择国籍--"  :options="info.NationList" v-model="info.AddModel.FemaleNation">
+                            </select2>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="FemaleJob">职业</label>
+                            <select2 id="FemaleJob" class="w200" data-placeholder="--请选择职业--" :options="info.JobList" v-model="info.AddModel.FemaleJob">
+                            </select2>
+                        </div>
                     </div>
+
                 </div>
             </div>
             <div class="form-actions">
@@ -94,7 +104,6 @@
 
     </div>
 </div>
-
 @section styles
 {
     @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
@@ -112,7 +121,8 @@
     <script>
         $(function () {
 
-         
+
+
             var allData = @Html.RenderAsJson(Model);
             $("#btnSave").on("click", function () {
                 if ($("#saveForm").valid()) {

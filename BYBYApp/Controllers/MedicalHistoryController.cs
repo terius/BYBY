@@ -35,11 +35,15 @@ namespace BYBYApp.Controllers
             return Json(pageData, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult AddNew()
+        public async Task<ActionResult> AddNew()
         {
             MedicalHistoryAddModel model = new MedicalHistoryAddModel();
             model.CardTypeList = CreateEnumList(typeof(CardType));
             model.MarriageList = CreateEnumList(typeof(MaritalStatus));
+            model.EducationList = CreateEnumList(typeof(Education));
+            model.NationList = await GetCacheAsync(BYBY.Cache.CacheKeys.Nation,true);
+            model.JobList = await GetCacheAsync(BYBY.Cache.CacheKeys.Job);
+            model.AddModel.FemaleNation = DefaultChinaId;
             return View(model);
         }
 

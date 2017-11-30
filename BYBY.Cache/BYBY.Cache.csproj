@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F0090AA7-49C1-490E-881B-D621E4140121}</ProjectGuid>
+    <ProjectGuid>{BCC33EFF-5247-4573-B506-F89F9EEC933C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BYBY.Infrastructure</RootNamespace>
-    <AssemblyName>BYBY.Infrastructure</AssemblyName>
+    <RootNamespace>BYBY.Cache</RootNamespace>
+    <AssemblyName>BYBY.Cache</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,13 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,24 +41,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SelectItem.cs" />
-    <Compile Include="Configer.cs" />
-    <Compile Include="Domain\IEntity.cs" />
-    <Compile Include="Domain\IReadOnlyRepository.cs" />
-    <Compile Include="Domain\IRepository.cs" />
-    <Compile Include="ENUM.cs" />
-    <Compile Include="Helpers\StringHelper.cs" />
-    <Compile Include="Helpers\ValidateCode.cs" />
-    <Compile Include="Helpers\ImageHelper.cs" />
-    <Compile Include="Loger\ILogger.cs" />
-    <Compile Include="Loger\Log4NetAdapter.cs" />
-    <Compile Include="Loger\LoggingFactory.cs" />
+    <Compile Include="CacheKeys.cs" />
+    <Compile Include="CacheStorage\CacheManager.cs" />
+    <Compile Include="CacheStorage\HttpContextCacheAdapter.cs" />
+    <Compile Include="CacheStorage\ICacheStorage.cs" />
+    <Compile Include="ICacheService.cs" />
+    <Compile Include="CacheService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitofWork\IUnitOfWork.cs" />
-    <Compile Include="UnitofWork\IUnitOfWorkRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\BYBY.Infrastructure\BYBY.Infrastructure.csproj">
+      <Project>{f0090aa7-49c1-490e-881b-d621e4140121}</Project>
+      <Name>BYBY.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BYBY.Repository\BYBY.Repository.csproj">
+      <Project>{1c121459-2b93-4fd7-a803-9545154838c1}</Project>
+      <Name>BYBY.Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

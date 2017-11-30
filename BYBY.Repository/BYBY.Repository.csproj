@@ -126,6 +126,10 @@
     <Compile Include="Migrations\201711221221179_1122-5.Designer.cs">
       <DependentUpon>201711221221179_1122-5.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711300340331_20171130.cs" />
+    <Compile Include="Migrations\201711300340331_20171130.Designer.cs">
+      <DependentUpon>201711300340331_20171130.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -181,6 +185,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711221221179_1122-5.resx">
       <DependentUpon>201711221221179_1122-5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711300340331_20171130.resx">
+      <DependentUpon>201711300340331_20171130.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

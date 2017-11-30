@@ -185,7 +185,6 @@
     <Compile Include="Models\MedicalHistoryAddModel.cs" />
     <Compile Include="Models\MedicalHistoryListModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
-    <Compile Include="Models\SelectItem.cs" />
     <Compile Include="MVCExtensions\ViewExtensions.cs" />
     <Compile Include="MVCHelpers\ErrorJsonResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -6409,6 +6408,10 @@
     <Content Include="Scripts\jquery-2.2.4.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BYBY.Cache\BYBY.Cache.csproj">
+      <Project>{bcc33eff-5247-4573-b506-f89f9eec933c}</Project>
+      <Name>BYBY.Cache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BYBY.Infrastructure\BYBY.Infrastructure.csproj">
       <Project>{f0090aa7-49c1-490e-881b-d621e4140121}</Project>
       <Name>BYBY.Infrastructure</Name>

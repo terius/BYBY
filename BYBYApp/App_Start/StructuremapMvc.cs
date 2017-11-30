@@ -33,6 +33,8 @@ namespace BYBYApp.App_Start {
     using BYBY.Services.Account;
     using System.Web;
     using BYBY.Infrastructure.Loger;
+    using BYBY.Cache.CacheStorage;
+    using BYBY.Cache;
 
     public static class StructuremapMvc {
         #region Public Properties
@@ -56,6 +58,7 @@ namespace BYBYApp.App_Start {
 
             UserFactory.InitializeLogFactory(container.GetInstance<UserManager>());
             LoggingFactory.InitializeLogFactory(container.GetInstance<ILogger>());
+            CacheManager.InitializeCacheFactory(container.GetInstance<ICacheService>());
         }
 
         #endregion

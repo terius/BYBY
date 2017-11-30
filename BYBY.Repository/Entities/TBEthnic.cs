@@ -2,7 +2,7 @@
 
 namespace BYBY.Repository.Entities
 {
-    public class TBJob : BaseEntity<int>
+    public class TBEthnic : BaseEntity<int>
     {
       
         [Required]

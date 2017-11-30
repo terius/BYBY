@@ -416,3 +416,10 @@ div {
 {
     background-color:#fff !important;
 }
+
+/************************select2样式************************/
+.select2-results__options {
+    min-height: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+}

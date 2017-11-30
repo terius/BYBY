@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BYBY.Services", "BYBY.Servi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BYBY.Repository", "BYBY.Repository\BYBY.Repository.csproj", "{1C121459-2B93-4FD7-A803-9545154838C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BYBY.Cache", "BYBY.Cache\BYBY.Cache.csproj", "{BCC33EFF-5247-4573-B506-F89F9EEC933C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{1C121459-2B93-4FD7-A803-9545154838C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C121459-2B93-4FD7-A803-9545154838C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C121459-2B93-4FD7-A803-9545154838C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCC33EFF-5247-4573-B506-F89F9EEC933C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCC33EFF-5247-4573-B506-F89F9EEC933C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCC33EFF-5247-4573-B506-F89F9EEC933C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCC33EFF-5247-4573-B506-F89F9EEC933C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

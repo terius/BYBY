@@ -42,9 +42,19 @@ namespace BYBY.Repository.Entities
 
         public int? EthnicId { get; set; }
 
+        /// <summary>
+        /// 户籍地址
+        /// </summary>
         [StringLength(100)]
         public string  HouseholdAddress { get; set; }
 
+
+        /// <summary>
+        /// 籍贯
+        /// </summary>
+        [StringLength(50)]
+        public string NativePlace { get; set; }
+        
 
         public virtual ICollection<TBMedicalHistory> MaleMedicalHistorys { get; set; }
         public virtual ICollection<TBMedicalHistory> FeMaleMedicalHistorys { get; set; }
