@@ -38,12 +38,14 @@ namespace BYBYApp.Controllers
         public async Task<ActionResult> AddNew()
         {
             MedicalHistoryAddModel model = new MedicalHistoryAddModel();
-            model.CardTypeList = CreateEnumList(typeof(CardType));
-            model.MarriageList = CreateEnumList(typeof(MaritalStatus));
-            model.EducationList = CreateEnumList(typeof(Education));
+            model.CardTypeList = await GetCacheAsync(BYBY.Cache.CacheKeys.CardType);
+            model.MarriageList = await GetCacheAsync(BYBY.Cache.CacheKeys.Marriage);
+            model.EducationList = await GetCacheAsync(BYBY.Cache.CacheKeys.Education);
             model.NationList = await GetCacheAsync(BYBY.Cache.CacheKeys.Nation,true);
             model.JobList = await GetCacheAsync(BYBY.Cache.CacheKeys.Job);
+            model.EthnicList = await GetCacheAsync(BYBY.Cache.CacheKeys.Ethnic, true);
             model.AddModel.FemaleNation = DefaultChinaId;
+            model.AddModel.FemaleEthnic = DefaultEthnicId;
             return View(model);
         }
 

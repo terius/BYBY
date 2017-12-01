@@ -14,11 +14,12 @@
             新增病历
         </div>
     </div>
+ 
     <div class="portlet-body form">
         <form method="post" action="@Url.Action("SaveAdd","MedicalHistory")" id="saveForm">
             @Html.AntiForgeryToken()
             <div class="form-inline">
-                <div class="row editmode" id="editform">
+                <div class="row editmode" id="editform" >
                     <div class="col-md-12">
                         <div class="title">患者卡号信息</div>
                     </div>
@@ -63,7 +64,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="FemaleCardType">证件类型<span class="requiredspan">*</span></label>
-                            <select2 id="FemaleCardType" class="required w200" data-placeholder="--请选择证件类型--" errormessage="证件类型不能为空" :options="info.CardTypeList" v-model="info.AddModel.FemaleCardType">
+                            <select2 id="FemaleCardType" class="required w196" data-placeholder="--请选择证件类型--" errormessage="证件类型不能为空" :options="info.CardTypeList" v-model="info.AddModel.FemaleCardType">
 
                             </select2>
                         </div>
@@ -72,31 +73,104 @@
                         </edit-input>
                         <div class="form-group">
                             <label for="FemaleCardType">婚姻状况</label>
-                            <select2 id="FemaleMarriage" class="w200" data-placeholder="--请选择婚姻状况--" :options="info.MarriageList" v-model="info.AddModel.FemaleMarriage">
+                            <select2 id="FemaleMarriage" class="w196" data-placeholder="--请选择婚姻状况--" :options="info.MarriageList" v-model="info.AddModel.FemaleMarriage">
                             </select2>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="FemaleNation">国籍</label>
-                            <select2 id="FemaleNation" class="w200" data-placeholder="--请选择国籍--"  :options="info.NationList" v-model="info.AddModel.FemaleNation">
+                            <select2 id="FemaleNation" class="w196" data-placeholder="--请选择国籍--" :options="info.NationList" v-model="info.AddModel.FemaleNation">
                             </select2>
                         </div>
-
                         <div class="form-group">
                             <label for="FemaleJob">职业</label>
-                            <select2 id="FemaleJob" class="w200" data-placeholder="--请选择职业--" :options="info.JobList" v-model="info.AddModel.FemaleJob">
+                            <select2 id="FemaleJob" class="w196" data-placeholder="--请选择职业--" :options="info.JobList" v-model="info.AddModel.FemaleJob">
+                            </select2>
+                        </div>
+                        <div class="form-group">
+                            <label for="FemaleEthnic">民族</label>
+                            <select2 id="FemaleEthnic" class="w196" data-placeholder="--请选择职业--" :options="info.EthnicList" v-model="info.AddModel.FemaleEthnic">
                             </select2>
                         </div>
                     </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="FemaleEducation">文化程度</label>
+                            <select2 id="FemaleEducation" class="w196" data-placeholder="--请选择文化程度--" :options="info.EducationList" v-model="info.AddModel.FemaleEducation">
+                            </select2>
+                        </div>
+                        <edit-input id="FemaleNativePlace" text="籍贯" v-model="info.AddModel.FemaleNativePlace">
+                        </edit-input>
+                        <edit-input id="FemaleHouseholdAddress" myclass="w400" text="户口地址" v-model="info.AddModel.FemaleHouseholdAddress">
+                        </edit-input>
+                    </div>
 
+
+                    @*男方信息*@
+                    <div class="col-md-12">
+                        <div class="title">男方信息</div>
+                    </div>
+                    <div class="col-md-12">
+                        <edit-input id="MaleName" text="姓名" myclass="required" v-model="info.AddModel.MaleName">
+                            <span slot="othertext" class="requiredspan">*</span>
+                        </edit-input>
+                        <date-picker id="MaleBirthday" text="出生年月" myclass="required" defaultDate="1980-01-01" v-model="info.AddModel.MaleBirthday">
+                            <span slot="othertext" class="requiredspan">*</span>
+                        </date-picker>
+
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="MaleCardType">证件类型<span class="requiredspan">*</span></label>
+                            <select2 id="MaleCardType" class="required w196" data-placeholder="--请选择证件类型--" errormessage="证件类型不能为空" :options="info.CardTypeList" v-model="info.AddModel.MaleCardType">
+
+                            </select2>
+                        </div>
+                        <edit-input id="MaleCardNo" text="证件号" myclass="required" v-model="info.AddModel.MaleCardNo">
+                            <span slot="othertext" class="requiredspan">*</span>
+                        </edit-input>
+                        <div class="form-group">
+                            <label for="MaleCardType">婚姻状况</label>
+                            <select2 id="MaleMarriage" class="w196" data-placeholder="--请选择婚姻状况--" :options="info.MarriageList" v-model="info.AddModel.MaleMarriage">
+                            </select2>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="MaleNation">国籍</label>
+                            <select2 id="MaleNation" class="w196" data-placeholder="--请选择国籍--" :options="info.NationList" v-model="info.AddModel.MaleNation">
+                            </select2>
+                        </div>
+                        <div class="form-group">
+                            <label for="MaleJob">职业</label>
+                            <select2 id="MaleJob" class="w196" data-placeholder="--请选择职业--" :options="info.JobList" v-model="info.AddModel.MaleJob">
+                            </select2>
+                        </div>
+                        <div class="form-group">
+                            <label for="MaleEthnic">民族</label>
+                            <select2 id="MaleEthnic" class="w196" data-placeholder="--请选择职业--" :options="info.EthnicList" v-model="info.AddModel.MaleEthnic">
+                            </select2>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="MaleEducation">文化程度</label>
+                            <select2 id="MaleEducation" class="w196" data-placeholder="--请选择文化程度--" :options="info.EducationList" v-model="info.AddModel.MaleEducation">
+                            </select2>
+                        </div>
+                        <edit-input id="MaleNativePlace" text="籍贯" v-model="info.AddModel.MaleNativePlace">
+                        </edit-input>
+                        <edit-input id="MaleHouseholdAddress" myclass="w400" text="户口地址" v-model="info.AddModel.MaleHouseholdAddress">
+                        </edit-input>
+                    </div>
                 </div>
             </div>
             <div class="form-actions">
                 <div class="row">
                     <div class="col-md-offset-3 col-md-4">
-                        <button type="button" class="btn green" id="btnSave">提交</button>
-                        <button type="button" class="btn default" id="btnCancel">Cancel</button>
+                        <button type="button" class="btn btn-outline blue" id="btnSave">提交</button>
+                        <a href="@Url.Action("","")" type="button" class="btn btn-outline blue margin-left-20" id="btnCancel">取消</a>
                     </div>
                 </div>
             </div>
@@ -143,17 +217,9 @@
                data: {
                    info: allData
                 },
-                mounted: function () {
-                    //if ($().select2) {
-                    //    $.fn.select2.defaults.set("theme", "bootstrap");
-                    //    $('.select2me').select2({
-                    //        placeholder: "Select",
-                    //        width: "resolve",
-                    //        allowClear: true,
-                    //        language: "zh-CN"
-                    //    });
-                    //}
-                  //  App.initSlimScroll('#tableshow');
+               mounted: function () {
+                  // com.setContentHeight("#editform",)
+                  //  App.initSlimScroll('#editform');
                 },
                 methods: {
 
@@ -161,13 +227,13 @@
             })
 
            $("#saveForm").validateForm();
-           $('.date-picker').datepicker({
-               autoclose: true,
-               format: "yyyy-mm-dd",
-               language: "zh-CN",
-               clearBtn: true,
-               defaultViewDate:"2001-10-10"
-           });
+           //$('.date-picker').datepicker({
+           //    autoclose: true,
+           //    format: "yyyy-mm-dd",
+           //    language: "zh-CN",
+           //    clearBtn: true,
+           //    defaultViewDate:"2001-10-10"
+           //});
         })
     </script>
 }

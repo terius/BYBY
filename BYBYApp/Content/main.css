@@ -53,6 +53,10 @@
     width: 100px !important;
 }
 
+.w196 {
+    width: 196px !important;
+}
+
 .w200 {
     width: 200px !important;
 }
@@ -376,7 +380,7 @@ div {
     }
 
 
-@media (min-width: 768px) {
+/*@media (min-width: 768px) {
     .col-sm-lable {
         float: left;
         width: 80px;
@@ -401,7 +405,7 @@ div {
 
 .ipt-con > .row > .col-sm-6 > div {
     margin-bottom: 15px;
-}
+}*/
 .has-error  > label
 {
     color:red;
@@ -418,8 +422,10 @@ div {
 }
 
 /************************select2样式************************/
-.select2-results__options {
+/*.select2-results__options {
     min-height: 400px;
     max-height: 400px;
     overflow-y: auto;
-}
+}*/
+
+

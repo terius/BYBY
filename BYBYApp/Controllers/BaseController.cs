@@ -35,26 +35,26 @@ namespace BYBYApp.Controllers
             return Json(dd, JsonRequestBehavior.AllowGet);
         }
 
-        public IList<SelectItem> CreateEnumList(Type type, bool ValueIsInt = true)
-        {
-            IList<SelectItem> list = new List<SelectItem>();
-            string strName, strVaule, strTitle;
-            foreach (var myCode in Enum.GetValues(type))
-            {
+        //public IList<SelectItem> CreateEnumList(Type type, bool ValueIsInt = true)
+        //{
+        //    IList<SelectItem> list = new List<SelectItem>();
+        //    string strName, strVaule, strTitle;
+        //    foreach (var myCode in Enum.GetValues(type))
+        //    {
 
-                FieldInfo field = type.GetField(myCode.ToString());
-                DescriptionAttribute[] attributes = (DescriptionAttribute[])field.GetCustomAttributes(typeof(DescriptionAttribute), false);
-                strName = attributes[0].Description;
-                strVaule = ValueIsInt ? ((int)myCode).ToString() : myCode.ToString();//获取值  
-                strTitle = ValueIsInt ? myCode.ToString() : ((int)myCode).ToString();
-                SelectItem myLi = new SelectItem { id = strVaule, text = strName, title = strTitle };
-                list.Add(myLi);
-            }
-            return list;
-        }
+        //        FieldInfo field = type.GetField(myCode.ToString());
+        //        DescriptionAttribute[] attributes = (DescriptionAttribute[])field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+        //        strName = attributes[0].Description;
+        //        strVaule = ValueIsInt ? ((int)myCode).ToString() : myCode.ToString();//获取值  
+        //        strTitle = ValueIsInt ? myCode.ToString() : ((int)myCode).ToString();
+        //        SelectItem myLi = new SelectItem { id = strVaule, text = strName, title = strTitle };
+        //        list.Add(myLi);
+        //    }
+        //    return list;
+        //}
 
         public int DefaultChinaId { get; set; }
-
+        public int DefaultEthnicId { get; set; }
 
         public async Task<IList<SelectItem>> GetCacheAsync(CacheKeys key, bool GetDefaultId = false)
         {
@@ -68,6 +68,12 @@ namespace BYBYApp.Controllers
                     }
                     break;
                 case CacheKeys.Job:
+                    break;
+                case CacheKeys.Ethnic:
+                    if (GetDefaultId)
+                    {
+                        DefaultEthnicId = Convert.ToInt32(cacheData.FirstOrDefault(d => d.text == "汉族").id);
+                    }
                     break;
                 default:
                     break;

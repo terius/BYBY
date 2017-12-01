@@ -26,6 +26,10 @@ namespace BYBYApp.Models
 
         public IList<SelectItem> JobList { get; set; }
 
+        public IList<SelectItem> EthnicList { get; set; }
+
+      
+
 
         public MedicalHistoryAddRequest AddModel { get; set; }
     }

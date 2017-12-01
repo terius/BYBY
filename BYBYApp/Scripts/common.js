@@ -96,7 +96,7 @@ $.fn.validateForm = function (option) {
         t.validate().element($(this));
     }).on("ifChanged", ".icheck-inline .required:radio", function () {
         t.validate().element($(this));
-    }).on("change", ".form_datetime.required,.form_date.required,.form_date.birthday", function () {
+    }).on("change", ".date-picker", function () {
         t.validate().element($(this));
     });
 }
@@ -226,13 +226,12 @@ com.responsiveHeight = function (dom, rootDom, ignoreDom) {
             if (!checkIsIgnoreDom($(ele))) {
                 borderWidth += $(ele).outerHeight(true) - $(ele).height();
                 $(ele).siblings().each(function (index, element) {
-                  //  var html = $(element)[0].outerHTML;
-                    if (element.tagName != "SCRIPT")
-                    {
-                    //    com.showLog($(element).attr("class") + "    height:" + $(element).outerHeight(true));
+                    //  var html = $(element)[0].outerHTML;
+                    if (element.tagName != "SCRIPT") {
+                        //    com.showLog($(element).attr("class") + "    height:" + $(element).outerHeight(true));
                         otherHeight += $(element).outerHeight(true);
                     }
-                  
+
                 })
             }
 
@@ -241,14 +240,20 @@ com.responsiveHeight = function (dom, rootDom, ignoreDom) {
         $dom.siblings().each(function (index, element) {
             if (!checkIsIgnoreDom($(element))) {
                 if (element.tagName != "SCRIPT") {
-                //    com.showLog($(element).attr("class") + "    height:" + $(element).outerHeight(true));
+                    //    com.showLog($(element).attr("class") + "    height:" + $(element).outerHeight(true));
                     otherHeight += $(element).outerHeight(true);
                 }
             }
         })
-     //   com.showLog("other height:" + otherHeight);
+        //   com.showLog("other height:" + otherHeight);
         //  document.querySelector(dom).style.height = (allheight - otherHeight - borderWidth) + "px";
-      //  com.showLog("allheight:" + allheight + "  otherHeight:" + otherHeight + "    borderWidth:" + borderWidth);
+        //  com.showLog("allheight:" + allheight + "  otherHeight:" + otherHeight + "    borderWidth:" + borderWidth);
         $dom.outerHeight(allheight - otherHeight - borderWidth);
     })
+}
+
+
+com.setContentHeight = function (dom, otherdom) {
+
+    $(dom).outerHeight($(window).height() - $(otherdom).outerHeight(true));
 }
