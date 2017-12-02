@@ -13,6 +13,7 @@ namespace BYBY.Services.Account
         //   readonly RoleManager _roleManager;
         public UserManager(UserStore store) : base(store)
         {
+            
             UserStore = store;
             //var provider = new DpapiDataProtectionProvider("SSC20");
             //UserTokenProvider = new DataProtectorTokenProvider<TBUser,int>(

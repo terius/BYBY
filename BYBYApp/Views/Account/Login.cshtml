@@ -106,7 +106,7 @@
                     com.showLog(result);
 
                     if (result.Result) {
-                        location.href = "/TEST/Index";
+                        location.href = "/MedicalHistory/Index";
                     }
                     else {
                         com.showLayerAlert(result.ErrorMessage);
@@ -115,7 +115,19 @@
                 // com.jqFormOption.url = km.model.urls["add"];
                 $("#form1").ajaxSubmit(com.jqFormOption);
             })
+
+            autoLogin();
         })
+
+
+        function autoLogin()
+        {
+            $("#UserName").val("terius3");
+            $("#Password").val("123456");
+            $("#RoleId").val(2);
+            $("#ValidCode").val("9999");
+         //   $("#loginButton").click();
+        }
 
     </script>
 </body>

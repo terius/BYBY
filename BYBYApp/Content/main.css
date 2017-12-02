@@ -114,13 +114,37 @@ div {
     margin-left: 20px;
 }
 
+
+
+
+
+/*顶部样式*/
+.page-header.navbar, .page-header.navbar .page-logo {
+    height: 80px !important;
+}
+
+.top-menu {
+    margin-top: 15px !important;
+}
+
+
+
+/*****************************************左侧菜单样式*****************************************/
+.page-sidebar .page-sidebar-menu > li > a > .arrow:before, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a > .arrow:before {
+    top: 16px;
+}
+
 .page-sidebar .page-sidebar-menu > li > a {
     font-size: 18px !important;
     padding: 15px 10px !important;
 }
 
-.page-header.navbar, .page-header.navbar .page-logo {
-    height: 80px !important;
+.page-sidebar-menu .sub-menu li > a {
+    padding: 10px 15px 10px 43px !important;
+}
+.page-sidebar-menu 
+{
+    z-index:9999 !important;
 }
 
 
@@ -144,19 +168,14 @@ div {
     margin-left:235px !important;
 }*/
 
-.page-sidebar .page-sidebar-menu > li > a > .arrow:before, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a > .arrow:before {
-    top: 16px;
-}
-
-.top-menu {
-    margin-top: 15px !important;
-}
 
 
 
-.page-sidebar-menu .sub-menu li > a {
-    padding: 10px 15px 10px 43px !important;
-}
+
+
+
+
+
 
 .page-content-title {
     border-bottom: 1px solid #e7ecf1;
@@ -169,6 +188,12 @@ div {
         font-weight: 700;
         color: #888;
     }
+
+/*****************************************底部样式*****************************************/
+.page-footer {
+    /*border-top:1px solid #ddd;*/
+    /*background-color:#cf3232 !important;*/
+}
 
 
 
@@ -364,20 +389,21 @@ div {
     background-color: #fff !important;
 }
 
-  
+
 
 
 
 .editmode .col-md-12 {
     margin-bottom: 20px;
 }
+
     .editmode .col-md-12 > .form-group {
         margin-right: 20px;
     }
 
-    .editmode .col-md-12 > .form-group > input {
-        margin-left: 0 !important;
-    }
+        .editmode .col-md-12 > .form-group > input {
+            margin-left: 0 !important;
+        }
 
 
 /*@media (min-width: 768px) {
@@ -406,19 +432,17 @@ div {
 .ipt-con > .row > .col-sm-6 > div {
     margin-bottom: 15px;
 }*/
-.has-error  > label
-{
-    color:red;
+.has-error > label {
+    color: red;
 }
 
 .has-error .layui-layer.layui-layer-tips {
     position: fixed !important;
-    z-index:99999;
+    z-index: 99999;
 }
 
-.date-picker[readonly]
-{
-    background-color:#fff !important;
+.date-picker[readonly] {
+    background-color: #fff !important;
 }
 
 /************************select2样式************************/
@@ -427,5 +451,7 @@ div {
     max-height: 400px;
     overflow-y: auto;
 }*/
+
+
 
 

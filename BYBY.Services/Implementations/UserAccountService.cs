@@ -1,17 +1,16 @@
-﻿using BYBY.Services.Account;
+﻿using BYBY.Repository.Entities;
+using BYBY.Services.Account;
 using BYBY.Services.Interfaces;
 using BYBY.Services.Request;
 using BYBY.Services.Response;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
-using BYBY.Services;
-using BYBY.Repository.Entities;
 
 namespace BYBY.Services.Implementations
 {
     public class UserAccountService : BaseService, IUserAccountService
     {
-        private readonly UserManager _userManager = UserFactory.GetUserManager();
+        readonly UserManager _userManager = UserFactory.GetUserManager();
         public UserAccountService()
         {
 

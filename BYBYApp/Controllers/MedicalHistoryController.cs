@@ -1,14 +1,13 @@
-﻿using BYBY.Infrastructure;
-using BYBY.Services.Interfaces;
+﻿using BYBY.Services.Interfaces;
 using BYBY.Services.Request;
 using BYBY.Services.Response;
 using BYBYApp.Models;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace BYBYApp.Controllers
 {
+    [Authorize]
     public class MedicalHistoryController : BaseController
     {
         readonly IMedicalHistoryService _medicalHistoryService;
@@ -25,7 +24,7 @@ namespace BYBYApp.Controllers
             //{
             //    models.Add(new MedicalHistoryListModel { MaleName = "男方姓名" + i, MaleAge = 18, FeMaleName = "女方姓名" + i, FeMaleAge = 22 });
             //}
-
+          
             return View();
         }
 
@@ -41,7 +40,7 @@ namespace BYBYApp.Controllers
             model.CardTypeList = await GetCacheAsync(BYBY.Cache.CacheKeys.CardType);
             model.MarriageList = await GetCacheAsync(BYBY.Cache.CacheKeys.Marriage);
             model.EducationList = await GetCacheAsync(BYBY.Cache.CacheKeys.Education);
-            model.NationList = await GetCacheAsync(BYBY.Cache.CacheKeys.Nation,true);
+            model.NationList = await GetCacheAsync(BYBY.Cache.CacheKeys.Nation, true);
             model.JobList = await GetCacheAsync(BYBY.Cache.CacheKeys.Job);
             model.EthnicList = await GetCacheAsync(BYBY.Cache.CacheKeys.Ethnic, true);
             model.AddModel.FemaleNation = DefaultChinaId;

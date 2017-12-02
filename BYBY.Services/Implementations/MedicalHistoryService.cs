@@ -31,6 +31,7 @@ namespace BYBY.Services.Implementations
                 || d.FeMalePatient.CardNo.StartsWith(request.SearchKey)
                 );
             }
+       
             //   var data = await _repository.FindAsync(d => d.MedicalHistoryNo == "9999");
             var pageData = PageQuery(query.OrderBy(d => d.Id), request, d => d.C_To_MedicalHistoryListViews());
             return await Task.FromResult(pageData);

@@ -77,7 +77,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="page_user_login_1.html">
+                                    <a href="@Url.Action("LogOut", "Account")">
                                         <i class="icon-key"></i> 退出
                                     </a>
                                 </li>
@@ -262,8 +262,12 @@
             <!-- BEGIN CONTENT -->
             <div class="page-content-wrapper">
                 <!-- BEGIN CONTENT BODY -->
-                <div class="page-content scroller" id="mycontent">
-                    @RenderBody()
+                <div class="page-content">
+                    <div class="page-inner-content scroller" id="mycontent">
+                        @RenderBody()
+
+                    </div>
+
                 </div>
                 <!-- END CONTENT BODY -->
 
@@ -285,7 +289,7 @@
         <!-- END FOOTER -->
     </div>
     <script>
-                        $("#mycontent").outerHeight($(window).height() - $(".page-header").outerHeight(true));
+                        $("#mycontent").outerHeight($(window).height() - $(".page-header").outerHeight(true) - $(".page-footer").outerHeight(true) - 20);
                         //$("#mycontent").slimScroll({
                         //    allowPageScroll: true, // allow page scroll when the element scroll is ended
                         //    size: '7px',
@@ -339,12 +343,5 @@
     <script src="~/Scripts/myajax.js"></script>
     <script src="~/Scripts/common.js"></script>
     @RenderSection("pagejs", required: false)
-    <script>
-                        $(function () {
-                            //  com.setContentHeight("#mycontent", ".page-header");
-                            // App.initSlimScroll('#mycontent');
-                        })
-
-    </script>
 </body>
 </html>
