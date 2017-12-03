@@ -40,7 +40,7 @@ namespace BYBY.Repository.Entities
 
         protected override void Validate()
         {
-           
+            base.Validate();
 
         }
 

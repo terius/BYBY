@@ -69,6 +69,11 @@ namespace BYBY.Services.Implementations
             return user;
         }
 
+        public string GetLoginUserName()
+        {
+            return System.Web.HttpContext.Current.User.Identity.GetUserName();
+        }
+
     }
 
 

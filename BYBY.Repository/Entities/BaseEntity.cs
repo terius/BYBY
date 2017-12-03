@@ -23,9 +23,18 @@ namespace BYBY.Repository.Entities
         [NotMapped]
         public DBAction dbaction { get; set; }
 
+      
+
         protected virtual void Validate()
         {
-
+            if (dbaction == DBAction.Add)
+            {
+                AddTime = DateTime.Now;
+            }
+            else if (dbaction == DBAction.Update)
+            {
+                ModifyTime = DateTime.Now;
+            }
         }
 
         private ErrorMessage _errorMessage;
