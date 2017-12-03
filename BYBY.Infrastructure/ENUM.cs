@@ -110,5 +110,20 @@ namespace BYBY.Infrastructure
         BoShi
     }
 
+    public enum DBAction
+    {
+        Add,
+        Update,
+        Delete
+    }
+
+
+    public enum ErrorType
+    {
+        NotEmpty,
+        DateTimeError,
+        NumberError,
+        DupError
+    }
 
 }

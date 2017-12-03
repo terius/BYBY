@@ -2,16 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BYBY.Repository.Entities
 {
-    public class TBUser : BaseEntity<int>, IUser<int>
+    public class TBUser : BaseEntity<string>, IUser
     {
-      
+
         public TBUser()
         {
+            //  this.Id = Guid.NewGuid().ToString();
             this.UserRoles = new HashSet<TBUserRole>();
         }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public override string Id { get; set; }
 
 
         [Required]
@@ -33,6 +37,12 @@ namespace BYBY.Repository.Entities
         public DateTime? LastLoginTime { get; set; }
 
         public virtual ICollection<TBUserRole> UserRoles { get; set; }
+
+        protected override void Validate()
+        {
+           
+
+        }
 
     }
 }

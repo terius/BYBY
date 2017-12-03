@@ -64,7 +64,7 @@ namespace BYBY.Services.Implementations
 
         }
 
-        private bool CheckUserRole(TBUser user, int roleId)
+        private bool CheckUserRole(TBUser user, string roleId)
         {
             foreach (var userRole in user.UserRoles)
             {

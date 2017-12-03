@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace BYBY.Services.Account
 {
-    public class UserStore : IUserPasswordStore<TBUser, int>, IUserRoleStore<TBUser, int>
+    public class UserStore :  IUserPasswordStore<TBUser>, IUserRoleStore<TBUser>
     {
-        readonly IRepository<TBUser, int> _userRepository;
-        readonly IRepository<TBRole, int> _roleRepository;
-        readonly IRepository<TBUserRole, int> _userRoleRepository;
+        readonly IRepository<TBUser, string> _userRepository;
+        readonly IRepository<TBRole, string> _roleRepository;
+        readonly IRepository<TBUserRole, string> _userRoleRepository;
         readonly IUnitOfWork _unitOfWork;
         //  readonly int defaultTenantId = ApplicationSettingsFactory.GetApplicationSettings().ProductTenantId;
         public UserStore(
-            IRepository<TBUser, int> userRepository,
+            IRepository<TBUser, string> userRepository,
             IUnitOfWork unitOfWork,
-            IRepository<TBRole, int> roleRepository,
-            IRepository<TBUserRole, int> userRoleRepository
+            IRepository<TBRole, string> roleRepository,
+            IRepository<TBUserRole, string> userRoleRepository
             )
         {
             _userRepository = userRepository;
@@ -45,7 +45,7 @@ namespace BYBY.Services.Account
         }
 
 
-        public async Task<TBUser> FindByIdAsync(int userId)
+        public async Task<TBUser> FindByIdAsync(string userId)
         {
 
             return await _userRepository.GetAsync(userId);

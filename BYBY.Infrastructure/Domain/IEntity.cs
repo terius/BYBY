@@ -3,7 +3,7 @@
     public interface IEntity
     {
 
-        //  void ThrowExceptionIfInvalid(DBAction action);
+          void ThrowExceptionIfInvalid(DBAction action);
     }
 
 }

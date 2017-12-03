@@ -64,7 +64,7 @@ namespace BYBY.Services.Implementations
 
         public async Task<TBUser> GetLoginInfo()
         {
-            var userId = System.Web.HttpContext.Current.User.Identity.GetUserId<int>();
+            var userId = System.Web.HttpContext.Current.User.Identity.GetUserId();
             var user = await _userManager.FindByIdAsync(userId);
             return user;
         }

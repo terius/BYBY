@@ -1,4 +1,5 @@
-﻿using BYBY.Infrastructure.Domain;
+﻿using BYBY.Infrastructure;
+using BYBY.Infrastructure.Domain;
 using BYBY.Infrastructure.UnitOfWork;
 using System;
 using System.Data.Entity;
@@ -30,7 +31,7 @@ namespace BYBY.Repository.Repositories
 
         public virtual Task InsertAsync(T entity)
         {
-            //  entity.ThrowExceptionIfInvalid(DBAction.Add);
+            entity.ThrowExceptionIfInvalid(DBAction.Add);
             //try
             //{
             GetDbSet().Add(entity);
@@ -45,6 +46,7 @@ namespace BYBY.Repository.Repositories
 
         public virtual Task DeleteAsync(T entity)
         {
+            entity.ThrowExceptionIfInvalid(DBAction.Delete);
             GetDbSet().Remove(entity);
             return Task.FromResult(0);
             //  _uow.RegisterRemoved(entity, this);
@@ -52,8 +54,8 @@ namespace BYBY.Repository.Repositories
 
         public virtual Task UpdateAsync(T entity)
         {
+            entity.ThrowExceptionIfInvalid(DBAction.Update);
             return Task.FromResult(0);
-            //   entity.ThrowExceptionIfInvalid(DBAction.Edit);
             //   _uow.RegisterAmended(entity, this);
 
             // Do nothing as EF tracks changes

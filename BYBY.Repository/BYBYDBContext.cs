@@ -1,6 +1,7 @@
 namespace BYBY.Repository
 {
     using BYBY.Repository.Entities;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity;
 
     public partial class BYBYDBContext : DbContext
@@ -26,6 +27,9 @@ namespace BYBY.Repository
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            //modelBuilder.Entity<TBUser>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            //modelBuilder.Entity<TBRole>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            //modelBuilder.Entity<TBUserRole>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<TBMedicalHistory>().HasRequired(m => m.MalePatient).WithMany(n => n.MaleMedicalHistorys).HasForeignKey(m => m.MalePatientId).WillCascadeOnDelete(false);
             modelBuilder.Entity<TBMedicalHistory>().HasRequired(m => m.FeMalePatient).WithMany(n => n.FeMaleMedicalHistorys).HasForeignKey(m => m.FeMalePatientId).WillCascadeOnDelete(false);
         }

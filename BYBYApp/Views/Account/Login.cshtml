@@ -61,14 +61,14 @@
                 </div>
             </div>
             <div class="login-submit text-center">
-                <input id="RoleId" name="RoleId" type="hidden" />
-                <button href="javascript:;" type="button" class="btn btn-success" style="width:100%"  id="loginButton" tabindex="4">登 录</button>
+                <input id="RoleName" name="RoleName" type="hidden" />
+                <button href="javascript:;" type="button" class="btn btn-success" style="width:100%" id="loginButton" tabindex="4">登 录</button>
             </div>
 
         </form>
         @Html.ValidationSummaryBootstrap()
     </div>
-
+    <div class="title"><h1>不孕不育远程门诊</h1></div>
     <script src="~/Scripts/jquery-2.2.4.min.js"></script>
     <script src="~/Scripts/jquery.form.min.js"></script>
     <script src="~/Scripts/jquery.validate.js"></script>
@@ -86,16 +86,17 @@
             $("#form1").validateForm();
 
             $(".menu a").on("click", function () {
+                $(".menu .selected").removeClass("selected");
+                $(this).addClass("selected");
                 var roleType = $(this).data("roletype");
                 $(".login-panel").show().removeClass().addClass("login-panel " + roleType);
+                $("#RoleName").val(roleType);
                 switch (roleType) {
                     case "patient":
                         $("#login-title").text("患者登录");
-                        $("#RoleId").val(1);
                         break;
                     case "doctor":
                         $("#login-title").text("医生登录");
-                        $("#RoleId").val(2);
                         break;
                     default:
                 }
@@ -120,13 +121,12 @@
         })
 
 
-        function autoLogin()
-        {
-            $("#UserName").val("terius3");
+        function autoLogin() {
+            $("#UserName").val("d001");
             $("#Password").val("123456");
-            $("#RoleId").val(2);
+            $("#RoleName").val("doctor");
             $("#ValidCode").val("9999");
-         //   $("#loginButton").click();
+            //   $("#loginButton").click();
         }
 
     </script>

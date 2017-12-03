@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace BYBY.Services.Account
 {
-    public class RoleStore : IRoleStore<TBRole, int>
+    public class RoleStore : IRoleStore<TBRole>
     {
-        readonly IRepository<TBRole, int> _roleRepository;
+        readonly IRepository<TBRole, string> _roleRepository;
         readonly IUnitOfWork _unitOfWork;
       //  readonly int defaultTenantId = ApplicationSettingsFactory.GetApplicationSettings().ProductTenantId;
-        public RoleStore(IRepository<TBRole, int> roleRepository, IUnitOfWork unitOfWork)
+        public RoleStore(IRepository<TBRole, string> roleRepository, IUnitOfWork unitOfWork)
         {
             _roleRepository = roleRepository;
             _unitOfWork = unitOfWork;
@@ -28,7 +28,7 @@ namespace BYBY.Services.Account
             await _roleRepository.DeleteAsync(role);
             _unitOfWork.Commit();
         }
-        public async Task<TBRole> FindByIdAsync(int roleId)
+        public async Task<TBRole> FindByIdAsync(string roleId)
         {
             return await _roleRepository.GetAsync(roleId);
         }

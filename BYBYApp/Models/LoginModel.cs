@@ -8,6 +8,6 @@
 
         public string ValidCode { get; set; }
 
-        public int RoleId { get; set; }
+        public string RoleName { get; set; }
     }
 }

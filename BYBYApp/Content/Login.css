@@ -22,7 +22,13 @@
         .menu > ul > li > a {
             width: 130px;
             letter-spacing: 2px;
+            box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
         }
+
+            .menu > ul > li > a.selected {
+                background-color: green !important;
+                border-color: green;
+            }
 
 .login-panel {
     position: absolute;
@@ -47,27 +53,43 @@
     border-top: 4px solid #fff;
 }
 
-    .login-panel .logo {
-        margin: 20px auto;
-        width: 68px;
-        height: 68px;
-      
-    }
-    .login-panel.doctor .logo {
-        background: url(/images/doctor.png);
-    }
-    .login-panel.patient .logo {
-        background: url(/images/patient.png);
-    }
-    
-    .login-panel .content {
-        padding: 10px 0 30px;
+.title {
+    position: absolute;
+    width: 340px;
+    height: 40px;
+    text-align: center;
+    margin-left: -170px;
+    /*margin-top: -400px;*/
+    left: 50%;
+    top: 10%;
+}
+
+    .title h1 {
+        color: #337ab7;
     }
 
-    .login-panel .valid-code {
-        display: inline-block;
-        height: 34px;
-    }
+.login-panel .logo {
+    margin: 20px auto;
+    width: 68px;
+    height: 68px;
+}
+
+.login-panel.doctor .logo {
+    background: url(/images/doctor.png);
+}
+
+.login-panel.patient .logo {
+    background: url(/images/patient.png);
+}
+
+.login-panel .content {
+    padding: 10px 0 30px;
+}
+
+.login-panel .valid-code {
+    display: inline-block;
+    height: 34px;
+}
 
 .alert.alert-danger {
     margin: 10px auto;
@@ -81,8 +103,7 @@
         padding: 0;
     }
 
-.validation-summary-errors
-{
-    padding-left:10px;
-    display:inline-block;
+.validation-summary-errors {
+    padding-left: 10px;
+    display: inline-block;
 }

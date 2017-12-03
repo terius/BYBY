@@ -1,9 +1,11 @@
 ﻿using BYBY.Infrastructure.Helpers;
+using BYBY.Infrastructure.Loger;
 using BYBY.Services.Account;
 using BYBY.Services.Interfaces;
 using BYBY.Services.Response;
 using BYBYApp.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
 using System.Threading.Tasks;
@@ -55,26 +57,49 @@ namespace BYBYApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginModel loginModel)
         {
-            //if (!CheckValidCode(loginModel.ValidCode))
-            //{
-            //    return ErrorJson("验证码错误");
-            //}
-            await SignInAsync(loginModel);
+            try
+            {
 
-            //var request = new UserLoginRequest { UserName = loginModel.UserName, Password = loginModel.Password, RoleId = loginModel.RoleId };
-            //var response = await _userAccountService.UserLogin(request);
-            //if (response.Result)
-            //{
-            //    FormsAuthentication.SetAuthCookie(loginModel.UserName, false);
 
-            //}
+                //if (!CheckValidCode(loginModel.ValidCode))
+                //{
+                //    return ErrorJson("验证码错误");
+                //}
+
+                // 1. 利用ASP.NET Identity获取用户对象
+                var user = await _userManager.FindAsync(loginModel.UserName, loginModel.Password);
+                if (user == null)
+                {
+                    return ErrorJson("用户名或密码错误");
+                }
+
+              //  _userManager.get
+                // 2. 利用ASP.NET Identity获取identity 对象
+                var identity = await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                // 3. 将上面拿到的identity对象登录
+
+                AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+
+                //var request = new UserLoginRequest { UserName = loginModel.UserName, Password = loginModel.Password, RoleId = loginModel.RoleId };
+                //var response = await _userAccountService.UserLogin(request);
+                //if (response.Result)
+                //{
+                //    FormsAuthentication.SetAuthCookie(loginModel.UserName, false);
+
+                //}
+            }
+            catch (Exception ex)
+            {
+                LoggingFactory.GetLogger().Log("错误信息:\r\n" + ex.ToString());
+                return ErrorJson(ex.Message);
+            }
             return Json(new SuccessEmptyResponse(), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public ActionResult LogOut()
         {
-      
+
             return RedirectToAction("Login");
         }
 
@@ -95,21 +120,7 @@ namespace BYBYApp.Controllers
 
 
 
-        /// <summary>
-        /// AspNet.Identity登录
-        /// </summary>
-        /// <param name="loginModel"></param>
-        /// <returns></returns>
-        private async Task SignInAsync(LoginModel loginModel)
-        {
-            // 1. 利用ASP.NET Identity获取用户对象
-            var user = await _userManager.FindAsync(loginModel.UserName, loginModel.Password);
-            // 2. 利用ASP.NET Identity获取identity 对象
-            var identity = await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
-            // 3. 将上面拿到的identity对象登录
-
-            AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
-        }
+      
 
         private IAuthenticationManager AuthenticationManager
         {

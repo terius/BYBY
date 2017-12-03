@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace BYBY.Services.Account
 {
-    public class UserManager : UserManager<TBUser, int>
+    public class UserManager : UserManager<TBUser, string>
     {
         private const string defaultPwd = "123456";
         //   readonly RoleManager _roleManager;
         public UserManager(UserStore store) : base(store)
         {
-            
+
             UserStore = store;
             //var provider = new DpapiDataProtectionProvider("SSC20");
             //UserTokenProvider = new DataProtectorTokenProvider<TBUser,int>(
@@ -34,6 +34,7 @@ namespace BYBY.Services.Account
             user.Password = new PasswordHasher().HashPassword(defaultPwd);
             user.UserName = request.UserName;
             user.Name = request.Name;
+          //  user.Id = Guid.NewGuid().ToString();
             var result = await CreateAsync(user);
             // newUserId = user.Id;
             if (result.Succeeded)
