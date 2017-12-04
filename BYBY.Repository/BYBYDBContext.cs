@@ -27,6 +27,10 @@ namespace BYBY.Repository
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<TBMedicalHistory>()
+              .Property(e => e.LandlinePhone)
+              .HasMaxLength(50);
             //modelBuilder.Entity<TBUser>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             //modelBuilder.Entity<TBRole>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             //modelBuilder.Entity<TBUserRole>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);

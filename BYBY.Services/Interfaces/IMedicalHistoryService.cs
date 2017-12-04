@@ -7,6 +7,18 @@ namespace BYBY.Services.Interfaces
 {
     public interface IMedicalHistoryService
     {
+        /// <summary>
+        /// 获取病历列表
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         Task<PagedData<MedicalHistoryListView>> GetMedicalHistoryList(MedicalHistoryListSearchRequest request);
+
+        /// <summary>
+        /// 新增病历
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<EmptyResponse> SaveAdd(MedicalHistoryAddRequest request);
     }
 }

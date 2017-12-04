@@ -158,6 +158,18 @@
     <Compile Include="Migrations\201712031326372_20171204-7.Designer.cs">
       <DependentUpon>201712031326372_20171204-7.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712040134294_1223.cs" />
+    <Compile Include="Migrations\201712040134294_1223.Designer.cs">
+      <DependentUpon>201712040134294_1223.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712040145038_1204nwe.cs" />
+    <Compile Include="Migrations\201712040145038_1204nwe.Designer.cs">
+      <DependentUpon>201712040145038_1204nwe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712040149483_set-TBMedicalHistory-LandlinePhone-maxlength50.cs" />
+    <Compile Include="Migrations\201712040149483_set-TBMedicalHistory-LandlinePhone-maxlength50.Designer.cs">
+      <DependentUpon>201712040149483_set-TBMedicalHistory-LandlinePhone-maxlength50.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -237,6 +249,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712031326372_20171204-7.resx">
       <DependentUpon>201712031326372_20171204-7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712040134294_1223.resx">
+      <DependentUpon>201712040134294_1223.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712040145038_1204nwe.resx">
+      <DependentUpon>201712040145038_1204nwe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712040149483_set-TBMedicalHistory-LandlinePhone-maxlength50.resx">
+      <DependentUpon>201712040149483_set-TBMedicalHistory-LandlinePhone-maxlength50.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

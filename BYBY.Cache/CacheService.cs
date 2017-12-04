@@ -16,18 +16,21 @@ namespace BYBY.Cache
         readonly IRepository<TBNation, int> _nationRepository;
         readonly IRepository<TBJob, int> _jobRepository;
         readonly IRepository<TBEthnic, int> _ethnicRepository;
+        readonly IRepository<TBHospital, int> _hospitalRepository;
         readonly object NationObj = new object();
 
         public CacheService(ICacheStorage cacheStorage,
             IRepository<TBNation, int> nationRepository,
             IRepository<TBJob, int> jobRepository,
-            IRepository<TBEthnic, int> ethnicRepository
+            IRepository<TBEthnic, int> ethnicRepository,
+            IRepository<TBHospital, int> hospitalRepository
             )
         {
             _cacheStorage = cacheStorage;
             _nationRepository = nationRepository;
             _jobRepository = jobRepository;
             _ethnicRepository = ethnicRepository;
+            _hospitalRepository = hospitalRepository;
         }
 
         public async Task<IList<SelectItem>> GetSelectItemAsync(CacheKeys key)
@@ -57,6 +60,10 @@ namespace BYBY.Cache
                         break;
                     case CacheKeys.Marriage:
                         cacheData = CreateEnumList(typeof(MaritalStatus));
+                        break;
+                    case CacheKeys.Hospital:
+                        var hospitalData = await _hospitalRepository.FindAllAsync();
+                        cacheData = hospitalData.ConvertTo_SelectItem();
                         break;
                     default:
                         break;
@@ -126,6 +133,21 @@ namespace BYBY.Cache
                 sitem = new SelectItem();
                 sitem.id = item.Id.ToString();
                 sitem.text = item.Name;
+                dest.Add(sitem);
+            }
+            return dest;
+        }
+
+        public static IList<SelectItem> ConvertTo_SelectItem(this IEnumerable<TBHospital> source)
+        {
+            var dest = new List<SelectItem>();
+            SelectItem sitem;
+            foreach (var item in source)
+            {
+                sitem = new SelectItem();
+                sitem.id = item.Id.ToString();
+                sitem.text = item.Name;
+                sitem.title = item.IsMaster ? "1" : "0";
                 dest.Add(sitem);
             }
             return dest;

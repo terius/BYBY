@@ -27,10 +27,10 @@ namespace BYBY.Services.Request
         public string FemaleBirthday { get; set; }
         public string FemaleCardNo { get; set; }
         public MaritalStatus? FemaleMarriage { get; set; }
-        public int FemaleNation { get; set; }
-        public int FemaleJob { get; set; }
+        public int? FemaleNation { get; set; }
+        public int? FemaleJob { get; set; }
 
-        public int FemaleEthnic { get; set; }
+        public int? FemaleEthnic { get; set; }
 
         public Education? FemaleEducation { get; set; }
 
@@ -46,19 +46,16 @@ namespace BYBY.Services.Request
         public string MaleBirthday { get; set; }
         public string MaleCardNo { get; set; }
         public MaritalStatus? MaleMarriage { get; set; }
-        public int MaleNation { get; set; }
-        public int MaleJob { get; set; }
+        public int? MaleNation { get; set; }
+        public int? MaleJob { get; set; }
 
-        public int MaleEthnic { get; set; }
+        public int? MaleEthnic { get; set; }
 
         public Education? MaleEducation { get; set; }
 
         public string MaleNativePlace { get; set; }
         public string MaleHouseholdAddress { get; set; }
         #endregion
-
-
-
-
+        
     }
 }

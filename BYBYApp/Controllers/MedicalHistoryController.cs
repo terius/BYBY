@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace BYBYApp.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class MedicalHistoryController : BaseController
     {
         readonly IMedicalHistoryService _medicalHistoryService;
@@ -17,15 +17,11 @@ namespace BYBYApp.Controllers
             _medicalHistoryService = medicalHistoryService;
         }
         // GET: MedicalHistory
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            //IList<MedicalHistoryListModel> models = new List<MedicalHistoryListModel>();
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    models.Add(new MedicalHistoryListModel { MaleName = "男方姓名" + i, MaleAge = 18, FeMaleName = "女方姓名" + i, FeMaleAge = 22 });
-            //}
-          
-            return View();
+            var model = new MedicalHistoryListModel();
+            model.HospitalList = await GetCacheAsync(BYBY.Cache.CacheKeys.Hospital);
+            return View(model);
         }
 
         public async Task<JsonResult> PageQuery(MedicalHistoryListSearchRequest request)
@@ -43,16 +39,16 @@ namespace BYBYApp.Controllers
             model.NationList = await GetCacheAsync(BYBY.Cache.CacheKeys.Nation, true);
             model.JobList = await GetCacheAsync(BYBY.Cache.CacheKeys.Job);
             model.EthnicList = await GetCacheAsync(BYBY.Cache.CacheKeys.Ethnic, true);
-            model.AddModel.FemaleNation = DefaultChinaId;
-            model.AddModel.FemaleEthnic = DefaultEthnicId;
+            model.AddModel.FemaleNation = model.AddModel.MaleNation = DefaultChinaId;
+            model.AddModel.FemaleEthnic = model.AddModel.MaleEthnic = DefaultEthnicId;
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SaveAdd(MedicalHistoryAddRequest request)
+        public async Task<ActionResult> SaveAdd(MedicalHistoryAddRequest request)
         {
-            var response = new EmptyResponse();
+            var response = await _medicalHistoryService.SaveAdd(request);
             return Json(response, JsonRequestBehavior.AllowGet);
         }
     }

@@ -33,7 +33,7 @@ namespace BYBY.Repository.Entities
 
         public Sex Sex { get; set; }
 
-
+        [StringLength(100)]
         public string ContactPhone { get; set; }
 
         public int? NationaId { get; set; }

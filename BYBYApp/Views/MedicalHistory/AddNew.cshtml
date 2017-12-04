@@ -14,28 +14,28 @@
             新增病历
         </div>
     </div>
- 
+
     <div class="portlet-body form">
         <form method="post" action="@Url.Action("SaveAdd","MedicalHistory")" id="saveForm">
             @Html.AntiForgeryToken()
             <div class="form-inline">
-                <div class="row editmode" id="editform" >
+                <div class="row editmode" id="editform">
                     <div class="col-md-12">
                         <div class="title">患者卡号信息</div>
                     </div>
                     <div class="col-md-12">
-                        <edit-input id="MedicalHistoryNo" text="病历号" myclass="w300">
+                        <edit-input id="MedicalHistoryNo" text="病历号" myclass="w300" v-model="info.AddModel.MedicalHistoryNo">
                         </edit-input>
                     </div>
                     <div class="col-md-12">
                         <div class="title">联系方式及备注</div>
                     </div>
                     <div class="col-md-12">
-                        <edit-input id="FemalePhone" text="女方电话" v-model="info.AddModel.FemalePhone">
+                        <edit-input id="FemalePhone" maxlength="100" text="女方电话" v-model="info.AddModel.FemalePhone">
                         </edit-input>
-                        <edit-input id="MalePhone" text="男方电话" v-model="info.AddModel.MalePhone">
+                        <edit-input id="MalePhone" maxlength="100" text="男方电话" v-model="info.AddModel.MalePhone">
                         </edit-input>
-                        <edit-input id="FixPhone" text="固定电话" v-model="info.AddModel.FixPhone">
+                        <edit-input id="FixPhone" maxlength="50" text="固定电话" v-model="info.AddModel.FixPhone">
                         </edit-input>
                     </div>
                     <div class="col-md-12">
@@ -64,7 +64,8 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="FemaleCardType">证件类型<span class="requiredspan">*</span></label>
-                            <select2 id="FemaleCardType" class="required w196" data-placeholder="--请选择证件类型--" errormessage="证件类型不能为空" :options="info.CardTypeList" v-model="info.AddModel.FemaleCardType">
+                            <select2 id="FemaleCardType" class="required w196" data-placeholder="--请选择证件类型--" errormessage="证件类型不能为空"
+                                     :options="info.CardTypeList" v-model="info.AddModel.FemaleCardType">
 
                             </select2>
                         </div>
@@ -171,6 +172,7 @@
                     <div class="col-md-offset-3 col-md-4">
                         <button type="button" class="btn btn-outline blue" id="btnSave">提交</button>
                         <a href="@Url.Action("Index","MedicalHistory")" type="button" class="btn btn-outline blue margin-left-20" id="btnCancel">返回</a>
+                        <button type="button" class="btn btn-outline blue" id="btnTest">测试</button>
                     </div>
                 </div>
             </div>
@@ -200,15 +202,31 @@
             var allData = @Html.RenderAsJson(Model);
             $("#btnSave").on("click", function () {
                 if ($("#saveForm").valid()) {
-                    com.jqFormOption.success = function (result) {
-                        com.showLog(result);
+                    com.jqFormOption.success = function (res) {
+                        if (res.Result)
+                        {
+                            ShowSuccessThenGotoUrl(res.SuccessMessage,"/MedicalHistory/Index")
+                        }
                     }
                     $("#saveForm").ajaxSubmit(com.jqFormOption);
                 }
             })
 
-            $("#btnCancel").on("click", function () {
-                com.showLog(vueadd.info.AddModel);
+            var flag = 1;
+            $("#btnTest").on("click", function () {
+                //if (flag == 1) {
+                //    vueadd.info.AddModel.FemaleCardType = "2";
+                //    flag = 2;
+                //}
+                //else
+                //{
+                //    vueadd.info.AddModel.FemaleCardType = "3";
+                //    flag = 1;
+                //}
+                var p = $("#MaleCardNo").position();
+                com.showLog(p, "position");
+              //  com.showLog(vueadd.info.AddModel);
+
             })
 
 
@@ -227,6 +245,21 @@
             })
 
            $("#saveForm").validateForm();
+
+
+            //测试
+           vueadd.info.AddModel.MedicalHistoryNo = "324234723434";
+           vueadd.info.AddModel.FemalePhone = "13965774654";
+           vueadd.info.AddModel.MalePhone = "13775648455";
+           vueadd.info.AddModel.FemaleName = "张玲";
+           vueadd.info.AddModel.FemaleBirthday = "1980-11-02";
+           vueadd.info.AddModel.FemaleCardType = "3";
+           vueadd.info.AddModel.FemaleCardNo = "320584394855096523";
+
+           vueadd.info.AddModel.MaleName = "王大伟";
+           vueadd.info.AddModel.MaleBirthday = "1979-03-02";
+           vueadd.info.AddModel.MaleCardType = "1";
+           vueadd.info.AddModel.MaleCardNo = "320584394328596509";
            //$('.date-picker').datepicker({
            //    autoclose: true,
            //    format: "yyyy-mm-dd",

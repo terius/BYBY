@@ -93,7 +93,7 @@ namespace BYBYApp.Controllers
                 LoggingFactory.GetLogger().Log("错误信息:\r\n" + ex.ToString());
                 return ErrorJson(ex.Message);
             }
-            return Json(new SuccessEmptyResponse(), JsonRequestBehavior.AllowGet);
+            return Json(EmptyResponse.CreateSuccess(), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

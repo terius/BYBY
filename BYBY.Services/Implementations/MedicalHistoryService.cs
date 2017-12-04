@@ -1,4 +1,5 @@
 ﻿using BYBY.Infrastructure.Domain;
+using BYBY.Infrastructure.UnitOfWork;
 using BYBY.Repository.Entities;
 using BYBY.Services.Interfaces;
 using BYBY.Services.Request;
@@ -13,10 +14,12 @@ namespace BYBY.Services.Implementations
     {
 
         readonly IRepository<TBMedicalHistory, int> _repository;
+        readonly IUnitOfWork _unitOfWork;
 
-        public MedicalHistoryService(IRepository<TBMedicalHistory, int> repository)
+        public MedicalHistoryService(IRepository<TBMedicalHistory, int> repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
 
@@ -31,11 +34,29 @@ namespace BYBY.Services.Implementations
                 || d.FeMalePatient.CardNo.StartsWith(request.SearchKey)
                 );
             }
-       
+
             //   var data = await _repository.FindAsync(d => d.MedicalHistoryNo == "9999");
             var pageData = PageQuery(query.OrderBy(d => d.Id), request, d => d.C_To_MedicalHistoryListViews());
             return await Task.FromResult(pageData);
 
+        }
+
+        public async Task<EmptyResponse> SaveAdd(MedicalHistoryAddRequest request)
+        {
+            var femaleInfo = request.C_To_FemaleTBPatient();
+            var maleInfo = request.C_To_MaleTBPatient();
+            var mhInfo = new TBMedicalHistory();
+            mhInfo.Address = request.Address;
+            mhInfo.AddUserName = femaleInfo.AddUserName = maleInfo.AddUserName = GetLoginUserName();
+            mhInfo.FeMalePatient = femaleInfo;
+            mhInfo.MalePatient = maleInfo;
+            mhInfo.LandlinePhone = request.FixPhone;
+            mhInfo.MedicalHistoryNo = request.MedicalHistoryNo;
+            mhInfo.Remark = request.Remark;
+            await _repository.InsertAsync(mhInfo);
+            int rs = _unitOfWork.Commit();
+
+            return rs > 0 ? EmptyResponse.CreateSuccess("保存成功") : EmptyResponse.CreateError("保存失败");
         }
 
 

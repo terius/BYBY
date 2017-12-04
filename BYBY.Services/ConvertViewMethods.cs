@@ -1,9 +1,12 @@
 ﻿using BYBY.Repository.Entities;
+using BYBY.Services.Request;
 using BYBY.Services.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using BYBY.Infrastructure.Helpers;
+using BYBY.Infrastructure;
 
 namespace BYBY.Services
 {
@@ -28,7 +31,7 @@ namespace BYBY.Services
                     MalePhone = item.MalePatient.ContactPhone,
 
                     FeMaleBirthday = item.FeMalePatient.Birthday.ToDateString(),
-                //    FeMaleAddUserName= item.FeMalePatient.AddUserName,
+                    //    FeMaleAddUserName= item.FeMalePatient.AddUserName,
                     FeMaleFixPhone = item.LandlinePhone,
                     FeMaleMarrad = item.FeMalePatient.MaritalStatus.GetEnumDescription(),
 
@@ -40,6 +43,46 @@ namespace BYBY.Services
                 dest.Add(view);
             }
             return dest;
+        }
+
+        public static TBPatient C_To_FemaleTBPatient(this MedicalHistoryAddRequest source)
+        {
+            var female = new TBPatient();
+            female.Birthday = source.FemaleBirthday.ToDate();
+            female.Age = female.Birthday.GetAge();
+            female.CardNo = source.FemaleCardNo;
+            female.CardType = source.FemaleCardType.HasValue ? source.FemaleCardType.Value : CardType.SFZ;
+            female.ContactPhone = source.FemalePhone;
+            female.EthnicId = source.FemaleEthnic;
+            female.HouseholdAddress = source.FemaleHouseholdAddress;
+            female.JobId = source.FemaleJob;
+            female.MaritalStatus = source.FemaleMarriage.HasValue ? source.FemaleMarriage.Value : MaritalStatus.YiHun;
+            female.Name = source.FemaleName;
+            female.NationaId = source.FemaleNation;
+            female.NativePlace = source.FemaleNativePlace;
+            female.Sex = Sex.Female;
+            return female;
+
+        }
+
+        public static TBPatient C_To_MaleTBPatient(this MedicalHistoryAddRequest source)
+        {
+            var male = new TBPatient();
+            male.Birthday = source.MaleBirthday.ToDate();
+            male.Age = male.Birthday.GetAge();
+            male.CardNo = source.MaleCardNo;
+            male.CardType = source.MaleCardType.HasValue ? source.MaleCardType.Value : CardType.SFZ;
+            male.ContactPhone = source.MalePhone;
+            male.EthnicId = source.MaleEthnic;
+            male.HouseholdAddress = source.MaleHouseholdAddress;
+            male.JobId = source.MaleJob;
+            male.MaritalStatus = source.MaleMarriage.HasValue ? source.MaleMarriage.Value : MaritalStatus.YiHun;
+            male.Name = source.MaleName;
+            male.NationaId = source.MaleNation;
+            male.NativePlace = source.MaleNativePlace;
+            male.Sex = Sex.Male;
+            return male;
+
         }
 
 

@@ -25,6 +25,10 @@
         /// <summary>
         /// 婚姻状态
         /// </summary>
-        Marriage
+        Marriage,
+        /// <summary>
+        /// 医院
+        /// </summary>
+        Hospital
     }
 }

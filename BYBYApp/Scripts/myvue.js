@@ -15,17 +15,16 @@
             .val(this.value)
             .trigger('change')
             // emit event on change.
-            .on('change', function () {
-                vm.$emit('input', this.value)
-            })
-        //if (this.value != null) {
-        //    $(this.$el).val(this.value).trigger('change')
-        //}
+            //.on('change', function () {
+            //    vm.$emit('input', this.value)
+            //})
+        
     },
     watch: {
         value: function (value) {
             // update value
-            $(this.$el).val(value)
+         //   alert(value);
+            $(this.$el).val(value).trigger('change')
         },
         options: function (options) {
             // update options
@@ -34,15 +33,18 @@
     },
     destroyed: function () {
         $(this.$el).off().select2('destroy')
+    },
+    updated: function () {
+        alert(value);
     }
 })
 
 
 Vue.component('edit-input', {
-    props: ['id', 'text', 'myclass', 'value'],
+    props: ['id', 'text', 'myclass', 'value','maxlength'],
     template: '<div class="form-group">'
     + '<label :for="id" > {{text }}<slot name="othertext"></slot></label > '
-    + '<input type="text" :value="value" @input="updateSelf($event.target.value)" class="form-control" :class="myclass" :id="id" :name="id" ></div > ',
+    + '<input type="text" :value="value" :maxlength="maxlength" @input="updateSelf($event.target.value)" class="form-control" :class="myclass" :id="id" :name="id" ></div > ',
     methods: {
         updateSelf(value) {
             this.$emit('input', value)
@@ -76,6 +78,52 @@ Vue.component('date-picker', {
     },
     methods: {
         updateSelf(value) {
+            this.$emit('input', value)
+        }
+    }
+})
+
+
+
+Vue.component('ttt', {
+    props: ['sid', 'eid', 'myclass', 'svalue', 'evalue', 'defaultDate'],
+    template: '<div>'
+    + '<input type="text" :id="sid" class="form-control" :value="svalue" :class="myclass" :name="sid" > '
+    + '<input type="text" :id="eid" class="form-control" :value="evalue" :class="myclass" :name="eid" > '
+    + '</div>'
+})
+
+Vue.component('date-range-picker', {
+    props: ['sid', 'eid', 'myclass', 'svalue', 'evalue', 'defaultDate'],
+    template: '<div class="input-group date-picker input-daterange">'
+    +'<input type="text" :id="sid" class="form-control" :value="svalue" :class="myclass" :name="sid" @input="updateSelf($event.target.value)"> '
+    +'<span class="input-group-addon" > 到 </span>'
+    +'<input type="text" :id="eid" class="form-control" :value="evalue" :class="myclass" :name="eid" @input="updateSelf2($event.target.value)"> '
+    +'</div>',
+    mounted: function () {
+        var vm = this
+        var option = {
+            language: "zh-CN",
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            clearBtn: true,
+            todayHighlight: true
+        }
+        var dfdate = this.$attrs.defaultdate;
+        if (dfdate) {
+            var sp = dfdate.split('-');
+            option.defaultViewDate = { year: sp[0], month: sp[1] - 1, day: 1 }
+        }
+        $(this.$el).datepicker(option).on('change', function () {
+            vm.$emit('input', this.value)
+        });
+
+    },
+    methods: {
+        updateSelf(value) {
+            this.$emit('input', value)
+        },
+        updateSelf2(value) {
             this.$emit('input', value)
         }
     }

@@ -142,9 +142,9 @@ div {
 .page-sidebar-menu .sub-menu li > a {
     padding: 10px 15px 10px 43px !important;
 }
-.page-sidebar-menu 
-{
-    z-index:9999 !important;
+
+.page-sidebar-menu {
+    z-index: 9999 !important;
 }
 
 
@@ -169,7 +169,7 @@ div {
 }*/
 
 
-
+/*****************************************右侧内容样式*****************************************/
 
 
 
@@ -188,6 +188,12 @@ div {
         font-weight: 700;
         color: #888;
     }
+
+.portlet > .portlet-title > .caption {
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 20px;
+}
 
 /*****************************************底部样式*****************************************/
 .page-footer {
@@ -406,40 +412,7 @@ div {
         }
 
 
-/*@media (min-width: 768px) {
-    .col-sm-lable {
-        float: left;
-        width: 80px;
-    }
 
-    .col-sm-ipt {
-        float: left;
-        width: calc(100% - 80px)
-    }
-}
-
-.col-sm-lable, .col-sm-ipt {
-    position: relative;
-    min-height: 1px;
-    padding-right: 5px;
-    padding-left: 5px
-}
-
-.ipt-con > .row > div {
-    margin-bottom: 15px;
-}
-
-.ipt-con > .row > .col-sm-6 > div {
-    margin-bottom: 15px;
-}*/
-.has-error > label {
-    color: red;
-}
-
-.has-error .layui-layer.layui-layer-tips {
-    position: fixed !important;
-    z-index: 99999;
-}
 
 .date-picker[readonly] {
     background-color: #fff !important;
@@ -452,6 +425,51 @@ div {
     overflow-y: auto;
 }*/
 
+.select2-container {
+    z-index: 99999;
+}
+/************************错误信息提示样式************************/
+.form-group {
+    position: relative;
+}
 
+.has-error > label {
+    color: red;
+}
 
+.error-msg {
+    position: absolute;
+    display: none;
+    background: 0 0;
+    box-shadow: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    border-radius: 2px;
+    z-index: 9999;
+    width: auto;
+    white-space: nowrap;
+}
 
+    .error-msg .error-content {
+        position: relative;
+        line-height: 22px;
+        min-width: 12px;
+        padding: 8px 15px;
+        font-size: 12px;
+        border-radius: 2px;
+        box-shadow: 1px 1px 3px rgba(0,0,0,.2);
+        color: #fff;
+    }
+
+        .error-msg .error-content .error-arrow {
+            position: absolute;
+            left: -8px;
+            top: 5px;
+            border-bottom-style: solid;
+            width: 0;
+            height: 0;
+            border-width: 8px;
+            border-color: transparent;
+            border-style: dashed;
+        }

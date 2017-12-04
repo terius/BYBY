@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace BYBY.Infrastructure
 {
@@ -18,7 +13,7 @@ namespace BYBY.Infrastructure
     public enum CardType
     {
         [Description("身份证")]
-        SFZ,
+        SFZ = 1,
         [Description("居住证")]
         JuZhuZheng,
         [Description("签证")]
@@ -39,7 +34,7 @@ namespace BYBY.Infrastructure
         [Description("未婚")]
         WeiHun = 1,
         [Description("已婚")]
-        JieHun,
+        YiHun,
         [Description("离婚")]
         LiHun,
         [Description("再婚")]
@@ -48,7 +43,7 @@ namespace BYBY.Infrastructure
 
     public enum SortType
     {
-        None,
+        None = 1,
         Normal,
         Asc,
         Desc
@@ -60,7 +55,7 @@ namespace BYBY.Infrastructure
     public enum Sex
     {
         Male = 1,
-        Female = 0
+        Female = 2
     }
 
     /// <summary>
@@ -69,7 +64,7 @@ namespace BYBY.Infrastructure
     public enum ConsultationStatus
     {
         [Description("无")]
-        No,
+        No = 1,
         [Description("已取消")]
         Cancel,
         [Description("已完成")]
@@ -82,7 +77,7 @@ namespace BYBY.Infrastructure
     public enum ReferralStatus
     {
         [Description("未申请")]
-        NotRequest,
+        NotRequest = 1,
         [Description("申请中")]
         Requesting,
         [Description("已确认")]
@@ -90,10 +85,10 @@ namespace BYBY.Infrastructure
     }
 
 
-   public enum Education
+    public enum Education
     {
         [Description("小学")]
-        XiaoXue,
+        XiaoXue = 1,
         [Description("初中")]
         ChuZhong,
         [Description("高中")]

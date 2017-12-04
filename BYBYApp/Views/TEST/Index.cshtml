@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
 }
 
- <!-- BEGIN PAGE TITLE-->
+<!-- BEGIN PAGE TITLE-->
 <div class="page-content-title">
     <span class="title">病历管理</span>
 </div>
@@ -11,27 +11,10 @@
 <!-- END PAGE HEADER-->
 <div class="page-content-body">
     @*<div class="note note-info">
-        <p> 页面信息</p>
-    </div>*@
+            <p> 页面信息</p>
+        </div>*@
+  
     <div class="portlet light bordered">
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="icon-share font-dark hide"></i>
-                <span class="caption-subject font-dark bold uppercase">Quick Info</span>
-            </div>
-            <div class="actions">
-                <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                    <i class="icon-cloud-upload"></i>
-                </a>
-                <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                    <i class="icon-wrench"></i>
-                </a>
-                <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;"> </a>
-                <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                    <i class="icon-trash"></i>
-                </a>
-            </div>
-        </div>
         <div class="portlet-body">
             <form id="formadd" method="post" action="/TEST/CreateUser">
                 <table cellpadding="3">
@@ -54,14 +37,37 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2"><input id="Submit1" type="submit" value="提交" /></td>
+                        <td colspan="2"><input id="Submit1" type="submit" value="提交" /> </td>
                     </tr>
-                   
+
                 </table>
             </form>
         </div>
     </div>
+
+
 </div>
+
+@section styles
+{
+    @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
+    
+}
+
+@section pagejs
+{
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/select2")
+    <script>
+        $(function () {
+            $(".select2me").select2({
+                placeholder: "Select",
+                width: "resolve",
+                allowClear: true,
+                language: "zh-CN"
+            })
+        })
+    </script>
+}
 
 
 

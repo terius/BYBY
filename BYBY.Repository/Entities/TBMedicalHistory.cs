@@ -31,8 +31,24 @@ namespace BYBY.Repository.Entities
         [StringLength(200)]
         public string Remark { get; set; }
 
+        /// <summary>
+        /// 会诊状态
+        /// </summary>
         public ConsultationStatus ConsultationStatus { get; set; }
 
+        /// <summary>
+        /// 转诊状态
+        /// </summary>
         public ReferralStatus ReferralStatus { get; set; }
+
+        protected override void Validate()
+        {
+            if (dbaction == DBAction.Add)
+            {
+                this.ConsultationStatus = ConsultationStatus.No;
+                this.ReferralStatus = ReferralStatus.NotRequest;
+            }
+            base.Validate();
+        }
     }
 }

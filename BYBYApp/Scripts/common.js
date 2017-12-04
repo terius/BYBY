@@ -28,13 +28,12 @@ if ($.fn.dataTable) {
     });
 }
 
-var errorHtml = " <div  class=\"layui-layer-content\" style=\"background-color: rgb(242, 65, 0);\">{0}"
-    + "<i class=\"layui-layer-TipsG layui-layer-TipsR\" style= \"border-bottom-color: rgb(242, 65, 0);\" ></i></div>"
+
 
 $.fn.validateForm = function (option) {
     var defaultOption = {
         errorElement: 'div', //default input error message container
-        errorClass: 'layui-layer layui-layer-tips', // default input error message class
+        errorClass: 'error-msg', // default input error message class
         focusInvalid: false, // do not focus the last invalid input
         //   validClass: "isok",
         ignore: ".select2-focusser.select2-offscreen,:hidden",
@@ -69,9 +68,15 @@ $.fn.validateForm = function (option) {
             } else {
                 error.insertAfter(element); // for other inputs, just perform default behavior
             }
-            var emoffset = valInputWrap.offset();
+            var p = valInputWrap.position();
             var len = valInputWrap.outerWidth();
-            error.offset({ left: emoffset.left + len + 8, top: emoffset.top });
+            //com.showLog(valInputWrap.attr("id"))
+            //com.showLog(p, "p")
+            //com.showLog(len)
+            error.css({ left: p.left + len + 8, top: p.top })
+           // error.offset({ left: emoffset.left + len + 8, top: emoffset.top });
+
+           
         },
         highlight: function (element) { // hightlight error inputs
             $(element)
@@ -93,6 +98,7 @@ $.fn.validateForm = function (option) {
         defaultOption
     );
     t.on("change", "select.select2me.required,.select2.select2-offscreen", function () {
+        com.showLog("change")
         t.validate().element($(this));
     }).on("ifChanged", ".icheck-inline .required:radio", function () {
         t.validate().element($(this));
@@ -256,4 +262,20 @@ com.responsiveHeight = function (dom, rootDom, ignoreDom) {
 com.setContentHeight = function (dom, otherdom) {
 
     $(dom).outerHeight($(window).height() - $(otherdom).outerHeight(true));
+}
+
+function ShowSuccessThenGotoUrl(msg, url) {
+    layer.msg(msg, {
+        icon: 6, time: 1500, shade: 0.5
+    }, function () {
+        location.href = url;
+    });
+}
+
+function ShowSuccessThenGoBack(msg) {
+    layer.msg(msg, {
+        icon: 6, time: 1500, shade: 0.5
+    }, function () {
+        history.go(-1);
+    });
 }

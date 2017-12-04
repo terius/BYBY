@@ -7,13 +7,13 @@ namespace BYBY.Repository.Migrations
     {
         public override void Up()
         {
-            //DropForeignKey("dbo.TBUserRoles", "RoleId", "dbo.TBRoles");
-            //DropForeignKey("dbo.TBUserRoles", "UserId", "dbo.TBUsers");
+            DropForeignKey("dbo.TBUserRoles", "RoleId", "dbo.TBRoles");
+            DropForeignKey("dbo.TBUserRoles", "UserId", "dbo.TBUsers");
             DropIndex("dbo.TBUserRoles", new[] { "UserId" });
             DropIndex("dbo.TBUserRoles", new[] { "RoleId" });
-            //DropPrimaryKey("dbo.TBRoles");
-            //DropPrimaryKey("dbo.TBUserRoles");
-            //DropPrimaryKey("dbo.TBUsers");
+            DropPrimaryKey("dbo.TBRoles");
+            DropPrimaryKey("dbo.TBUserRoles");
+            DropPrimaryKey("dbo.TBUsers");
             AlterColumn("dbo.TBRoles", "Id", c => c.String(nullable: false, maxLength: 128));
             AlterColumn("dbo.TBUserRoles", "Id", c => c.String(nullable: false, maxLength: 128));
             AlterColumn("dbo.TBUserRoles", "UserId", c => c.String(maxLength: 128));
