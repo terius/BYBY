@@ -54,7 +54,12 @@ namespace BYBY.Repository.Entities
         /// </summary>
         [StringLength(50)]
         public string NativePlace { get; set; }
-        
+
+        /// <summary>
+        /// 教育程度
+        /// </summary>
+        public Education? Education { get; set; }
+
 
         public virtual ICollection<TBMedicalHistory> MaleMedicalHistorys { get; set; }
         public virtual ICollection<TBMedicalHistory> FeMaleMedicalHistorys { get; set; }
@@ -70,5 +75,7 @@ namespace BYBY.Repository.Entities
 
         [ForeignKey("EthnicId")]
         public virtual TBEthnic Ethnic { get; set; }
+
+
     }
 }

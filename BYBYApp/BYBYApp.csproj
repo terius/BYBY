@@ -211,6 +211,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DataTablesEntity.cs" />
+    <Compile Include="Models\MedicalHistoryDetailModel.cs" />
     <Compile Include="Models\MedicalHistoryAddModel.cs" />
     <Compile Include="Models\MedicalHistoryListModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -5743,6 +5744,7 @@
     <Content Include="Views\Shared\_Menu.cshtml" />
     <Content Include="Views\Shared\_Modal.cshtml" />
     <Content Include="Views\Main\Index.cshtml" />
+    <Content Include="Views\MedicalHistory\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

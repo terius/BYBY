@@ -20,6 +20,7 @@ namespace BYBY.Services
             {
                 view = new MedicalHistoryListView
                 {
+                    Id=item.Id,
                     FeMaleAge = item.FeMalePatient.Age.ToInt(),
                     FeMaleName = item.FeMalePatient.Name,
                     MaleAge = item.MalePatient.Age.ToInt(),
@@ -83,6 +84,17 @@ namespace BYBY.Services
             male.Sex = Sex.Male;
             return male;
 
+        }
+
+        public static MedicalHistoryEditRequest C_To_EditView(this TBMedicalHistory source)
+        {
+            var view = new MedicalHistoryEditRequest();
+            var female = source.FeMalePatient;
+            view.Address = source.Address;
+            view.FemaleBirthday = female.Birthday.ToDateString();
+            view.FemaleCardNo = female.CardNo;
+            view.FemaleCardType = female.CardType;
+          //  view.FemaleEducation= female.
         }
 
 

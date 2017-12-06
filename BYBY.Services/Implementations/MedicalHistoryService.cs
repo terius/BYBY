@@ -59,6 +59,12 @@ namespace BYBY.Services.Implementations
             return rs > 0 ? EmptyResponse.CreateSuccess("保存成功") : EmptyResponse.CreateError("保存失败");
         }
 
+        public async Task<MedicalHistoryEditRequest> GetEditData(int id)
+        {
+            var info = await _repository.GetAsync(id);
+           // var view = 
+        }
+
 
     }
 }

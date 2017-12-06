@@ -52,5 +52,11 @@ namespace BYBYApp.Controllers
             var response = await _medicalHistoryService.SaveAdd(request);
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+
+        public async Task<ActionResult> Detail(int Id)
+        {
+            var model = new MedicalHistoryDetailModel();
+            return View();
+        }
     }
 }

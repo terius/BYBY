@@ -8,6 +8,7 @@ namespace BYBY.Services.Views
 {
     public class MedicalHistoryListView
     {
+        public int Id { get; set; }
         public string FeMaleName { get; set; }
         public int FeMaleAge { get; set; }
         public string MaleName { get; set; }
