@@ -1,0 +1,132 @@
+﻿@model IList<BYBY.Repository.Entities.TBModule>
+
+<ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 10px">
+    @foreach (var item in Model)
+    {
+        if (item.Path == null)
+        {
+            <li class="nav-item">
+                <a href="javascript:;" class="nav-link nav-toggle">
+                    <i class="icon-folder"></i>
+                    <span class="title">@item.Text</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                    @foreach (var itemChild in Model)
+                    {
+                        if (itemChild.ParentId == item.Id)
+                        {
+                            <li class="nav-item">
+                                <a href="@itemChild.Path" class="nav-link">
+                                    <i class="icon-camera"></i>
+                                    <span class="title">@itemChild.Text</span>
+                                </a>
+                            </li>
+                        }
+                    }
+
+                </ul>
+            </li>
+        }
+        else if (item.ParentId == null)
+        {
+            <li class="nav-item">
+                <a href="@item.Path" class="nav-link">
+                    <i class="icon-notebook"></i>
+                    <span class="title">@item.Text</span>
+                </a>
+            </li>
+        }
+    }
+
+    @*<li class="nav-item">
+            <a href="~/MedicalHistory/Index" class="nav-link">
+                <i class="icon-notebook"></i>
+                <span class="title">BLGL</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="~/Consultation/Index" class="nav-link">
+                <i class="icon-user"></i>
+                <span class="title">HZGL</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="javascript:;" class="nav-link">
+                <i class="icon-user"></i>
+                <span class="title">转诊管理</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="icon-folder"></i>
+                <span class="title">子菜单1</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub-menu">
+                <li class="nav-item">
+                    <a href="~/TEST/Index" class="nav-link">
+                        <i class="icon-camera"></i>
+                        <span class="title">测试页面</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="~/Tranfer/Index" class="nav-link">
+                        <i class="icon-link"></i>
+                        <span class="title">ZZGL</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:;" class="nav-link">
+                        <i class="icon-pointer"></i>
+                        <span class="title">Sample Link 3</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:;" class="nav-link">
+                        <i class="icon-pointer"></i>
+                        <span class="title">Sample Link 3</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:;" class="nav-link">
+                        <i class="icon-pointer"></i>
+                        <span class="title">Sample Link 3</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:;" class="nav-link">
+                        <i class="icon-pointer"></i>
+                        <span class="title">Sample Link 3</span>
+                    </a>
+                </li>
+            </ul>
+        </li>*@
+
+</ul>
+<script>
+
+    var url = location.pathname;
+    var $menuRoot = $(".page-sidebar-menu");
+    $(".nav-item.active", $menuRoot).removeClass("active");
+    //  $(".page-sidebar-menu .nav-item.active").removeClass("active");
+    $(".nav-link", $menuRoot).each(function () {
+        if ($(this).attr("href").indexOf(url) >= 0) {
+            $(this).parent().addClass("active");
+            var $navLink = $(this).closest(".sub-menu").prev();
+            if ($navLink.length > 0) {
+                //$menuRoot.children('li.open').children('a').children('.arrow').removeClass('open');
+                //$menuRoot.children('li.open').children('.sub-menu:not(.always-open)').slideUp(200);
+                //$menuRoot.children('li.open').removeClass('open');
+
+                $navLink.children(".arrow").addClass("open");
+                $navLink.parent().addClass("open");
+                $navLink.next().slideDown(200);
+            }
+            return false;
+        }
+    })
+
+
+</script>
+

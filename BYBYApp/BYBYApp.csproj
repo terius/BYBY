@@ -196,7 +196,9 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ConsultationController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\MedicalHistoryController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\TESTController.cs" />
     <Compile Include="Controllers\TranferController.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
@@ -232,10 +234,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="fonts\Bad Script regular.ttf" />
+    <Content Include="images\close.png" />
     <Content Include="images\doctor.png" />
     <Content Include="images\doctorback.png" />
     <Content Include="images\icon_edit.png" />
     <Content Include="images\loading.gif" />
+    <Content Include="images\logo.png" />
     <Content Include="images\patient.png" />
     <Content Include="images\sort_asc.png" />
     <Content Include="images\sort_both.png" />
@@ -243,6 +247,8 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\common.js" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\阿里云发布.pubxml" />
     <None Include="Scripts\jquery-2.2.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.4.js" />
     <Content Include="Scripts\jquery-2.2.4.min.js" />
@@ -4889,7 +4895,6 @@
     <Content Include="Metronic\assets\global\plugins\wysihtml\wysihtml.table_editing.js" />
     <Content Include="Metronic\assets\global\plugins\wysihtml\wysihtml.toolbar.js" />
     <Content Include="Metronic\assets\global\scripts\app.js" />
-    <Content Include="Metronic\assets\global\scripts\app.min.js" />
     <Content Include="Metronic\assets\global\scripts\datatable.js" />
     <Content Include="Metronic\assets\global\scripts\datatable.min.js" />
     <Content Include="Metronic\assets\layouts\global\scripts\cookie-consent.js" />
@@ -5734,6 +5739,10 @@
     <Content Include="Views\Tranfer\Index.cshtml" />
     <Content Include="Views\Shared\_Paginator.cshtml" />
     <Content Include="Views\MedicalHistory\AddNew.cshtml" />
+    <Content Include="Views\Menu\Index.cshtml" />
+    <Content Include="Views\Shared\_Menu.cshtml" />
+    <Content Include="Views\Shared\_Modal.cshtml" />
+    <Content Include="Views\Main\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

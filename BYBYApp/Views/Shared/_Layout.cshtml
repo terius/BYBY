@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var truename = Request.Cookies["AccountCookies"].Values["truename"];
+}
+<!DOCTYPE html>
 <html>
 <head>
     @*<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />*@
@@ -43,10 +46,9 @@
             <!-- BEGIN HEADER INNER -->
             <div class="page-header-inner ">
                 <!-- BEGIN LOGO -->
-                <div class="page-logo">
-                    <a href="index.html">
-                        <img src="~/Metronic/assets/layouts/layout/img/logo.png" alt="logo" class="logo-default" />
-                    </a>
+                <div class="page-logo"><span class="logo">IVF HUB</span>
+                        @*<img src="~/images/logo.png" alt="logo" class="logo-default" />*@
+                
                     <div class="menu-toggler sidebar-toggler">
                         <span></span>
                     </div>
@@ -58,21 +60,19 @@
                 </a>
                 <!-- END RESPONSIVE MENU TOGGLER -->
                 <!-- BEGIN TOP NAVIGATION MENU -->
-                <div class="top-menu">
+                <div class="top-menu" id="user-account-content">
                     <ul class="nav navbar-nav pull-right">
-
-
                         <!-- BEGIN USER LOGIN DROPDOWN -->
                         <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
                         <li class="dropdown dropdown-user">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                 <img alt="" class="img-circle" src="~/Metronic/assets/layouts/layout/img/avatar3_small.jpg" />
-                                <span class="username username-hide-on-mobile"> Nick </span>
+                                <span class="username username-hide-on-mobile" style="font-size:18px"> @truename </span>
                                 <i class="fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
                                 <li>
-                                    <a href="page_user_profile_1.html">
+                                    <a href="#modal-changepwd" data-toggle='modal'>
                                         <i class="icon-user"></i> 修改密码
                                     </a>
                                 </li>
@@ -86,6 +86,7 @@
                         <!-- END USER LOGIN DROPDOWN -->
 
                     </ul>
+                 
                 </div>
                 <!-- END TOP NAVIGATION MENU -->
             </div>
@@ -110,149 +111,8 @@
                     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
                     <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
                     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-                    <ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 10px">
+                    @Html.Action("Index", "Menu")
 
-
-                        <li class="nav-item">
-                            <a href="~/MedicalHistory/Index" class="nav-link">
-                                <i class="icon-notebook"></i>
-                                <span class="title">@*病历管理*@BLGL</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="~/Consultation/Index" class="nav-link">
-                                <i class="icon-user"></i>
-                                <span class="title">@*会诊管理*@HZGL</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="javascript:;" class="nav-link">
-                                <i class="icon-user"></i>
-                                <span class="title">转诊管理</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="icon-folder"></i>
-                                <span class="title">子菜单1</span>
-                                <span class="arrow"></span>
-                            </a>
-                            <ul class="sub-menu">
-                                <li class="nav-item">
-                                    <a href="~/TEST/Index" class="nav-link">
-                                        <i class="icon-camera"></i>
-                                        <span class="title">测试页面</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="~/Tranfer/Index" class="nav-link">
-                                        <i class="icon-link"></i>
-                                        <span class="title">ZZGL</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="javascript:;" class="nav-link">
-                                        <i class="icon-pointer"></i>
-                                        <span class="title">Sample Link 3</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="javascript:;" class="nav-link">
-                                        <i class="icon-pointer"></i>
-                                        <span class="title">Sample Link 3</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="javascript:;" class="nav-link">
-                                        <i class="icon-pointer"></i>
-                                        <span class="title">Sample Link 3</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="javascript:;" class="nav-link">
-                                        <i class="icon-pointer"></i>
-                                        <span class="title">Sample Link 3</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="icon-folder"></i>
-                                <span class="title">子菜单2</span>
-                                <span class="arrow"></span>
-                            </a>
-                            <ul class="sub-menu">
-                                <li class="nav-item">
-                                    <a href="~/TEST1/Index" class="nav-link">
-                                        <i class="icon-camera"></i>
-                                        <span class="title">测试页面</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="~/Tranfer1/Index" class="nav-link">
-                                        <i class="icon-link"></i>
-                                        <span class="title">ZZGL</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="javascript:;" class="nav-link">
-                                        <i class="icon-pointer"></i>
-                                        <span class="title">Sample Link 3</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="javascript:;" class="nav-link">
-                                        <i class="icon-pointer"></i>
-                                        <span class="title">Sample Link 3</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="javascript:;" class="nav-link">
-                                        <i class="icon-pointer"></i>
-                                        <span class="title">Sample Link 3</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="javascript:;" class="nav-link">
-                                        <i class="icon-pointer"></i>
-                                        <span class="title">Sample Link 3</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="javascript:;" class="nav-link">
-                                        <i class="icon-pointer"></i>
-                                        <span class="title">Sample Link 3</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <script>
-
-                        var url = location.pathname;
-                        var $menuRoot = $(".page-sidebar-menu");
-                        $(".nav-item.active", $menuRoot).removeClass("active");
-                        //  $(".page-sidebar-menu .nav-item.active").removeClass("active");
-                        $(".nav-link", $menuRoot).each(function () {
-                            if ($(this).attr("href").indexOf(url) >= 0) {
-                                $(this).parent().addClass("active");
-                                var $navLink = $(this).closest(".sub-menu").prev();
-                                if ($navLink.length > 0) {
-                                    //$menuRoot.children('li.open').children('a').children('.arrow').removeClass('open');
-                                    //$menuRoot.children('li.open').children('.sub-menu:not(.always-open)').slideUp(200);
-                                    //$menuRoot.children('li.open').removeClass('open');
-
-                                    $navLink.children(".arrow").addClass("open");
-                                    $navLink.parent().addClass("open");
-                                    $navLink.next().slideDown(200);
-                                }
-                                return false;
-                            }
-                        })
-
-
-                    </script>
                     <!-- END SIDEBAR MENU -->
                     <!-- END SIDEBAR MENU -->
                 </div>
@@ -288,21 +148,70 @@
         </div>
         <!-- END FOOTER -->
     </div>
+    <div id="modal-container">
+        <v-modal v-cloak v-bind:tinfo="vinfo_changepwd" ref="vuemodal">
+            <div class="row">
+                <div class="col-md-12">
+                    <form id="pwdform">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-xs-3">旧密码<span class="requiredspan">*</span></label>
+                                <div class="col-xs-6">
+                                    <input type="password"  id="oldpwd" name="oldpwd" autocomplete="off"  class="form-control"  placeholder="请输入旧密码" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-3">新密码<span class="requiredspan">*</span></label>
+                                <div class="col-xs-6">
+                                    <input type="password" id="newpwd" name="newpwd" autocomplete="off"  class="form-control"  placeholder="请输入新密码" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-3 ">确认新密码<span class="requiredspan">*</span></label>
+                                <div class="col-xs-6">
+                                    <input type="password" id="cfnewpwd" name="cfnewpwd" autocomplete="off"  class="form-control"  placeholder="请输入确认新密码" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <button type="button" slot="bottom" class="btn blue btn-outline" id="btnSavePwd" >保  存</button>
+
+        </v-modal>
+    </div>
+    @{  Html.RenderPartial("_Modal");}
+
     <script>
-                        $("#mycontent").outerHeight($(window).height() - $(".page-header").outerHeight(true) - $(".page-footer").outerHeight(true) - 20);
-                        //$("#mycontent").slimScroll({
-                        //    allowPageScroll: true, // allow page scroll when the element scroll is ended
-                        //    size: '7px',
-                        //    color: '#2D5F8B',
-                        //    wrapperClass: ($(this).attr("data-wrapper-class") ? $(this).attr("data-wrapper-class") : 'slimScrollDiv'),
-                        //    railColor: ($(this).attr("data-rail-color") ? $(this).attr("data-rail-color") : '#eaeaea'),
-                        //    position: isRTL ? 'left' : 'right',
-                        //    height: height,
-                        //    alwaysVisible: ($(this).attr("data-always-visible") == "1" ? true : false),
-                        //    railVisible: ($(this).attr("data-rail-visible") == "1" ? true : false),
-                        //    disableFadeOut: true
-                        //});
+        $("#mycontent").outerHeight($(window).height() - $(".page-header").outerHeight(true) - $(".page-footer").outerHeight(true) - 20);
+        $(function () {
+            Vue.component('v-modal', {
+                template: "#modal-template",
+                props: ["tinfo"]
+            })
+
+            var vueChangePwd = new Vue({
+                el: '#modal-container',
+                data: {
+                    vinfo_changepwd: {
+                        id: "modal-changepwd",
+                        title: "修改密码",
+                        class: "",
+                        modalclass:""
+
+                    }
+                },
+                mounted: function () {
+                }
+            })
+
+            $("#btnSavePwd").on("click", function() {
+             
+            })
+
+        })
     </script>
+
     @*@Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
         @RenderSection("scripts", required: false)*@

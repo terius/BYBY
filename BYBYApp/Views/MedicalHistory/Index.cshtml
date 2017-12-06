@@ -4,34 +4,32 @@
 }
 
 @*<div class="page-content-title">
-    <span class="title">病历管理</span>
-</div>*@
+        <span class="title">病历管理</span>
+    </div>*@
 
 <div class="portlet light bordered">
-    <div class="portlet-title fixed">
+    <div class="portlet-title">
         <div class="caption">
             病历管理
         </div>
     </div>
 
-    <div class="portlet-title fixed">
+    <div class="portlet-title">
         <div class="querycontent">
             <div class="form-inline" id="query-content">
-                <select2 id="Hostpital" class="w196" data-placeholder="--请选择医院--" :options="info.HospitalList" >
+                <select2 id="Hostpital" class="w196" data-placeholder="--请选择医院--" :options="info.HospitalList">
                 </select2>
                 <div class="form-group margin-left-20">
                     <label for="search-key">患者信息：</label>
-                    <input type="text" class="form-control" id="search-key" placeholder="请输入">
+                    <input type="text" class="form-control" id="search-key" placeholder="请输入" v-model="info.skey">
                 </div>
                 <div class="form-group margin-left-20">
                     <label>申请日期：</label>
-                    <date-range-picker sid="txt_stime"  eid="txt_etime"  v-model="info.AddModel.MaleBirthday">
-                    </date-range-picker>
-                    @*<div class="input-group date-picker input-daterange">
-                        <input type="text" id="txt_stime" class="form-control" name="from">
+                    <div class="input-group date-picker input-daterange">
+                        <input type="text" id="txt_stime" class="form-control s-time" name="txt_stime" v-model="info.STime" readonly>
                         <span class="input-group-addon"> 到 </span>
-                        <input type="text" id="txt_etime" class="form-control" name="to">
-                    </div>*@
+                        <input type="text" id="txt_etime" class="form-control e-time" name="txt_etime" v-model="info.ETime" readonly>
+                    </div>
                 </div>
                 <button type="button" class="btn blue btn-outline margin-left-20" id="btn-query">
                     <i class="fa fa-search"></i> 查询
@@ -80,10 +78,17 @@
                         <td>{{info.MaleAge}}</td>
                         <td>{{info.FeMalePhone}}</td>
                         <td>{{info.MalePhone}}</td>
-                        <td><button type="button" class="btn btn-outline blue" style="width:100px" onclick="alert('aaa')">{{info.ConsultationStatus}}</button></td>
-                        <td>{{info.ReferralStatus}}</td>
+                        <td><span class="font-blue">{{info.ConsultationStatus}}</span></td>
+                        <td><span class="font-blue">{{info.ReferralStatus}}</span></td>
                         <td>{{info.Addtime}}</td>
-                        <td>aaa</td>
+                        <td>
+                            <div style="padding-top:5px">
+                                <a href="javascript:;" class="margin-right-10"><i class="fa fa-2x fa-file-text-o tooltips" data-container="body" data-placement="top" data-original-title="病历详细" ></i></a>
+                                <a href="javascript:;" class="margin-right-10"><i class="fa fa-2x fa-stethoscope tooltips" data-container="body" data-placement="top" data-original-title="会诊"></i></a>
+                                <a href="javascript:;" class="margin-right-10"><i class="fa fa-2x fa-ambulance tooltips" data-container="body" data-placement="top" data-original-title="转诊"></i></a>
+                                <a href="javascript:;"><i class="fa fa-2x fa-remove tooltips" data-container="body" data-placement="top" data-original-title="删除"></i></a>
+                            </div>
+                        </td>
                     </tr>
                     <tr class="detail-view">
                         <td colspan="11">
@@ -136,22 +141,43 @@
 {
     @System.Web.Optimization.Scripts.Render("~/bundles/js/select2")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/datetimepicker")
+
     <script>
         $(function () {
+
+
             var vuetable;
-            com.responsiveHeight("#tableshow", "#mycontent");
+          //  com.responsiveHeight("#tableshow", "#mycontent");
             Vue.component('v-page', {
                 template: "#vuetmp-paginator",
                 props: ["page"]
             })
 
-            var allData= @Html.RenderAsJson(Model);
+            var allData = @Html.RenderAsJson(Model);
+            allData.STime = "";
+            allData.ETime = "";
+            allData.skey = "";
             var vuequery = new Vue({
                 el: '#query-content',
                 data: {
                     info: allData
+                },
+                mounted: function () {
+                    var vm = this;
+                    com.handleDateRangePicker();
+                    $(".input-daterange input.s-time").on('change', function (ob) {
+                        vm.info.STime = ob.target.value;
+                    });
+                    $(".input-daterange input.e-time").on('change', function (ob) {
+                        vm.info.ETime = ob.target.value;
+                    });
                 }
             })
+
+
+
+
+
 
             //    $(window).on("resize", App.initSlimScroll('#tableshow'));
 
@@ -173,7 +199,8 @@
                                 datas: mydata
                             },
                             mounted: function () {
-                                App.initSlimScroll('#tableshow');
+                                $('.tooltips').tooltip();
+                              //  App.initSlimScroll('#tableshow');
                             },
                             methods: {
                                 showDetail: function (event) {
@@ -205,7 +232,8 @@
             }
             search();
             $("#btn-query").on("click", function () {
-                search();
+                com.showLog(vuequery.info);
+              //  search();
             })
 
 

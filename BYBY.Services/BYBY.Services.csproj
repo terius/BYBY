@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="Account\RoleManager.cs" />
     <Compile Include="Account\RoleStore.cs" />
+    <Compile Include="Account\RoleFactory.cs" />
     <Compile Include="Account\UserFactory.cs" />
     <Compile Include="Account\UserManager.cs" />
     <Compile Include="Account\UserStore.cs" />

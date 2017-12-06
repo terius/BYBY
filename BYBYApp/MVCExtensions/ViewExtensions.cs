@@ -31,6 +31,10 @@ namespace BYBYApp
             return helper.Raw(Json.Encode(model));
         }
 
-
+        public static HtmlString GetUserName(this HtmlHelper helper)
+        {
+            var userName = HttpContext.Current.User.Identity.Name;
+            return new HtmlString(userName);
+        }
     }
 }

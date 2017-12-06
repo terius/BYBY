@@ -1,22 +1,24 @@
 ﻿using BYBY.Cache;
 using BYBY.Cache.CacheStorage;
 using BYBY.Infrastructure;
+using BYBY.Repository.Entities;
+using BYBY.Services.Account;
 using BYBY.Services.Response;
 using BYBYApp.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Reflection;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
-using System.Linq;
+using Microsoft.AspNet.Identity;
+using System.Web.Security;
 
 namespace BYBYApp.Controllers
 {
     public class BaseController : Controller
     {
         readonly ICacheService _cacheService = CacheManager.GetCacheService();
+        readonly RoleManager _roleManager = RoleFactory.GetRoleManager();
         public JsonResult ErrorJson(string errorMessage)
         {
             EmptyResponse res = new EmptyResponse();
@@ -81,6 +83,39 @@ namespace BYBYApp.Controllers
             return cacheData;
         }
 
+        public void SaveRoleModuleToSession(TBUser user, string roleName)
+        {
+            var modules = user.GetModules(roleName);
+            Session["RoleModule"] = modules;
+        }
+
+        public string RoleName
+        {
+            get
+            {
+                //RolePrincipal r = (RolePrincipal)User;
+                //var rolesArray = r.GetRoles();
+                //return rolesArray[0];
+                return Request.Cookies["AccountCookies"].Values["rolename"];
+            }
+        }
+
+        public async Task<IList<TBModule>> GetRoleModules()
+        {
+            var modules = Session["RoleModule"] as IList<TBModule>;
+            if (modules == null)
+            {
+                var role = await _roleManager.FindByNameAsync(RoleName);
+                modules = role.RoleModules.Select(d => d.Module).OrderBy(d => d.OrderBy).ToList();
+            }
+            return modules;
+        }
+
+        public async Task<IList<TBModule>> GetModulesForMenu()
+        {
+            var list = await GetRoleModules();
+            return list.Where(d => d.IsMenu == true).ToList();
+        }
 
 
     }

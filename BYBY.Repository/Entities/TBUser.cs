@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace BYBY.Repository.Entities
 {
@@ -42,6 +43,11 @@ namespace BYBY.Repository.Entities
         {
             base.Validate();
 
+        }
+
+        public IList<TBModule> GetModules(string roleName)
+        {
+            return UserRoles.FirstOrDefault(d => d.Role.Name == roleName).Role.RoleModules.Select(d => d.Module).OrderBy(d => d.OrderBy).ToList();
         }
 
     }

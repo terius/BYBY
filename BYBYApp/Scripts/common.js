@@ -279,3 +279,15 @@ function ShowSuccessThenGoBack(msg) {
         history.go(-1);
     });
 }
+
+com.handleDateRangePicker = function () {
+    if ($.fn.datepicker) {
+        $('.input-daterange').datepicker({
+            language: "zh-CN",
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            clearBtn: true,
+            todayHighlight: true
+        });
+    }
+}

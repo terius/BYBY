@@ -57,6 +57,7 @@ namespace BYBYApp.App_Start {
             DynamicModuleUtility.RegisterModule(typeof(StructureMapScopeModule));
 
             UserFactory.InitializeLogFactory(container.GetInstance<UserManager>());
+            RoleFactory.InitializeLogFactory(container.GetInstance<RoleManager>());
             LoggingFactory.InitializeLogFactory(container.GetInstance<ILogger>());
             CacheManager.InitializeCacheFactory(container.GetInstance<ICacheService>());
         }

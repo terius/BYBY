@@ -1,4 +1,5 @@
-﻿using BYBY.Services.Interfaces;
+﻿using BYBY.Cache;
+using BYBY.Services.Interfaces;
 using BYBY.Services.Request;
 using BYBY.Services.Response;
 using BYBYApp.Models;
@@ -20,7 +21,7 @@ namespace BYBYApp.Controllers
         public async Task<ActionResult> Index()
         {
             var model = new MedicalHistoryListModel();
-            model.HospitalList = await GetCacheAsync(BYBY.Cache.CacheKeys.Hospital);
+            model.HospitalList = await GetCacheAsync(CacheKeys.Hospital);
             return View(model);
         }
 

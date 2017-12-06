@@ -1,17 +1,17 @@
 ﻿namespace BYBY.Services.Account
 {
-    public class UserFactory
+    public class RoleFactory
     {
-        private static UserManager _user;
+        private static RoleManager _role;
 
-        public static void InitializeLogFactory(UserManager user)
+        public static void InitializeLogFactory(RoleManager role)
         {
-            _user = user;
+            _role = role;
         }
 
-        public static UserManager GetUserManager()
+        public static RoleManager GetRoleManager()
         {
-            return _user;
+            return _role;
         }
     }
 }

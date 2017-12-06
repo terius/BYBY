@@ -1,5 +1,6 @@
 ﻿using BYBY.Infrastructure.Helpers;
 using BYBY.Infrastructure.Loger;
+using BYBY.Repository.Entities;
 using BYBY.Services.Account;
 using BYBY.Services.Interfaces;
 using BYBY.Services.Response;
@@ -18,6 +19,7 @@ namespace BYBYApp.Controllers
     public class AccountController : BaseController
     {
         readonly UserManager _userManager = UserFactory.GetUserManager();
+      //  readonly UserManager _userManager = UserFactory.GetUserManager();
         readonly IUserAccountService _userAccountService;
         public AccountController(IUserAccountService userAccountService)
         {
@@ -28,7 +30,7 @@ namespace BYBYApp.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
-            ClearSession();
+        //    ClearSession();
             return View();
         }
 
@@ -73,12 +75,21 @@ namespace BYBYApp.Controllers
                     return ErrorJson("用户名或密码错误");
                 }
 
-              //  _userManager.get
+                bool isInRole = await _userManager.IsInRoleAsync(user.Id, loginModel.RoleName);
+                if (!isInRole)
+                {
+                    return ErrorJson("登录角色错误");
+                }
+              
+                //  _userManager.get
                 // 2. 利用ASP.NET Identity获取identity 对象
                 var identity = await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
                 // 3. 将上面拿到的identity对象登录
 
                 AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+
+                SaveRoleModuleToSession(user, loginModel.RoleName);
+                Response.Cookies.Add(CreateAccountCookie(user,loginModel.RoleName));
 
                 //var request = new UserLoginRequest { UserName = loginModel.UserName, Password = loginModel.Password, RoleId = loginModel.RoleId };
                 //var response = await _userAccountService.UserLogin(request);
@@ -96,10 +107,24 @@ namespace BYBYApp.Controllers
             return Json(EmptyResponse.CreateSuccess(), JsonRequestBehavior.AllowGet);
         }
 
+        private HttpCookie CreateAccountCookie(TBUser user, string roleName)
+        {
+            HttpCookie roleCookies = new HttpCookie("AccountCookies");
+            roleCookies.Values.Add("username", user.UserName);
+            roleCookies.Values.Add("truename", user.Name);
+            roleCookies.Values.Add("rolename", roleName);
+           // roleCookies.Value = roleName;
+            roleCookies.Expires = DateTime.Now.AddDays(1);
+           
+            return roleCookies;
+        }
+
+
+
         [HttpGet]
         public ActionResult LogOut()
         {
-
+            ClearSession();
             return RedirectToAction("Login");
         }
 
@@ -107,20 +132,20 @@ namespace BYBYApp.Controllers
         {
             AuthenticationManager.SignOut();
             Session.Abandon();
-            string[] myCookies = Request.Cookies.AllKeys;
-            foreach (string cookie in myCookies)
-            {
-                if (cookie != "__RequestVerificationToken")
-                {
-                    Response.Cookies[cookie].Expires = DateTime.Now.AddDays(-1);
-                }
+            //string[] myCookies = Request.Cookies.AllKeys;
+            //foreach (string cookie in myCookies)
+            //{
+            //   // if (cookie != "__RequestVerificationToken")
+            //   // {
+            //        Response.Cookies[cookie].Expires = DateTime.Now.AddDays(-1);
+            //  //  }
 
-            }
+            //}
         }
 
 
 
-      
+
 
         private IAuthenticationManager AuthenticationManager
         {

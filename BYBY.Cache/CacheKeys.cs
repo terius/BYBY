@@ -29,6 +29,10 @@
         /// <summary>
         /// 医院
         /// </summary>
-        Hospital
+        Hospital,
+        /// <summary>
+        /// 角色模块
+        /// </summary>
+        RoleModule
     }
 }

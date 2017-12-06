@@ -91,6 +91,15 @@ namespace BYBY.Cache
             }
             return list;
         }
+
+        //public void SaveRoleModulesToCache(TBUser user, string roleName)
+        //{
+        //    var Modules = user.GetModules(roleName);
+        //    _cacheStorage.Remove(CacheKeys.RoleModule.ToString());
+        //    _cacheStorage.Store(CacheKeys.RoleModule.ToString(), Modules);
+        //}
+
+       
     }
 
     public static class ConvertExt

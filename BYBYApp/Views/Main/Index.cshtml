@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 blue" href="#">
+            <div class="visual">
+                <i class="fa fa-plus-square"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <span>新建患者</span>
+                </div>
+                <div class="desc"></div>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 red" href="#">
+            <div class="visual">
+                <i class="fa fa-stethoscope"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <span>会诊状态</span>
+                </div>
+                <div class="desc"><span>申请中：6</span><span>确认：2</span><span>取消：2</span></div>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 green" href="#">
+            <div class="visual">
+                <i class="fa fa-ambulance"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <span>转诊状态</span>
+                </div>
+                <div class="desc"><span>申请中：9</span><span>确认：2</span><span>取消：2</span></div>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 purple" href="#">
+            <div class="visual">
+                <i class="fa fa-calendar"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <span>排版总览</span>
+                </div>
+                <div class="desc">27</div>
+            </div>
+        </a>
+    </div>
+</div>
+<div class="portlet light bordered">
+  
+
+    <div class="portlet-title">
+       
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        内容
+
+    </div>
+</div>
+
+@section styles
+{
+    <style>
+        .dashboard-stat .details {
+            /*position: absolute;*/
+            left: 30px;
+            right: auto !important;
+        }
+
+        .dashboard-stat .visual {
+            float: right;
+        }
+
+        .dashboard-stat .details .number {
+            text-align: left;
+        }
+
+        .dashboard-stat .details .desc {
+            padding-top: 20px;
+            text-align: left;
+        }
+
+            .dashboard-stat .details .desc > span {
+                padding-right: 15px;
+            }
+    </style>
+
+}
+

@@ -18,6 +18,8 @@ namespace BYBY.Repository
         public DbSet<TBNation> TBNations { get; set; }
         public DbSet<TBJob> TBJobs { get; set; }
         public DbSet<TBEthnic> TBEthnics { get; set; }
+
+        public DbSet<TBModule> TBModules { get; set; }
         public BYBYDBContext()
             : base("name=conn1")
         {

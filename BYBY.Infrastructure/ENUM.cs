@@ -68,7 +68,11 @@ namespace BYBY.Infrastructure
         [Description("已取消")]
         Cancel,
         [Description("已完成")]
-        Complete
+        Complete,
+        [Description("申请中")]
+        Requsting,
+        [Description("已确认")]
+        Confirm
     }
 
     /// <summary>

@@ -61,6 +61,8 @@
     <Compile Include="Entities\TBHospital.cs" />
     <Compile Include="Entities\TBMedicalHistory.cs" />
     <Compile Include="Entities\TBJob.cs" />
+    <Compile Include="Entities\TBRoleModule.cs" />
+    <Compile Include="Entities\TBModule.cs" />
     <Compile Include="Entities\TBPatient.cs" />
     <Compile Include="Entities\TBRole.cs" />
     <Compile Include="Entities\TBNation.cs" />
@@ -170,6 +172,26 @@
     <Compile Include="Migrations\201712040149483_set-TBMedicalHistory-LandlinePhone-maxlength50.Designer.cs">
       <DependentUpon>201712040149483_set-TBMedicalHistory-LandlinePhone-maxlength50.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712050316239_AddTBModule.cs" />
+    <Compile Include="Migrations\201712050316239_AddTBModule.Designer.cs">
+      <DependentUpon>201712050316239_AddTBModule.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712050535082_TBModuleAddIsMenu.cs" />
+    <Compile Include="Migrations\201712050535082_TBModuleAddIsMenu.Designer.cs">
+      <DependentUpon>201712050535082_TBModuleAddIsMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712050547193_TBModuleAddOrderBy.cs" />
+    <Compile Include="Migrations\201712050547193_TBModuleAddOrderBy.Designer.cs">
+      <DependentUpon>201712050547193_TBModuleAddOrderBy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712050600245_AddTBRoleModule.cs" />
+    <Compile Include="Migrations\201712050600245_AddTBRoleModule.Designer.cs">
+      <DependentUpon>201712050600245_AddTBRoleModule.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712051126179_TBModuleAddIcon.cs" />
+    <Compile Include="Migrations\201712051126179_TBModuleAddIcon.Designer.cs">
+      <DependentUpon>201712051126179_TBModuleAddIcon.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -258,6 +280,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712040149483_set-TBMedicalHistory-LandlinePhone-maxlength50.resx">
       <DependentUpon>201712040149483_set-TBMedicalHistory-LandlinePhone-maxlength50.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712050316239_AddTBModule.resx">
+      <DependentUpon>201712050316239_AddTBModule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712050535082_TBModuleAddIsMenu.resx">
+      <DependentUpon>201712050535082_TBModuleAddIsMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712050547193_TBModuleAddOrderBy.resx">
+      <DependentUpon>201712050547193_TBModuleAddOrderBy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712050600245_AddTBRoleModule.resx">
+      <DependentUpon>201712050600245_AddTBRoleModule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712051126179_TBModuleAddIcon.resx">
+      <DependentUpon>201712051126179_TBModuleAddIcon.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

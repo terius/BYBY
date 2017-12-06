@@ -115,9 +115,6 @@ div {
 }
 
 
-
-
-
 /*顶部样式*/
 .page-header.navbar, .page-header.navbar .page-logo {
     height: 80px !important;
@@ -125,6 +122,17 @@ div {
 
 .top-menu {
     margin-top: 15px !important;
+}
+.page-logo .logo {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #fff;
+}
+.page-sidebar-closed .page-logo .logo 
+{
+    display:none;
 }
 
 
@@ -163,20 +171,14 @@ div {
     margin-top: 30px !important;
 }
 
+.logo-default {
+    margin-top: 20px !important;
+}
 /*.page-footer
 {
     margin-left:235px !important;
 }*/
-
-
 /*****************************************右侧内容样式*****************************************/
-
-
-
-
-
-
-
 .page-content-title {
     border-bottom: 1px solid #e7ecf1;
     padding: 0 0 10px;
@@ -418,15 +420,23 @@ div {
     background-color: #fff !important;
 }
 
+.input-daterange input[readonly] {
+    background-color: #fff;
+}
 /************************select2样式************************/
 /*.select2-results__options {
     min-height: 400px;
     max-height: 400px;
     overflow-y: auto;
 }*/
+/*.select2-container {
+    z-index: 20000;
+}*/
 
-.select2-container {
-    z-index: 99999;
+
+/************************datepicker样式************************/
+.datepicker.datepicker-dropdown {
+    z-index: 20001;
 }
 /************************错误信息提示样式************************/
 .form-group {
@@ -473,3 +483,25 @@ div {
             border-color: transparent;
             border-style: dashed;
         }
+
+
+/************************Modal样式************************/
+.modal-dialog 
+{
+    margin-top:100px;
+}
+
+
+
+.modal-dialog .modal-header {
+    background-color: #4a83b6;
+    color: #fff;
+    border-radius: 4px 4px 0 0;
+}
+
+    .modal-dialog .modal-header .close {
+        margin-top: 3px !important;
+        width: 20px;
+        height: 20px;
+        background-image: url(/images/close.png) !important;
+    }
