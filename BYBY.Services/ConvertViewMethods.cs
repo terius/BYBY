@@ -62,6 +62,7 @@ namespace BYBY.Services
             female.NationaId = source.FemaleNation;
             female.NativePlace = source.FemaleNativePlace;
             female.Sex = Sex.Female;
+          
             return female;
 
         }
@@ -90,11 +91,44 @@ namespace BYBY.Services
         {
             var view = new MedicalHistoryEditRequest();
             var female = source.FeMalePatient;
+            view.Id = source.Id;
             view.Address = source.Address;
+            view.FixPhone = source.LandlinePhone;
+            view.Remark = source.Remark;
+            view.MedicalHistoryNo = source.MedicalHistoryNo;
+
+            view.FemaleId = female.Id;
             view.FemaleBirthday = female.Birthday.ToDateString();
             view.FemaleCardNo = female.CardNo;
             view.FemaleCardType = female.CardType;
-          //  view.FemaleEducation= female.
+            view.FemaleEducation = female.Education;
+            view.FemaleEthnic = female.EthnicId;
+            view.FemaleHouseholdAddress = female.HouseholdAddress;
+            view.FemaleJob = female.JobId;
+            view.FemaleMarriage = female.MaritalStatus;
+            view.FemaleName = female.Name;
+            view.FemaleNation = female.NationaId;
+            view.FemaleNativePlace = female.NativePlace;
+            view.FemalePhone = female.ContactPhone;
+            view.FemaleAge = female.Birthday.GetAge();
+
+            var male = source.MalePatient;
+            view.MaleId = male.Id;
+            view.MaleBirthday = male.Birthday.ToDateString();
+            view.MaleCardNo = male.CardNo;
+            view.MaleCardType = male.CardType;
+            view.MaleEducation = male.Education;
+            view.MaleEthnic = male.EthnicId;
+            view.MaleHouseholdAddress = male.HouseholdAddress;
+            view.MaleJob = male.JobId;
+            view.MaleMarriage = male.MaritalStatus;
+            view.MaleName = male.Name;
+            view.MaleNation = male.NationaId;
+            view.MaleNativePlace = male.NativePlace;
+            view.MalePhone = male.ContactPhone;
+            view.MaleAge = male.Birthday.GetAge();
+
+            return view;
         }
 
 

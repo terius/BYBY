@@ -53,10 +53,11 @@ namespace BYBYApp.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> Detail(int Id)
+        public async Task<ActionResult> Detail(int id)
         {
             var model = new MedicalHistoryDetailModel();
-            return View();
+            model.EditModel = await _medicalHistoryService.GetEditData(id);
+            return View(model);
         }
     }
 }

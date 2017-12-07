@@ -20,5 +20,13 @@ namespace BYBY.Services.Interfaces
         /// <param name="request"></param>
         /// <returns></returns>
         Task<EmptyResponse> SaveAdd(MedicalHistoryAddRequest request);
+
+
+        /// <summary>
+        /// 获取病历编辑信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<MedicalHistoryEditRequest> GetEditData(int id);
     }
 }

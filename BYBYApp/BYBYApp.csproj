@@ -238,9 +238,11 @@
     <Content Include="images\close.png" />
     <Content Include="images\doctor.png" />
     <Content Include="images\doctorback.png" />
+    <Content Include="images\Female.png" />
     <Content Include="images\icon_edit.png" />
     <Content Include="images\loading.gif" />
     <Content Include="images\logo.png" />
+    <Content Include="images\male.png" />
     <Content Include="images\patient.png" />
     <Content Include="images\sort_asc.png" />
     <Content Include="images\sort_both.png" />

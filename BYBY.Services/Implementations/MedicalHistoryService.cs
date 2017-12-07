@@ -62,7 +62,8 @@ namespace BYBY.Services.Implementations
         public async Task<MedicalHistoryEditRequest> GetEditData(int id)
         {
             var info = await _repository.GetAsync(id);
-           // var view = 
+            var view = info.C_To_EditView();
+            return view;
         }
 
 

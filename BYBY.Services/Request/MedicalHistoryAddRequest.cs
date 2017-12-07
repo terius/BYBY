@@ -36,6 +36,8 @@ namespace BYBY.Services.Request
 
         public string FemaleNativePlace { get; set; }
         public string FemaleHouseholdAddress { get; set; }
+
+        public int FemaleAge { get; set; }
         #endregion
 
         #region 男方信息
@@ -55,7 +57,9 @@ namespace BYBY.Services.Request
 
         public string MaleNativePlace { get; set; }
         public string MaleHouseholdAddress { get; set; }
+
+        public int MaleAge { get; set; }
         #endregion
-        
+
     }
 }

@@ -123,6 +123,7 @@ div {
 .top-menu {
     margin-top: 15px !important;
 }
+
 .page-logo .logo {
     display: inline-block;
     margin-top: 20px;
@@ -130,9 +131,9 @@ div {
     font-weight: 700;
     color: #fff;
 }
-.page-sidebar-closed .page-logo .logo 
-{
-    display:none;
+
+.page-sidebar-closed .page-logo .logo {
+    display: none;
 }
 
 
@@ -391,7 +392,7 @@ div {
     line-height: 40px;*/
 }
 
-.editmode .col-md-6, .editmode .col-md-12 {
+.editmode .col-md-6, .editmode .col-md-12, .viewmode .col-md-6, .viewmode .col-md-12 {
     padding-left: 0;
     padding-right: 0;
     background-color: #fff !important;
@@ -401,19 +402,49 @@ div {
 
 
 
-.editmode .col-md-12 {
+.editmode > .col-md-12, .viewmode > .col-md-12 {
     margin-bottom: 20px;
 }
 
-    .editmode .col-md-12 > .form-group {
-        margin-right: 20px;
+.editmode .col-md-12 > .form-group, .viewmode .col-md-12 > .form-group {
+    margin-right: 20px;
+}
+
+    .editmode .col-md-12 > .form-group > input {
+        margin-left: 0 !important;
     }
 
-        .editmode .col-md-12 > .form-group > input {
-            margin-left: 0 !important;
-        }
 
+.viewmode .title {
+    margin: 0 !important;
+    padding: 10px;
+    text-align: left;
+    background-color: #ddd;
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+}
 
+/*.viewmode > .col-md-12 > .form-group {
+    padding: 0 10px 10px;
+    margin-bottom: 0;
+}
+
+    .viewmode > .col-md-12 > .form-group:first-child {
+        padding-top: 10px;
+    }*/
+
+.viewmode .info-title {
+    font-weight: 700 !important;
+    width: 80px;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.viewmode strong
+{
+    padding-left:20px;
+}
 
 
 .date-picker[readonly] {
@@ -486,22 +517,54 @@ div {
 
 
 /************************Modal样式************************/
-.modal-dialog 
-{
-    margin-top:100px;
+.modal-dialog {
+    margin-top: 100px;
 }
 
 
 
-.modal-dialog .modal-header {
-    background-color: #4a83b6;
-    color: #fff;
-    border-radius: 4px 4px 0 0;
+    .modal-dialog .modal-header {
+        background-color: #4a83b6;
+        color: #fff;
+        border-radius: 4px 4px 0 0;
+    }
+
+        .modal-dialog .modal-header .close {
+            margin-top: 3px !important;
+            width: 20px;
+            height: 20px;
+            background-image: url(/images/close.png) !important;
+        }
+
+
+/************************************************页面样式************************************************/
+
+/*病历详细页面*/
+.title-patient {
+    font-size: 20px;
+    font-weight: 700;
+    padding-bottom: 10px;
 }
 
-    .modal-dialog .modal-header .close {
-        margin-top: 3px !important;
-        width: 20px;
-        height: 20px;
-        background-image: url(/images/close.png) !important;
+    .title-patient span {
+        display: inline-block;
+        height: 40px;
+        line-height: 40px;
+        /*width: 150px;*/
+        padding-left: 40px;
+        padding-right: 10px;
+    }
+
+        .title-patient span.age {
+            padding-left: 0;
+            font-size: 16px;
+            color: #888;
+        }
+
+    .title-patient .female {
+        background: url(/images/Female.png) no-repeat left;
+    }
+
+    .title-patient .male {
+        background: url(/images/male.png) no-repeat left;
     }

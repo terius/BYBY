@@ -192,6 +192,10 @@
     <Compile Include="Migrations\201712051126179_TBModuleAddIcon.Designer.cs">
       <DependentUpon>201712051126179_TBModuleAddIcon.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712070134070_TBMedicalHistoryAddEducation.cs" />
+    <Compile Include="Migrations\201712070134070_TBMedicalHistoryAddEducation.Designer.cs">
+      <DependentUpon>201712070134070_TBMedicalHistoryAddEducation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -295,6 +299,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712051126179_TBModuleAddIcon.resx">
       <DependentUpon>201712051126179_TBModuleAddIcon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712070134070_TBMedicalHistoryAddEducation.resx">
+      <DependentUpon>201712070134070_TBMedicalHistoryAddEducation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
