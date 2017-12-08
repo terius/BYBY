@@ -46,7 +46,7 @@
             <!-- BEGIN HEADER INNER -->
             <div class="page-header-inner ">
                 <!-- BEGIN LOGO -->
-                <div class="page-logo"><span class="logo">IVF HUB</span>
+                <div class="page-logo"><span class="logo" id="mylogo">IVF HUB</span>
                         @*<img src="~/images/logo.png" alt="logo" class="logo-default" />*@
                 
                     <div class="menu-toggler sidebar-toggler">
@@ -123,7 +123,7 @@
             <div class="page-content-wrapper">
                 <!-- BEGIN CONTENT BODY -->
                 <div class="page-content">
-                    <div class="page-inner-content scroller" id="mycontent">
+                    <div class="page-inner-content" id="mycontent">
                         @RenderBody()
 
                     </div>
@@ -183,13 +183,11 @@
     @{  Html.RenderPartial("_Modal");}
 
     <script>
-        $("#mycontent").outerHeight($(window).height() - $(".page-header").outerHeight(true) - $(".page-footer").outerHeight(true) - 20);
         $(function () {
             Vue.component('v-modal', {
                 template: "#modal-template",
                 props: ["tinfo"]
             })
-
             var vueChangePwd = new Vue({
                 el: '#modal-container',
                 data: {

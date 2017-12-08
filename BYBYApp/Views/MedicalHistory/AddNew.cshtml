@@ -20,15 +20,15 @@
             @Html.AntiForgeryToken()
             <div class="form-inline">
                 <div class="row editmode" id="editform">
-                    <div class="col-md-12">
-                        <div class="title">患者卡号信息</div>
+                    <div class="col-md-12 viewtitle">
+                        <div class="viewtitle">患者卡号信息</div>
                     </div>
                     <div class="col-md-12">
                         <edit-input id="MedicalHistoryNo" text="病历号" myclass="w300" v-model="info.AddModel.MedicalHistoryNo">
                         </edit-input>
                     </div>
                     <div class="col-md-12">
-                        <div class="title">联系方式及备注</div>
+                        <div class="viewtitle">联系方式及备注</div>
                     </div>
                     <div class="col-md-12">
                         <edit-input id="FemalePhone" maxlength="100" text="女方电话" v-model="info.AddModel.FemalePhone">
@@ -50,7 +50,7 @@
                     </div>
 
                     <div class="col-md-12">
-                        <div class="title">女方信息</div>
+                        <div class="viewtitle">女方信息</div>
                     </div>
                     <div class="col-md-12">
                         <edit-input id="FemaleName" text="姓名" myclass="required" v-model="info.AddModel.FemaleName">
@@ -110,7 +110,7 @@
 
                     @*男方信息*@
                     <div class="col-md-12">
-                        <div class="title">男方信息</div>
+                        <div class="viewtitle">男方信息</div>
                     </div>
                     <div class="col-md-12">
                         <edit-input id="MaleName" text="姓名" myclass="required" v-model="info.AddModel.MaleName">
@@ -248,18 +248,18 @@
 
 
             //测试
-           vueadd.info.AddModel.MedicalHistoryNo = "324234723434";
-           vueadd.info.AddModel.FemalePhone = "13965774654";
-           vueadd.info.AddModel.MalePhone = "13775648455";
-           vueadd.info.AddModel.FemaleName = "张玲";
-           vueadd.info.AddModel.FemaleBirthday = "1980-11-02";
-           vueadd.info.AddModel.FemaleCardType = "3";
-           vueadd.info.AddModel.FemaleCardNo = "320584394855096523";
+           //vueadd.info.AddModel.MedicalHistoryNo = "324234723434";
+           //vueadd.info.AddModel.FemalePhone = "13965774654";
+           //vueadd.info.AddModel.MalePhone = "13775648455";
+           //vueadd.info.AddModel.FemaleName = "张玲";
+           //vueadd.info.AddModel.FemaleBirthday = "1980-11-02";
+           //vueadd.info.AddModel.FemaleCardType = "3";
+           //vueadd.info.AddModel.FemaleCardNo = "320584394855096523";
 
-           vueadd.info.AddModel.MaleName = "王大伟";
-           vueadd.info.AddModel.MaleBirthday = "1979-03-02";
-           vueadd.info.AddModel.MaleCardType = "1";
-           vueadd.info.AddModel.MaleCardNo = "320584394328596509";
+           //vueadd.info.AddModel.MaleName = "王大伟";
+           //vueadd.info.AddModel.MaleBirthday = "1979-03-02";
+           //vueadd.info.AddModel.MaleCardType = "1";
+           //vueadd.info.AddModel.MaleCardNo = "320584394328596509";
            //$('.date-picker').datepicker({
            //    autoclose: true,
            //    format: "yyyy-mm-dd",

@@ -5718,6 +5718,7 @@
     <Content Include="Metronic\assets\pages\scripts\widgets.min.js" />
     <Content Include="Scripts\myajax.js" />
     <Content Include="Scripts\myvue.js" />
+    <Content Include="Scripts\page\MedicalHistoryDetail.js" />
     <Content Include="Scripts\validate-ex.js" />
     <Content Include="Scripts\vue.js" />
     <Content Include="Scripts\vue.min.js" />

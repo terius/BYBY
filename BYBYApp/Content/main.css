@@ -85,6 +85,9 @@
     width: 450px !important;
 }
 
+.w-auto {
+    width: auto !important;
+}
 /*@font-face {
     font-family: myfont;
     src: url('../fonts/Bad Script regular.ttf');
@@ -378,32 +381,30 @@ div {
     padding-right: 10px;
 }
 
-.editmode .title {
-    margin: 0 !important;
-    padding: 10px;
-    text-align: left;
-    background-color: #07a7e1;
-    /*margin-top: 10px !important;*/
-    /*margin-bottom: 10px !important;*/
-    font-size: 16px;
-    font-weight: 700;
-    color: #fff;
-    /*height: 40px;
-    line-height: 40px;*/
-}
-
 .editmode .col-md-6, .editmode .col-md-12, .viewmode .col-md-6, .viewmode .col-md-12 {
     padding-left: 0;
     padding-right: 0;
-    background-color: #fff !important;
+    background-color: #fff;
+}
+
+ .viewtitle {
+    margin: 0;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 700;
+    height: 42px;
+    line-height: 42px;
+    padding:0 10px;
+}
+
+.editmode .viewtitle {
+    background-color: #07a7e1;
+    color: #fff;
 }
 
 
-
-
-
 .editmode > .col-md-12, .viewmode > .col-md-12 {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .editmode .col-md-12 > .form-group, .viewmode .col-md-12 > .form-group {
@@ -415,16 +416,16 @@ div {
     }
 
 
-.viewmode .title {
-    margin: 0 !important;
-    padding: 10px;
-    text-align: left;
-    background-color: #ddd;
-    font-size: 16px;
-    font-weight: 700;
-    color: #333;
-}
 
+
+
+
+
+.viewtitle .actions {
+    float: right;
+    display: inline-block;
+    padding-bottom: 10px;
+}
 /*.viewmode > .col-md-12 > .form-group {
     padding: 0 10px 10px;
     margin-bottom: 0;
@@ -433,17 +434,20 @@ div {
     .viewmode > .col-md-12 > .form-group:first-child {
         padding-top: 10px;
     }*/
-
-.viewmode .info-title {
+.viewmode label:first-child {
     font-weight: 700 !important;
     width: 80px;
     text-align: right;
     padding-right: 10px;
 }
 
-.viewmode strong
-{
-    padding-left:20px;
+.viewmode label:last-child {
+    min-width: 150px;
+}
+
+.viewmode .viewtitle {
+    background-color: #ddd;
+    color: #333;
 }
 
 

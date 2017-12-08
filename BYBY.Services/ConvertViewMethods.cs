@@ -112,6 +112,13 @@ namespace BYBY.Services
             view.FemalePhone = female.ContactPhone;
             view.FemaleAge = female.Birthday.GetAge();
 
+            view.FemaleCardTypeText = female.CardType.GetEnumDescription();
+            view.FemaleEducationText = female.Education.GetEnumDescription();
+            view.FemaleEthnicText = female.Ethnic == null ? "" : female.Ethnic.Name;
+            view.FemaleJobText = female.Job == null ? "" : female.Job.Name;
+            view.FemaleMarriageText = female.MaritalStatus.GetEnumDescription();
+            view.FemaleNationText = female.Nationality == null ? "" : female.Nationality.Chinese;
+
             var male = source.MalePatient;
             view.MaleId = male.Id;
             view.MaleBirthday = male.Birthday.ToDateString();
@@ -127,6 +134,13 @@ namespace BYBY.Services
             view.MaleNativePlace = male.NativePlace;
             view.MalePhone = male.ContactPhone;
             view.MaleAge = male.Birthday.GetAge();
+
+            view.MaleCardTypeText = male.CardType.GetEnumDescription();
+            view.MaleEducationText = male.Education.GetEnumDescription();
+            view.MaleEthnicText = male.Ethnic == null ? "" : male.Ethnic.Name;
+            view.MaleJobText = male.Job == null ? "" : male.Job.Name;
+            view.MaleMarriageText = male.MaritalStatus.GetEnumDescription();
+            view.MaleNationText = male.Nationality == null ? "" : male.Nationality.Chinese;
 
             return view;
         }
