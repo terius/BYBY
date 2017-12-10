@@ -1,0 +1,6 @@
+﻿(function () {
+    $(function () {
+
+        com.autoScrollContent();
+    })
+})()

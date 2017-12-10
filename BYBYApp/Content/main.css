@@ -424,7 +424,6 @@ div {
 .viewtitle .actions {
     float: right;
     display: inline-block;
-    padding-bottom: 10px;
 }
 /*.viewmode > .col-md-12 > .form-group {
     padding: 0 10px 10px;
@@ -450,6 +449,10 @@ div {
     color: #333;
 }
 
+.underline
+{
+    border-bottom:1px solid #ddd;
+}
 
 .date-picker[readonly] {
     background-color: #fff !important;

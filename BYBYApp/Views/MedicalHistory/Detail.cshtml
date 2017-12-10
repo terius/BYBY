@@ -63,7 +63,9 @@
                                             <div class="col-md-12">
                                                 <div class="viewtitle">联系方式及备注</div>
                                             </div>
-                                            <div class="col-md-12">
+
+                                            <div class="col-md-12 underline">
+
                                                 <div class="form-group">
                                                     <label class="info-title">女方电话:</label>
                                                     <label class="info-value">{{info.FemalePhone}}</label>
@@ -78,13 +80,13 @@
                                                     <label class="info-value">{{info.FixPhone}}</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 underline">
                                                 <div class="form-group">
                                                     <label class="info-title">通讯地址:</label>
                                                     <label class="info-value">{{info.Address}}</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 underline">
                                                 <div class="form-group">
                                                     <label class="info-title">备注:</label>
                                                     <label class="info-value">{{info.Remark}}</label>
@@ -94,7 +96,7 @@
                                             <div class="col-md-12">
                                                 <div class="viewtitle">女方信息</div>
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 underline">
                                                 <div class="form-group">
                                                     <label>姓名:</label>
                                                     <label class="info-value">{{info.FemaleName}}</label>
@@ -104,7 +106,7 @@
                                                     <label class="info-value">{{info.FemaleBirthday}}</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 underline">
                                                 <div class="form-group">
                                                     <label class="info-title">证件类型:</label>
                                                     <label class="info-value">{{info.FemaleCardTypeText}}</label>
@@ -118,7 +120,7 @@
                                                     <label class="info-value">{{info.FemaleMarriageText}}</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 underline">
                                                 <div class="form-group">
                                                     <label class="info-title">国籍:</label>
                                                     <label class="info-value">{{info.FemaleNationText}}</label>
@@ -132,7 +134,7 @@
                                                     <label class="info-value">{{info.FemaleEthnicText}}</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 underline">
                                                 <div class="form-group">
                                                     <label class="info-title">文化程度:</label>
                                                     <label class="info-value">{{info.FemaleEducationText}}</label>
@@ -149,7 +151,7 @@
                                             <div class="col-md-12">
                                                 <div class="viewtitle">男方信息</div>
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 underline">
                                                 <div class="form-group">
                                                     <label class="info-title">姓名:</label>
                                                     <label class="info-value">{{info.MaleName}}</label>
@@ -160,7 +162,7 @@
                                                 </div>
 
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 underline">
                                                 <div class="form-group">
                                                     <label class="info-title">证件类型:</label>
                                                     <label class="info-value">{{info.MaleCardTypeText}}</label>
@@ -174,7 +176,7 @@
                                                     <label class="info-value">{{info.MaleMarriageText}}</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 underline">
                                                 <div class="form-group">
                                                     <label class="info-title">国籍:</label>
                                                     <label class="info-value">{{info.MaleNationText}}</label>
@@ -188,7 +190,7 @@
                                                     <label class="info-value">{{info.MaleEthnicText}}</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 underline">
                                                 <div class="form-group">
                                                     <label class="info-title">文化程度:</label>
                                                     <label class="info-value">{{info.MaleEducationText}}</label>
@@ -406,10 +408,10 @@
     @System.Web.Optimization.Scripts.Render("~/bundles/js/datetimepicker")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
-   
+
     <script>
         $(function () {
-        
+
             var allData = @Html.RenderAsJson(Model);
             var vueadd = new Vue({
                 el: '#base-info',
@@ -419,7 +421,7 @@
                 mounted: function () {
                     // com.setContentHeight("#editform",)
                     //  App.initSlimScroll('#editform');
-                
+
                 },
                 methods: {
 
@@ -435,6 +437,6 @@
             })
         })
     </script>
-<script src="~/Scripts/page/MedicalHistoryDetail.js"></script>
+    <script src="~/Scripts/page/MedicalHistoryDetail.js"></script>
 }
 
