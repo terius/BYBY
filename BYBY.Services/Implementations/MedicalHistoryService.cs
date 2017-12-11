@@ -5,6 +5,8 @@ using BYBY.Services.Interfaces;
 using BYBY.Services.Request;
 using BYBY.Services.Response;
 using BYBY.Services.Views;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -59,11 +61,47 @@ namespace BYBY.Services.Implementations
             return rs > 0 ? EmptyResponse.CreateSuccess("保存成功") : EmptyResponse.CreateError("保存失败");
         }
 
+        public async Task<EmptyResponse> SaveEditBaseInfo(MedicalHistoryEditRequest request)
+        {
+            var mhInfo = await _repository.GetAsync(request.MHId);
+            if (mhInfo == null)
+            {
+                throw new NullReferenceException("病历信息为空，无法修改");
+            }
+            var femaleInfo = request.C_To_FemaleTBPatient(mhInfo.FeMalePatient);
+            var maleInfo = request.C_To_MaleTBPatient(mhInfo.MalePatient);
+
+            mhInfo.Address = request.Address;
+            mhInfo.AddUserName = femaleInfo.AddUserName = maleInfo.AddUserName = GetLoginUserName();
+            mhInfo.FeMalePatient = femaleInfo;
+            mhInfo.MalePatient = maleInfo;
+            mhInfo.LandlinePhone = request.FixPhone;
+            mhInfo.MedicalHistoryNo = request.MedicalHistoryNo;
+            mhInfo.Remark = request.Remark;
+            await _repository.UpdateAsync(mhInfo);
+            int rs = _unitOfWork.Commit();
+
+            return rs > 0 ? EmptyResponse.CreateSuccess("保存成功") : EmptyResponse.CreateError("保存失败");
+        }
+
         public async Task<MedicalHistoryEditRequest> GetEditData(int id)
         {
             var info = await _repository.GetAsync(id);
             var view = info.C_To_EditView();
             return view;
+        }
+
+
+        public async Task<IList<MedicalDetailRequest>> GetMedicalDetails(TBPatient patient)
+        {
+            var rs = Task.Run(() =>
+           {
+               var view = patient.MedicalDetails.C_To_MedicalDetailRequests();
+               return view;
+           }).Result;
+
+
+            return await Task.FromResult(rs);
         }
 
 

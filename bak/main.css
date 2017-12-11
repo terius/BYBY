@@ -261,25 +261,25 @@ div {
 
 
 
-.tb-detail-view {
+.detail-view {
     display: none;
 }
 
-    .tb-detail-view > td {
+    .detail-view > td {
         text-align: left !important;
     }
 
 
-    .tb-detail-view p {
+    .detail-view p {
         margin: 5px auto !important;
     }
 
-        .tb-detail-view p > b {
+        .detail-view p > b {
             margin-right: 10px;
         }
 
 
-    .tb-detail-view.open {
+    .detail-view.open {
         display: table-row;
     }
 
@@ -384,7 +384,64 @@ div {
 
 
 
-/************************************************编辑及详细页面样式************************************************/
+.editmode .form-group label {
+    font-weight: 700 !important;
+    width: 80px;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.info-title {
+    font-weight: 700 !important;
+    width: 80px;
+    text-align: right;
+    padding-right: 10px;
+}
+
+/*编辑页面样式*/
+
+.editmode .col-md-6, .editmode .col-md-12 {
+    padding-left: 0;
+    padding-right: 0;
+    background-color: #fff;
+}
+
+
+
+.editmode .pg-title {
+    background-color: #07a7e1;
+    color: #fff;
+}
+
+
+.editmode > .col-md-12, .pg-detail > .col-md-12 {
+    margin-bottom: 10px;
+}
+
+.editmode .col-md-12 > .form-group, .pg-detail .col-md-12 > .form-group {
+    margin-right: 20px;
+}
+
+    .editmode .col-md-12 > .form-group > input {
+        margin-left: 0 !important;
+    }
+
+
+/*详细页面样式*/
+
+    .pg-detail > .col-md-12 {
+        padding-left: 0;
+        padding-right: 0;
+    }
+        .pg-detail > .col-md-12 > .form-group {
+            padding: 5px 0;
+        }
+
+
+    /*.pg-detail .pg-content {
+        padding: 5px 0;
+    }*/
+
 
 
 .pg-title {
@@ -398,49 +455,30 @@ div {
 }
 
 
-.edit-view > .col-md-12, .detail-view > .col-md-12 {
-    padding-left: 0;
-    padding-right: 0;
-    margin-bottom: 10px;
+
+
+/*.pg-title .actions {
+    float: right;
+    display: inline-block;
+}*/
+/*.pg-detail > .col-md-12 > .form-group {
+    padding: 0 10px 10px;
+    margin-bottom: 0;
 }
 
-    .edit-view > .col-md-12 > .form-group, .detail-view > .col-md-12 > .form-group {
-        margin-right: 20px;
-    }
-
-        .edit-view > .col-md-12 > .form-group > label:first-child, .detail-view > .col-md-12 > .form-group > label:first-child {
-            font-weight: 700 !important;
-            width: 80px;
-            text-align: right;
-            padding-right: 10px;
-        }
-
-        .edit-view > .col-md-12 > .form-group > label:last-child, .detail-view > .col-md-12 > .form-group > label:last-child {
-            min-width: 150px;
-        }
+    .pg-detail > .col-md-12 > .form-group:first-child {
+        padding-top: 10px;
+    }*/
 
 
-.edit-view .pg-title {
-    background-color: #07a7e1;
-    color: #fff;
+.info-value {
+    min-width: 150px;
 }
 
-.detail-view .pg-title {
+.pg-detail .pg-title {
     background-color: #ddd;
     color: #333;
 }
-
-
-.edit-view .col-md-12 > .form-group > input {
-    margin-left: 0 !important;
-}
-
-
-/*.detail-view > .col-md-12 > .form-group {
-    padding: 5px 0;
-}*/
-
-
 
 .underline {
     border-bottom: 1px solid #ddd;
@@ -450,7 +488,6 @@ div {
     border-top: 1px solid #ddd;
 }
 
-/************************************************日期选择框样式************************************************/
 .date-picker[readonly] {
     background-color: #fff !important;
 }
@@ -572,10 +609,3 @@ div {
     .title-patient .male {
         background: url(/images/male.png) no-repeat left;
     }
-
-/************************************************手风琴样式************************************************/
-.accordion .panel-title .accordion-toggle {
-    background-color: #07a7e1;
-    color: #fff;
-    font-weight:700;
-}

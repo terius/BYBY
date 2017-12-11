@@ -280,6 +280,14 @@ function ShowSuccessThenGoBack(msg) {
     });
 }
 
+function ShowSuccessThenReload(msg) {
+    layer.msg(msg, {
+        icon: 6, time: 1500, shade: 0.5
+    }, function () {
+        location.reload();
+    });
+}
+
 com.handleDateRangePicker = function () {
     if ($.fn.datepicker) {
         $('.input-daterange').datepicker({

@@ -1,0 +1,62 @@
+﻿@model BYBYApp.Models.MedicalHistoryDetailModel
+<div class="panel-group accordion" id="accordion-female">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-female" href="#collapse_1">初诊病历</a>
+            </h4>
+        </div>
+        <div id="collapse_1" class="panel-collapse in">
+            <div class="panel-body ">
+                <div class="form-inline detail-view">
+                    <div class="col-md-12">
+                        <div class="pg-title">现病史</div>
+                    </div>
+                    <div class="col-md-12 underline ">
+                        <div class="form-group">
+                            <label>主诉:</label>
+                            <label>@Model.EditModel.FemaleName</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>现病史:</label>
+                            <label>啊啊啊啊</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pg-title">既往史</div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>肝炎:</label>
+                            <label class="w250">无</label>
+                        </div>
+                        <div class="form-group">
+                            <label>手术史:</label>
+                            <label class="w250">无</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-female" href="#collapse_2"> Collapsible Group Item #2 </a>
+            </h4>
+        </div>
+        <div id="collapse_2" class="panel-collapse collapse">
+            <div class="panel-body" style="height:2000px; overflow-y:auto;">
+                啊啊啊啊啊啊
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(function() {
+       
+    })
+</script>

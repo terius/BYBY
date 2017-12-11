@@ -34,12 +34,12 @@ namespace BYBYApp.Controllers
         public async Task<ActionResult> AddNew()
         {
             MedicalHistoryAddModel model = new MedicalHistoryAddModel();
-            model.CardTypeList = await GetCacheAsync(BYBY.Cache.CacheKeys.CardType);
-            model.MarriageList = await GetCacheAsync(BYBY.Cache.CacheKeys.Marriage);
-            model.EducationList = await GetCacheAsync(BYBY.Cache.CacheKeys.Education);
-            model.NationList = await GetCacheAsync(BYBY.Cache.CacheKeys.Nation, true);
-            model.JobList = await GetCacheAsync(BYBY.Cache.CacheKeys.Job);
-            model.EthnicList = await GetCacheAsync(BYBY.Cache.CacheKeys.Ethnic, true);
+            model.CardTypeList = await GetCacheAsync(CacheKeys.CardType);
+            model.MarriageList = await GetCacheAsync(CacheKeys.Marriage);
+            model.EducationList = await GetCacheAsync(CacheKeys.Education);
+            model.NationList = await GetCacheAsync(CacheKeys.Nation, true);
+            model.JobList = await GetCacheAsync(CacheKeys.Job);
+            model.EthnicList = await GetCacheAsync(CacheKeys.Ethnic, true);
             model.AddModel.FemaleNation = model.AddModel.MaleNation = DefaultChinaId;
             model.AddModel.FemaleEthnic = model.AddModel.MaleEthnic = DefaultEthnicId;
             return View(model);
@@ -56,8 +56,23 @@ namespace BYBYApp.Controllers
         public async Task<ActionResult> Detail(int id)
         {
             var model = new MedicalHistoryDetailModel();
+            model.CardTypeList = await GetCacheAsync(CacheKeys.CardType);
+            model.MarriageList = await GetCacheAsync(CacheKeys.Marriage);
+            model.EducationList = await GetCacheAsync(CacheKeys.Education);
+            model.NationList = await GetCacheAsync(CacheKeys.Nation);
+            model.JobList = await GetCacheAsync(CacheKeys.Job);
+            model.EthnicList = await GetCacheAsync(CacheKeys.Ethnic);
             model.EditModel = await _medicalHistoryService.GetEditData(id);
+          //  model.FemaleMedicalDetails = await _medicalHistoryService.GetMedicalDetails(model.female)
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SaveEditBaseInfo(MedicalHistoryEditRequest request)
+        {
+            var response = await _medicalHistoryService.SaveEditBaseInfo(request);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
     }
 }

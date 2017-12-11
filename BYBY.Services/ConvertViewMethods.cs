@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Reflection;
 using BYBY.Infrastructure.Helpers;
 using BYBY.Infrastructure;
+using AutoMapper;
 
 namespace BYBY.Services
 {
@@ -20,7 +21,7 @@ namespace BYBY.Services
             {
                 view = new MedicalHistoryListView
                 {
-                    Id=item.Id,
+                    Id = item.Id,
                     FeMaleAge = item.FeMalePatient.Age.ToInt(),
                     FeMaleName = item.FeMalePatient.Name,
                     MaleAge = item.MalePatient.Age.ToInt(),
@@ -46,9 +47,12 @@ namespace BYBY.Services
             return dest;
         }
 
-        public static TBPatient C_To_FemaleTBPatient(this MedicalHistoryAddRequest source)
+        public static TBPatient C_To_FemaleTBPatient(this MedicalHistoryAddRequest source, TBPatient female = null)
         {
-            var female = new TBPatient();
+            if (female == null)
+            {
+                female = new TBPatient();
+            }
             female.Birthday = source.FemaleBirthday.ToDate();
             female.Age = female.Birthday.GetAge();
             female.CardNo = source.FemaleCardNo;
@@ -62,14 +66,18 @@ namespace BYBY.Services
             female.NationaId = source.FemaleNation;
             female.NativePlace = source.FemaleNativePlace;
             female.Sex = Sex.Female;
-          
+            female.Education = source.FemaleEducation;
+
             return female;
 
         }
 
-        public static TBPatient C_To_MaleTBPatient(this MedicalHistoryAddRequest source)
+        public static TBPatient C_To_MaleTBPatient(this MedicalHistoryAddRequest source, TBPatient male = null)
         {
-            var male = new TBPatient();
+            if (male == null)
+            {
+                male = new TBPatient();
+            }
             male.Birthday = source.MaleBirthday.ToDate();
             male.Age = male.Birthday.GetAge();
             male.CardNo = source.MaleCardNo;
@@ -83,6 +91,7 @@ namespace BYBY.Services
             male.NationaId = source.MaleNation;
             male.NativePlace = source.MaleNativePlace;
             male.Sex = Sex.Male;
+            male.Education = source.MaleEducation;
             return male;
 
         }
@@ -91,7 +100,7 @@ namespace BYBY.Services
         {
             var view = new MedicalHistoryEditRequest();
             var female = source.FeMalePatient;
-            view.Id = source.Id;
+            view.MHId = source.Id;
             view.Address = source.Address;
             view.FixPhone = source.LandlinePhone;
             view.Remark = source.Remark;
@@ -142,6 +151,25 @@ namespace BYBY.Services
             view.MaleMarriageText = male.MaritalStatus.GetEnumDescription();
             view.MaleNationText = male.Nationality == null ? "" : male.Nationality.Chinese;
 
+            return view;
+        }
+
+
+        public static IList<MedicalDetailRequest> C_To_MedicalDetailRequests(this IEnumerable<TBMedicalDetail> source)
+        {
+            IList<MedicalDetailRequest> dest = new List<MedicalDetailRequest>();
+            MedicalDetailRequest view;
+            foreach (var item in source)
+            {
+                view = item.C_To_MedicalDetailRequest();
+                dest.Add(view);
+            }
+            return dest;
+        }
+
+        public static MedicalDetailRequest C_To_MedicalDetailRequest(this TBMedicalDetail source)
+        {
+            var view = Mapper.Map<MedicalDetailRequest>(source);
             return view;
         }
 

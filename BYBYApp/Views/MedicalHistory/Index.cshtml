@@ -83,14 +83,14 @@
                         <td>{{info.Addtime}}</td>
                         <td>
                             <div style="padding-top:5px">
-                                <a :href="'/MedicalHistory/Detail/' + info.Id" class="margin-right-10"><i class="fa fa-2x fa-file-text-o tooltips" data-container="body" data-placement="top" data-original-title="病历详细" ></i></a>
+                                <a :href="'/MedicalHistory/Detail/' + info.Id" class="margin-right-10"><i class="fa fa-2x fa-file-text-o tooltips" data-container="body" data-placement="top" data-original-title="病历详细"></i></a>
                                 <a href="javascript:;" class="margin-right-10"><i class="fa fa-2x fa-stethoscope tooltips" data-container="body" data-placement="top" data-original-title="会诊"></i></a>
                                 <a href="javascript:;" class="margin-right-10"><i class="fa fa-2x fa-ambulance tooltips" data-container="body" data-placement="top" data-original-title="转诊"></i></a>
                                 <a href="javascript:;"><i class="fa fa-2x fa-remove tooltips" data-container="body" data-placement="top" data-original-title="删除"></i></a>
                             </div>
                         </td>
                     </tr>
-                    <tr class="detail-view">
+                    <tr class="tb-detail-view">
                         <td colspan="11">
                             <div class="col-md-6">
                                 <p><b>女方姓名:</b>{{info.FeMaleName}}</p>
@@ -207,7 +207,7 @@
                                     //  alert(event);
                                     if (event) {
                                         var $currBtn = $(event.target);
-                                        $("#query-table tbody .detail-view").removeClass("open");
+                                        $("#query-table tbody .tb-detail-view").removeClass("open");
                                         var isDetailClosed = $currBtn.hasClass("fa-plus");
                                         //  alert(isDetailClosed);
                                         if (isDetailClosed) {

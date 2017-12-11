@@ -28,5 +28,7 @@ namespace BYBYApp.Models
 
 
         public MedicalHistoryEditRequest EditModel { get; set; }
+
+        public IList<MedicalDetailRequest> FemaleMedicalDetails { get; set; }
     }
 }
