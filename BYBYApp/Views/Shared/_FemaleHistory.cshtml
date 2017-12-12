@@ -12,9 +12,10 @@
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-female" :href="'#collapse_' + md.MDId">初诊病历</a>
             </h4>
         </div>
-        <div :id="'#collapse_' + md.MDId" class="panel-collapse in">
+        <div :id="'collapse_' + md.MDId" :class="'panel-collapse ' +  [index==0?'in':'collapse']">
             <div class="panel-body person-md">
                 @*女方病历查看页面开始*@
+
 
                 <div class="form-inline detail-view ">
                     <div class="col-md-12">
@@ -32,236 +33,218 @@
                             <label>{{md.CurrentInfo}}</label>
                         </div>
                     </div>
+                    <div class="col-md-12">
+                        <div class="pg-title">既往史</div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>肝炎:</label>
+                            <label class="w250">{{md.PastHepatitis}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>手术史:</label>
+                            <label class="w250">{{md.PastSurgery}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>结核:</label>
+                            <label class="w250">{{md.PastTuberculosis}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>泌尿系统疾病:</label>
+                            <label class="w250">{{md.PastUrinarySystemDisease}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>心血管疾病:</label>
+                            <label class="w250">{{md.PastCardiovascularDisease}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>盆腔炎:</label>
+                            <label class="w250">{{md.PastPelvicInflammatoryDisease}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>性传播疾病:</label>
+                            <label class="w250">{{md.PastSTD}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>肾脏疾病:</label>
+                            <label class="w250">{{md.PastKidneyDisease}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>其他:</label>
+                            <label class="w250">{{md.PastOther}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pg-title">个人史</div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>吸烟:</label>
+                            <label class="w250">{{md.PersonalSmoke}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>酗酒:</label>
+                            <label class="w250">{{md.PersonalAlcoholism}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>吸毒:</label>
+                            <label class="w250">{{md.PersonalDrug}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>习惯用药:</label>
+                            <label class="w250">{{md.PersonalHabitMedication}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>药物过敏:</label>
+                            <label class="w250">{{md.PersonalDrugAllergy}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pg-title">月经史</div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>初潮:</label>
+                            <label class="w250">{{md.MenstruationFirstAge}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>月经周期（天）:</label>
+                            <label class="w250">{{md.MenstruationCycle}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>持续时间（天）:</label>
+                            <label class="w250">{{md.MenstruationDuration}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>经量:</label>
+                            <label class="w250">{{md.MenstruationVolume}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>痛经:</label>
+                            <label class="w250">{{md.MenstruationDysmenorrhea}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>血块:</label>
+                            <label class="w250">{{md.MenstruationGore}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>末次月经:</label>
+                            <label class="w250">{{md.MenstruationLast}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pg-title">婚育史</div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>近亲结婚:</label>
+                            <label class="w250">{{md.MarriageRelatives}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>再婚:</label>
+                            <label class="w250">{{md.MarriageRemarry}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>末次妊娠时间:</label>
+                            <label class="w250">{{md.MarriageLastPregnancyDate}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>子女:</label>
+                            <label class="w250">{{md.MarriageChildren}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>生育:</label>
+                            <label class="w250">{{md.MarriageFertility}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>异位妊娠次数:</label>
+                            <label class="w250">{{md.MarriageEctopicPregnancy}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>手术名称及时间:</label>
+                            <label class="w250">{{md.MarriageSurgeryAndDate}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pg-title">体格检查</div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>身高（cm）:</label>
+                            <label class="w250">{{md.PhysiqueHeight}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>体重（kg）:</label>
+                            <label class="w250">{{md.PhysiqueWeight}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>体重指数:</label>
+                            <label class="w250">{{md.PhysiqueBMI}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pg-title">妇科检查</div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>外阴:</label>
+                            <label class="w250">{{md.GynecologyVulva}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>阴道:</label>
+                            <label class="w250">{{md.GynecologyVaginal}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>宫颈:</label>
+                            <label class="w250">{{md.GynecologyCervix}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>宫体:</label>
+                            <label class="w250">{{md.GynecologyCervixBody}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>双附件:</label>
+                            <label class="w250">{{md.GynecologyDoubleAtt}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pg-title">诊断，治疗意见</div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>诊断:</label>
+                            <label class="w250">{{md.TreatmentAdviceDiagnosis}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>治疗意见:</label>
+                            <label class="w250">{{md.TreatmentAdvice}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>诊治医生:</label>
+                            <label class="w250">{{md.DiagnosisDoctorId}}</label>
+                        </div>
+                    </div>
                 </div>
-
-                @*<div class="form-inline detail-view ">
-                        <div class="col-md-12">
-                            <div class="pg-title">现病史</div>
-                        </div>
-                        <div class="col-md-12 underline ">
-                            <div class="form-group">
-                                <label>主诉:</label>
-                                <label>@md.CurrentInfoMain</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12 underline">
-                            <div class="form-group">
-                                <label>现病史:</label>
-                                <label>@md.CurrentInfoMain</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="pg-title">既往史</div>
-                        </div>
-                        <div class="col-md-12 underline">
-                            <div class="form-group">
-                                <label>肝炎:</label>
-                                <label class="w300">@md.PastHepatitis</label>
-                            </div>
-                            <div class="form-group">
-                                <label>手术史:</label>
-                                <label class="w300">@md.PastSurgery</label>
-                            </div>
-                            <div class="form-group">
-                                <label>结核:</label>
-                                <label class="w300">@md.PastTuberculosis</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12 underline">
-                            <div class="form-group">
-                                <label>泌尿系统疾病:</label>
-                                <label class="w300">@md.PastUrinarySystemDisease</label>
-                            </div>
-                            <div class="form-group">
-                                <label>心血管疾病:</label>
-                                <label class="w300">@md.PastCardiovascularDisease</label>
-                            </div>
-                            <div class="form-group">
-                                <label>盆腔炎:</label>
-                                <label class="w300">@md.PastPelvicInflammatoryDisease</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12 underline">
-                            <div class="form-group">
-                                <label>性传播疾病:</label>
-                                <label class="w300">@md.PastSTD</label>
-                            </div>
-                            <div class="form-group">
-                                <label>肾脏疾病:</label>
-                                <label class="w300">@md.PastKidneyDisease</label>
-                            </div>
-                            <div class="form-group">
-                                <label>其他:</label>
-                                <label class="w300">@md.PastOther</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="pg-title">个人史</div>
-                        </div>
-                        <div class="col-md-12 underline">
-                            <div class="form-group">
-                                <label>吸烟:</label>
-                                <label class="w300">@md.PersonalSmoke</label>
-                            </div>
-                            <div class="form-group">
-                                <label>酗酒:</label>
-                                <label class="w300">@md.PersonalAlcoholism</label>
-                            </div>
-                            <div class="form-group">
-                                <label>吸毒:</label>
-                                <label class="w300">@md.PersonalDrug</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12 underline">
-                            <div class="form-group">
-                                <label>习惯用药:</label>
-                                <label class="w300">@md.PersonalHabitMedication</label>
-                            </div>
-                            <div class="form-group">
-                                <label>药物过敏:</label>
-                                <label class="w300">@md.PersonalDrugAllergy</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="pg-title">月经史</div>
-                        </div>
-                        <div class="col-md-12 underline">
-                            <div class="form-group">
-                                <label>初潮:</label>
-                                <label class="w300">@md.MenstruationFirstAge</label>
-                            </div>
-                            <div class="form-group">
-                                <label>月经周期（天）:</label>
-                                <label class="w300">@md.MenstruationCycle</label>
-                            </div>
-                            <div class="form-group">
-                                <label>持续时间（天）:</label>
-                                <label class="w300">@md.MenstruationDuration</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12 underline">
-                            <div class="form-group">
-                                <label>经量:</label>
-                                <label class="w300">@md.MenstruationVolume</label>
-                            </div>
-                            <div class="form-group">
-                                <label>痛经:</label>
-                                <label class="w300">@md.MenstruationDysmenorrhea</label>
-                            </div>
-                            <div class="form-group">
-                                <label>血块:</label>
-                                <label class="w300">@md.MenstruationGore</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12 underline">
-                            <div class="form-group">
-                                <label>末次月经:</label>
-                                <label class="w300">@md.MenstruationLast</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="pg-title">婚育史</div>
-                        </div>
-                        <div class="col-md-12 underline">
-                            <div class="form-group">
-                                <label>近亲结婚:</label>
-                                <label class="w300">@md.MarriageRelatives</label>
-                            </div>
-                            <div class="form-group">
-                                <label>再婚:</label>
-                                <label class="w300">@md.MarriageRemarry</label>
-                            </div>
-                            <div class="form-group">
-                                <label>末次妊娠时间:</label>
-                                <label class="w300">@md.MarriageLastPregnancyDate</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12 underline">
-                            <div class="form-group">
-                                <label>子女:</label>
-                                <label class="w300">@md.MarriageChildren</label>
-                            </div>
-                            <div class="form-group">
-                                <label>生育:</label>
-                                <label class="w300">@md.MarriageFertility</label>
-                            </div>
-                            <div class="form-group">
-                                <label>异位妊娠次数:</label>
-                                <label class="w300">@md.MarriageEctopicPregnancy</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12 underline">
-                            <div class="form-group">
-                                <label>手术名称及时间:</label>
-                                <label class="w300">@md.MarriageSurgeryAndDate</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="pg-title">体格检查</div>
-                        </div>
-                        <div class="col-md-12 underline">
-                            <div class="form-group">
-                                <label>身高（cm）:</label>
-                                <label class="w300">@md.PhysiqueHeight</label>
-                            </div>
-                            <div class="form-group">
-                                <label>体重（kg）:</label>
-                                <label class="w300">@md.PhysiqueWeight</label>
-                            </div>
-                            <div class="form-group">
-                                <label>体重指数:</label>
-                                <label class="w300">@md.PhysiqueBMI</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="pg-title">妇科检查</div>
-                        </div>
-                        <div class="col-md-12 underline">
-                            <div class="form-group">
-                                <label>外阴:</label>
-                                <label class="w300">@md.GynecologyVulva</label>
-                            </div>
-                            <div class="form-group">
-                                <label>阴道:</label>
-                                <label class="w300">@md.GynecologyVaginal</label>
-                            </div>
-                            <div class="form-group">
-                                <label>宫颈:</label>
-                                <label class="w300">@md.GynecologyCervix</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12 underline">
-                            <div class="form-group">
-                                <label>宫体:</label>
-                                <label class="w300">@md.GynecologyCervixBody</label>
-                            </div>
-                            <div class="form-group">
-                                <label>双附件:</label>
-                                <label class="w300">@md.GynecologyDoubleAtt</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="pg-title">诊断，治疗意见</div>
-                        </div>
-                        <div class="col-md-12 underline">
-                            <div class="form-group">
-                                <label>诊断:</label>
-                                <label class="w300">@md.TreatmentAdviceDiagnosis</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12 underline">
-                            <div class="form-group">
-                                <label>治疗意见:</label>
-                                <label class="w300">@md.TreatmentAdvice</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12 underline">
-                            <div class="form-group">
-                                <label>诊治医生:</label>
-                                <label class="w300">@md.DiagnosisDoctorId</label>
-                            </div>
-                        </div>
-                    </div>*@
                 @*女方病历查看页面结束*@
 
                 @*女方病历编辑页面开始*@
@@ -286,7 +269,7 @@
 <script>
     $(function () {
 
-   
+
 
 
     })
