@@ -408,12 +408,15 @@ div {
         margin-right: 20px;
     }
 
-        .edit-view > .col-md-12 > .form-group > label:first-child, .detail-view > .col-md-12 > .form-group > label:first-child {
+        .edit-view > .col-md-12 > .form-group > label:first-child, .detail-view > .col-md-12 > .form-group > label:first-child, .info-title {
             font-weight: 700 !important;
-            width: 80px;
+            min-width: 80px;
             text-align: right;
             padding-right: 10px;
         }
+
+
+
 
         .edit-view > .col-md-12 > .form-group > label:last-child, .detail-view > .col-md-12 > .form-group > label:last-child {
             min-width: 150px;
@@ -573,9 +576,16 @@ div {
         background: url(/images/male.png) no-repeat left;
     }
 
+
+.person-md .pg-title
+{
+    height:30px;
+    line-height:30px;
+    font-size:14px;
+}
 /************************************************手风琴样式************************************************/
 .accordion .panel-title .accordion-toggle {
     background-color: #07a7e1;
     color: #fff;
-    font-weight:700;
+    font-weight: 700;
 }

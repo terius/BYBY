@@ -211,7 +211,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DataTablesEntity.cs" />
-    <Compile Include="Models\MedicalHistoryDetailModel.cs" />
     <Compile Include="Models\MedicalHistoryAddModel.cs" />
     <Compile Include="Models\MedicalHistoryListModel.cs" />
     <Compile Include="Models\LoginModel.cs" />

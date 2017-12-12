@@ -2,6 +2,7 @@
 using BYBY.Infrastructure.UnitOfWork;
 using BYBY.Repository.Entities;
 using BYBY.Services.Interfaces;
+using BYBY.Services.Models;
 using BYBY.Services.Request;
 using BYBY.Services.Response;
 using BYBY.Services.Views;
@@ -84,11 +85,14 @@ namespace BYBY.Services.Implementations
             return rs > 0 ? EmptyResponse.CreateSuccess("保存成功") : EmptyResponse.CreateError("保存失败");
         }
 
-        public async Task<MedicalHistoryEditRequest> GetEditData(int id)
+        public async Task<MedicalHistoryDetailModel> GetDetailModel(int id)
         {
             var info = await _repository.GetAsync(id);
-            var view = info.C_To_EditView();
-            return view;
+            var model = new MedicalHistoryDetailModel();
+            model.EditModel = info.C_To_EditView();
+            model.FemaleMedicalDetails = await GetMedicalDetails(info.FeMalePatient);
+            model.MaleMedicalDetails = await GetMedicalDetails(info.MalePatient);
+            return model;
         }
 
 
@@ -97,6 +101,7 @@ namespace BYBY.Services.Implementations
             var rs = Task.Run(() =>
            {
                var view = patient.MedicalDetails.C_To_MedicalDetailRequests();
+              
                return view;
            }).Result;
 

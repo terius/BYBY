@@ -74,6 +74,44 @@ namespace BYBY.Services.Request
         public string PastOther { get; set; }
 
 
+        #region 个人史
+
+        /// <summary>
+        /// 吸烟
+        /// </summary>
+        [StringLength(100)]
+        public string PersonalSmoke { get; set; }
+
+
+        /// <summary>
+        /// 酗酒
+        /// </summary>
+        [StringLength(100)]
+        public string PersonalAlcoholism { get; set; }
+
+
+        /// <summary>
+        /// 吸毒
+        /// </summary>
+        [StringLength(100)]
+        public string PersonalDrug { get; set; }
+
+
+        /// <summary>
+        /// 习惯用药
+        /// </summary>
+        [StringLength(100)]
+        public string PersonalHabitMedication { get; set; }
+
+        /// <summary>
+        /// 药物过敏
+        /// </summary>
+        [StringLength(100)]
+        public string PersonalDrugAllergy { get; set; }
+
+        #endregion
+
+
         /// <summary>
         /// 月经史初潮
         /// </summary>

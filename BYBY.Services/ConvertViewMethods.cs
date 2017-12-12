@@ -170,6 +170,7 @@ namespace BYBY.Services
         public static MedicalDetailRequest C_To_MedicalDetailRequest(this TBMedicalDetail source)
         {
             var view = Mapper.Map<MedicalDetailRequest>(source);
+            view.MDId = source.Id;
             return view;
         }
 

@@ -1,5 +1,6 @@
 ﻿using BYBY.Cache;
 using BYBY.Services.Interfaces;
+using BYBY.Services.Models;
 using BYBY.Services.Request;
 using BYBY.Services.Response;
 using BYBYApp.Models;
@@ -55,14 +56,14 @@ namespace BYBYApp.Controllers
 
         public async Task<ActionResult> Detail(int id)
         {
-            var model = new MedicalHistoryDetailModel();
+            var model = await _medicalHistoryService.GetDetailModel(id);
             model.CardTypeList = await GetCacheAsync(CacheKeys.CardType);
             model.MarriageList = await GetCacheAsync(CacheKeys.Marriage);
             model.EducationList = await GetCacheAsync(CacheKeys.Education);
             model.NationList = await GetCacheAsync(CacheKeys.Nation);
             model.JobList = await GetCacheAsync(CacheKeys.Job);
             model.EthnicList = await GetCacheAsync(CacheKeys.Ethnic);
-            model.EditModel = await _medicalHistoryService.GetEditData(id);
+          
           //  model.FemaleMedicalDetails = await _medicalHistoryService.GetMedicalDetails(model.female)
             return View(model);
         }

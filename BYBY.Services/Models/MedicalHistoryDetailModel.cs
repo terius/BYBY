@@ -2,7 +2,7 @@
 using BYBY.Services.Request;
 using System.Collections.Generic;
 
-namespace BYBYApp.Models
+namespace BYBY.Services.Models
 {
     public class MedicalHistoryDetailModel
     {
@@ -30,5 +30,7 @@ namespace BYBYApp.Models
         public MedicalHistoryEditRequest EditModel { get; set; }
 
         public IList<MedicalDetailRequest> FemaleMedicalDetails { get; set; }
+
+        public IList<MedicalDetailRequest> MaleMedicalDetails { get; set; }
     }
 }

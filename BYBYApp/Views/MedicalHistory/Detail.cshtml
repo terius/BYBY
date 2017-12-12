@@ -1,4 +1,4 @@
-﻿@model BYBYApp.Models.MedicalHistoryDetailModel
+﻿@model BYBY.Services.Models.MedicalHistoryDetailModel
 @{
     ViewBag.Title = "病历详情";
 }
@@ -435,6 +435,50 @@
 
                 }
             })
+
+
+            var handleAccordions = function () {
+                $('body').on('shown.bs.collapse', '.accordion.scrollable', function (e) {
+                    scrollTo($(e.target));
+                });
+            };
+
+            var scrollTo = function (el, offeset) {
+                var pos = (el && el.size() > 0) ? el.offset().top : 0;
+
+                if (el) {
+                    if ($('body').hasClass('page-header-fixed')) {
+                        pos = pos - $('.page-header').height();
+                    } else if ($('body').hasClass('page-header-top-fixed')) {
+                        pos = pos - $('.page-header-top').height();
+                    } else if ($('body').hasClass('page-header-menu-fixed')) {
+                        pos = pos - $('.page-header-menu').height();
+                    }
+                    pos = pos + (offeset ? offeset : -1 * el.height());
+                }
+
+                $('html,body').animate({
+                    scrollTop: pos
+                }, 'slow');
+            }
+
+            var vueFemaleDetail = new Vue({
+                el: '#accordion-female',
+                data: {
+                    femalemdlist: allData.FemaleMedicalDetails
+
+                },
+                mounted: function () {
+                    // com.setContentHeight("#editform",)
+                    //  App.initSlimScroll('#editform');
+                    handleAccordions();
+                },
+                methods: {
+
+                }
+            })
+
+            com.showLog(vueFemaleDetail.femalemdlist);
 
             $("#btnEdit").on("click", function () {
                 var tabId = $(".tab-pane.active").attr("id");

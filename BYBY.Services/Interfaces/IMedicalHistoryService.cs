@@ -1,4 +1,5 @@
 ﻿using BYBY.Repository.Entities;
+using BYBY.Services.Models;
 using BYBY.Services.Request;
 using BYBY.Services.Response;
 using BYBY.Services.Views;
@@ -29,7 +30,7 @@ namespace BYBY.Services.Interfaces
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<MedicalHistoryEditRequest> GetEditData(int id);
+        Task<MedicalHistoryDetailModel> GetDetailModel(int id);
 
 
         /// <summary>

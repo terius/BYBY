@@ -196,6 +196,10 @@
     <Compile Include="Migrations\201712070134070_TBMedicalHistoryAddEducation.Designer.cs">
       <DependentUpon>201712070134070_TBMedicalHistoryAddEducation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712121138416_TBMedicalDetailsAddPersonalInfos.cs" />
+    <Compile Include="Migrations\201712121138416_TBMedicalDetailsAddPersonalInfos.Designer.cs">
+      <DependentUpon>201712121138416_TBMedicalDetailsAddPersonalInfos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -302,6 +306,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712070134070_TBMedicalHistoryAddEducation.resx">
       <DependentUpon>201712070134070_TBMedicalHistoryAddEducation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712121138416_TBMedicalDetailsAddPersonalInfos.resx">
+      <DependentUpon>201712121138416_TBMedicalDetailsAddPersonalInfos.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
