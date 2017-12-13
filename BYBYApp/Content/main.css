@@ -85,6 +85,10 @@
     width: 450px !important;
 }
 
+.w500 {
+    width: 500px !important;
+}
+
 .w-auto {
     width: auto !important;
 }
@@ -385,27 +389,29 @@ div {
 
 
 /************************************************编辑及详细页面样式************************************************/
-
-
 .pg-title {
-    /*margin: 0;*/
-    text-align: left;
-    font-size: 16px;
-    font-weight: 700;
-    height: 42px;
-    line-height: 42px;
-    padding: 0 10px;
+    margin-bottom: 10px;
 }
+
+    .pg-title > div {
+        /*margin: 0;*/
+        text-align: left;
+        font-size: 16px;
+        font-weight: 700;
+        height: 42px;
+        line-height: 42px;
+        padding: 0 10px;
+    }
 
 
 .edit-view > .col-md-12, .detail-view > .col-md-12 {
     padding-left: 0;
     padding-right: 0;
-    margin-bottom: 10px;
 }
 
     .edit-view > .col-md-12 > .form-group, .detail-view > .col-md-12 > .form-group {
         margin-right: 20px;
+        padding-bottom: 10px;
     }
 
         .edit-view > .col-md-12 > .form-group > label:first-child, .detail-view > .col-md-12 > .form-group > label:first-child, .info-title {
@@ -446,13 +452,26 @@ div {
 
 
 .underline {
+    padding-top: 10px;
     border-bottom: 1px solid #ddd;
+}
+
+.pg-title + .underline {
+    padding-top: 0;
+}
+
+.underline label {
+    margin-bottom: 0;
 }
 
 .topline {
     border-top: 1px solid #ddd;
 }
 
+.action-content {
+    border-top: 1px solid #ddd;
+    padding:10px 10px 0;
+}
 /************************************************日期选择框样式************************************************/
 .date-picker[readonly] {
     background-color: #fff !important;
@@ -577,11 +596,18 @@ div {
     }
 
 
-.person-md .pg-title
-{
-    height:30px;
-    line-height:30px;
-    font-size:14px;
+.person-medical-detail .pg-title > div {
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+}
+
+/*.person-medical-detail .btn-group.bootstrap-select {
+    width: 70px !important;
+}*/
+
+.person-medical-detail .edit-view .form-group label:first-child {
+    width: 100px;
 }
 /************************************************手风琴样式************************************************/
 .accordion .panel-title .accordion-toggle {

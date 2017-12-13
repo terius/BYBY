@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BYBY.Repository.Entities;
 using BYBY.Services.Request;
+using System;
 
 namespace BYBY.Services
 {
@@ -9,10 +10,41 @@ namespace BYBY.Services
         public static void ConfigureAutoMapper()
         {
 
-            Mapper.Initialize(cfg => {
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<DateTime?, string>().ConvertUsing<DateTimeHasNullToStringConverter>();
+                cfg.CreateMap<DateTime, string>().ConvertUsing<DateTimeToStringConverter>();
                 cfg.CreateMap<TBMedicalDetail, MedicalDetailRequest>();
+                //        cfg.CreateMap<TBMedicalDetail, MedicalDetailRequest>().ForMember(d => d.MenstruationLast,
+                //expression => expression.ResolveUsing(s => s.MenstruationLast.HasValue ? s.MenstruationLast.Value.ToString("yyyy-MM-dd") : ""));
             });
 
+        }
+
+        public class DateTimeHasNullToStringConverter : ITypeConverter<DateTime?, string>
+        {
+            public string Convert(DateTime? source, string value, ResolutionContext option)
+            {
+                if (source.HasValue)
+                {
+                    return source.Value.ToString("yyyy-MM-dd");
+                }
+
+                return string.Empty;
+            }
+        }
+
+        public class DateTimeToStringConverter : ITypeConverter<DateTime, string>
+        {
+            public string Convert(DateTime source, string value, ResolutionContext option)
+            {
+                if (source != DateTime.MaxValue && source != DateTime.MinValue )
+                {
+                    return source.ToString("yyyy-MM-dd");
+                }
+
+                return string.Empty;
+            }
         }
     }
 

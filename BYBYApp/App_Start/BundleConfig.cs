@@ -64,6 +64,20 @@ namespace BYBYApp
               "~/Scripts/jquery.form.min.js"
               ));
 
+
+           
+            //bootstrap select
+            bundles.Add(new StyleBundle("~/bundles/css/bootstrapselect")
+                .Include("~/Metronic/assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css", new CssRewriteUrlTransform())
+              );
+            bundles.Add(new ScriptBundle("~/bundles/js/bootstrapselect").Include(
+                      "~/Metronic/assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js",
+                      "~/Metronic/assets/global/plugins/bootstrap-select/js/i18n/defaults-zh_CN.min.js"));
+
+            //input mask
+            bundles.Add(new ScriptBundle("~/bundles/js/inputmask").Include(
+                    "~/Metronic/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js"));
+
         }
     }
 }

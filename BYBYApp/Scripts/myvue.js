@@ -80,6 +80,34 @@ Vue.component('date-picker', {
     }
 })
 
+Vue.component('date-picker-simple', {
+    props: ['id', 'myclass', 'value', 'defaultDate'],
+    template: '<input type="text" :value="value"   readonly @input="updateSelf($event.target.value)" class="form-control date-picker" :class="myclass" :id="id" :name="id" >',
+    mounted: function () {
+        var vm = this
+        var option = {
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            language: "zh-CN",
+            clearBtn: true
+        }
+        var dfdate = this.$attrs.defaultdate;
+        if (dfdate) {
+            var sp = dfdate.split('-');
+            option.defaultViewDate = { year: sp[0], month: sp[1] - 1, day: 1 }
+        }
+        $(this.$el).datepicker(option).on('change', function () {
+            vm.$emit('input', this.value)
+        });
+
+    },
+    methods: {
+        updateSelf(value) {
+            this.$emit('input', value)
+        }
+    }
+})
+
 
 //测试
 Vue.component('test-vue', {
