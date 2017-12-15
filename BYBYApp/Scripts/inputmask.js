@@ -1,5 +1,5 @@
 $.fn.extend({
-    heInput: function (options) {
+    formatInput: function (options) {
         var inputs = $(this);
         var dateStr = options.dateStr;
         inputs.each(function (index, elem) {

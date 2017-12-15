@@ -1,4 +1,5 @@
-﻿using BYBY.Infrastructure.Domain;
+﻿using AutoMapper;
+using BYBY.Infrastructure.Domain;
 using BYBY.Infrastructure.UnitOfWork;
 using BYBY.Repository.Entities;
 using BYBY.Services.Interfaces;
@@ -17,11 +18,15 @@ namespace BYBY.Services.Implementations
     {
 
         readonly IRepository<TBMedicalHistory, int> _repository;
+        readonly IRepository<TBMedicalDetail, int> _medicalDetailRepository;
         readonly IUnitOfWork _unitOfWork;
 
-        public MedicalHistoryService(IRepository<TBMedicalHistory, int> repository, IUnitOfWork unitOfWork)
+        public MedicalHistoryService(IRepository<TBMedicalHistory, int> repository,
+            IRepository<TBMedicalDetail, int> medicalDetailRepository,
+            IUnitOfWork unitOfWork)
         {
             _repository = repository;
+            _medicalDetailRepository = medicalDetailRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -107,6 +112,20 @@ namespace BYBY.Services.Implementations
 
 
             return await Task.FromResult(rs);
+        }
+
+
+        public async Task<EmptyResponse> SaveEditMedicalDetail(MedicalDetailRequest request)
+        {
+            var mhInfo = await _medicalDetailRepository.GetAsync(request.MDId);
+            if (mhInfo == null)
+            {
+                throw new NullReferenceException("病历详细信息为空，无法修改");
+            }
+            mhInfo = Mapper.Map(request, mhInfo);
+            await _medicalDetailRepository.UpdateAsync(mhInfo);
+            int rs = _unitOfWork.Commit();
+            return rs > 0 ? EmptyResponse.CreateSuccess("保存成功") : EmptyResponse.CreateError("保存失败");
         }
 
 

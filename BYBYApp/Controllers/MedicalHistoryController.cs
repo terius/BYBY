@@ -75,5 +75,13 @@ namespace BYBYApp.Controllers
             var response = await _medicalHistoryService.SaveEditBaseInfo(request);
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> MedicalDetailUpdate(MedicalDetailRequest request)
+        {
+            var response = await _medicalHistoryService.SaveEditMedicalDetail(request);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
     }
 }

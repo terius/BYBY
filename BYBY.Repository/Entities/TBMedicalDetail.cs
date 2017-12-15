@@ -205,18 +205,18 @@ namespace BYBY.Repository.Entities
         /// <summary>
         /// 体格检查-身高（cm）
         /// </summary>
-        public int PhysiqueHeight { get; set; }
+        public int? PhysiqueHeight { get; set; }
 
 
         /// <summary>
         /// 体格检查-身高（kg）
         /// </summary>
-        public int PhysiqueWeight { get; set; }
+        public int? PhysiqueWeight { get; set; }
 
         /// <summary>
         /// 体格检查-体重指数
         /// </summary>
-        public double PhysiqueBMI { get; set; }
+        public double? PhysiqueBMI { get; set; }
 
 
 
@@ -271,5 +271,60 @@ namespace BYBY.Repository.Entities
         [ForeignKey("PatientId")]
         public virtual TBPatient Patient { get; set; }
 
+        //男方新增
+        /// <summary>
+        /// 腮腺炎
+        /// </summary>
+        [StringLength(100)]
+        public string PastMumps { get; set; }
+
+        /// <summary>
+        /// 睾丸手术
+        /// </summary>
+        [StringLength(100)]
+        public string PastTesticularSurgery { get; set; }
+
+        /// <summary>
+        /// 附睾手术
+        /// </summary>
+        [StringLength(100)]
+        public string PastEpididymisSurgery { get; set; }
+
+        /// <summary>
+        /// 输精管手术
+        /// </summary>
+        [StringLength(100)]
+        public string PastVasectomy { get; set; }
+
+
+        /// <summary>
+        /// 尿道手术
+        /// </summary>
+        [StringLength(100)]
+        public string PastUrethralSurgery { get; set; }
+
+
+        /// <summary>
+        /// 婚育史-结婚年龄
+        /// </summary>
+        public int? ManMarriageAge { get; set; }
+
+
+
+        /// <summary>
+        /// 婚育史-最后生育时间
+        /// </summary>
+        public DateTime? ManLastMarriageDate { get; set; }
+
+        /// <summary>
+        /// 是否为女方病历
+        /// </summary>
+        public bool? IsFemale { get; set; }
+
+        /// <summary>
+        /// 标题
+        /// </summary>
+        [StringLength(50)]
+        public string Title { get; set; }
     }
 }

@@ -14,7 +14,10 @@ namespace BYBY.Services
             {
                 cfg.CreateMap<DateTime?, string>().ConvertUsing<DateTimeHasNullToStringConverter>();
                 cfg.CreateMap<DateTime, string>().ConvertUsing<DateTimeToStringConverter>();
+                cfg.CreateMap<string, DateTime?>().ConvertUsing<StringToDateTimeHasNullConverter>();
+                cfg.CreateMap<string, DateTime>().ConvertUsing<StringToDateTimeConverter>();
                 cfg.CreateMap<TBMedicalDetail, MedicalDetailRequest>();
+                cfg.CreateMap<MedicalDetailRequest, TBMedicalDetail>();
                 //        cfg.CreateMap<TBMedicalDetail, MedicalDetailRequest>().ForMember(d => d.MenstruationLast,
                 //expression => expression.ResolveUsing(s => s.MenstruationLast.HasValue ? s.MenstruationLast.Value.ToString("yyyy-MM-dd") : ""));
             });
@@ -34,6 +37,24 @@ namespace BYBY.Services
             }
         }
 
+        public class StringToDateTimeHasNullConverter : ITypeConverter<string, DateTime?>
+        {
+            public DateTime? Convert(string source, DateTime? value, ResolutionContext option)
+            {
+                if (string.IsNullOrWhiteSpace(source))
+                {
+                    return null;
+                }
+                DateTime dt = DateTime.MinValue;
+                if (DateTime.TryParse(source, out dt))
+                {
+                    return dt;
+                }
+
+                return null;
+            }
+        }
+
         public class DateTimeToStringConverter : ITypeConverter<DateTime, string>
         {
             public string Convert(DateTime source, string value, ResolutionContext option)
@@ -44,6 +65,20 @@ namespace BYBY.Services
                 }
 
                 return string.Empty;
+            }
+        }
+
+        public class StringToDateTimeConverter : ITypeConverter<string, DateTime>
+        {
+            public DateTime Convert(string source, DateTime value, ResolutionContext option)
+            {
+                DateTime dt = DateTime.MinValue;
+                if (DateTime.TryParse(source, out dt))
+                {
+                    return dt;
+                }
+
+                return dt;
             }
         }
     }

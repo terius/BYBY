@@ -45,347 +45,21 @@
                         </li>
                         <li style="float:right">
                             <button class="btn blue btn-outline" id="btnEdit">
-                                <i class="fa fa-edit" style="padding-right:4px"></i>修改
+                                <i class="fa fa-edit" style="padding-right:4px"></i><span>修改</span>
                             </button>
                         </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane " id="tab_1_1">
-                            <div class="row" id="base-info" v-cloak>
-                                <div class="col-md-12" id="view-patient">
-                                    <div class="form-inline">
-                                        <div class="detail-view">
-                                            <div class="col-md-12 pg-title">
-                                                <div>患者卡号信息</div>
-                                            </div>
-                                            <div class="col-md-12 ">
-                                                <div class="form-group">
-                                                    <label>病历号:</label>
-                                                    <label>{{info.EditModel.MedicalHistoryNo}}</label>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-md-12 pg-title">
-                                                <div>联系方式及备注</div>
-                                            </div>
-                                            <div class="col-md-12 underline ">
-                                                <div class="form-group">
-                                                    <label>女方电话:</label>
-                                                    <label>{{info.EditModel.FemalePhone}}</label>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label>男方电话:</label>
-                                                    <label>{{info.EditModel.MalePhone}}</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>固定电话:</label>
-                                                    <label>{{info.EditModel.FixPhone}}</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 underline ">
-                                                <div class="form-group">
-                                                    <label>通讯地址:</label>
-                                                    <label>{{info.EditModel.Address}}</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 underline ">
-                                                <div class="form-group">
-                                                    <label>备注:</label>
-                                                    <label>{{info.EditModel.Remark}}</label>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-12 pg-title">
-                                                <div>女方信息</div>
-                                            </div>
-                                            <div class="col-md-12 underline">
-                                                <div class="form-group ">
-                                                    <label>姓名:</label>
-                                                    <label>{{info.EditModel.FemaleName}}</label>
-                                                </div>
-                                                <div class="form-group ">
-                                                    <label>出生年月:</label>
-                                                    <label>{{info.EditModel.FemaleBirthday}}</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 underline ">
-                                                <div class="form-group ">
-                                                    <label>证件类型:</label>
-                                                    <label>{{info.EditModel.FemaleCardTypeText}}</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>证件号:</label>
-                                                    <label>{{info.EditModel.FemaleCardNo}}</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>婚姻状况:</label>
-                                                    <label>{{info.EditModel.FemaleMarriageText}}</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 underline">
-                                                <div class="form-group">
-                                                    <label>国籍:</label>
-                                                    <label>{{info.EditModel.FemaleNationText}}</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>职业:</label>
-                                                    <label>{{info.EditModel.FemaleJobText}}</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>民族:</label>
-                                                    <label>{{info.EditModel.FemaleEthnicText}}</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 underline">
-                                                <div class="form-group">
-                                                    <label>文化程度:</label>
-                                                    <label>{{info.EditModel.FemaleEducationText}}</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>籍贯:</label>
-                                                    <label>{{info.EditModel.FemaleNativePlace}}</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>户口地址:</label>
-                                                    <label>{{info.EditModel.FemaleHouseholdAddress}}</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 pg-title">
-                                                <div>男方信息</div>
-                                            </div>
-                                            <div class="col-md-12 underline">
-                                                <div class="form-group">
-                                                    <label>姓名:</label>
-                                                    <label>{{info.EditModel.MaleName}}</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>出生年月:</label>
-                                                    <label>{{info.EditModel.MaleBirthday}}</label>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-md-12 underline">
-                                                <div class="form-group">
-                                                    <label>证件类型:</label>
-                                                    <label>{{info.EditModel.MaleCardTypeText}}</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>证件号:</label>
-                                                    <label>{{info.EditModel.MaleCardNo}}</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>婚姻状况:</label>
-                                                    <label>{{info.EditModel.MaleMarriageText}}</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 underline">
-                                                <div class="form-group">
-                                                    <label>国籍:</label>
-                                                    <label>{{info.EditModel.MaleNationText}}</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>职业:</label>
-                                                    <label>{{info.EditModel.MaleJobText}}</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>民族:</label>
-                                                    <label>{{info.EditModel.MaleEthnicText}}</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 underline">
-                                                <div class="form-group">
-                                                    <label>文化程度:</label>
-                                                    <label>{{info.EditModel.MaleEducationText}}</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>籍贯:</label>
-                                                    <label>{{info.EditModel.MaleNativePlace}}</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>户口地址:</label>
-                                                    <label>{{info.EditModel.MaleHouseholdAddress}}</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="col-md-12" style="display:none" id="edit-patient">
-                                    <form method="post" action="@Url.Action("SaveEditBaseInfo","MedicalHistory")" id="saveBaseInfoForm">
-                                        <input id="MHId" name="MHId" type="hidden" :value="info.EditModel.MHId" />
-                                        @Html.AntiForgeryToken()
-                                        <div class="form-inline">
-                                            <div class="edit-view" id="editform">
-                                                <div class="col-md-12 pg-title">
-                                                    <div>患者卡号信息</div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <edit-input id="MedicalHistoryNo" text="病历号" myclass="w300" :value="info.EditModel.MedicalHistoryNo">
-                                                    </edit-input>
-                                                </div>
-                                                <div class="col-md-12 pg-title">
-                                                    <div>联系方式及备注</div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <edit-input id="FemalePhone" maxlength="100" text="女方电话" v-model="info.EditModel.FemalePhone">
-                                                    </edit-input>
-                                                    <edit-input id="MalePhone" maxlength="100" text="男方电话" v-model="info.EditModel.MalePhone">
-                                                    </edit-input>
-                                                    <edit-input id="FixPhone" maxlength="50" text="固定电话" v-model="info.EditModel.FixPhone">
-                                                    </edit-input>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <edit-input id="Address" text="通讯地址" myclass="w450" v-model="info.EditModel.Address">
-                                                    </edit-input>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="Address">备注</label>
-                                                        <textarea id="Remark" name="Remark" class="form-control w450" rows="3" cols="20" v-model="info.EditModel.Remark"></textarea>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-12 pg-title">
-                                                    <div>女方信息</div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <edit-input id="FemaleName" text="姓名" myclass="required" v-model="info.EditModel.FemaleName">
-                                                        <span slot="othertext" class="requiredspan">*</span>
-                                                    </edit-input>
-                                                    <date-picker id="FemaleBirthday" text="出生年月" myclass="required" defaultDate="1980-01-01" v-model="info.EditModel.FemaleBirthday">
-                                                        <span slot="othertext" class="requiredspan">*</span>
-                                                    </date-picker>
-
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="FemaleCardType">证件类型<span class="requiredspan">*</span></label>
-                                                        <select2 id="FemaleCardType" class="required w196" data-placeholder="--请选择证件类型--" errormessage="证件类型不能为空"
-                                                                 :options="info.CardTypeList" v-model="info.EditModel.FemaleCardType">
-
-                                                        </select2>
-                                                    </div>
-                                                    <edit-input id="FemaleCardNo" text="证件号" myclass="required" v-model="info.EditModel.FemaleCardNo">
-                                                        <span slot="othertext" class="requiredspan">*</span>
-                                                    </edit-input>
-                                                    <div class="form-group">
-                                                        <label for="FemaleCardType">婚姻状况</label>
-                                                        <select2 id="FemaleMarriage" class="w196" data-placeholder="--请选择婚姻状况--" :options="info.MarriageList" v-model="info.EditModel.FemaleMarriage">
-                                                        </select2>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="FemaleNation">国籍</label>
-                                                        <select2 id="FemaleNation" class="w196" data-placeholder="--请选择国籍--" :options="info.NationList" v-model="info.EditModel.FemaleNation">
-                                                        </select2>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="FemaleJob">职业</label>
-                                                        <select2 id="FemaleJob" class="w196" data-placeholder="--请选择职业--" :options="info.JobList" v-model="info.EditModel.FemaleJob">
-                                                        </select2>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="FemaleEthnic">民族</label>
-                                                        <select2 id="FemaleEthnic" class="w196" data-placeholder="--请选择职业--" :options="info.EthnicList" v-model="info.EditModel.FemaleEthnic">
-                                                        </select2>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="FemaleEducation">文化程度</label>
-                                                        <select2 id="FemaleEducation" class="w196" data-placeholder="--请选择文化程度--" :options="info.EducationList" v-model="info.EditModel.FemaleEducation">
-                                                        </select2>
-                                                    </div>
-                                                    <edit-input id="FemaleNativePlace" text="籍贯" v-model="info.EditModel.FemaleNativePlace">
-                                                    </edit-input>
-                                                    <edit-input id="FemaleHouseholdAddress" myclass="w400" text="户口地址" v-model="info.EditModel.FemaleHouseholdAddress">
-                                                    </edit-input>
-                                                </div>
-
-
-                                                @*男方信息*@
-                                                <div class="col-md-12 pg-title">
-                                                    <div>男方信息</div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <edit-input id="MaleName" text="姓名" myclass="required" v-model="info.EditModel.MaleName">
-                                                        <span slot="othertext" class="requiredspan">*</span>
-                                                    </edit-input>
-                                                    <date-picker id="MaleBirthday" text="出生年月" myclass="required" defaultDate="1980-01-01" v-model="info.EditModel.MaleBirthday">
-                                                        <span slot="othertext" class="requiredspan">*</span>
-                                                    </date-picker>
-
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="MaleCardType">证件类型<span class="requiredspan">*</span></label>
-                                                        <select2 id="MaleCardType" class="required w196" data-placeholder="--请选择证件类型--" errormessage="证件类型不能为空" :options="info.CardTypeList" v-model="info.EditModel.MaleCardType">
-
-                                                        </select2>
-                                                    </div>
-                                                    <edit-input id="MaleCardNo" text="证件号" myclass="required" v-model="info.EditModel.MaleCardNo">
-                                                        <span slot="othertext" class="requiredspan">*</span>
-                                                    </edit-input>
-                                                    <div class="form-group">
-                                                        <label for="MaleCardType">婚姻状况</label>
-                                                        <select2 id="MaleMarriage" class="w196" data-placeholder="--请选择婚姻状况--" :options="info.MarriageList" v-model="info.EditModel.MaleMarriage">
-                                                        </select2>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="MaleNation">国籍</label>
-                                                        <select2 id="MaleNation" class="w196" data-placeholder="--请选择国籍--" :options="info.NationList" v-model="info.EditModel.MaleNation">
-                                                        </select2>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="MaleJob">职业</label>
-                                                        <select2 id="MaleJob" class="w196" data-placeholder="--请选择职业--" :options="info.JobList" v-model="info.EditModel.MaleJob">
-                                                        </select2>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="MaleEthnic">民族</label>
-                                                        <select2 id="MaleEthnic" class="w196" data-placeholder="--请选择职业--" :options="info.EthnicList" v-model="info.EditModel.MaleEthnic">
-                                                        </select2>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12 ">
-                                                    <div class="form-group">
-                                                        <label for="MaleEducation">文化程度</label>
-                                                        <select2 id="MaleEducation" class="w196" data-placeholder="--请选择文化程度--" :options="info.EducationList" v-model="info.EditModel.MaleEducation">
-                                                        </select2>
-                                                    </div>
-                                                    <edit-input id="MaleNativePlace" text="籍贯" v-model="info.EditModel.MaleNativePlace">
-                                                    </edit-input>
-                                                    <edit-input id="MaleHouseholdAddress" myclass="w400" text="户口地址" v-model="info.EditModel.MaleHouseholdAddress">
-                                                    </edit-input>
-                                                </div>
-
-                                                <div class="col-md-12 action-content">
-                                                    <div class="col-md-offset-4 col-md-4 text-center">
-                                                        <button type="button" class="btn btn-outline blue" id="btnSaveBaseInfo">提交</button>
-                                                        <button type="button" class="btn btn-outline blue margin-left-20" id="btnCancelBaseInfo">取消</button>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @*<div style="padding:10px;margin-top:20px;border-top:1px solid #ddd">aaaa</div>*@
-
-                                    </form>
-                                </div>
-                            </div>
+                            @Html.Partial("_MedicalDetailBase")
                         </div>
-
 
                         <div class="tab-pane active" id="tab_1_2">
                             @Html.Partial("_FemaleHistory")
                         </div>
 
                         <div class="tab-pane" id="tab_1_3">
-                            男方病历
+                            @Html.Partial("_MaleHistory")
                         </div>
                         <div class="tab-pane" id="tab_1_4">
                             病历附件
@@ -425,75 +99,209 @@
                 el: '#base-info',
                 data: {
                     info: allData
-
-                },
-                mounted: function () {
-                    // com.setContentHeight("#editform",)
-                    //  App.initSlimScroll('#editform');
-
-                },
-                methods: {
-
                 }
             })
 
-
-       
-            var vueFemaleDetail = new Vue({
-                el: '#accordion-female',
-                data: {
-                    femalemdlist: allData.FemaleMedicalDetails
-
-                },
-                mounted: function () {
-                    // com.setContentHeight("#editform",)
-                    //  App.initSlimScroll('#editform');
-
-                    $("#btnSaveFemaleMedicalDetail").on("click", function () {
-
-                        alert( $("#MenstruationVolume").val());
-                    })
-                    $("#MarriageChildren").heInput({ dateStr: "现有子女_-领养子女_" });
-                    $("#MarriageFertility").heInput({ dateStr: "足月产_-早产_-引产_-自然流产_-人工流产_-药流_" });
-                 
-                    $("form").validateForm();
-                    com.autoScrollContent();
-
-                },
-                methods: {
-
-                }
-            })
-         
-            com.showLog(vueFemaleDetail.femalemdlist);
-
-            $("#btnEdit").on("click", function () {
-                var tabId = $(".tab-pane.active").attr("id");
-              //  alert(tabId)
-                if ($("#view-patient").is(":visible"))
-                {
-                    $("#view-patient").hide();
-                    $("#edit-patient").show();
-                }
-            })
-
+            /*********************基本信息*********************/
             $("#btnCancelBaseInfo").on("click", function () {
                 $("#view-patient").show();
                 $("#edit-patient").hide();
             });
 
-            $("#btnSaveBaseInfo").on("click", function () {
-             //   alert($("#MHId").val());
-                if ($("#saveBaseInfoForm").valid()) {
-                    com.jqFormOption.success = function (res) {
-                        if (res.Result) {
-                            ShowSuccessThenReload(res.SuccessMessage)
+            $("#btnEdit").on("click", function () {
+                var tabId = $(".tab-pane.active").attr("id");
+                switch (tabId) {
+                    case "tab_1_1":
+                        if ($("#view-patient").is(":visible")) {
+                            $("#view-patient").hide();
+                            $("#edit-patient").show();
                         }
-                    }
-                    $("#saveBaseInfoForm").ajaxSubmit(com.jqFormOption);
+                        //else {
+                        //    $("#view-patient").show();
+                        //    $("#edit-patient").hide();
+                        //    $("span", this).text("修改");
+                        //}
+                        break;
+                    case "tab_1_2":
+                        var femaleDetailView = $("#medical-detail-female .panel-collapse.in .detail-view");
+                        var femaleEditView = $("#medical-detail-female .panel-collapse.in .edit-view");
+                        if (femaleDetailView.length > 0) {
+                            if (femaleDetailView.is(":visible")) {
+                                femaleDetailView.hide();
+                                femaleEditView.show();
+                            }
+                            //else {
+                            //    femaleDetailView.show();
+                            //    femaleEditView.hide();
+                            //    $("span", this).text("修改");
+                            //}
+                        }
+                        break;
+                    case "tab_1_3":
+                        var maleDetailView = $("#medical-detail-male .panel-collapse.in .detail-view");
+                        var maleEditView = $("#medical-detail-male .panel-collapse.in .edit-view");
+                        if (maleDetailView.length > 0) {
+                            if (maleDetailView.is(":visible")) {
+                                maleDetailView.hide();
+                                maleEditView.show();
+                              //  $("span", this).text("取消修改");
+                            }
+                            //else {
+                            //    maleDetailView.show();
+                            //    maleEditView.hide();
+                            //    $("span", this).text("修改");
+                            //}
+                        }
+                        break;
+                    default:
                 }
+
+            })
+
+            $("#btnSaveBaseInfo").on("click", function () {
+                //   alert($("#MHId").val());
+                //   if ($("#saveBaseInfoForm").valid()) {
+                com.jqFormOption.success = function (res) {
+                    if (res.Result) {
+                        ShowSuccessThenReload(res.SuccessMessage)
+                    }
+                }
+                $("#saveBaseInfoForm").ajaxSubmit(com.jqFormOption);
+                //  }
             });
+              /*********************女方病历*********************/
+            var vueFemaleDetail = new Vue({
+                el: '#medical-detail-female',
+                data: {
+                    femalemdlist: allData.FemaleMedicalDetails
+                },
+                mounted: function () {
+                    com.autoScrollContent();
+                    $(".MarriageChildren").formatInput({ dateStr: "现有子女_-领养子女_" });
+                    $(".MarriageFertility").formatInput({ dateStr: "足月产_-早产_-引产_-自然流产_-人工流产_-药流_" });
+                    $("form").validateForm();
+                }
+            })
+
+
+            var vueNewFemaleMD = new Vue({
+                el: '#modal-female-detail',
+                data: {
+                    vinfo_female: {
+                        id: "modal-female",
+                        title: "新建女方病历",
+                        class: "",
+                        modalclass: "modal-full"
+
+                    },
+                    md: {}
+                },
+                mounted: function () {
+                }
+            })
+         
+
+
+
+            /*********************男方病历*********************/
+            var vueMaleDetail = new Vue({
+                el: '#medical-detail-male',
+                data: {
+                    malemdlist: allData.MaleMedicalDetails
+                },
+                mounted: function () {
+              
+                }
+            })
+
+            var vueNewMaleMD = new Vue({
+                el: '#modal-male-detail',
+                data: {
+                    modalinfo: {
+                        id: "modal-male",
+                        title: "新建男方病历",
+                        class: "",
+                        modalclass: "modal-full"
+
+                    },
+                    md: {}
+                },
+                mounted: function () {
+                }
+            })
+
+
+            //保存病历信息
+            $(".btn-save-md").on("click", function () {
+                var form = $(this).closest("form");
+                $('[data-dfval]',form).each(function(a,b,c) {
+                    if (!this.value) {
+                        this.value = $(this).data("dfval");
+                    }
+                })
+                com.jqFormOption.success = function (res) {
+                    if (res.Result) {
+                        ShowSuccessThenReload(res.SuccessMessage)
+                    }
+                    else {
+                        ShowErrorMessage(res.ErrorMessage)
+                    }
+                }
+
+                form.ajaxSubmit(com.jqFormOption);
+            })
+
+
+
+            $(".btn-cancel-md").on("click", function () {
+                $(this).closest(".form-inline.edit-view").hide();
+                $(this).closest(".panel-collapse").find(".detail-view").show();
+            })
+          
+      
         })
+
+        $("#btnCreateNewFemale").on("click", function () {
+            layer.open({
+                type: 1,
+                shade: false,
+                title: "新建女方病历", //不显示标题
+                content: $('#FemaleMDAddForm'), 
+                area: ['90%', '900px'], //宽高
+                skin: 'layui-layer-rim', //加上边框
+            });
+        });
+
+        $("#btnCreateNewFemale").on("click", function () {
+            layer.open({
+                type: 1,
+                shade: false,
+                title: "新建女方病历", //不显示标题
+                content: $('#FemaleMDAddForm'),
+                area: ['90%', '900px'], //宽高
+                skin: 'layui-layer-rim', //加上边框
+            });
+        });
+        //function Cat(name) {
+        //    Animal.call(this);
+        //    this.name = name || 'Tom';
+        //}
+        //(function () {
+        //    // 创建一个没有实例方法的类
+        //    var Super = function () { };
+        //    Super.prototype = Animal.prototype;
+        //    //将实例作为子类的原型
+        //    Cat.prototype = new Super();
+        //})();
+
+        //// Test Code
+        //var cat = new Cat();
+        //console.log(cat.name);
+        //console.log(cat.sleep());
+        //console.log(cat instanceof Animal); // true
+        //console.log(cat instanceof Cat); //true
+
+  
     </script>
     <script src="~/Scripts/page/MedicalHistoryDetail.js"></script>
 }

@@ -141,6 +141,48 @@ com.showLayerAlert = function (msg, callback) {
     });
 }
 
+function ShowMessage(msg) {
+    layer.msg(msg, {
+        icon: 6, time: 1500, shade: 0.5
+    });
+}
+
+function ShowWarningMessage(msg) {
+    layer.msg(msg, {
+        icon: 0, time: 1500, shade: 0.5
+    });
+}
+
+function ShowErrorMessage(msg) {
+    layer.msg(msg, {
+        icon: 2, time: 1500, shade: 0.5
+    });
+}
+
+function ShowSuccessThenGotoUrl(msg, url) {
+    layer.msg(msg, {
+        icon: 1, time: 1500, shade: 0.5
+    }, function () {
+        location.href = url;
+    });
+}
+
+function ShowSuccessThenGoBack(msg) {
+    layer.msg(msg, {
+        icon: 1, time: 1500, shade: 0.5
+    }, function () {
+        history.go(-1);
+    });
+}
+
+function ShowSuccessThenReload(msg) {
+    layer.msg(msg, {
+        icon: 1, time: 1500, shade: 0.5
+    }, function () {
+        location.reload();
+    });
+}
+
 
 
 com.showLog = function (msg, title) {
@@ -264,29 +306,7 @@ com.setContentHeight = function (dom, otherdom) {
     $(dom).outerHeight($(window).height() - $(otherdom).outerHeight(true));
 }
 
-function ShowSuccessThenGotoUrl(msg, url) {
-    layer.msg(msg, {
-        icon: 6, time: 1500, shade: 0.5
-    }, function () {
-        location.href = url;
-    });
-}
 
-function ShowSuccessThenGoBack(msg) {
-    layer.msg(msg, {
-        icon: 6, time: 1500, shade: 0.5
-    }, function () {
-        history.go(-1);
-    });
-}
-
-function ShowSuccessThenReload(msg) {
-    layer.msg(msg, {
-        icon: 6, time: 1500, shade: 0.5
-    }, function () {
-        location.reload();
-    });
-}
 
 com.handleDateRangePicker = function () {
     if ($.fn.datepicker) {

@@ -5750,6 +5750,8 @@
     <Content Include="Views\Main\Index.cshtml" />
     <Content Include="Views\MedicalHistory\Detail.cshtml" />
     <Content Include="Views\Shared\_FemaleHistory.cshtml" />
+    <Content Include="Views\Shared\_MaleHistory.cshtml" />
+    <Content Include="Views\Shared\_MedicalDetailBase.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
