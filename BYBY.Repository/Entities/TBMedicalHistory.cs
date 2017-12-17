@@ -1,4 +1,5 @@
 ﻿using BYBY.Infrastructure;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,6 +7,12 @@ namespace BYBY.Repository.Entities
 {
     public class TBMedicalHistory : BaseEntity<int>
     {
+        public TBMedicalHistory()
+        {
+            this.TBMedicalHistoryImages = new HashSet<TBMedicalHistoryImage>();
+        }
+
+
         [Required]
         [StringLength(30)]
         public string MedicalHistoryNo { get; set; }
@@ -50,5 +57,7 @@ namespace BYBY.Repository.Entities
             }
             base.Validate();
         }
+
+        public virtual ICollection<TBMedicalHistoryImage> TBMedicalHistoryImages { get; set; }
     }
 }

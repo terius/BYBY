@@ -61,6 +61,7 @@
     <Compile Include="Entities\TBHospital.cs" />
     <Compile Include="Entities\TBMedicalHistory.cs" />
     <Compile Include="Entities\TBJob.cs" />
+    <Compile Include="Entities\TBMedicalHistoryImage.cs" />
     <Compile Include="Entities\TBRoleModule.cs" />
     <Compile Include="Entities\TBModule.cs" />
     <Compile Include="Entities\TBPatient.cs" />
@@ -204,6 +205,10 @@
     <Compile Include="Migrations\201712140924205_TBMedicalDetailAddManInfos.Designer.cs">
       <DependentUpon>201712140924205_TBMedicalDetailAddManInfos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712171543388_AddTableTBMedicalHistoryImage.cs" />
+    <Compile Include="Migrations\201712171543388_AddTableTBMedicalHistoryImage.Designer.cs">
+      <DependentUpon>201712171543388_AddTableTBMedicalHistoryImage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -316,6 +321,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712140924205_TBMedicalDetailAddManInfos.resx">
       <DependentUpon>201712140924205_TBMedicalDetailAddManInfos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712171543388_AddTableTBMedicalHistoryImage.resx">
+      <DependentUpon>201712171543388_AddTableTBMedicalHistoryImage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

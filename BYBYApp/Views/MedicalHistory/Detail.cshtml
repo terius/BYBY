@@ -62,7 +62,7 @@
                             @Html.Partial("_MaleHistory")
                         </div>
                         <div class="tab-pane" id="tab_1_4">
-                            病历附件
+                            @Html.Partial("_MedicalHistoryImage")
                         </div>
                     </div>
                 </div>
@@ -80,6 +80,11 @@
     @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
     @System.Web.Optimization.Styles.Render("~/bundles/css/datetimepicker")
     @System.Web.Optimization.Styles.Render("~/bundles/css/bootstrapselect")
+    @System.Web.Optimization.Styles.Render("~/bundles/css/viewerjs")
+<link href="/Metronic/assets/global/plugins/fancybox/source/jquery.fancybox.css" rel="stylesheet" type="text/css" />
+<link href="/Metronic/assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css" rel="stylesheet" type="text/css" />
+<link href="/Metronic/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" type="text/css" />
+<link href="/Metronic/assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet" type="text/css" />
 }
 
 @section pagejs
@@ -89,6 +94,23 @@
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/bootstrapselect")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/viewerjs")
+
+<script src="/Metronic/assets/global/plugins/fancybox/source/jquery.fancybox.pack.js" type="text/javascript"></script>
+<script src="/Metronic/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
+<script src="/Metronic/assets/global/plugins/jquery-file-upload/js/vendor/tmpl.min.js" type="text/javascript"></script>
+<script src="/Metronic/assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js" type="text/javascript"></script>
+<script src="/Metronic/assets/global/plugins/jquery-file-upload/js/vendor/canvas-to-blob.min.js" type="text/javascript"></script>
+<script src="/Metronic/assets/global/plugins/jquery-file-upload/blueimp-gallery/jquery.blueimp-gallery.min.js" type="text/javascript"></script>
+<script src="/Metronic/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js" type="text/javascript"></script>
+<script src="/Metronic/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
+<script src="/Metronic/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-process.js" type="text/javascript"></script>
+<script src="/Metronic/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-image.js" type="text/javascript"></script>
+<script src="/Metronic/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-audio.js" type="text/javascript"></script>
+<script src="/Metronic/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-video.js" type="text/javascript"></script>
+<script src="/Metronic/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js" type="text/javascript"></script>
+<script src="/Metronic/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js" type="text/javascript"></script>
+<script src="/Metronic/assets/pages/scripts/form-fileupload.min.js" type="text/javascript"></script>
     @*@System.Web.Optimization.Scripts.Render("~/bundles/js/inputmask")*@
     <script src="~/Scripts/inputmask.js"></script>
     <script>
@@ -187,11 +209,11 @@
             var vueNewFemaleMD = new Vue({
                 el: '#modal-female-detail',
                 data: {
-                    vinfo_female: {
+                    modalinfo: {
                         id: "modal-female",
                         title: "新建女方病历",
                         class: "",
-                        modalclass: "modal-full"
+                        modalclass: "modal-myfull"
 
                     },
                     md: {}
@@ -199,7 +221,7 @@
                 mounted: function () {
                 }
             })
-         
+
 
 
 
@@ -210,7 +232,7 @@
                     malemdlist: allData.MaleMedicalDetails
                 },
                 mounted: function () {
-              
+
                 }
             })
 
@@ -221,7 +243,7 @@
                         id: "modal-male",
                         title: "新建男方病历",
                         class: "",
-                        modalclass: "modal-full"
+                        modalclass: "modal-myfull"
 
                     },
                     md: {}
@@ -257,51 +279,59 @@
                 $(this).closest(".form-inline.edit-view").hide();
                 $(this).closest(".panel-collapse").find(".detail-view").show();
             })
-          
-      
+
+
+            $(".ul-img-list > li").hover(function() {
+             //   $(".caption").text("hover");
+                $(".delete", this).show();
+            }, function() {
+                $(".delete", this).hide();
+            })
+
+            $(".ul-img-list .delete").on("click", function () {
+                $(this).closest("li").remove();
+            })
+
+            //$("#mdimages").viewer();
+          //  var options = {};
+             var viewer = new Viewer(document.getElementById('mdimages'), {
+                 url: 'data-original',
+                 zIndex: 99999,
+                 toolbar: {
+                     zoomIn: 4,
+                     zoomOut: 4,
+                     oneToOne: 4,
+                     reset: 4,
+                     prev: 4,
+                     play: {
+                         show: 4,
+                         size: 'large',
+                     },
+                     next: 4,
+                     rotateLeft: 4,
+                     rotateRight: 4,
+                     flipHorizontal: 4,
+                     flipVertical: 4,
+                 }
+            });
         })
 
-        $("#btnCreateNewFemale").on("click", function () {
-            layer.open({
-                type: 1,
-                shade: false,
-                title: "新建女方病历", //不显示标题
-                content: $('#FemaleMDAddForm'), 
-                area: ['90%', '900px'], //宽高
-                skin: 'layui-layer-rim', //加上边框
-            });
-        });
 
-        $("#btnCreateNewFemale").on("click", function () {
-            layer.open({
-                type: 1,
-                shade: false,
-                title: "新建女方病历", //不显示标题
-                content: $('#FemaleMDAddForm'),
-                area: ['90%', '900px'], //宽高
-                skin: 'layui-layer-rim', //加上边框
-            });
-        });
-        //function Cat(name) {
-        //    Animal.call(this);
-        //    this.name = name || 'Tom';
-        //}
-        //(function () {
-        //    // 创建一个没有实例方法的类
-        //    var Super = function () { };
-        //    Super.prototype = Animal.prototype;
-        //    //将实例作为子类的原型
-        //    Cat.prototype = new Super();
-        //})();
+        //$("#btnCreateNewFemale").on("click", function () {
+        //    layer.open({
+        //        type: 1,
+        //        shade: false,
+        //        title: "新建女方病历", //不显示标题
+        //        content: $('#FemaleMDAddForm'),
+        //        area: ['90%', '900px'], //宽高
+        //        skin: 'layui-layer-rim', //加上边框
+        //    });
+        //});
 
-        //// Test Code
-        //var cat = new Cat();
-        //console.log(cat.name);
-        //console.log(cat.sleep());
-        //console.log(cat instanceof Animal); // true
-        //console.log(cat instanceof Cat); //true
 
-  
+
+
+
     </script>
     <script src="~/Scripts/page/MedicalHistoryDetail.js"></script>
 }

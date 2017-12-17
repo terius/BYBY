@@ -78,6 +78,14 @@ namespace BYBYApp
             bundles.Add(new ScriptBundle("~/bundles/js/inputmask").Include(
                     "~/Metronic/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js"));
 
+
+            //viewer js
+            bundles.Add(new StyleBundle("~/bundles/css/viewerjs")
+                .Include("~/Scripts/viewer.min.css", new CssRewriteUrlTransform())
+              );
+            bundles.Add(new ScriptBundle("~/bundles/js/viewerjs").Include(
+                      "~/Scripts/viewer.min.js"));
+
         }
     }
 }
