@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configer.cs" />
+    <Compile Include="Domain\PredicateBuilder.cs" />
     <Compile Include="Domain\ErrorMessage.cs" />
     <Compile Include="Domain\IEntity.cs" />
     <Compile Include="Domain\InsufficientFundsException.cs" />

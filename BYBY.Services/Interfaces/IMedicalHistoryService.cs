@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BYBY.Services.Interfaces
 {
-    public interface IMedicalHistoryService
+    public interface IMedicalHistoryService : IBaseService
     {
         /// <summary>
         /// 获取病历列表
@@ -54,5 +54,55 @@ namespace BYBY.Services.Interfaces
         /// <param name="request"></param>
         /// <returns></returns>
         Task<EmptyResponse> SaveEditMedicalDetail(MedicalDetailRequest request);
+
+        /// <summary>
+        /// 保存申请会诊信息
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<EmptyResponse> SaveConsultationAdd(ConsultationAddRequest request);
+
+        /// <summary>
+        /// 保存申请转诊信息
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<EmptyResponse> SaveReferralAdd(ReferralAddRequest request);
+
+        /// <summary>
+        /// 取消会诊
+        /// </summary>
+        /// <param name="consultationId"></param>
+        /// <returns></returns>
+        Task<EmptyResponse> UpdateConsultationToCancel(ConsultationCancelRequest cancelRequest);
+
+        /// <summary>
+        /// 取消转诊
+        /// </summary>
+        /// <param name="cancelRequest"></param>
+        /// <returns></returns>
+        Task<EmptyResponse> UpdateReferralToCancel(ReferralCancelRequest cancelRequest);
+
+        /// <summary>
+        /// 删除病历信息
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<EmptyResponse> Delete(MedicalHistoryDeleteRequest request);
+
+
+        /// <summary>
+        /// 查询会诊信息
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<PagedData<ConsultationListView>> GetConsultationList(ConsultationQueryRequest request);
+
+        /// <summary>
+        /// 查询转诊信息
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<PagedData<ReferralListView>> GetReferralList(ReferralQueryRequest request);
     }
 }

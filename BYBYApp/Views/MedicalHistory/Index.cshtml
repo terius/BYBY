@@ -1,6 +1,9 @@
 ﻿@model BYBYApp.Models.MedicalHistoryListModel
 @{
     ViewBag.Title = "病历管理";
+    var rolename = Request.Cookies["AccountCookies"] == null ? "" : Request.Cookies["AccountCookies"].Values["rolename"];
+
+
 }
 
 @*<div class="page-content-title">
@@ -17,8 +20,11 @@
     <div class="portlet-title">
         <div class="querycontent">
             <div class="form-inline" id="query-content">
-                <select2 id="Hostpital" class="w196" data-placeholder="--请选择医院--" :options="info.HospitalList">
-                </select2>
+                @if (rolename == "customerservice")
+                {
+                    <select2 id="Hostpital" class="w196" data-placeholder="--请选择医院--" :options="info.HospitalList">
+                    </select2>
+                }
                 <div class="form-group margin-left-20">
                     <label for="search-key">患者信息：</label>
                     <input type="text" class="form-control" id="search-key" placeholder="请输入" v-model="info.skey">
@@ -68,7 +74,8 @@
                 </tr>
             </thead>
             <tbody>
-                @*<tr><td style="text-align:center"><i class="fa fa-plus fa-2x" style="margin-top:10px;cursor:pointer"></i></td><td>aaaaa</td><td>aaaaa</td></tr>*@
+                @*
+                    <tr><td style="text-align:center"><i class="fa fa-plus fa-2x" style="margin-top:10px;cursor:pointer"></i></td><td>aaaaa</td><td>aaaaa</td></tr>*@
                 <template v-for="(info,index) in datas.Data">
                     <tr>
                         <td><a href="javascript:;" v-on:click="showDetail"><i class="fa fa-plus fa-2x" style="margin-top:5px;"></i></a></td>
@@ -84,9 +91,9 @@
                         <td>
                             <div style="padding-top:5px">
                                 <a :href="'/MedicalHistory/Detail/' + info.Id" class="margin-right-10"><i class="fa fa-2x fa-file-text-o tooltips" data-container="body" data-placement="top" data-original-title="病历详细"></i></a>
-                                <a href="javascript:;" class="margin-right-10"><i class="fa fa-2x fa-stethoscope tooltips" data-container="body" data-placement="top" data-original-title="会诊"></i></a>
-                                <a href="javascript:;" class="margin-right-10"><i class="fa fa-2x fa-ambulance tooltips" data-container="body" data-placement="top" data-original-title="转诊"></i></a>
-                                <a href="javascript:;"><i class="fa fa-2x fa-remove tooltips" data-container="body" data-placement="top" data-original-title="删除"></i></a>
+                                <a href="javascript:;" class="margin-right-10" v-on:click="showConsultation(info.ConsultationStatus,info.Id)"><i class="fa fa-2x fa-stethoscope tooltips" data-container="body" data-placement="top" data-original-title="会诊"></i></a>
+                                <a href="javascript:;" class="margin-right-10" v-on:click="showReferral(info.ReferralStatus,info.Id)"><i class="fa fa-2x fa-ambulance tooltips" data-container="body" data-placement="top" data-original-title="转诊"></i></a>
+                                <a href="javascript:;" v-on:click="deletemh(info.ConsultationStatus,info.ReferralStatus,info.Id)"><i class="fa fa-2x fa-remove tooltips" data-container="body" data-placement="top" data-original-title="删除"></i></a>
                             </div>
                         </td>
                     </tr>
@@ -129,31 +136,163 @@
 
     </div>
 </div>
-@{  Html.RenderPartial("_Paginator");}
+
+<div id="modal-consultation">
+    <v-modal v-cloak v-bind:tinfo="modalinfo" ref="consultationmodal">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" action="@Url.Action("SaveConsultationAdd","MedicalHistory")" id="saveConsultationForm">
+                    <input id="TBMedicalHistoryId" name="TBMedicalHistoryId" type="hidden" />
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">会诊医院</label>
+                            <div class="col-xs-6">
+                                <select2 id="HospitalId" class="w250 required" data-placeholder="--请选择医院--" :value="masterHospitalId" :options="HospitalList">
+                                </select2>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">申请会诊日期</label>
+                            <div class="col-xs-6">
+                                <date-picker-simple id="RequestDate" class="w250 required"></date-picker-simple>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">会诊医生</label>
+                            <div class="col-xs-6">
+                                <select2 id="DoctorId" class="w250 required" data-placeholder="--会诊医生--" :options="DoctorList">
+                                </select2>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">会诊时间段</label>
+                            <div class="col-xs-6">
+                                <div class="input-group input-datetime-range">
+                                    <input type="text" id="STime" class="form-control  required" name="STime">
+                                    <span class="input-group-addon"> 到 </span>
+                                    <input type="text" id="ETime" class="form-control required" name="ETime">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">申请备注</label>
+                            <div class="col-xs-6">
+                                <textarea name="Remark" class="form-control w300" maxlength="500" rows="3" cols="20"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <button type="button" slot="bottom" class="btn blue btn-outline" id="btnSaveConsultation">保  存</button>
+
+    </v-modal>
+</div>
+
+<div id="modal-Referral">
+    <v-modal v-cloak v-bind:tinfo="modalinfo" ref="Referralmodal">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" action="@Url.Action("SaveReferralAdd","MedicalHistory")" id="saveReferralForm">
+                    <input id="TBMedicalHistoryId" name="TBMedicalHistoryId" type="hidden" />
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">会诊医院</label>
+                            <div class="col-xs-6">
+                                <select2 id="HospitalId" class="w250 " data-placeholder="--请选择医院--" :value="masterHospitalId" :options="HospitalList">
+                                </select2>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">申请会诊日期</label>
+                            <div class="col-xs-6">
+                                <date-picker-simple id="RequestDate" class="w250 "></date-picker-simple>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">申请备注</label>
+                            <div class="col-xs-6">
+                                <textarea name="Remark" class="form-control w300" maxlength="500" rows="3" cols="20"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <button type="button" slot="bottom" class="btn blue btn-outline" id="btnSaveReferral">保  存</button>
+
+    </v-modal>
+</div>
+@{ Html.RenderPartial("_Paginator");}
 @section styles
 {
     @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
+    @System.Web.Optimization.Styles.Render("~/bundles/css/datepicker")
     @System.Web.Optimization.Styles.Render("~/bundles/css/datetimepicker")
-
 }
 
 @section pagejs
 {
     @System.Web.Optimization.Scripts.Render("~/bundles/js/select2")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/datepicker")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/datetimepicker")
-
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
     <script>
         $(function () {
 
+            var allData = @Html.RenderAsJson(Model);
 
             var vuetable;
-          //  com.responsiveHeight("#tableshow", "#mycontent");
+            //  com.responsiveHeight("#tableshow", "#mycontent");
             Vue.component('v-page', {
                 template: "#vuetmp-paginator",
                 props: ["page"]
-            })
+            });
 
-            var allData = @Html.RenderAsJson(Model);
+            var vueConsultation = new Vue({
+                el: '#modal-consultation',
+                data: {
+                    modalinfo: {
+                        id: "modalconsultation",
+                        title: "填写会诊信息",
+                        data: {}
+
+                    },
+                    HospitalList: allData.HospitalList,
+                    DoctorList: allData.DoctorList,
+                    masterHospitalId: allData.MasterHospitalId
+
+                },
+                mounted: function () {
+                    $("#saveConsultationForm").validateForm();
+                    com.handleDateTimePicker();
+                }
+
+            });
+
+
+            var vueReferral = new Vue({
+                el: '#modal-Referral',
+                data: {
+                    modalinfo: {
+                        id: "modalReferral",
+                        title: "填写转诊信息",
+                        data: {}
+
+                    },
+                    HospitalList: allData.HospitalList,
+                    masterHospitalId: allData.MasterHospitalId
+
+                },
+                mounted: function () {
+                    $("#saveReferralForm").validateForm();
+                    //  com.handleDateTimePicker();
+                }
+
+            });
             allData.STime = "";
             allData.ETime = "";
             allData.skey = "";
@@ -172,10 +311,7 @@
                         vm.info.ETime = ob.target.value;
                     });
                 }
-            })
-
-
-
+            });
 
 
 
@@ -200,7 +336,7 @@
                             },
                             mounted: function () {
                                 $('.tooltips').tooltip();
-                              //  App.initSlimScroll('#tableshow');
+                                //  App.initSlimScroll('#tableshow');
                             },
                             methods: {
                                 showDetail: function (event) {
@@ -221,6 +357,63 @@
                                         }
 
                                     }
+                                },
+                                showConsultation: function (status, id) {//弹出会诊
+                                    if (status == "无" || status == "已取消" || status == "已完成") {
+                                        $("#TBMedicalHistoryId", "#saveConsultationForm").val(id);
+                                        $('#modalconsultation').modal('show');
+                                    }
+                                    else if (status == "申请中") {
+                                        com.confirm("是否要取消申请会诊？", function () {
+                                            com.ajaxquery("/MedicalHistory/UpdateConsultationToCancel", { MHId: id }).then(function (res) {
+                                                if (res.Result) {
+                                                    ShowSuccessThenReload(res.SuccessMessage);
+                                                }
+                                                else {
+                                                    ShowErrorMessage(res.ErrorMessage);
+                                                }
+                                            });
+
+                                        });
+                                    }
+                                },
+                                showReferral: function (status, id) {//弹出会诊
+                                    if (status == "无" || status == "已取消") {
+                                        $("#TBMedicalHistoryId", "#saveReferralForm").val(id);
+                                        $('#modalReferral').modal('show');
+                                    }
+                                    else if (status == "申请中") {
+                                        com.confirm("是否要取消申请转诊？", function () {
+                                            com.ajaxquery("/MedicalHistory/UpdateReferralToCancel", { MHId: id }).then(function (res) {
+                                                if (res.Result) {
+                                                    ShowSuccessThenReload(res.SuccessMessage);
+                                                }
+                                                else {
+                                                    ShowErrorMessage(res.ErrorMessage);
+                                                }
+                                            });
+
+                                        });
+                                    }
+                                },
+                                deletemh: function (cstatus, rstatus, id) {
+                                    if (cstatus == "申请中" || cstatus == "已确认" || cstatus == "已完成" ||
+                                        rstatus == "申请中" || rstatus == "已确认" || rstatus == "已完成" )
+                                    {
+                                        ShowWarningMessage("当前病历会诊或转诊状态处于(申请中|已确认|已完成),无法删除")
+                                        return;
+                                    }
+                                    com.confirm("是否要删除此条病历信息？<br/>所有相关信息将一并删除", function () {
+                                        com.ajaxquery("/MedicalHistory/Delete", { Id: id }).then(function (res) {
+                                            if (res.Result) {
+                                                ShowSuccessThenReload(res.SuccessMessage);
+                                            }
+                                            else {
+                                                ShowErrorMessage(res.ErrorMessage);
+                                            }
+                                        });
+
+                                    });
                                 }
                             }
                         })
@@ -228,16 +421,45 @@
                     else {
                         vuetable.datas = mydata;
                     }
-                })
-            }
-            search();
-            $("#btn-query").on("click", function () {
-                com.showLog(vuequery.info);
-              //  search();
-            })
-        
+                });
+            };
 
-        })
+            $("#btn-query").on("click", function () {
+                //   com.showLog(vuequery.info);
+                search();
+            });
+
+
+            $("#btnSaveConsultation").on("click", function () {
+                com.jqFormOption.success = function (res) {
+                    if (res.Result) {
+                        ShowSuccessThenReload(res.SuccessMessage);
+                    }
+                    else {
+                        ShowErrorMessage(res.ErrorMessage);
+                    }
+                }
+                $("#saveConsultationForm").ajaxSubmit(com.jqFormOption);
+
+            });
+
+            $("#btnSaveReferral").on("click", function () {
+                com.jqFormOption.success = function (res) {
+                    if (res.Result) {
+                        ShowSuccessThenReload(res.SuccessMessage);
+                    }
+                    else {
+                        ShowErrorMessage(res.ErrorMessage);
+                    }
+                }
+                $("#saveReferralForm").ajaxSubmit(com.jqFormOption);
+
+            });
+
+            /*******************************初始执行方法***********************************/
+            search();
+
+        });
     </script>
 }
 

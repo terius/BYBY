@@ -7,7 +7,7 @@
         {
             <li class="nav-item">
                 <a href="javascript:;" class="nav-link nav-toggle">
-                    <i class="icon-folder"></i>
+                    <i class="@item.Icon"></i>
                     <span class="title">@item.Text</span>
                     <span class="arrow"></span>
                 </a>
@@ -17,8 +17,8 @@
                         if (itemChild.ParentId == item.Id)
                         {
                             <li class="nav-item">
-                                <a href="@itemChild.Path" class="nav-link">
-                                    <i class="icon-camera"></i>
+                                <a href="@itemChild.Path" class="nav-link" data-pageid="@item.Id">
+                                    <i class="@itemChild.Icon"></i>
                                     <span class="title">@itemChild.Text</span>
                                 </a>
                             </li>
@@ -31,8 +31,8 @@
         else if (item.ParentId == null)
         {
             <li class="nav-item">
-                <a href="@item.Path" class="nav-link">
-                    <i class="icon-notebook"></i>
+                <a href="@item.Path" class="nav-link" data-pageid="@item.Id">
+                    <i class="@item.Icon"></i>@*icon-notebook*@
                     <span class="title">@item.Text</span>
                 </a>
             </li>
@@ -105,13 +105,14 @@
 
 </ul>
 <script>
-
-    var url = location.pathname;
     var $menuRoot = $(".page-sidebar-menu");
     $(".nav-item.active", $menuRoot).removeClass("active");
     //  $(".page-sidebar-menu .nav-item.active").removeClass("active");
+    var pageid = "";
+    var currPageId = "@ViewBag.PageId";
     $(".nav-link", $menuRoot).each(function () {
-        if ($(this).attr("href").indexOf(url) >= 0) {
+        pageid = $(this).data("pageid");
+        if (pageid == currPageId) {
             $(this).parent().addClass("active");
             var $navLink = $(this).closest(".sub-menu").prev();
             if ($navLink.length > 0) {

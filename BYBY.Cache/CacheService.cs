@@ -17,13 +17,15 @@ namespace BYBY.Cache
         readonly IRepository<TBJob, int> _jobRepository;
         readonly IRepository<TBEthnic, int> _ethnicRepository;
         readonly IRepository<TBHospital, int> _hospitalRepository;
+        readonly IRepository<TBDoctor, int> _doctorRepository;
         readonly object NationObj = new object();
 
         public CacheService(ICacheStorage cacheStorage,
             IRepository<TBNation, int> nationRepository,
             IRepository<TBJob, int> jobRepository,
             IRepository<TBEthnic, int> ethnicRepository,
-            IRepository<TBHospital, int> hospitalRepository
+            IRepository<TBHospital, int> hospitalRepository,
+            IRepository<TBDoctor, int> doctorRepository
             )
         {
             _cacheStorage = cacheStorage;
@@ -31,6 +33,7 @@ namespace BYBY.Cache
             _jobRepository = jobRepository;
             _ethnicRepository = ethnicRepository;
             _hospitalRepository = hospitalRepository;
+            _doctorRepository = doctorRepository;
         }
 
         public async Task<IList<SelectItem>> GetSelectItemAsync(CacheKeys key)
@@ -64,6 +67,10 @@ namespace BYBY.Cache
                     case CacheKeys.Hospital:
                         var hospitalData = await _hospitalRepository.FindAllAsync();
                         cacheData = hospitalData.ConvertTo_SelectItem();
+                        break;
+                    case CacheKeys.Doctor:
+                        var doctorData = await _doctorRepository.FindAllAsync();
+                        cacheData = doctorData.ConvertTo_SelectItem();
                         break;
                     default:
                         break;
@@ -157,6 +164,21 @@ namespace BYBY.Cache
                 sitem.id = item.Id.ToString();
                 sitem.text = item.Name;
                 sitem.title = item.IsMaster ? "1" : "0";
+                dest.Add(sitem);
+            }
+            return dest;
+        }
+
+        public static IList<SelectItem> ConvertTo_SelectItem(this IEnumerable<TBDoctor> source)
+        {
+            var dest = new List<SelectItem>();
+            SelectItem sitem;
+            foreach (var item in source)
+            {
+                sitem = new SelectItem();
+                sitem.id = item.Id.ToString();
+                sitem.text = item.User.Name;
+                sitem.title = item.JobTitle;
                 dest.Add(sitem);
             }
             return dest;

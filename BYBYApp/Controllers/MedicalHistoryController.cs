@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace BYBYApp.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class MedicalHistoryController : BaseController
     {
         readonly IMedicalHistoryService _medicalHistoryService;
@@ -23,6 +23,8 @@ namespace BYBYApp.Controllers
         {
             var model = new MedicalHistoryListModel();
             model.HospitalList = await GetCacheAsync(CacheKeys.Hospital);
+            model.DoctorList = await GetCacheAsync(CacheKeys.Doctor);
+            model.MasterHospitalId = await _medicalHistoryService.GetDoctorMasterHospitalId();
             return View(model);
         }
 
@@ -81,6 +83,45 @@ namespace BYBYApp.Controllers
         public async Task<ActionResult> MedicalDetailUpdate(MedicalDetailRequest request)
         {
             var response = await _medicalHistoryService.SaveEditMedicalDetail(request);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SaveConsultationAdd(ConsultationAddRequest request)
+        {
+            var response = await _medicalHistoryService.SaveConsultationAdd(request);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SaveReferralAdd(ReferralAddRequest request)
+        {
+            var response = await _medicalHistoryService.SaveReferralAdd(request);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateConsultationToCancel(ConsultationCancelRequest cancelRequest)
+        {
+            var response = await _medicalHistoryService.UpdateConsultationToCancel(cancelRequest);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateReferralToCancel(ReferralCancelRequest cancelRequest)
+        {
+            var response = await _medicalHistoryService.UpdateReferralToCancel(cancelRequest);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(MedicalHistoryDeleteRequest request)
+        {
+            var response = await _medicalHistoryService.Delete(request);
             return Json(response, JsonRequestBehavior.AllowGet);
         }
     }

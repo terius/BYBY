@@ -20,6 +20,12 @@ namespace BYBY.Repository
         public DbSet<TBEthnic> TBEthnics { get; set; }
 
         public DbSet<TBModule> TBModules { get; set; }
+
+        public DbSet<TBMedicalHistoryImage> TBMedicalHistoryImages { get; set; }
+        public DbSet<TBConsultation> TBConsultations { get; set; }
+        public DbSet<TBDoctor> TBDoctors { get; set; }
+
+        public DbSet<TBReferral> TBReferrals { get; set; }
         public BYBYDBContext()
             : base("name=conn1")
         {
@@ -38,6 +44,9 @@ namespace BYBY.Repository
             //modelBuilder.Entity<TBUserRole>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<TBMedicalHistory>().HasRequired(m => m.MalePatient).WithMany(n => n.MaleMedicalHistorys).HasForeignKey(m => m.MalePatientId).WillCascadeOnDelete(false);
             modelBuilder.Entity<TBMedicalHistory>().HasRequired(m => m.FeMalePatient).WithMany(n => n.FeMaleMedicalHistorys).HasForeignKey(m => m.FeMalePatientId).WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<TBHospital>().HasMany(t => t.Doctors).WithRequired(p => p.Hospital).WillCascadeOnDelete(false);
+
         }
     }
 }

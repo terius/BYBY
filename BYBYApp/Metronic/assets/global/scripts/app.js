@@ -605,7 +605,7 @@ var App = function() {
 
             //UI Component handlers     
             handleMaterialDesign(); // handle material design       
-            handleiCheck(); // handles custom icheck radio and checkboxes
+         //   handleiCheck(); // handles custom icheck radio and checkboxes  //terius del 2017/12/19
             handleBootstrapSwitch(); // handle bootstrap switch plugin
             handleScrollers(); // handles slim scrolling contents 
             handleFancybox(); // handle fancy box

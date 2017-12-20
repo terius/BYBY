@@ -1,5 +1,5 @@
 ﻿@{
-    var truename = Request.Cookies["AccountCookies"].Values["truename"];
+    var truename = Request.Cookies["AccountCookies"]==null?"": Request.Cookies["AccountCookies"].Values["truename"];
 }
 <!DOCTYPE html>
 <html>
@@ -140,7 +140,7 @@
         <!-- BEGIN FOOTER -->
         <div class="page-footer">
             <div class="page-footer-inner text-center" style="width:100%;color:#808080">
-                2016 &copy; Metronic Theme By
+                2017 &copy; xxxxxx
             </div>
             <div class="scroll-to-top">
                 <i class="icon-arrow-up"></i>

@@ -18,6 +18,8 @@ namespace BYBY.Services
                 cfg.CreateMap<string, DateTime>().ConvertUsing<StringToDateTimeConverter>();
                 cfg.CreateMap<TBMedicalDetail, MedicalDetailRequest>();
                 cfg.CreateMap<MedicalDetailRequest, TBMedicalDetail>();
+                cfg.CreateMap<ConsultationAddRequest, TBConsultation>();
+                cfg.CreateMap<ReferralAddRequest, TBReferral>();
                 //        cfg.CreateMap<TBMedicalDetail, MedicalDetailRequest>().ForMember(d => d.MenstruationLast,
                 //expression => expression.ResolveUsing(s => s.MenstruationLast.HasValue ? s.MenstruationLast.Value.ToString("yyyy-MM-dd") : ""));
             });

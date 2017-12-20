@@ -8,6 +8,8 @@ using System.Reflection;
 using BYBY.Infrastructure.Helpers;
 using BYBY.Infrastructure;
 using AutoMapper;
+using BYBY.Services.Account;
+using System.Threading.Tasks;
 
 namespace BYBY.Services
 {
@@ -174,7 +176,23 @@ namespace BYBY.Services
             return view;
         }
 
-       
+        static readonly UserManager _userManager = UserFactory.GetUserManager();
+        public static string GetNameByUserName(string userName)
+        {
+            if (string.IsNullOrWhiteSpace(userName))
+            {
+                return "";
+            }
+            var rs = Task.Run(() =>
+            {
+                var user = _userManager.FindByNameAsync(userName);
+
+                return user;
+            }).Result;
+
+            return rs.Name;
+        }
+
 
 
         private static int ToInt(this int? val)
@@ -209,6 +227,63 @@ namespace BYBY.Services
             }
             DescriptionAttribute[] attributes = (DescriptionAttribute[])field.GetCustomAttributes(typeof(DescriptionAttribute), false);
             return (attributes.Length > 0) ? attributes[0].Description : value.ToString();
+        }
+
+
+        public static IList<ConsultationListView> C_To_ConsultationListViews(this IEnumerable<TBConsultation> source)
+        {
+            IList<ConsultationListView> dest = new List<ConsultationListView>();
+            ConsultationListView view;
+            foreach (var item in source)
+            {
+                var MHInfo = item.MedicalHistory;
+                view = new ConsultationListView
+                {
+                    Id = item.Id,
+                    FemaleAge = MHInfo.FeMalePatient.Age.ToInt(),
+                    FemaleName = MHInfo.FeMalePatient.Name,
+                    MaleAge = MHInfo.MalePatient.Age.ToInt(),
+                    MaleName = MHInfo.MalePatient.Name,
+                    AddTime = item.AddTime.ToDateTimeString(),
+                    ConsultationStatus = item.ConsultationStatus.GetEnumDescription(),
+                    AddUser = GetNameByUserName(item.AddUserName),
+                    Doctor = item.Doctor.Name,
+                    Hospital = item.Hospital.Name,
+                    RequestDate = item.RequestDate.ToDateString(),
+                    MHId = item.MedicalHistory.Id
+                };
+
+                dest.Add(view);
+            }
+            return dest;
+        }
+
+
+        public static IList<ReferralListView> C_To_ReferralListViews(this IEnumerable<TBReferral> source)
+        {
+            IList<ReferralListView> dest = new List<ReferralListView>();
+            ReferralListView view;
+            foreach (var item in source)
+            {
+                var MHInfo = item.MedicalHistory;
+                view = new ReferralListView
+                {
+                    Id = item.Id,
+                    FemaleAge = MHInfo.FeMalePatient.Age.ToInt(),
+                    FemaleName = MHInfo.FeMalePatient.Name,
+                    MaleAge = MHInfo.MalePatient.Age.ToInt(),
+                    MaleName = MHInfo.MalePatient.Name,
+                    AddTime = item.AddTime.ToDateTimeString(),
+                    ReferralStatus = item.ReferralStatus.GetEnumDescription(),
+                    AddUser = GetNameByUserName(item.AddUserName),
+                    Hospital = item.Hospital.Name,
+                    RequestDate = item.RequestDate.ToDateString(),
+                    MHId = item.MedicalHistory.Id
+                };
+
+                dest.Add(view);
+            }
+            return dest;
         }
 
 

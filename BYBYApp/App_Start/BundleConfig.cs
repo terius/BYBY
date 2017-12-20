@@ -38,13 +38,13 @@ namespace BYBYApp
 
 
 
-            //datetimepicker
+            //datepicker
             bundles.Add(
-           new StyleBundle("~/bundles/css/datetimepicker")
+           new StyleBundle("~/bundles/css/datepicker")
                .Include("~/Metronic/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css", new CssRewriteUrlTransform())
                );
             bundles.Add(
-             new ScriptBundle("~/bundles/js/datetimepicker")
+             new ScriptBundle("~/bundles/js/datepicker")
                  .Include(
                  "~/Metronic/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js",
                  "~/Metronic/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"
@@ -85,6 +85,31 @@ namespace BYBYApp
               );
             bundles.Add(new ScriptBundle("~/bundles/js/viewerjs").Include(
                       "~/Scripts/viewer.min.js"));
+
+
+            //datetimepicker
+            bundles.Add(
+           new StyleBundle("~/bundles/css/datetimepicker")
+               .Include("~/Metronic/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css", new CssRewriteUrlTransform())
+               );
+            bundles.Add(
+             new ScriptBundle("~/bundles/js/datetimepicker")
+                 .Include(
+                 "~/Metronic/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
+                 "~/Metronic/assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"
+                 ));
+
+
+            //icheck
+            bundles.Add(
+       new StyleBundle("~/bundles/css/icheck")
+           .Include("~/Metronic/assets/global/plugins/icheck/skins/all.css", new CssRewriteUrlTransform())
+           );
+            bundles.Add(
+             new ScriptBundle("~/bundles/js/icheck")
+                 .Include(
+                 "~/Metronic/assets/global/plugins/icheck/icheck.min.js"
+                 ));
 
         }
     }

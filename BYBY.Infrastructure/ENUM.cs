@@ -5,7 +5,8 @@ namespace BYBY.Infrastructure
     public enum RoleType
     {
         patient = 1,
-        doctor
+        doctor,
+        customerservice
     }
 
 
@@ -65,14 +66,14 @@ namespace BYBY.Infrastructure
     {
         [Description("无")]
         No = 1,
-        [Description("已取消")]
-        Cancel,
-        [Description("已完成")]
-        Complete,
         [Description("申请中")]
-        Requsting,
+        Requesting = 2,
+        [Description("已取消")]
+        Cancel = 3,
         [Description("已确认")]
-        Confirm
+        Confirm = 4,
+        [Description("已完成")]
+        Complete = 5,
     }
 
     /// <summary>
@@ -80,12 +81,14 @@ namespace BYBY.Infrastructure
     /// </summary>
     public enum ReferralStatus
     {
-        [Description("未申请")]
-        NotRequest = 1,
+        [Description("无")]
+        No = 1,
         [Description("申请中")]
-        Requesting,
+        Requesting = 2,
+        [Description("已取消")]
+        Cancel = 3,
         [Description("已确认")]
-        Confirm
+        Confirm = 4
     }
 
 

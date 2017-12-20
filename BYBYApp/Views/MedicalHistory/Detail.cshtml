@@ -31,10 +31,10 @@
             <div class="col-md-12">
                 <div class="tabbable-custom">
                     <ul class="nav nav-tabs">
-                        <li>
+                        <li class="active">
                             <a href="#tab_1_1" data-toggle="tab">基本信息</a>
                         </li>
-                        <li class="active">
+                        <li >
                             <a href="#tab_1_2" data-toggle="tab">女方病历</a>
                         </li>
                         <li>
@@ -50,11 +50,11 @@
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane " id="tab_1_1">
+                        <div class="tab-pane active" id="tab_1_1">
                             @Html.Partial("_MedicalDetailBase")
                         </div>
 
-                        <div class="tab-pane active" id="tab_1_2">
+                        <div class="tab-pane" id="tab_1_2">
                             @Html.Partial("_FemaleHistory")
                         </div>
 
@@ -78,7 +78,7 @@
 @section styles
 {
     @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
-    @System.Web.Optimization.Styles.Render("~/bundles/css/datetimepicker")
+    @System.Web.Optimization.Styles.Render("~/bundles/css/datepicker")
     @System.Web.Optimization.Styles.Render("~/bundles/css/bootstrapselect")
     @System.Web.Optimization.Styles.Render("~/bundles/css/viewerjs")
 <link href="/Metronic/assets/global/plugins/fancybox/source/jquery.fancybox.css" rel="stylesheet" type="text/css" />
@@ -90,7 +90,7 @@
 @section pagejs
 {
     @System.Web.Optimization.Scripts.Render("~/bundles/js/select2")
-    @System.Web.Optimization.Scripts.Render("~/bundles/js/datetimepicker")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/datepicker")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/bootstrapselect")

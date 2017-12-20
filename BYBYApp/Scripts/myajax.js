@@ -35,6 +35,7 @@
                     //}
                 }).fail(function (jqXHR) {
                     com.showLog(jqXHR,"ajax错误");
+               ShowErrorMessage("执行错误，请联系开发人员");
                     //if (jqXHR.responseJSON && jqXHR.responseJSON.__abp) {
                     //    abp.ajax.handleResponse(jqXHR.responseJSON, userOptions, $dfd, jqXHR);
                     //} else {

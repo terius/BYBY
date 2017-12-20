@@ -74,9 +74,9 @@ $.fn.validateForm = function (option) {
             //com.showLog(p, "p")
             //com.showLog(len)
             error.css({ left: p.left + len + 8, top: p.top })
-           // error.offset({ left: emoffset.left + len + 8, top: emoffset.top });
+            // error.offset({ left: emoffset.left + len + 8, top: emoffset.top });
 
-           
+
         },
         highlight: function (element) { // hightlight error inputs
             $(element)
@@ -97,12 +97,15 @@ $.fn.validateForm = function (option) {
     t.validate(
         defaultOption
     );
+
     t.on("change", "select.select2me.required,.select2.select2-offscreen", function () {
         com.showLog("change")
         t.validate().element($(this));
     }).on("ifChanged", ".icheck-inline .required:radio", function () {
         t.validate().element($(this));
     }).on("change", ".date-picker", function () {
+        t.validate().element($(this));
+    }).on("change", ".input-datetime-range > input", function () {
         t.validate().element($(this));
     });
 }
@@ -143,19 +146,19 @@ com.showLayerAlert = function (msg, callback) {
 
 function ShowMessage(msg) {
     layer.msg(msg, {
-        icon: 6, time: 1500, shade: 0.5
+        icon: 6, time: 3000, shade: 0.5
     });
 }
 
 function ShowWarningMessage(msg) {
     layer.msg(msg, {
-        icon: 0, time: 1500, shade: 0.5
+        icon: 0, time: 3000, shade: 0.5
     });
 }
 
 function ShowErrorMessage(msg) {
     layer.msg(msg, {
-        icon: 2, time: 1500, shade: 0.5
+        icon: 2, time: 3000, shade: 0.5
     });
 }
 
@@ -240,6 +243,7 @@ com.formatDate = function (now) {
 
 
 com.ajaxquery = function (url, request, ajaxParams) {
+
     return abp.ajax($.extend({
         url: url,
         type: 'POST',
@@ -320,6 +324,31 @@ com.handleDateRangePicker = function () {
     }
 }
 
+com.handleDateTimePicker = function (ob) {
+    var obj = ob ? ob : ".input-datetime-range > input";
+    if ($.fn.datetimepicker) {
+        $(obj).datetimepicker({
+            format: "yyyy-mm-dd hh:ii",
+            autoclose: true,
+            todayBtn: true,
+            fontAwesome: true,
+            minuteStep: 30,
+            language: "zh-CN"
+        });
+    }
+};
+
+com.handleiCheck=function()
+{
+if ($.fn.iCheck) {
+    $('.icheckBlue').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue',
+        increaseArea: '20%' // optional
+    });
+};
+}
+
 com.autoScrollContent = function () {
     if ($.fn.slimScroll) {
         var height = $(window).height() - $(".page-header").outerHeight(true) - $(".page-footer").outerHeight(true) - 20;
@@ -337,3 +366,24 @@ com.autoScrollContent = function () {
         });
     }
 }
+
+com.confirm = function (title, yesFun, noFun, yesText, noText) {
+    var yestitle = yesText ? yesText : "是";
+    var notitle = noText ? noText : "否";
+    layer.confirm(title, {
+        btn: [yestitle, notitle], //按钮
+      //  skin: 'layui-layer-lan',
+        icon: 3,
+        title: ['确认', 'background-color:#4a83b6;font-weight:bold;color:#fff;letter-spacing: 1px;font-size:18px']
+    }, function (index) {
+        layer.close(index);
+        if (typeof yesFun == "function") {
+            yesFun()
+        };
+    }, function () {
+        if (typeof noFun == "function") {
+            noFun()
+        };
+    });
+}
+

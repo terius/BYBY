@@ -30,6 +30,7 @@ namespace BYBY.Repository.Entities
             if (dbaction == DBAction.Add)
             {
                 AddTime = DateTime.Now;
+               
             }
             else if (dbaction == DBAction.Update)
             {

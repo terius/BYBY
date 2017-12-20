@@ -9,6 +9,8 @@ namespace BYBYApp.Controllers
         public async Task<ActionResult> Index()
         {
             var modules = await GetModulesForMenu();
+            ViewBag.PageId = GetPageId(modules);
+           // ViewBag.LoginUserInfo = LoginUserInfo;
             return PartialView(modules);
         }
     }

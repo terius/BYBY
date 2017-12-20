@@ -10,6 +10,8 @@ namespace BYBY.Repository.Entities
         public TBMedicalHistory()
         {
             this.TBMedicalHistoryImages = new HashSet<TBMedicalHistoryImage>();
+            this.Consultations = new HashSet<TBConsultation>();
+            this.Referrals = new HashSet<TBReferral>();
         }
 
 
@@ -53,11 +55,15 @@ namespace BYBY.Repository.Entities
             if (dbaction == DBAction.Add)
             {
                 this.ConsultationStatus = ConsultationStatus.No;
-                this.ReferralStatus = ReferralStatus.NotRequest;
+                this.ReferralStatus = ReferralStatus.No;
             }
             base.Validate();
         }
 
         public virtual ICollection<TBMedicalHistoryImage> TBMedicalHistoryImages { get; set; }
+
+        public virtual ICollection<TBConsultation> Consultations { get; set; }
+
+        public virtual ICollection<TBReferral> Referrals { get; set; }
     }
 }

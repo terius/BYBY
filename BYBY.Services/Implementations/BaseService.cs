@@ -70,6 +70,18 @@ namespace BYBY.Services.Implementations
             return user;
         }
 
+
+        public async Task<int> GetDoctorMasterHospitalId()
+        {
+            var userInfo = await GetLoginInfo();
+            if (userInfo.Doctors.Count > 0)
+            {
+                var hospital = userInfo.Doctors.First().Hospital;
+                return hospital.ParentHospitalId.HasValue ? hospital.ParentHospital.Id : hospital.Id;
+            }
+            return 0;
+        }
+
         public string GetLoginUserName()
         {
             return System.Web.HttpContext.Current.User.Identity.GetUserName();

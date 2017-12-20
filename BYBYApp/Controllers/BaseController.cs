@@ -96,7 +96,26 @@ namespace BYBYApp.Controllers
                 //RolePrincipal r = (RolePrincipal)User;
                 //var rolesArray = r.GetRoles();
                 //return rolesArray[0];
+                if (Request.Cookies["AccountCookies"] == null)
+                {
+                    return "";
+                }
                 return Request.Cookies["AccountCookies"].Values["rolename"];
+            }
+        }
+
+
+        public LoginUserInfo LoginUserInfo
+        {
+            get
+            {
+                var login = Session["LoginUserInfo"] as LoginUserInfo;
+                if (login == null)
+                {
+                    throw new Exception("用户登录超时");
+
+                }
+                return login;
             }
         }
 
@@ -115,6 +134,23 @@ namespace BYBYApp.Controllers
         {
             var list = await GetRoleModules();
             return list.Where(d => d.IsMenu == true).ToList();
+        }
+
+        public string GetPageId(IList<TBModule> modules)
+        {
+            var url = Request.Url.AbsolutePath;
+            foreach (var item in modules)
+            {
+                if (item.Path != null && item.IsMenu)
+                {
+                    if (item.Path.Equals(url, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        Session["pageid"] = item.Id;
+                        break;
+                    }
+                }
+            }
+            return Session["pageid"] as string;
         }
 
 

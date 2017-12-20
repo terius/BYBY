@@ -1,7 +1,261 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "转诊管理";
 }
 
-<h2>转诊管理</h2>
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            转诊管理
+        </div>
+    </div>
+
+    <div class="portlet-title">
+        <div class="querycontent">
+            <div class="form-inline" id="query-content">
+                <div class="form-group " style="margin-right:50px;margin-top:5px">
+                    <label for="search-key">状态：</label>
+                    <div class="input-group">
+                        <div class="icheck-inline">
+                            <label>
+                                <input type="checkbox" class="icheckBlue" id="checkall" checked>全部
+                            </label>
+                            <label>
+                                <input type="checkbox" class="icheckBlue" id="checkrequest">申请中
+                            </label>
+                            <label>
+                                <input type="checkbox" class="icheckBlue" id="checkcancel">已取消
+                            </label>
+                            <label>
+                                <input type="checkbox" class="icheckBlue" id="checkconfirm">已确认
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group margin-left-20">
+                    <label for="search-key">患者信息：</label>
+                    <input type="text" class="form-control" id="search-key" placeholder="输入患者信息">
+                </div>
+                <div class="form-group margin-left-20">
+                    <label>开始日期：</label>
+                    <div class="input-group date-picker input-daterange">
+                        <input type="text" id="txt_stime" class="form-control s-time" name="txt_stime" readonly>
+                        <span class="input-group-addon"> 到 </span>
+                        <input type="text" id="txt_etime" class="form-control e-time" name="txt_etime" readonly>
+                    </div>
+                </div>
+                <button type="button" class="btn blue btn-outline margin-left-20" id="btn-query">
+                    <i class="fa fa-search"></i> 查询
+                </button>
+            </div>
+        </div>
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+        </div>
+    </div>
+    <div class="portlet-body" id="tableshow">
+        <table class="table  table-bordered" id="query-table" v-cloak>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>序号</th>
+                    <th>转诊医院</th>
+                    <th>女方姓名</th>
+                    <th>女方年龄</th>
+                    <th>男方姓名</th>
+                    <th>男方年龄</th>
+                    <th>转诊状态</th>
+                    <th>转诊时间</th>
+                    <th>转诊医生</th>
+                    <th>申请人</th>
+                    <th>申请时间</th>
+                    <th>操作</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <template v-for="(info,index) in datas.Data">
+                    <tr>
+                        <td><a href="javascript:;" v-on:click="showDetail"><i class="fa fa-plus fa-2x" style="margin-top:5px;"></i></a></td>
+                        <td>{{index+1}}</td>
+                        <td>{{info.Hospital}}</td>
+                        <td>{{info.FemaleName}}</td>
+                        <td>{{info.FemaleAge}}</td>
+                        <td>{{info.MaleName}}</td>
+                        <td>{{info.MaleAge}}</td>
+                        <td><span class="font-blue">{{info.ReferralStatus}}</span></td>
+                        <td>{{info.RequestDate}}</td>
+                        <td></td>
+                        <td>{{info.AddUser}}</td>
+                        <td>{{info.AddTime}}</td>
+                        <td>
+                            <div style="padding-top:5px">
+                                <a href="javascript:;" v-on:click="showReferralDetail()" class="margin-right-10"><i class="fa fa-2x fa-file-text-o tooltips" data-container="body" data-placement="top" data-original-title="转诊详细"></i></a>
+                                <a :href="'/MedicalHistory/Detail/' + info.MHId" class="margin-right-10"><i class="fa fa-2x fa-file-text-o tooltips" data-container="body" data-placement="top" data-original-title="病历详细"></i></a>
+
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="tb-detail-view">
+                        <td colspan="11">
+                            <div class="col-md-6">
+                                <p><b>转诊医院:</b>{{info.Hospital}}</p>
+                                <p><b>女方姓名:</b>{{info.FemaleName}}</p>
+                                <p><b>女方年龄:</b>{{info.FemaleAge}}</p>
+                                <p><b>男方姓名:</b>{{info.MaleName}}</p>
+                                <p><b>男方年龄:</b>{{info.MaleAge}}</p>
+                                <p><b>转诊状态:</b>{{info.ReferralStatus}}</p>
+                                <p><b>转诊时间:</b>{{info.RequestDate}}</p>
+                                <p><b>转诊医生:</b>{{info.Doctor}}</p>
+                                <p><b>申请人:</b>{{info.AddUser}}</p>
+                                <p><b>申请时间:</b>{{info.AddTime}}</p>
+                            </div>
+
+                        </td>
+                    </tr>
+
+                </template>
+
+            </tbody>
+            <tfoot>
+                <tr><td colspan="20"><v-page v-bind:page="datas"></v-page></td></tr>
+            </tfoot>
+        </table>
+
+    </div>
+</div>
+
+@{ Html.RenderPartial("_Paginator");}
+@section styles
+{
+    @System.Web.Optimization.Styles.Render("~/bundles/css/datepicker")
+    @System.Web.Optimization.Styles.Render("~/bundles/css/icheck")
+}
+
+@section pagejs
+{
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/datepicker")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/icheck")
+    <script>
+        $(function () {
+            com.handleiCheck();
+            var allData = {};// @*@Html.RenderAsJson(Model);*@
+
+            var vuetable;
+            //  com.responsiveHeight("#tableshow", "#mycontent");
+            Vue.component('v-page', {
+                template: "#vuetmp-paginator",
+                props: ["page"]
+            });
+
+
+            allData.STime = "";
+            allData.ETime = "";
+            allData.skey = "";
+            //var vuequery = new Vue({
+            //    el: '#query-content',
+            //    data: {
+            //        info: allData
+            //    },
+            //    mounted: function () {
+            //        var vm = this;
+            //        com.handleDateRangePicker();
+            //        $(".input-daterange input.s-time").on('change', function (ob) {
+            //            vm.info.STime = ob.target.value;
+            //        });
+            //        $(".input-daterange input.e-time").on('change', function (ob) {
+            //            vm.info.ETime = ob.target.value;
+            //        });
+            //    }
+            //});
+
+
+
+            //    $(window).on("resize", App.initSlimScroll('#tableshow'));
+
+            var search = function (pageIndex, sortIndex, sortType) {
+                var para = {};
+                para.PageIndex = pageIndex || 1;
+                para.SortIndex = sortIndex || -1;
+                para.SortType = sortType || 0;
+                para.SearchKey = $("#search-key").val();
+                para.IsAll = document.getElementById("checkall").checked;
+                para.IsRequest = document.getElementById("checkrequest").checked;
+                para.IsCancel = document.getElementById("checkcancel").checked;
+                para.IsConfirm = document.getElementById("checkconfirm").checked;
+                para.Stime = document.getElementById("txt_stime").value;
+                para.Etime = document.getElementById("txt_etime").value;
+
+                com.showLog(para);
+
+                com.ajaxquery("/Tranfer/PageQuery", para).then(function (mydata) {
+                    mydata.query = function (pageIndex, sortIndex, sortType) {
+                        search(pageIndex, sortIndex, sortType);
+                    }
+                    //  com.showLog(mydata);
+                    if (vuetable == null) {
+                        vuetable = new Vue({
+                            el: '#query-table',
+                            data: {
+                                datas: mydata
+                            },
+                            mounted: function () {
+                                $('.tooltips').tooltip();
+                                //  App.initSlimScroll('#tableshow');
+                            },
+                            methods: {
+                                showDetail: function (event) {
+                                    //  alert(event);
+                                    if (event) {
+                                        var $currBtn = $(event.target);
+                                        $("#query-table tbody .tb-detail-view").removeClass("open");
+                                        var isDetailClosed = $currBtn.hasClass("fa-plus");
+                                        //  alert(isDetailClosed);
+                                        if (isDetailClosed) {
+                                            $("#query-table tbody .fa-minus").removeClass("fa-minus").addClass("fa-plus");
+                                            $currBtn.removeClass("fa-plus").addClass("fa-minus").closest("tr").next().addClass("open");
+
+                                        }
+                                        else {
+                                            $currBtn.removeClass("fa-minus").addClass("fa-plus");
+
+                                        }
+
+                                    }
+                                },
+                                showReferralDetail: function() {
+                                    layer.alert('正在开发中，请稍后：）');
+                                }
+
+                            }
+                        })
+                    }
+                    else {
+                        vuetable.datas = mydata;
+                    }
+                });
+            };
+
+            $("#btn-query").on("click", function () {
+                //   com.showLog(vuequery.info);
+                search();
+            });
+
+
+
+
+
+            $(".icheck-inline .icheckBlue").on('ifChecked', function (event) {
+                search();
+            }).on('ifUnchecked', function (event) {
+                search();
+            });
+
+            /*******************************初始执行方法***********************************/
+            search();
+
+        });
+    </script>
+}
 

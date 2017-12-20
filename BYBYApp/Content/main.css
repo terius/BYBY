@@ -163,6 +163,17 @@ div {
     z-index: 9999 !important;
 }
 
+.page-sidebar .page-sidebar-menu > li > a > i,
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a > i {
+    font-size: 20px;
+    /*margin-right: 5px;
+    text-shadow: none;*/
+}
+
+.page-sidebar .page-sidebar-menu > li.active > a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li.active > a {
+    border-top: 1px solid #4a83b6;
+}
+
 
 
 @media (min-width: 992px) {
@@ -350,10 +361,15 @@ div {
         width: 130px !important;
     }
 
-    .input-daterange .input-group-addon {
+    .input-daterange .input-group-addon, .input-datetime-range .input-group-addon {
         border-left: none;
         border-right: none;
     }
+
+.input-datetime-range > input{
+    width:150px !important;
+}
+
 
 .myloading {
     position: absolute;

@@ -14,6 +14,7 @@ namespace BYBY.Repository.Entities
         {
             //  this.Id = Guid.NewGuid().ToString();
             this.UserRoles = new HashSet<TBUserRole>();
+            this.Doctors = new HashSet<TBDoctor>();
         }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override string Id { get; set; }
@@ -39,6 +40,8 @@ namespace BYBY.Repository.Entities
 
         public virtual ICollection<TBUserRole> UserRoles { get; set; }
 
+        public virtual ICollection<TBDoctor> Doctors { get; set; }
+
         protected override void Validate()
         {
             base.Validate();
@@ -48,6 +51,15 @@ namespace BYBY.Repository.Entities
         public IList<TBModule> GetModules(string roleName)
         {
             return UserRoles.FirstOrDefault(d => d.Role.Name == roleName).Role.RoleModules.Select(d => d.Module).OrderBy(d => d.OrderBy).ToList();
+        }
+        [NotMapped]
+        public string RoleName
+        {
+            get
+            {
+                return UserRoles.First().Role.Name;
+
+            }
         }
 
     }

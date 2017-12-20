@@ -172,7 +172,7 @@
                     <div class="col-md-offset-3 col-md-4">
                         <button type="button" class="btn btn-outline blue" id="btnSave">提交</button>
                         <a href="@Url.Action("Index","MedicalHistory")" type="button" class="btn btn-outline blue margin-left-20" id="btnCancel">返回</a>
-                        <button type="button" class="btn btn-outline blue" id="btnTest">测试</button>
+                        @*<button type="button" class="btn btn-outline blue" id="btnTest">测试</button>*@
                     </div>
                 </div>
             </div>
@@ -183,7 +183,7 @@
 @section styles
 {
     @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
-    @System.Web.Optimization.Styles.Render("~/bundles/css/datetimepicker")
+    @System.Web.Optimization.Styles.Render("~/bundles/css/datepicker")
 
 
 }
@@ -191,7 +191,7 @@
 @section pagejs
 {
     @System.Web.Optimization.Scripts.Render("~/bundles/js/select2")
-    @System.Web.Optimization.Scripts.Render("~/bundles/js/datetimepicker")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/datepicker")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
     <script>

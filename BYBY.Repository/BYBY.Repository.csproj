@@ -56,7 +56,10 @@
     <Compile Include="DataContextFactory.cs" />
     <Compile Include="EFUnitOfWork.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\TBReferral.cs" />
     <Compile Include="Entities\TBEthnic.cs" />
+    <Compile Include="Entities\TBConsultation.cs" />
+    <Compile Include="Entities\TBDoctor.cs" />
     <Compile Include="Entities\TBMedicalDetail.cs" />
     <Compile Include="Entities\TBHospital.cs" />
     <Compile Include="Entities\TBMedicalHistory.cs" />
@@ -209,6 +212,26 @@
     <Compile Include="Migrations\201712171543388_AddTableTBMedicalHistoryImage.Designer.cs">
       <DependentUpon>201712171543388_AddTableTBMedicalHistoryImage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712190913132_addTableTBConsultationAndTBDoctors.cs" />
+    <Compile Include="Migrations\201712190913132_addTableTBConsultationAndTBDoctors.Designer.cs">
+      <DependentUpon>201712190913132_addTableTBConsultationAndTBDoctors.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712190956590_TBConsultationAddTBMedicalHistoryId.cs" />
+    <Compile Include="Migrations\201712190956590_TBConsultationAddTBMedicalHistoryId.Designer.cs">
+      <DependentUpon>201712190956590_TBConsultationAddTBMedicalHistoryId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712191057117_addTableTBReferral.cs" />
+    <Compile Include="Migrations\201712191057117_addTableTBReferral.Designer.cs">
+      <DependentUpon>201712191057117_addTableTBReferral.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712191234298_TBHospitalAddParentHospital.cs" />
+    <Compile Include="Migrations\201712191234298_TBHospitalAddParentHospital.Designer.cs">
+      <DependentUpon>201712191234298_TBHospitalAddParentHospital.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712191308330_TBReferralAndTBConsultationAddStatus.cs" />
+    <Compile Include="Migrations\201712191308330_TBReferralAndTBConsultationAddStatus.Designer.cs">
+      <DependentUpon>201712191308330_TBReferralAndTBConsultationAddStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -324,6 +347,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712171543388_AddTableTBMedicalHistoryImage.resx">
       <DependentUpon>201712171543388_AddTableTBMedicalHistoryImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712190913132_addTableTBConsultationAndTBDoctors.resx">
+      <DependentUpon>201712190913132_addTableTBConsultationAndTBDoctors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712190956590_TBConsultationAddTBMedicalHistoryId.resx">
+      <DependentUpon>201712190956590_TBConsultationAddTBMedicalHistoryId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712191057117_addTableTBReferral.resx">
+      <DependentUpon>201712191057117_addTableTBReferral.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712191234298_TBHospitalAddParentHospital.resx">
+      <DependentUpon>201712191234298_TBHospitalAddParentHospital.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712191308330_TBReferralAndTBConsultationAddStatus.resx">
+      <DependentUpon>201712191308330_TBReferralAndTBConsultationAddStatus.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

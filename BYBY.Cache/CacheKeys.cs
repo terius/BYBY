@@ -33,6 +33,10 @@
         /// <summary>
         /// 角色模块
         /// </summary>
-        RoleModule
+        RoleModule,
+        /// <summary>
+        /// 医生
+        /// </summary>
+        Doctor
     }
 }
