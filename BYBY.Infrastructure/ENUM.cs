@@ -6,7 +6,8 @@ namespace BYBY.Infrastructure
     {
         patient = 1,
         doctor,
-        customerservice
+        customerservice,
+        admin
     }
 
 

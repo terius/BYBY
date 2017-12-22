@@ -82,8 +82,10 @@
     <Compile Include="AutoMapperBootStrapper.cs" />
     <Compile Include="ConvertViewMethods.cs" />
     <Compile Include="Implementations\BaseService.cs" />
+    <Compile Include="Implementations\DoctorService.cs" />
     <Compile Include="Implementations\MedicalHistoryService.cs" />
     <Compile Include="Implementations\UserAccountService.cs" />
+    <Compile Include="Interfaces\IDoctorService.cs" />
     <Compile Include="Interfaces\IMedicalHistoryService.cs" />
     <Compile Include="Interfaces\IUserAccountService.cs" />
     <Compile Include="Interfaces\IBaseService.cs" />

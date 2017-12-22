@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace BYBY.Infrastructure
 {
@@ -12,5 +8,7 @@ namespace BYBY.Infrastructure
         public string text { get; set; }
 
         public string title { get; set; }
+
+        public IList<SelectItem> children { get; set; }
     }
 }

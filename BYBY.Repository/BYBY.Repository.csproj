@@ -232,6 +232,10 @@
     <Compile Include="Migrations\201712191308330_TBReferralAndTBConsultationAddStatus.Designer.cs">
       <DependentUpon>201712191308330_TBReferralAndTBConsultationAddStatus.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712201242470_TBDoctorAddIsMasterDoctor.cs" />
+    <Compile Include="Migrations\201712201242470_TBDoctorAddIsMasterDoctor.Designer.cs">
+      <DependentUpon>201712201242470_TBDoctorAddIsMasterDoctor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -362,6 +366,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712191308330_TBReferralAndTBConsultationAddStatus.resx">
       <DependentUpon>201712191308330_TBReferralAndTBConsultationAddStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712201242470_TBDoctorAddIsMasterDoctor.resx">
+      <DependentUpon>201712201242470_TBDoctorAddIsMasterDoctor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

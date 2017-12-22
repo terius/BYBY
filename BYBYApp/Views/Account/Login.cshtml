@@ -27,6 +27,7 @@
         <ul>
             <li><a href="javascript:;" class="btn btn-primary" data-roletype="patient"><i class="fa fa-user margin-right-10"></i>患者入口</a></li>
             <li><a href="javascript:;" class="btn btn-primary" data-roletype="doctor"><i class="fa fa-user-md margin-right-10"></i>医生入口</a></li>
+            <li><a href="javascript:;" class="btn btn-primary" data-roletype="customerservice"><i class="fa fa-user-md margin-right-10"></i>客服入口</a></li>
         </ul>
     </div>
     <div class="login-panel" style="display:none">
@@ -97,6 +98,9 @@
                         break;
                     case "doctor":
                         $("#login-title").text("医生登录");
+                        break;
+                    case "customerservice":
+                        $("#login-title").text("客服登录");
                         break;
                     default:
                 }

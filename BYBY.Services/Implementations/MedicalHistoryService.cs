@@ -249,6 +249,11 @@ namespace BYBY.Services.Implementations
                 query = query.Where(d => d.RequestDate <= edt);
             }
 
+            if (request.HospitalId.HasValue)
+            {
+                query = query.Where(d => d.HospitalId == request.HospitalId.Value);
+            }
+
 
             //   var data = await _repository.FindAsync(d => d.MedicalHistoryNo == "9999");
             var pageData = PageQuery(query.OrderBy(d => d.Id), request, d => d.C_To_ConsultationListViews());

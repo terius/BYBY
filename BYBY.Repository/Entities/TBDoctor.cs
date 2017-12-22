@@ -27,5 +27,10 @@ namespace BYBY.Repository.Entities
 
         [ForeignKey("UserId")]
         public virtual TBUser User { get; set; }
+
+        /// <summary>
+        /// 是否为母院医生
+        /// </summary>
+        public bool IsMasterDoctor { get; set; }
     }
 }

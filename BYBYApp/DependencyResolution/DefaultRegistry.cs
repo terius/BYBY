@@ -50,6 +50,7 @@ namespace BYBYApp.DependencyResolution
 
             For<IUserAccountService>().Use<UserAccountService>();
             For<IMedicalHistoryService>().Use<MedicalHistoryService>();
+            For<IDoctorService>().Use<DoctorService>();
             For<ICacheService>().Use<CacheService>();
         }
 

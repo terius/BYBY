@@ -286,6 +286,21 @@ namespace BYBY.Services
             return dest;
         }
 
+        public static IList<SelectItem> ConvertTo_SelectItem(this IEnumerable<TBHospital> source)
+        {
+            var dest = new List<SelectItem>();
+            SelectItem sitem;
+            foreach (var item in source)
+            {
+                sitem = new SelectItem();
+                sitem.id = item.Id.ToString();
+                sitem.text = item.Name;
+                sitem.title = item.IsMaster ? "1" : "0";
+                dest.Add(sitem);
+            }
+            return dest;
+        }
+
 
     }
 }

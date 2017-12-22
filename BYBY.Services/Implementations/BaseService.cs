@@ -63,23 +63,43 @@ namespace BYBY.Services.Implementations
         }
 
 
-        public async Task<TBUser> GetLoginInfo()
+        public async Task<TBUser> GetLoginInfoAsync()
         {
             var userId = System.Web.HttpContext.Current.User.Identity.GetUserId();
             var user = await _userManager.FindByIdAsync(userId);
             return user;
         }
 
+        //public TBUser GetLoginInfo()
+        //{
+        //    var userId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+        //    var user =  _userManager.FindById(userId);
+        //    return user;
+        //}
+
+        public async Task<TBDoctor> GetLoginDoctorInfo()
+        {
+            var user = await GetLoginInfoAsync();
+            return user.Doctors.First();
+        }
+
 
         public async Task<int> GetDoctorMasterHospitalId()
         {
-            var userInfo = await GetLoginInfo();
-            if (userInfo.Doctors.Count > 0)
+            var userInfo = await GetLoginInfoAsync();
+            return userInfo.DoctorMasterHospitalId;
+        }
+
+        /// <summary>
+        /// 是否为母院医生
+        /// </summary>
+        public bool IsMasterDoctor
+        {
+            get
             {
-                var hospital = userInfo.Doctors.First().Hospital;
-                return hospital.ParentHospitalId.HasValue ? hospital.ParentHospital.Id : hospital.Id;
+                var userInfo = GetLoginInfoAsync().Result;
+                return userInfo.IsMasterDoctor;
             }
-            return 0;
         }
 
         public string GetLoginUserName()

@@ -62,5 +62,44 @@ namespace BYBY.Repository.Entities
             }
         }
 
+
+        [NotMapped]
+        public bool IsDoctor
+        {
+            get
+            {
+                return RoleName == "doctor";
+
+            }
+        }
+
+        [NotMapped]
+        public bool IsMasterDoctor
+        {
+            get
+            {
+                if (!IsDoctor)
+                {
+                    return false;
+                }
+                return Doctors.First().IsMasterDoctor;
+
+            }
+        }
+
+        [NotMapped]
+        public int DoctorMasterHospitalId
+        {
+            get
+            {
+                if (!IsDoctor)
+                {
+                    return 0;
+                }
+                var hospital = Doctors.First().Hospital;
+                return hospital.ParentHospitalId.HasValue ? hospital.ParentHospital.Id : hospital.Id;
+            }
+        }
+
     }
 }

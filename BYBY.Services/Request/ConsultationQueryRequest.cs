@@ -13,5 +13,7 @@
         public string Stime { get; set; }
 
         public string Etime { get; set; }
+
+        public int? HospitalId { get; set; }
     }
 }

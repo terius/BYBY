@@ -89,6 +89,32 @@ namespace BYBYApp.Controllers
             Session["RoleModule"] = modules;
         }
 
+        public RoleType LoginUserRoleType
+        {
+            get {
+                RoleType roleType = RoleType.doctor;
+                var roleName = RoleName;
+                switch (roleName)
+                {
+                    case "patient":
+                        roleType = RoleType.patient;
+                        break;
+                    case "doctor":
+                        roleType = RoleType.doctor;
+                        break;
+                    case "customerservice":
+                        roleType = RoleType.customerservice;
+                        break;
+                    case "admin":
+                        roleType = RoleType.admin;
+                        break;
+                    default:
+                        break;
+                }
+                return roleType;
+            }
+        }
+
         public string RoleName
         {
             get

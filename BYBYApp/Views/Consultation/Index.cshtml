@@ -1,4 +1,4 @@
-﻿
+﻿@model BYBYApp.Models.ConsultationListModel
 @{
     ViewBag.Title = "会诊管理";
 }
@@ -7,6 +7,9 @@
     <div class="portlet-title">
         <div class="caption">
             会诊管理
+        </div>
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
         </div>
     </div>
 
@@ -35,27 +38,34 @@
                         </div>
                     </div>
                 </div>
-
+                @if (Html.IsMasterDoctor() || Html.GetRoleType() == BYBY.Infrastructure.RoleType.customerservice)
+                {
+                    <div class="form-group margin-left-20">
+                        <label for="search-key">选择医院：</label>
+                        <select2 id="Hostpital" class="w196" data-placeholder="--请选择医院--" :options="info.HospitalList">
+                        </select2>
+                    </div>
+                }
                 <div class="form-group margin-left-20">
                     <label for="search-key">患者信息：</label>
-                    <input type="text" class="form-control" id="search-key" placeholder="输入患者信息" >
+                    <input type="text" class="form-control" id="search-key" placeholder="输入患者信息">
                 </div>
                 <div class="form-group margin-left-20">
                     <label>开始日期：</label>
                     <div class="input-group date-picker input-daterange">
                         <input type="text" id="txt_stime" class="form-control s-time" name="txt_stime" readonly>
                         <span class="input-group-addon"> 到 </span>
-                        <input type="text" id="txt_etime" class="form-control e-time" name="txt_etime"  readonly>
+                        <input type="text" id="txt_etime" class="form-control e-time" name="txt_etime" readonly>
                     </div>
                 </div>
-                <button type="button" class="btn blue btn-outline margin-left-20" id="btn-query">
-                    <i class="fa fa-search"></i> 查询
-                </button>
+                <div class="form-group">
+                    <button type="button" class="btn blue btn-outline margin-left-20" id="btn-query">
+                        <i class="fa fa-search"></i> 查询
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="actions">
-            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
-        </div>
+
     </div>
     <div class="portlet-body" id="tableshow">
         <table class="table  table-bordered" id="query-table" v-cloak>
@@ -114,7 +124,7 @@
                                 <p><b>申请人:</b>{{info.AddUser}}</p>
                                 <p><b>申请时间:</b>{{info.AddTime}}</p>
                             </div>
-                          
+
                         </td>
                     </tr>
 
@@ -134,132 +144,123 @@
 {
     @System.Web.Optimization.Styles.Render("~/bundles/css/datepicker")
     @System.Web.Optimization.Styles.Render("~/bundles/css/icheck")
+    @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
 }
 
 @section pagejs
 {
     @System.Web.Optimization.Scripts.Render("~/bundles/js/datepicker")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/icheck")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/select2")
     <script>
-        $(function () {
+    $(function () {
+
+        var allData =  @Html.RenderAsJson(Model);
+    var vuetable;
+    //  com.responsiveHeight("#tableshow", "#mycontent");
+    Vue.component('v-page', {
+        template: "#vuetmp-paginator",
+        props: ["page"]
+    });
+
+    var vuequery = new Vue({
+        el: '#query-content',
+        data: {
+            info: allData
+        },
+        mounted: function () {
             com.handleiCheck();
-            var allData = {};// @*@Html.RenderAsJson(Model);*@
-
-            var vuetable;
-            //  com.responsiveHeight("#tableshow", "#mycontent");
-            Vue.component('v-page', {
-                template: "#vuetmp-paginator",
-                props: ["page"]
-            });
-
-
-            allData.STime = "";
-            allData.ETime = "";
-            allData.skey = "";
-            //var vuequery = new Vue({
-            //    el: '#query-content',
-            //    data: {
-            //        info: allData
-            //    },
-            //    mounted: function () {
-            //        var vm = this;
-            //        com.handleDateRangePicker();
-            //        $(".input-daterange input.s-time").on('change', function (ob) {
-            //            vm.info.STime = ob.target.value;
-            //        });
-            //        $(".input-daterange input.e-time").on('change', function (ob) {
-            //            vm.info.ETime = ob.target.value;
-            //        });
-            //    }
-            //});
+            com.handleDateRangePicker();
+        }
+    });
 
 
 
-            //    $(window).on("resize", App.initSlimScroll('#tableshow'));
+    //    $(window).on("resize", App.initSlimScroll('#tableshow'));
 
-            var search = function (pageIndex, sortIndex, sortType) {
-                var para = {};
-                para.PageIndex = pageIndex || 1;
-                para.SortIndex = sortIndex || -1;
-                para.SortType = sortType || 0;
-                para.SearchKey = $("#search-key").val();
-                para.IsAll = document.getElementById("checkall").checked;
-                para.IsRequest = document.getElementById("checkrequest").checked;
-                para.IsCancel = document.getElementById("checkcancel").checked;
-                para.IsConfirm = document.getElementById("checkconfirm").checked;
-                para.IsComplete = document.getElementById("checkcomplete").checked;
-                para.Stime = document.getElementById("txt_stime").value;
-                para.Etime = document.getElementById("txt_etime").value;
+    var search = function (pageIndex, sortIndex, sortType) {
+        var para = {};
+        para.PageIndex = pageIndex || 1;
+        para.SortIndex = sortIndex || -1;
+        para.SortType = sortType || 0;
+        para.SearchKey = $("#search-key").val();
+        para.IsAll = document.getElementById("checkall").checked;
+        para.IsRequest = document.getElementById("checkrequest").checked;
+        para.IsCancel = document.getElementById("checkcancel").checked;
+        para.IsConfirm = document.getElementById("checkconfirm").checked;
+        para.IsComplete = document.getElementById("checkcomplete").checked;
+        para.Stime = document.getElementById("txt_stime").value;
+        para.Etime = document.getElementById("txt_etime").value;
+        para.HospitalId = $("#Hostpital").val();
+        com.showLog(para);
 
-                com.showLog(para);
+        com.ajaxquery("/Consultation/PageQuery", para).then(function (mydata) {
+            mydata.query = function (pageIndex, sortIndex, sortType) {
+                search(pageIndex, sortIndex, sortType);
+            }
+            //  com.showLog(mydata);
+            if (vuetable == null) {
+                vuetable = new Vue({
+                    el: '#query-table',
+                    data: {
+                        datas: mydata
+                    },
+                    mounted: function () {
+                        $('.tooltips').tooltip();
+                        //  App.initSlimScroll('#tableshow');
+                    },
+                    methods: {
+                        showDetail: function (event) {
+                            //  alert(event);
+                            if (event) {
+                                var $currBtn = $(event.target);
+                                $("#query-table tbody .tb-detail-view").removeClass("open");
+                                var isDetailClosed = $currBtn.hasClass("fa-plus");
+                                //  alert(isDetailClosed);
+                                if (isDetailClosed) {
+                                    $("#query-table tbody .fa-minus").removeClass("fa-minus").addClass("fa-plus");
+                                    $currBtn.removeClass("fa-plus").addClass("fa-minus").closest("tr").next().addClass("open");
 
-                com.ajaxquery("/Consultation/PageQuery", para).then(function (mydata) {
-                    mydata.query = function (pageIndex, sortIndex, sortType) {
-                        search(pageIndex, sortIndex, sortType);
-                    }
-                    //  com.showLog(mydata);
-                    if (vuetable == null) {
-                        vuetable = new Vue({
-                            el: '#query-table',
-                            data: {
-                                datas: mydata
-                            },
-                            mounted: function () {
-                                $('.tooltips').tooltip();
-                                //  App.initSlimScroll('#tableshow');
-                            },
-                            methods: {
-                                showDetail: function (event) {
-                                    //  alert(event);
-                                    if (event) {
-                                        var $currBtn = $(event.target);
-                                        $("#query-table tbody .tb-detail-view").removeClass("open");
-                                        var isDetailClosed = $currBtn.hasClass("fa-plus");
-                                        //  alert(isDetailClosed);
-                                        if (isDetailClosed) {
-                                            $("#query-table tbody .fa-minus").removeClass("fa-minus").addClass("fa-plus");
-                                            $currBtn.removeClass("fa-plus").addClass("fa-minus").closest("tr").next().addClass("open");
-
-                                        }
-                                        else {
-                                            $currBtn.removeClass("fa-minus").addClass("fa-plus");
-
-                                        }
-
-                                    }
-                                },
-                                showConsultationDetail: function() {
-                                    layer.alert('正在开发中，请稍后：）');
                                 }
-                           
+                                else {
+                                    $currBtn.removeClass("fa-minus").addClass("fa-plus");
+
+                                }
+
                             }
-                        })
+                        },
+                        showConsultationDetail: function () {
+                            layer.alert('正在开发中，请稍后：）');
+                        }
+
                     }
-                    else {
-                        vuetable.datas = mydata;
-                    }
-                });
-            };
-
-            $("#btn-query").on("click", function () {
-                //   com.showLog(vuequery.info);
-                search();
-            });
-
-
-     
-
-
-            $(".icheck-inline .icheckBlue").on('ifChecked', function (event) {
-                search();
-            }).on('ifUnchecked', function (event) {
-                search();
-            });
-
-            /*******************************初始执行方法***********************************/
-            search();
-
+                })
+            }
+            else {
+                vuetable.datas = mydata;
+            }
         });
+    };
+
+    $("#btn-query").on("click", function () {
+        //   com.showLog(vuequery.info);
+        search();
+    });
+
+
+
+
+
+    $(".icheck-inline .icheckBlue").on('ifChecked', function (event) {
+        search();
+    }).on('ifUnchecked', function (event) {
+        search();
+    });
+
+    /*******************************初始执行方法***********************************/
+    search();
+
+});
     </script>
 }
 

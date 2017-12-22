@@ -222,13 +222,15 @@ div {
     display: inline-block;
     font-size: 14px;
     line-height: 14px;
-    padding: 0 0 10px;
+    padding: 0;
 }
 
+.querycontent .form-group{
+    padding-bottom:10px;
+}
 /*.portlet.light > .portlet-title > .actions {
     padding: 0 0 10px !important;
 }*/
-
 /*****************************************底部样式*****************************************/
 .page-footer {
     /*border-top:1px solid #ddd;*/
@@ -506,7 +508,11 @@ div {
     z-index: 20000;
 }*/
 
-
+.select2-results__group
+{
+    background-color:#2f853b;
+    color:#fff !important;
+}
 /************************datepicker样式************************/
 .datepicker.datepicker-dropdown {
     z-index: 20001;

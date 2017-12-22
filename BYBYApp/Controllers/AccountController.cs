@@ -8,6 +8,7 @@ using BYBY.Services.Response;
 using BYBYApp.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Infrastructure;
 using Microsoft.Owin.Security;
 using System;
 using System.Threading.Tasks;
@@ -87,8 +88,11 @@ namespace BYBYApp.Controllers
                 var identity = await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
                 // 3. 将上面拿到的identity对象登录
 
-                AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
-
+                var ticket = new AuthenticationProperties { IsPersistent = false };
+                var currUtc = new SystemClock().UtcNow;
+                ticket.IssuedUtc = currUtc;
+                ticket.ExpiresUtc = currUtc.Add(TimeSpan.FromMinutes(30));
+                AuthenticationManager.SignIn(ticket, identity);
                 SaveRoleModuleToSession(user, loginModel.RoleName);
                 Response.Cookies.Add(CreateAccountCookie(user,loginModel.RoleName));
 
