@@ -7,7 +7,7 @@
     <div class="panel panel-default" v-for="(md, index) in malemdlist">
         <div class="panel-heading">
             <h4 class="panel-title">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#medical-detail-male" :href="'#collapse_' + md.MDId">{{md.Title}}</a>
+                <a :class="'accordion-toggle ' + [index==0?'':'collapsed']" data-toggle="collapse" data-parent="#medical-detail-male" :href="'#collapse_' + md.MDId">{{md.Title}}</a>
             </h4>
         </div>
         <div :id="'collapse_' + md.MDId" :class="'panel-collapse ' +  [index==0?'in':'collapse']">
@@ -161,7 +161,7 @@
                     <div class="col-md-12 underline">
                         <div class="form-group">
                             <label>诊治医生:</label>
-                            <label class="w250">{{md.DiagnosisDoctorId}}</label>
+                            <label class="w250">{{md.DiagnosisDoctor}}</label>
                         </div>
                     </div>
                 </div>
@@ -331,7 +331,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>诊治医生:</label>
-                                <input type="text" maxlength="100"  name="DiagnosisDoctorId" class="form-control" :value="md.DiagnosisDoctorId">
+                                <input type="text" maxlength="100"  name="DiagnosisDoctor" class="form-control" :value="md.DiagnosisDoctor">
                             </div>
                         </div>
                         <div class="col-md-12 action-content">
@@ -349,11 +349,12 @@
     </div>
 </div>
 
+
+@*新增男方病历*@
 <div id="modal-male-detail">
     <v-modal v-cloak v-bind:tinfo="modalinfo" ref="vuemodal">
-        <form method="post" action="@Url.Action("MedicalDetailUpdate","MedicalHistory")" id="SaveEditMaleDetailForm">
-            <input name="MDId" type="hidden" :value="md.MDId" />
-            <input name="Title" type="hidden" :value="md.Title" />
+        <form method="post" action="@Url.Action("MedicalDetailAdd","MedicalHistory")" id="SaveAddMaleDetailForm">
+            <input name="PatientId" type="hidden" :value="md.PatientId" />
             @Html.AntiForgeryToken()
             <div class="form-inline edit-view ">
                 <div class="col-md-12 pg-title">
@@ -362,13 +363,13 @@
                 <div class="col-md-12  ">
                     <div class="form-group">
                         <label for="CurrentInfoMain">主诉:</label>
-                        <textarea name="CurrentInfoMain" class="form-control w500" rows="3" cols="20" :value="md.CurrentInfoMain"></textarea>
+                        <textarea name="CurrentInfoMain" class="form-control w500" rows="3" cols="20"></textarea>
                     </div>
                 </div>
                 <div class="col-md-12 ">
                     <div class="form-group">
                         <label for="CurrentInfo">现病史:</label>
-                        <textarea name="CurrentInfo" class="form-control w500" rows="3" cols="20" :value="md.CurrentInfo"></textarea>
+                        <textarea name="CurrentInfo" class="form-control w500" rows="3" cols="20" ></textarea>
                     </div>
                 </div>
                 <div class="col-md-12 pg-title">
@@ -377,44 +378,44 @@
                 <div class="col-md-12 ">
                     <div class="form-group">
                         <label>肝炎:</label>
-                        <input type="text" maxlength="100" name="PastHepatitis" class="form-control" :value="md.PastHepatitis">
+                        <input type="text" maxlength="100" name="PastHepatitis" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>结核:</label>
-                        <input type="text" maxlength="100" name="PastTuberculosis" class="form-control" :value="md.PastTuberculosis">
+                        <input type="text" maxlength="100" name="PastTuberculosis" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>性传播疾病:</label>
-                        <input type="text" maxlength="100" name="PastSTD" class="form-control" :value="md.PastSTD">
+                        <input type="text" maxlength="100" name="PastSTD" class="form-control">
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>腮腺炎:</label>
-                        <input type="text" maxlength="100" name="PastMumps" class="form-control" :value="md.PastMumps">
+                        <input type="text" maxlength="100" name="PastMumps" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>睾丸手术:</label>
-                        <input type="text" maxlength="100" class="form-control" name="PastTesticularSurgery" :value="md.PastTesticularSurgery">
+                        <input type="text" maxlength="100" class="form-control" name="PastTesticularSurgery" >
                     </div>
                     <div class="form-group">
                         <label>附睾手术:</label>
-                        <input type="text" maxlength="100" class="form-control" name="PastEpididymisSurgery" :value="md.PastEpididymisSurgery">
+                        <input type="text" maxlength="100" class="form-control" name="PastEpididymisSurgery">
                     </div>
                 </div>
                 <div class="col-md-12">
 
                     <div class="form-group">
                         <label>输精管手术:</label>
-                        <input type="text" maxlength="100" class="form-control" name="PastVasectomy" :value="md.PastVasectomy">
+                        <input type="text" maxlength="100" class="form-control" name="PastVasectomy">
                     </div>
                     <div class="form-group">
                         <label>尿道手术:</label>
-                        <input type="text" maxlength="100" class="form-control" name="PastUrethralSurgery" :value="md.PastUrethralSurgery">
+                        <input type="text" maxlength="100" class="form-control" name="PastUrethralSurgery" >
                     </div>
                     <div class="form-group">
                         <label>其他:</label>
-                        <input type="text" maxlength="100" name="PastOther" class="form-control" :value="md.PastOther">
+                        <input type="text" maxlength="100" name="PastOther" class="form-control">
                     </div>
                 </div>
 
@@ -425,25 +426,25 @@
                 <div class="col-md-12 ">
                     <div class="form-group">
                         <label>吸烟:</label>
-                        <input type="text" maxlength="100" name="PersonalSmoke" class="form-control" :value="md.PersonalSmoke">
+                        <input type="text" maxlength="100" name="PersonalSmoke" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>酗酒:</label>
-                        <input type="text" maxlength="100" name="PersonalAlcoholism" class="form-control" :value="md.PersonalAlcoholism">
+                        <input type="text" maxlength="100" name="PersonalAlcoholism" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>吸毒:</label>
-                        <input type="text" maxlength="100" name="PersonalDrug" class="form-control" :value="md.PersonalDrug">
+                        <input type="text" maxlength="100" name="PersonalDrug" class="form-control">
                     </div>
                 </div>
                 <div class="col-md-12 ">
                     <div class="form-group">
                         <label>习惯用药:</label>
-                        <input type="text" maxlength="100" name="PersonalHabitMedication" class="form-control" :value="md.PersonalHabitMedication">
+                        <input type="text" maxlength="100" name="PersonalHabitMedication" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>药物过敏:</label>
-                        <input type="text" maxlength="100" name="PersonalDrugAllergy" class="form-control" :value="md.PersonalDrugAllergy">
+                        <input type="text" maxlength="100" name="PersonalDrugAllergy" class="form-control">
                     </div>
                 </div>
 
@@ -453,15 +454,15 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>结婚年龄:</label>
-                        <input type="number" maxlength="100" class="form-control" name="ManMarriageAge" :value="md.ManMarriageAge">
+                        <input type="number" maxlength="100" class="form-control" name="ManMarriageAge">
                     </div>
                     <div class="form-group">
                         <label>最后生育时间:</label>
-                        <date-picker-simple id="ManLastMarriageDate" :value="md.ManLastMarriageDate"></date-picker-simple>
+                        <date-picker-simple id="ManLastMarriageDate"></date-picker-simple>
                     </div>
                     <div class="form-group">
                         <label>近亲结婚:</label>
-                        <select class="selectpicker show-tick " data-width="196px" :value="md.MarriageRelatives"  name="MarriageRelatives">
+                        <select class="selectpicker show-tick " data-width="196px"  name="MarriageRelatives">
                             <option value="否">否</option>
                             <option value="是">是</option>
                         </select>
@@ -470,7 +471,7 @@
                 <div class="col-md-12 ">
                     <div class="form-group">
                         <label>再婚:</label>
-                        <select class="selectpicker show-tick " data-width="196px" :value="md.MarriageRemarry"  name="MarriageRemarry">
+                        <select class="selectpicker show-tick " data-width="196px"  name="MarriageRemarry">
                             <option value="否">否</option>
                             <option value="是">是</option>
                         </select>
@@ -482,15 +483,15 @@
                 <div class="col-md-12 ">
                     <div class="form-group">
                         <label>身高(cm):</label>
-                        <input type="number" maxlength="100" name="PhysiqueHeight" class="form-control" :value="md.PhysiqueHeight">
+                        <input type="number" maxlength="100" name="PhysiqueHeight" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>体重(kg):</label>
-                        <input type="number" maxlength="100"  name="PhysiqueWeight" class="form-control" :value="md.PhysiqueWeight">
+                        <input type="number" maxlength="100"  name="PhysiqueWeight" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>体重指数:</label>
-                        <input type="number" maxlength="100" name="PhysiqueBMI" class="form-control" :value="md.PhysiqueBMI">
+                        <input type="number" maxlength="100" name="PhysiqueBMI" class="form-control">
                     </div>
                 </div>
                 <div class="col-md-12 pg-title">
@@ -499,23 +500,23 @@
                 <div class="col-md-12 ">
                     <div class="form-group">
                         <label>诊断:</label>
-                        <textarea  name="TreatmentAdviceDiagnosis" class="form-control w500" rows="3" cols="20" :value="md.TreatmentAdviceDiagnosis"></textarea>
+                        <textarea  name="TreatmentAdviceDiagnosis" class="form-control w500" rows="3" cols="20"></textarea>
                     </div>
                 </div>
                 <div class="col-md-12 ">
                     <div class="form-group">
                         <label>治疗意见:</label>
-                        <textarea  name="TreatmentAdvice" class="form-control w500" rows="3" cols="20" :value="md.TreatmentAdvice"></textarea>
+                        <textarea  name="TreatmentAdvice" class="form-control w500" rows="3" cols="20"></textarea>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>诊治医生:</label>
-                        <input type="text" maxlength="100" name="DiagnosisDoctorId" class="form-control" :value="md.DiagnosisDoctorId">
+                        <input type="text" maxlength="100" name="DiagnosisDoctor" class="form-control">
                     </div>
                 </div>
             </div>
         </form>
-        <button type="button" slot="bottom" class="btn blue btn-outline" id="btnSavePwd">保  存</button>
+        <button type="button" slot="bottom" class="btn blue btn-outline btn-save-md add">保  存</button>
     </v-modal>
 </div>

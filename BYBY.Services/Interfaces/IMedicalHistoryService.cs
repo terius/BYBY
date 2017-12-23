@@ -49,11 +49,18 @@ namespace BYBY.Services.Interfaces
         Task<IList<MedicalDetailRequest>> GetMedicalDetails(TBPatient patient);
 
         /// <summary>
-        /// 保存病历信息
+        /// 编辑病历详细信息
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
         Task<EmptyResponse> SaveEditMedicalDetail(MedicalDetailRequest request);
+
+        /// <summary>
+        /// 新增病历详细信息
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<EmptyResponse> SaveAddMedicalDetail(MedicalDetailAddRequest request);
 
         /// <summary>
         /// 保存申请会诊信息

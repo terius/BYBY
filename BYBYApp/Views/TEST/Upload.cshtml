@@ -1,0 +1,191 @@
+﻿
+@{
+    ViewBag.Title = "上传测试";
+}
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            上传测试
+        </div>
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+        </div>
+    </div>
+
+    <div class="portlet-body">
+        <div id="uploadfile">
+            <span class="btn green fileinput-button">
+                <i class="glyphicon glyphicon-plus"></i>
+                <span>选择文件</span>
+                <input type="file" name="upfile1" id="upfile1">
+            </span>
+            <button type="submit" class="btn blue start">
+                <i class="fa fa-upload"></i>
+                <span> 开始上传 </span>
+            </button>
+            <ul class="ul-img-list" id="upimages">
+            </ul>
+        </div>
+    </div>
+</div>
+
+@section styles
+{
+    <link href="/Metronic/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" type="text/css" />
+
+}
+
+@section pagejs
+{
+    @*<script src="/Metronic/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
+        <script src="/Metronic/assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js" type="text/javascript"></script>
+        <script src="/Metronic/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js" type="text/javascript"></script>
+        <script src="/Metronic/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
+        <script src="/Metronic/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-process.js" type="text/javascript"></script>
+        <script src="/Metronic/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-image.js" type="text/javascript"></script>
+        <script src="/Metronic/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js" type="text/javascript"></script>*@
+    <script>
+        $(function () {
+            var $dvfile = $("#uploadfile"); //$("#dvfile");
+            var reader = new FileReader();
+            var imgHtml = "<div class=\"imgWrap\"><img src=\"{0}\" alt=\"\"  height=\"80\" width=\"100\" /><i data-fileid=\"{1}\" class=\"btn fa fa-remove delimg\"></i></div>";
+            var img = "<li>"
+                + "<img src=\"{0}\" height=\"100\" width=\"150\" />"
+                + "<i class=\"fa fa-2x fa-trash-o blue delete\" data-fileid=\"{1}\" title=\"删除图片\"></i>"
+                + "<p>{2}</p>"
+                + "</li>";
+            var len = 1;
+            var readURL = function (input) {
+
+                if (input.files && input.files[0]) {
+                    selectFile = input.files[0];
+                    if (!/image\/\w+/.test(selectFile.type)) {
+                        ShowAlert("请确保文件类型为图像类型");
+                        input.outerHTML = input.outerHTML;
+                        return false;
+                    }
+
+                    var size = selectFile.size / 1024 / 1024;
+                    if (size > 10) {
+                        ShowAlert("请勿上传超过10M的图片");
+                        input.outerHTML = input.outerHTML;
+                        return false;
+                    }
+                    reader.readAsDataURL(selectFile);
+                    reader.onload = function (e) {
+                        var fileid = input.id;
+                        $("#upimages").append(img.replace("{0}", e.target.result).replace("{1}", fileid).replace("{2}", selectFile.name));
+
+                        //var fileid = $dvfile.find(":file:last").attr("id");
+                        //$(".load").hide();
+
+                        //$("#imglist").append(imgHtml.replace("{0}", e.target.result).replace("{1}", fileid));
+                        $(":file", $dvfile).hide();
+                        len += 1;
+                        $(".fileinput-button", $dvfile).append("<input type=\"file\" accept=\"image/*\" id=\"upfile" + len + "\"/>");
+                    };
+                    reader.onloadstart = function (e) {
+                       // $(".load").show();
+                    }
+                }
+            };
+
+            $dvfile.on("change", ":file", function () {
+                readURL(this);
+            })
+
+            var SaveFile = function () {
+                var data = new FormData();
+                $(":file", $dvfile).each(function(index,ele) {
+                    data.append('upload_file' + index, ele.files[0]);
+                })
+                //var f = $(":file");
+
+                //var hasNewfile = false;
+                //for (var i = 0; i < f.length; i++) {
+                //    if (f[i].files && f[i].files[0]) {
+                //        data.append('upload_file' + i, f[i].files[0]);
+                //        hasNewfile = true;
+                //    }
+                //}
+                //if (delList === null || (!hasNewfile && !delList.value)) {
+                //    ShowSuccessThenGoBack("编辑成功！");
+                //    return;
+                //}
+
+                //删除图片
+                $.ajax({
+                    url: "@Url.Action("UploadFile", "MedicalHistory")",
+                    type: 'POST',
+                    data: data,
+                    cache: false,
+                    contentType: false,    //不可缺
+                    processData: false,    //不可缺
+                    success: function (msg) {
+                        //if (msg == "") {
+                        //    ShowSuccessThenGoBack("编辑成功！");
+                        //}
+                        //else {
+                        //    ShowAlert(msg);
+                        //}
+                    }
+                });
+
+            }
+
+            $(".start").on("click", function() {
+                SaveFile();
+            })
+
+            //$('#fileupload').fileupload({
+            //    disableImageResize: false,
+            //    autoUpload: false,
+            //    disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator.userAgent),
+            //    maxFileSize: 5000000,
+            //    acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            //    done: function (e, data) {
+            //        $.each(data.result.files, function (index, file) {
+            //            $('<p/>').text(file.name).appendTo(document.body);
+            //        });
+            //    },
+            //    progressall: function (e, data) {
+            //        var progress = parseInt(data.loaded / data.total * 100, 10);
+            //        $('#progress .progress-bar').css(
+            //            'width',
+            //            progress + '%'
+            //        );
+            //    },
+            //    add: function (e, data) {
+            //      //  data.context = $('<p/>').text(data.files[0].name).appendTo(document.getElementById("files"));
+            //        data.context = $('<button/>').text('Upload')
+            //            .appendTo(document.getElementById("files"))
+            //            .click(function () {
+            //                data.context = $('<p/>').text(data.files[0].name).replaceAll($(this));
+            //                data.submit();
+            //            });
+            //    },
+            //    done: function (e, data) {
+            //        data.context.text('Upload finished.');
+            //    }
+            //});
+
+            //$.ajax({
+            //    // Uncomment the following to send cross-domain cookies:
+            //    //xhrFields: {withCredentials: true},
+            //    url: $('#fileupload').attr("action"),
+            //    dataType: 'json',
+            //    context: $('#fileupload')[0]
+            //}).always(function () {
+            //    $(this).removeClass('fileupload-processing');
+            //    }).done(function (result) {
+            //        alert(result);
+            //    //$(this).fileupload('option', 'done')
+            //    //    .call(this, $.Event('done'), { result: result });
+            //});
+        })
+    </script>
+}
+
+
+

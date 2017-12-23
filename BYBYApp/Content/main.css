@@ -225,8 +225,14 @@ div {
     padding: 0;
 }
 
-.querycontent .form-group{
-    padding-bottom:10px;
+@media (min-width: 768px) {
+    .querycontent .form-group {
+        padding-bottom: 10px;
+    }
+}
+
+.portlet-title .myactions {
+    float: right;
 }
 /*.portlet.light > .portlet-title > .actions {
     padding: 0 0 10px !important;
@@ -368,8 +374,8 @@ div {
         border-right: none;
     }
 
-.input-datetime-range > input{
-    width:150px !important;
+.input-datetime-range > input {
+    width: 150px !important;
 }
 
 
@@ -508,10 +514,9 @@ div {
     z-index: 20000;
 }*/
 
-.select2-results__group
-{
-    background-color:#2f853b;
-    color:#fff !important;
+.select2-results__group {
+    background-color: #2f853b;
+    color: #fff !important;
 }
 /************************datepicker样式************************/
 .datepicker.datepicker-dropdown {
@@ -645,15 +650,19 @@ div {
 .ul-img-list {
     list-style: none;
     margin: 0;
-    padding: 10px;
+    padding: 10px 10px 10px 0;
 }
 
     .ul-img-list > li {
         display: inline-block;
         margin-right: 15px;
         position: relative;
-      
     }
+
+        .ul-img-list > li > p {
+            margin: 0;
+        }
+
 
     .ul-img-list .delete {
         position: absolute;
@@ -664,11 +673,23 @@ div {
         cursor: pointer;
     }
 /************************************************手风琴样式************************************************/
+
+
+
 .accordion .panel-title .accordion-toggle {
-    background-color: #07a7e1;
+    background-color: #2f853b;
     color: #fff;
     font-weight: 700;
 }
+
+
+
+
+    .accordion .panel-title .accordion-toggle.collapsed {
+        background-color: #07a7e1;
+    }
+
+
 
 .viewer-toolbar1 li {
     height: 60px;

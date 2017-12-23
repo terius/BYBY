@@ -236,6 +236,10 @@
     <Compile Include="Migrations\201712201242470_TBDoctorAddIsMasterDoctor.Designer.cs">
       <DependentUpon>201712201242470_TBDoctorAddIsMasterDoctor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712230843518_TBMedicalDetailDoctorEditToString.cs" />
+    <Compile Include="Migrations\201712230843518_TBMedicalDetailDoctorEditToString.Designer.cs">
+      <DependentUpon>201712230843518_TBMedicalDetailDoctorEditToString.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -369,6 +373,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712201242470_TBDoctorAddIsMasterDoctor.resx">
       <DependentUpon>201712201242470_TBDoctorAddIsMasterDoctor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712230843518_TBMedicalDetailDoctorEditToString.resx">
+      <DependentUpon>201712230843518_TBMedicalDetailDoctorEditToString.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

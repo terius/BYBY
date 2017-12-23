@@ -350,21 +350,21 @@ if ($.fn.iCheck) {
 }
 
 com.autoScrollContent = function () {
-    if ($.fn.slimScroll) {
-        var height = $(window).height() - $(".page-header").outerHeight(true) - $(".page-footer").outerHeight(true) - 20;
-        $("#mycontent").outerHeight(height).slimScroll({
-            allowPageScroll: true, // allow page scroll when the element scroll is ended
-            size: '7px',
-            color: '#2D5F8B',
-            wrapperClass: 'slimScrollDiv',
-            railColor: '#eaeaea',
-            position: 'right',
-            height: height,
-            alwaysVisible: true,
-            railVisible: true,
-            disableFadeOut: true
-        });
-    }
+    //if ($.fn.slimScroll) {
+    //    var height = $(window).height() - $(".page-header").outerHeight(true) - $(".page-footer").outerHeight(true) - 20;
+    //    $("#mycontent").outerHeight(height).slimScroll({
+    //        allowPageScroll: true, // allow page scroll when the element scroll is ended
+    //        size: '7px',
+    //        color: '#2D5F8B',
+    //        wrapperClass: 'slimScrollDiv',
+    //        railColor: '#eaeaea',
+    //        position: 'right',
+    //        height: height,
+    //        alwaysVisible: true,
+    //        railVisible: true,
+    //        disableFadeOut: true
+    //    });
+    //}
 }
 
 com.confirm = function (title, yesFun, noFun, yesText, noText) {

@@ -1,8 +1,6 @@
 ﻿using BYBY.Cache;
 using BYBY.Services.Interfaces;
-using BYBY.Services.Models;
 using BYBY.Services.Request;
-using BYBY.Services.Response;
 using BYBYApp.Models;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -18,7 +16,11 @@ namespace BYBYApp.Controllers
         {
             _medicalHistoryService = medicalHistoryService;
         }
-        // GET: MedicalHistory
+
+        /// <summary>
+        /// 病历列表页面
+        /// </summary>
+        /// <returns></returns>
         public async Task<ActionResult> Index()
         {
             var model = new MedicalHistoryListModel();
@@ -28,12 +30,21 @@ namespace BYBYApp.Controllers
             return View(model);
         }
 
+        /// <summary>
+        ///   查询病历信息
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public async Task<JsonResult> PageQuery(MedicalHistoryListSearchRequest request)
         {
             var pageData = await _medicalHistoryService.GetMedicalHistoryList(request);
             return Json(pageData, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 新建患者页面
+        /// </summary>
+        /// <returns></returns>
         public async Task<ActionResult> AddNew()
         {
             MedicalHistoryAddModel model = new MedicalHistoryAddModel();
@@ -48,6 +59,11 @@ namespace BYBYApp.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// 保存新建患者信息
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SaveAdd(MedicalHistoryAddRequest request)
@@ -56,6 +72,11 @@ namespace BYBYApp.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 病历详细信息页面
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<ActionResult> Detail(int id)
         {
             var model = await _medicalHistoryService.GetDetailModel(id);
@@ -70,6 +91,12 @@ namespace BYBYApp.Controllers
             return View(model);
         }
 
+
+        /// <summary>
+        /// 编辑病历基本信息
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SaveEditBaseInfo(MedicalHistoryEditRequest request)
@@ -78,6 +105,11 @@ namespace BYBYApp.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 编辑女方病历或男方病历
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> MedicalDetailUpdate(MedicalDetailRequest request)
@@ -86,7 +118,25 @@ namespace BYBYApp.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 新增女方病历或男方病历
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> MedicalDetailAdd(MedicalDetailAddRequest request)
+        {
+            var response = await _medicalHistoryService.SaveAddMedicalDetail(request);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
 
+
+        /// <summary>
+        /// 新建会诊
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SaveConsultationAdd(ConsultationAddRequest request)
@@ -95,6 +145,11 @@ namespace BYBYApp.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        ///  新建转诊
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SaveReferralAdd(ReferralAddRequest request)
@@ -103,6 +158,12 @@ namespace BYBYApp.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+
+        /// <summary>
+        /// 会诊取消
+        /// </summary>
+        /// <param name="cancelRequest"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> UpdateConsultationToCancel(ConsultationCancelRequest cancelRequest)
         {
@@ -111,6 +172,11 @@ namespace BYBYApp.Controllers
         }
 
 
+        /// <summary>
+        /// 转诊取消
+        /// </summary>
+        /// <param name="cancelRequest"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> UpdateReferralToCancel(ReferralCancelRequest cancelRequest)
         {
@@ -118,11 +184,29 @@ namespace BYBYApp.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+
+        /// <summary>
+        /// 删除总病历
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Delete(MedicalHistoryDeleteRequest request)
         {
             var response = await _medicalHistoryService.Delete(request);
             return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult UploadFile()
+        {
+            string msg = "";
+            var newFilePath = UploadFile("MedicalHistoryFile", out msg);
+            if (msg != "")
+            {
+                return ErrorJson(msg);
+            }
+            return SuccessJson("上传成功");
         }
     }
 }

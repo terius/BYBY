@@ -7,7 +7,7 @@
     <div class="panel panel-default" v-for="(md, index) in femalemdlist">
         <div class="panel-heading">
             <h4 class="panel-title">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#medical-detail-female" :href="'#collapse_' + md.MDId">{{md.Title}}</a>
+                <a :class="'accordion-toggle ' + [index==0?'':'collapsed']" data-toggle="collapse" data-parent="#medical-detail-female" :href="'#collapse_' + md.MDId">{{md.Title}}</a>
             </h4>
         </div>
         <div :id="'collapse_' + md.MDId" :class="'panel-collapse ' +  [index==0?'in':'collapse']">
@@ -237,7 +237,7 @@
                     <div class="col-md-12 underline">
                         <div class="form-group">
                             <label>诊治医生:</label>
-                            <label class="w250">{{md.DiagnosisDoctorId}}</label>
+                            <label class="w250">{{md.DiagnosisDoctor}}</label>
                         </div>
                     </div>
                 </div>
@@ -513,8 +513,8 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>诊治医生:</label>
-                                @*<label class="w250">{{md.DiagnosisDoctorId}}</label>*@
-                                <input type="text" maxlength="100" name="DiagnosisDoctorId" class="form-control" :value="md.DiagnosisDoctorId">
+                                @*<label class="w250">{{md.DiagnosisDoctor}}</label>*@
+                                <input type="text" maxlength="100" name="DiagnosisDoctor" class="form-control" :value="md.DiagnosisDoctor">
                             </div>
                         </div>
                         <div class="col-md-12 action-content">
@@ -533,28 +533,29 @@
 </div>
 
 
-
+@*新增女方病历*@
 <div id="modal-female-detail">
     <v-modal v-cloak v-bind:tinfo="modalinfo" ref="vuemodal">
-        <form method="post" action="@Url.Action("MedicalDetailUpdate","MedicalHistory")" id="FemaleMDAddForm">
-            <div class="row" style="margin:0">
-                <input name="MDId" type="hidden" :value="md.MDId" />
-                <input name="Title" type="hidden" :value="md.Title" />
+        <form method="post" action="@Url.Action("MedicalDetailAdd","MedicalHistory")" id="FemaleMDAddForm">
+            <div class="row person-medical-detail" style="margin:0">
+                @*<input name="MDId" type="hidden" :value="md.MDId" />
+                <input name="Title" type="hidden" :value="md.Title" />*@
+                <input name="PatientId" type="hidden" :value="md.PatientId" />
                 @Html.AntiForgeryToken()
-                <div class="form-inline edit-view person-medical-detail">
+                <div class="form-inline edit-view ">
                     <div class="col-md-12 pg-title">
                         <div>现病史</div>
                     </div>
                     <div class="col-md-12  ">
                         <div class="form-group">
                             <label for="CurrentInfoMain">主诉:</label>
-                            <textarea name="CurrentInfoMain" class="form-control w500" rows="3" cols="20" :value="md.CurrentInfoMain"></textarea>
+                            <textarea name="CurrentInfoMain" class="form-control w500" rows="3" cols="20" ></textarea>
                         </div>
                     </div>
                     <div class="col-md-12 ">
                         <div class="form-group">
                             <label for="CurrentInfo">现病史:</label>
-                            <textarea name="CurrentInfo" class="form-control w500" rows="3" cols="20" :value="md.CurrentInfo"></textarea>
+                            <textarea name="CurrentInfo" class="form-control w500" rows="3" cols="20" ></textarea>
                         </div>
                     </div>
                     <div class="col-md-12 pg-title">
@@ -563,43 +564,43 @@
                     <div class="col-md-12 ">
                         <div class="form-group">
                             <label>肝炎:</label>
-                            <input type="text" maxlength="100" data-dfval="无" name="PastHepatitis" class="form-control" :value="md.PastHepatitis">
+                            <input type="text" maxlength="100" data-dfval="无" name="PastHepatitis" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>手术史:</label>
-                            <input type="text" maxlength="100" data-dfval="无" name="PastSurgery" class="form-control" :value="md.PastSurgery">
+                            <input type="text" maxlength="100" data-dfval="无" name="PastSurgery" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>结核:</label>
-                            <input type="text" maxlength="100" data-dfval="无" name="PastTuberculosis" class="form-control" :value="md.PastTuberculosis">
+                            <input type="text" maxlength="100" data-dfval="无" name="PastTuberculosis" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-12 ">
                         <div class="form-group">
                             <label>泌尿系统疾病:</label>
-                            <input type="text" maxlength="100" data-dfval="无" name="PastUrinarySystemDisease" class="form-control" :value="md.PastUrinarySystemDisease">
+                            <input type="text" maxlength="100" data-dfval="无" name="PastUrinarySystemDisease" class="form-control" >
                         </div>
                         <div class="form-group">
                             <label>心血管疾病:</label>
-                            <input type="text" maxlength="100" data-dfval="无" name="PastCardiovascularDisease" class="form-control" :value="md.PastCardiovascularDisease">
+                            <input type="text" maxlength="100" data-dfval="无" name="PastCardiovascularDisease" class="form-control" >
                         </div>
                         <div class="form-group">
                             <label>盆腔炎:</label>
-                            <input type="text" maxlength="100" data-dfval="无" name="PastPelvicInflammatoryDisease" class="form-control" :value="md.PastPelvicInflammatoryDisease">
+                            <input type="text" maxlength="100" data-dfval="无" name="PastPelvicInflammatoryDisease" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-12 ">
                         <div class="form-group">
                             <label>性传播疾病:</label>
-                            <input type="text" maxlength="100" data-dfval="无" name="PastSTD" class="form-control" :value="md.PastSTD">
+                            <input type="text" maxlength="100" data-dfval="无" name="PastSTD" class="form-control" >
                         </div>
                         <div class="form-group">
                             <label>肾脏疾病:</label>
-                            <input type="text" maxlength="100" data-dfval="无" name="PastKidneyDisease" class="form-control" :value="md.PastKidneyDisease">
+                            <input type="text" maxlength="100" data-dfval="无" name="PastKidneyDisease" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>其他:</label>
-                            <input type="text" maxlength="100" data-dfval="无" name="PastOther" class="form-control w400" :value="md.PastOther">
+                            <input type="text" maxlength="100" data-dfval="无" name="PastOther" class="form-control w400">
                         </div>
                     </div>
                     <div class="col-md-12 pg-title">
@@ -608,25 +609,25 @@
                     <div class="col-md-12 ">
                         <div class="form-group">
                             <label>吸烟:</label>
-                            <input type="text" maxlength="100" data-dfval="无" name="PersonalSmoke" class="form-control" :value="md.PersonalSmoke">
+                            <input type="text" maxlength="100" data-dfval="无" name="PersonalSmoke" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>酗酒:</label>
-                            <input type="text" maxlength="100" data-dfval="无" name="PersonalAlcoholism" class="form-control" :value="md.PersonalAlcoholism">
+                            <input type="text" maxlength="100" data-dfval="无" name="PersonalAlcoholism" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>吸毒:</label>
-                            <input type="text" maxlength="100" data-dfval="无" name="PersonalDrug" class="form-control" :value="md.PersonalDrug">
+                            <input type="text" maxlength="100" data-dfval="无" name="PersonalDrug" class="form-control" >
                         </div>
                     </div>
                     <div class="col-md-12 ">
                         <div class="form-group">
                             <label>习惯用药:</label>
-                            <input type="text" maxlength="100" data-dfval="无" name="PersonalHabitMedication" class="form-control" :value="md.PersonalHabitMedication">
+                            <input type="text" maxlength="100" data-dfval="无" name="PersonalHabitMedication" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>药物过敏:</label>
-                            <input type="text" maxlength="100" data-dfval="无" name="PersonalDrugAllergy" class="form-control" :value="md.PersonalDrugAllergy">
+                            <input type="text" maxlength="100" data-dfval="无" name="PersonalDrugAllergy" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-12 pg-title">
@@ -635,21 +636,21 @@
                     <div class="col-md-12 ">
                         <div class="form-group">
                             <label>初潮:</label>
-                            <input type="text" maxlength="100" name="MenstruationFirstAge" class="form-control" :value="md.MenstruationFirstAge">
+                            <input type="text" maxlength="100" name="MenstruationFirstAge" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>月经周期(天):</label>
-                            <input type="text" maxlength="100" name="MenstruationCycle" class="form-control" :value="md.MenstruationCycle">
+                            <input type="text" maxlength="100" name="MenstruationCycle" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>持续时间(天):</label>
-                            <input type="text" maxlength="100" name="MenstruationDuration" class="form-control" :value="md.MenstruationDuration">
+                            <input type="text" maxlength="100" name="MenstruationDuration" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-12 ">
                         <div class="form-group">
                             <label>经量:</label>
-                            <select class="selectpicker show-tick " data-width="196px" :value="md.MenstruationVolume" name="MenstruationVolume">
+                            <select class="selectpicker show-tick " data-width="196px"  name="MenstruationVolume">
                                 <option value="正常">正常</option>
                                 <option value="少">少</option>
                                 <option value="中">中</option>
@@ -658,7 +659,7 @@
                         </div>
                         <div class="form-group">
                             <label>痛经:</label>
-                            <select class="selectpicker show-tick " data-width="196px" :value="md.MenstruationDysmenorrhea" name="MenstruationDysmenorrhea">
+                            <select class="selectpicker show-tick " data-width="196px"  name="MenstruationDysmenorrhea">
                                 <option value="无">无</option>
                                 <option value="轻">轻</option>
                                 <option value="中">中</option>
@@ -667,7 +668,7 @@
                         </div>
                         <div class="form-group">
                             <label>血块:</label>
-                            <select class="selectpicker show-tick " data-width="196px" :value="md.MenstruationGore" name="MenstruationGore">
+                            <select class="selectpicker show-tick " data-width="196px" name="MenstruationGore">
                                 <option value="无">无</option>
                                 <option value="有">有</option>
                             </select>
@@ -676,7 +677,7 @@
                     <div class="col-md-12 ">
                         <div class="form-group">
                             <label>末次月经:</label>
-                            <date-picker-simple id="MenstruationLast" :value="md.MenstruationLast"></date-picker-simple>
+                            <date-picker-simple id="MenstruationLast"></date-picker-simple>
                         </div>
 
                     </div>
@@ -687,42 +688,42 @@
                     <div class="col-md-12 ">
                         <div class="form-group">
                             <label>近亲结婚:</label>
-                            <select class="selectpicker show-tick " data-width="196px" :value="md.MarriageRelatives" name="MarriageRelatives">
+                            <select class="selectpicker show-tick " data-width="196px"  name="MarriageRelatives">
                                 <option value="否">否</option>
                                 <option value="是">是</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>再婚:</label>
-                            <select class="selectpicker show-tick " data-width="196px" :value="md.MarriageRemarry" name="MarriageRemarry">
+                            <select class="selectpicker show-tick " data-width="196px"  name="MarriageRemarry">
                                 <option value="否">否</option>
                                 <option value="是">是</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>末次妊娠时间:</label>
-                            <date-picker-simple id="MarriageLastPregnancyDate" :value="md.MarriageLastPregnancyDate"></date-picker-simple>
+                            <date-picker-simple id="MarriageLastPregnancyDate"></date-picker-simple>
                         </div>
                     </div>
                     <div class="col-md-12 ">
                         <div class="form-group">
                             <label>子女:</label>
-                            <input type="text" maxlength="100" name="MarriageChildren" class="form-control MarriageChildren" :value="md.MarriageChildren">
+                            <input type="text" maxlength="100" name="MarriageChildren" class="form-control MarriageChildren" >
                         </div>
                         <div class="form-group">
                             <label>生育:</label>
-                            <input type="text" maxlength="100" name="MarriageFertility" class="form-control w400 MarriageFertility" :value="md.MarriageFertility">
+                            <input type="text" maxlength="100" name="MarriageFertility" class="form-control w400 MarriageFertility">
                         </div>
 
                     </div>
                     <div class="col-md-12 ">
                         <div class="form-group">
                             <label>异位妊娠次数:</label>
-                            <input type="number" maxlength="100" name="MarriageEctopicPregnancy" class="form-control" :value="md.MarriageEctopicPregnancy">
+                            <input type="number" maxlength="100" name="MarriageEctopicPregnancy" class="form-control" >
                         </div>
                         <div class="form-group">
                             <label class="w150">手术名称及时间:</label>
-                            <input type="text" maxlength="100" name="MarriageSurgeryAndDate" class="form-control w400" :value="md.MarriageSurgeryAndDate">
+                            <input type="text" maxlength="100" name="MarriageSurgeryAndDate" class="form-control w400" >
                         </div>
                     </div>
                     <div class="col-md-12 pg-title">
@@ -731,15 +732,15 @@
                     <div class="col-md-12 ">
                         <div class="form-group">
                             <label>身高(cm):</label>
-                            <input type="number" maxlength="100" name="PhysiqueHeight" class="form-control" :value="md.PhysiqueHeight">
+                            <input type="number" maxlength="100" name="PhysiqueHeight" class="form-control" >
                         </div>
                         <div class="form-group">
                             <label>体重(kg):</label>
-                            <input type="number" maxlength="100" name="PhysiqueWeight" class="form-control" :value="md.PhysiqueWeight">
+                            <input type="number" maxlength="100" name="PhysiqueWeight" class="form-control" >
                         </div>
                         <div class="form-group">
                             <label>体重指数:</label>
-                            <input type="number" maxlength="100" name="PhysiqueBMI" class="form-control" :value="md.PhysiqueBMI">
+                            <input type="number" maxlength="100" name="PhysiqueBMI" class="form-control" >
                         </div>
                     </div>
                     <div class="col-md-12 pg-title">
@@ -748,25 +749,25 @@
                     <div class="col-md-12 ">
                         <div class="form-group">
                             <label>外阴:</label>
-                            <input type="text" maxlength="100" name="GynecologyVulva" class="form-control" :value="md.GynecologyVulva">
+                            <input type="text" maxlength="100" name="GynecologyVulva" class="form-control" >
                         </div>
                         <div class="form-group">
                             <label>阴道:</label>
-                            <input type="text" maxlength="100" name="GynecologyVaginal" class="form-control" :value="md.GynecologyVaginal">
+                            <input type="text" maxlength="100" name="GynecologyVaginal" class="form-control" >
                         </div>
                         <div class="form-group">
                             <label>宫颈:</label>
-                            <input type="text" maxlength="100" name="GynecologyCervix" class="form-control" :value="md.GynecologyCervix">
+                            <input type="text" maxlength="100" name="GynecologyCervix" class="form-control" >
                         </div>
                     </div>
                     <div class="col-md-12 ">
                         <div class="form-group">
                             <label>宫体:</label>
-                            <input type="text" maxlength="100" name="GynecologyCervixBody" class="form-control" :value="md.GynecologyCervixBody">
+                            <input type="text" maxlength="100" name="GynecologyCervixBody" class="form-control" >
                         </div>
                         <div class="form-group">
                             <label>双附件:</label>
-                            <input type="text" maxlength="100" name="GynecologyDoubleAtt" class="form-control" :value="md.GynecologyDoubleAtt">
+                            <input type="text" maxlength="100" name="GynecologyDoubleAtt" class="form-control" >
                         </div>
                     </div>
                     <div class="col-md-12 pg-title">
@@ -775,19 +776,19 @@
                     <div class="col-md-12 ">
                         <div class="form-group">
                             <label>诊断:</label>
-                            <textarea name="TreatmentAdviceDiagnosis" class="form-control w500" rows="3" cols="20" :value="md.TreatmentAdviceDiagnosis"></textarea>
+                            <textarea name="TreatmentAdviceDiagnosis" class="form-control w500" rows="3" cols="20" ></textarea>
                         </div>
                     </div>
                     <div class="col-md-12 ">
                         <div class="form-group">
                             <label>治疗意见:</label>
-                            <textarea name="TreatmentAdvice" class="form-control w500" rows="3" cols="20" :value="md.TreatmentAdvice"></textarea>
+                            <textarea name="TreatmentAdvice" class="form-control w500" rows="3" cols="20" ></textarea>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>诊治医生:</label>
-                            <input type="text" maxlength="100" name="DiagnosisDoctorId" class="form-control" :value="md.DiagnosisDoctorId">
+                            <input type="text" maxlength="100" name="DiagnosisDoctor" class="form-control" >
                         </div>
                     </div>
                     @*<div class="col-md-12 action-content" style="padding-bottom:20px">
@@ -800,7 +801,7 @@
                 </div>
             </div>
         </form>
-        <button type="button" slot="bottom" class="btn blue btn-outline" id="btnSavePwd">保  存</button>
+        <button type="button" slot="bottom" class="btn blue btn-outline btn-save-md add">保  存</button>
     </v-modal>
 </div>
 

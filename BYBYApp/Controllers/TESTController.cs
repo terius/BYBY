@@ -16,8 +16,11 @@ namespace BYBYApp.Controllers
         // GET: TEST
         public ActionResult Index()
         {
-            var aaa = HttpContext.CurrentHandler;
+            return View();
+        }
 
+        public ActionResult Upload()
+        {
             return View();
         }
 

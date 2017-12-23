@@ -8,6 +8,9 @@
         <div class="caption">
             转诊管理
         </div>
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+        </div>
     </div>
 
     <div class="portlet-title">
@@ -45,14 +48,14 @@
                         <input type="text" id="txt_etime" class="form-control e-time" name="txt_etime" readonly>
                     </div>
                 </div>
-                <button type="button" class="btn blue btn-outline margin-left-20" id="btn-query">
-                    <i class="fa fa-search"></i> 查询
-                </button>
+                <div class="form-group margin-left-20">
+                    <button type="button" class="btn blue btn-outline margin-left-20" id="btn-query">
+                        <i class="fa fa-search"></i> 查询
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="actions">
-            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
-        </div>
+       
     </div>
     <div class="portlet-body" id="tableshow">
         <table class="table  table-bordered" id="query-table" v-cloak>

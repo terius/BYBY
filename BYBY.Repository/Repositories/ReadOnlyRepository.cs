@@ -16,13 +16,13 @@ namespace BYBY.Repository.Repositories
         {
             return DataContextFactory.GetDataContext().Set<T>().AsNoTracking();
         }
-        
+
         public virtual Task<T> GetAsync(EntityKey Id)
         {
             Contract.Requires(Id != null);
-            return  DataContextFactory.GetDataContext().Set<T>().FindAsync(Id);
+            return DataContextFactory.GetDataContext().Set<T>().FindAsync(Id);
         }
-        
+
         public virtual Task<List<T>> FindAllAsync()
         {
             return GetDbQuerySet().ToListAsync();
@@ -30,13 +30,19 @@ namespace BYBY.Repository.Repositories
 
         public virtual Task<T> FindSingleAsync(Expression<Func<T, bool>> predicate)
         {
-            return  Task.FromResult(GetDbQuerySet().Where(predicate).FirstOrDefault());
+            return Task.FromResult(GetDbQuerySet().Where(predicate).FirstOrDefault());
         }
 
         public virtual Task<IQueryable<T>> FindAsync(Expression<Func<T, bool>> predicate)
         {
-            return  Task.FromResult(GetDbQuerySet().Where(predicate));
+            return Task.FromResult(GetDbQuerySet().Where(predicate));
         }
-        
+
+        public virtual Task<int> FindCount(Expression<Func<T, bool>> predicate)
+        {
+            return Task.FromResult(GetDbQuerySet().Where(predicate).Count());
+
+        }
+
     }
 }

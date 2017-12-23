@@ -116,7 +116,7 @@ namespace BYBY.Services.Implementations
         {
             var rs = Task.Run(() =>
            {
-               var view = patient.MedicalDetails.C_To_MedicalDetailRequests();
+               var view = patient.MedicalDetails.OrderByDescending(d=>d.AddTime).C_To_MedicalDetailRequests();
 
                return view;
            }).Result;
@@ -139,6 +139,21 @@ namespace BYBY.Services.Implementations
             return rs > 0 ? EmptyResponse.CreateSuccess("保存成功") : EmptyResponse.CreateError("保存失败");
         }
 
+
+        public async Task<EmptyResponse> SaveAddMedicalDetail(MedicalDetailAddRequest request)
+        {
+            TBMedicalDetail info = Mapper.Map<TBMedicalDetail>(request);
+            info.Title = await GetMedicalDetailTitle(request.PatientId);
+            await _medicalDetailRepository.InsertAsync(info);
+            int rs = _unitOfWork.Commit();
+            return rs > 0 ? EmptyResponse.CreateSuccess("新增成功") : EmptyResponse.CreateError("新增失败");
+        }
+
+        private async Task<string> GetMedicalDetailTitle(int patientId)
+        {
+            var icount = await _medicalDetailRepository.FindCount(d => d.PatientId == patientId);
+            return icount <= 0 ? "初诊病历" : ("复诊病历" + icount);
+        }
 
 
 

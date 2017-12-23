@@ -257,7 +257,7 @@ namespace BYBY.Services.Request
         /// <summary>
         /// 诊断医生
         /// </summary>
-        public int DiagnosisDoctorId { get; set; }
+        public string DiagnosisDoctor { get; set; }
 
 
 

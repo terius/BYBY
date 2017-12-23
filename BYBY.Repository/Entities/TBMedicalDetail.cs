@@ -266,7 +266,8 @@ namespace BYBY.Repository.Entities
         /// <summary>
         /// 诊断医生
         /// </summary>
-        public int DiagnosisDoctorId { get; set; }
+        [StringLength(50)]
+        public string DiagnosisDoctor { get; set; }
 
         [ForeignKey("PatientId")]
         public virtual TBPatient Patient { get; set; }

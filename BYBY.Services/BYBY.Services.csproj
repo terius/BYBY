@@ -91,6 +91,7 @@
     <Compile Include="Interfaces\IBaseService.cs" />
     <Compile Include="Models\MedicalHistoryDetailModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\MedicalDetailAddRequest.cs" />
     <Compile Include="Request\ReferralQueryRequest.cs" />
     <Compile Include="Request\ConsultationQueryRequest.cs" />
     <Compile Include="Request\MedicalHistoryDeleteRequest.cs" />
