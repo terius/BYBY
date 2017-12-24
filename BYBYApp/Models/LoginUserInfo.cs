@@ -15,5 +15,8 @@ namespace BYBYApp.Models
 
         public RoleType RoleName { get; set; }
 
+
+        public bool IsMasterDoctor { get; set; }
+
     }
 }

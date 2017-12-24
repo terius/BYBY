@@ -32,5 +32,7 @@ namespace BYBY.Services.Models
         public IList<MedicalDetailRequest> FemaleMedicalDetails { get; set; }
 
         public IList<MedicalDetailRequest> MaleMedicalDetails { get; set; }
+
+        public IList<MedicalHistoryImageRequest> Images { get; set; }
     }
 }

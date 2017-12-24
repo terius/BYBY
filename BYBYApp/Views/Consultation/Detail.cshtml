@@ -1,0 +1,254 @@
+﻿@model BYBY.Services.Models.ConsultationDetailModel
+@{
+    ViewBag.Title = "会诊记录";
+}
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            会诊记录
+        </div>
+        <div class="actions">
+            @*<button class="btn blue btn-outline" id="btnEdit">
+                    <i class="fa fa-edit" style="padding-right:4px"></i>修改
+                </button>*@
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+        </div>
+    </div>
+
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-md-12 title-patient">
+                <div class="col-md-3">
+                    <span class="female">@Model.FemaleName</span>
+                    <span class="age">@Model.FemaleAge</span>
+                </div>
+                <div class="col-md-3">
+                    <span class="male">@Model.MaleName</span>
+                    <span class="age">@Model.MaleAge</span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-inline detail-view consultation-detail">
+                    <div class="col-md-12 pg-title">
+                        <div>申请信息</div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>申请人:</label>
+                            <label class="w300">@Model.RequestUser</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label>申请时间:</label>
+                            <label class="w250">@Model.RequestDate</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>申请备注:</label>
+                            <label class="w500">@Model.Remark</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 pg-title">
+                        <div>会诊信息</div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>会诊状态:</label>
+                            <label class="w300">@Model.ConsultationStatus</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label>会诊申请医院:</label>
+                            <label class="w250">@Model.Hospital</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>会诊审批人:</label>
+                            <label class="w300">@Model.ApprovedUser</label>
+                        </div>
+                        <div class="form-group">
+                            <label>会诊审批日期:</label>
+                            <label class="w500">@Model.ApprovedTime</label>
+                        </div>
+                    </div>
+                    @***************************************************查看会诊记录***************************************************@
+                    <div class="record-view">
+                        <div class="col-md-12 pg-title">
+                            <div style="display:inline-block">会诊记录</div>
+                            <div style="float:right;display:inline-block">
+                                <button class="btn blue" id="btnShowRecordEdit">
+                                    <i class="fa fa-edit" style="padding-right:4px"></i><span>修改</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-12 underline">
+                            <div class="form-group">
+                                <label>诊断:</label>
+                                <label>@Model.Diagnosis</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 underline">
+                            <div class="form-group" style="width:30%">
+                                <label>治疗意见:</label>
+                                <label>@Model.TreatmentAdvice</label>
+                            </div>
+                            <div class="form-group" style="width:30%">
+                                <label>备注:</label>
+                                <label>@Model.TreatmentRemark</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 underline">
+                            <div class="form-group" style="width:30%">
+                                <label>会诊医生:</label>
+                                <label>@Model.Doctor</label>
+                            </div>
+                            <div class="form-group" style="width:30%">
+                                <label>记录人:</label>
+                                <label>@Model.RecordUser</label>
+                            </div>
+                            <div class="form-group" style="width:30%">
+                                <label>记录时间:</label>
+                                <label>@Model.RecordTime</label>
+                            </div>
+                        </div>
+                    </div>
+                    @***************************************************编辑会诊记录***************************************************@
+                    <div class="record-edit col-md-12" style="display:none">
+                        <div class="portlet box green-meadow">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-edit"></i>编辑会诊记录
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <form method="post" action="@Url.Action("SaveRecord","Consultation")" id="editRecordForm">
+                                    @Html.AntiForgeryToken()
+                                  
+                                    <div class="row" id="edit-con-record">
+                                        <input name="MyId" type="hidden" :value="info.Id" />
+                                        <div class="col-md-12 underline">
+                                            <div class="form-group">
+                                                <label>诊断:</label>
+                                                <textarea name="Diagnosis" class="form-control w400" rows="3" cols="20" :value="info.Diagnosis"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 underline">
+                                            <div class="form-group" style="width:45%">
+                                                <label>治疗意见:</label>
+                                                <textarea name="TreatmentAdvice" class="form-control w400" rows="3" cols="20" :value="info.TreatmentAdvice"></textarea>
+                                            </div>
+                                            <div class="form-group" style="width:45%">
+                                                <label>备注:</label>
+                                                <textarea name="TreatmentRemark" class="form-control w400" rows="3" cols="20" :value="info.TreatmentRemark"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12" style="padding-top:10px">
+                                            <div class="form-group" style="width:30%">
+                                                <label>会诊医生:</label>
+                                                <select2 id="DoctorId" class="w196" data-placeholder="--请选择医生--" :value="info.DoctorId" :options="info.DoctorList">
+                                                </select2>
+                                            </div>
+                                            <div class="form-group" style="width:30%">
+                                                <label>记录人:</label>
+                                                <label>@Model.RecordUser</label>
+                                            </div>
+                                            <div class="form-group" style="width:30%">
+                                                <label>记录时间:</label>
+                                                <label>@Model.RecordTime</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 action-content">
+                                            <div class="col-md-offset-4 col-md-4 text-center">
+                                                <button type="button" class="btn btn-outline blue" id="btnSaveRecordEdit">提交</button>
+                                                <button type="button" class="btn btn-outline blue margin-left-20" id="btnHideRecordEdit">取消</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+
+                        @*<div class="col-md-12 pg-title">
+                                <div>会诊记录</div>
+                            </div>*@
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-12">
+                <div class="portlet box green-meadow">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-flask"></i>用药信息
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse" data-original-title="" title="展开/折叠"> </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section styles
+{
+    @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
+}
+
+@section pagejs
+{
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/select2")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
+    <script>
+        $(function () {
+            var allData = @Html.RenderAsJson(Model);
+            com.showLog(allData);
+            var vueadd = new Vue({
+                el: '#edit-con-record',
+                data: {
+                    info: allData
+                },
+                mounted: function () {
+                 
+                }
+            })
+
+
+            $("#btnSaveRecordEdit").on("click", function() {
+                com.jqFormOption.success = function (res) {
+                    if (res.Result) {
+                         ShowSuccessThenReload(res.SuccessMessage)
+                    }
+                    else {
+                        ShowErrorMessage(res.ErrorMessage)
+                    }
+                }
+                $(this).closest("form").ajaxSubmit(com.jqFormOption);
+            })
+
+
+
+         
+            $("#btnShowRecordEdit").on("click", function () {
+                $(".record-edit").show().prev().hide();
+            })
+            $("#btnHideRecordEdit").on("click", function () {
+                $(".record-edit").hide().prev().show();
+            })
+
+            
+
+        });
+    </script>
+}
+
+

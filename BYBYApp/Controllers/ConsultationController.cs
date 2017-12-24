@@ -1,4 +1,6 @@
-﻿using BYBY.Services.Interfaces;
+﻿using BYBY.Cache;
+using BYBY.Services.Interfaces;
+using BYBY.Services.Models;
 using BYBY.Services.Request;
 using BYBYApp.Models;
 using System.Threading.Tasks;
@@ -24,14 +26,27 @@ namespace BYBYApp.Controllers
         public async Task<ActionResult> Index()
         {
             var model = new ConsultationListModel();
-            if (LoginUserRoleType == BYBY.Infrastructure.RoleType.doctor)
+            var loginInfo = LoginUserInfo;
+            if (loginInfo.RoleName == BYBY.Infrastructure.RoleType.doctor)
             {
-                model.HospitalList = await _doctorService.GetDoctorChildHospitals();
+                if (loginInfo.IsMasterDoctor)
+                {
+                    model.HospitalList = await _doctorService.GetDoctorChildHospitals();
+                }
+                else
+                {
+
+                }
             }
-            else  if (LoginUserRoleType == BYBY.Infrastructure.RoleType.customerservice)
+            else if (loginInfo.RoleName == BYBY.Infrastructure.RoleType.customerservice)
             {
                 model.HospitalList = await _doctorService.GetGroupHospitals();
             }
+            ViewBag.IsMasterDoctor = LoginUserInfo.IsMasterDoctor;
+
+            model.MotherHospitalList = await GetCacheAsync(CacheKeys.MotherHospital);
+            model.DoctorList = await GetCacheAsync(CacheKeys.Doctor);
+            model.MasterHospitalId = await _medicalHistoryService.GetDoctorMasterHospitalId();
             return View(model);
         }
 
@@ -39,6 +54,22 @@ namespace BYBYApp.Controllers
         {
             var pageData = await _medicalHistoryService.GetConsultationList(request);
             return Json(pageData, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> Detail(int id)
+        {
+            var model = await _medicalHistoryService.GetConsultationDetail(id);
+            model.DoctorList = await _doctorService.GetDoctorListByHospital();
+            return await Task.FromResult(View(model));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SaveRecord(ConsultationRecordEditRequest request)
+        {
+            var response = await _medicalHistoryService.SaveConsultationRecord(request);
+       
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
     }
 }

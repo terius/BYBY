@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BYBY.Infrastructure;
 using BYBY.Infrastructure.Domain;
+using BYBY.Infrastructure.Helpers;
 using BYBY.Infrastructure.UnitOfWork;
 using BYBY.Repository.Entities;
 using BYBY.Services.Interfaces;
@@ -11,8 +12,8 @@ using BYBY.Services.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace BYBY.Services.Implementations
 {
@@ -24,6 +25,7 @@ namespace BYBY.Services.Implementations
         readonly IRepository<TBConsultation, int> _consultationRepository;
         readonly IRepository<TBReferral, int> _referralRepository;
         readonly IRepository<TBPatient, int> _patientRepository;
+        readonly IRepository<TBMedicalHistoryImage, int> _imageRepository;
         readonly IUnitOfWork _unitOfWork;
 
         public MedicalHistoryService(IRepository<TBMedicalHistory, int> repository,
@@ -31,6 +33,7 @@ namespace BYBY.Services.Implementations
             IRepository<TBConsultation, int> consultationRepository,
             IRepository<TBReferral, int> referralRepository,
             IRepository<TBPatient, int> patientRepository,
+            IRepository<TBMedicalHistoryImage, int> imageRepository,
             IUnitOfWork unitOfWork)
         {
             _repository = repository;
@@ -38,6 +41,7 @@ namespace BYBY.Services.Implementations
             _consultationRepository = consultationRepository;
             _referralRepository = referralRepository;
             _patientRepository = patientRepository;
+            _imageRepository = imageRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -108,6 +112,7 @@ namespace BYBY.Services.Implementations
             model.EditModel = info.C_To_EditView();
             model.FemaleMedicalDetails = await GetMedicalDetails(info.FeMalePatient);
             model.MaleMedicalDetails = await GetMedicalDetails(info.MalePatient);
+            model.Images = Mapper.Map<List<MedicalHistoryImageRequest>>(info.TBMedicalHistoryImages.OrderBy(d=>d.Id));
             return model;
         }
 
@@ -116,7 +121,7 @@ namespace BYBY.Services.Implementations
         {
             var rs = Task.Run(() =>
            {
-               var view = patient.MedicalDetails.OrderByDescending(d=>d.AddTime).C_To_MedicalDetailRequests();
+               var view = patient.MedicalDetails.OrderByDescending(d => d.AddTime).C_To_MedicalDetailRequests();
 
                return view;
            }).Result;
@@ -174,6 +179,49 @@ namespace BYBY.Services.Implementations
             await _patientRepository.DeleteAsync(male);
 
             int rs = _unitOfWork.Commit();
+            return rs > 0 ? EmptyResponse.CreateSuccess("删除成功") : EmptyResponse.CreateError("删除失败");
+        }
+
+        /// <summary>
+        /// 保存病历图片
+        /// </summary>
+        /// <param name="filePaths"></param>
+        /// <param name="MHId"></param>
+        /// <returns></returns>
+        public async Task<EmptyResponse> SaveMHImage(IList<string> filePaths, int MHId)
+        {
+            TBMedicalHistoryImage imageInfo;
+            var loginUserName = GetLoginUserName();
+            foreach (var filepath in filePaths)
+            {
+                imageInfo = new TBMedicalHistoryImage();
+                imageInfo.FilePath = filepath;
+                imageInfo.Name = filepath.Substring(filepath.LastIndexOf('/') + 1);
+                imageInfo.TBMedicalHistoryId = MHId;
+                imageInfo.AddUserName = loginUserName;
+                await _imageRepository.InsertAsync(imageInfo);
+            }
+            int rs = _unitOfWork.Commit();
+            return rs > 0 ? EmptyResponse.CreateSuccess("上传成功") : EmptyResponse.CreateError("上传失败");
+        }
+
+        /// <summary>
+        /// 删除病历附件
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<EmptyResponse> DeleteImage(MedicalHistoryImageDeleteRequest request)
+        {
+            var info = await _imageRepository.GetAsync(request.Id);
+            string filePath = info.FilePath;
+            await _imageRepository.DeleteAsync(info);
+            int rs = _unitOfWork.Commit();
+            if (rs > 0)
+            {
+               
+                filePath= HttpContext.Current.Server.MapPath(filePath);
+                FileHelper.DeleteFile(filePath);
+            }
             return rs > 0 ? EmptyResponse.CreateSuccess("删除成功") : EmptyResponse.CreateError("删除失败");
         }
 
@@ -276,11 +324,31 @@ namespace BYBY.Services.Implementations
 
         }
 
-        #endregion
+
+        public async Task<ConsultationDetailModel> GetConsultationDetail(int id)
+        {
+            var info = await _consultationRepository.GetAsync(id);
+            var model = info.C_To_ConsultationDetailModel();
+            return model;
+        }
 
 
-        #region 转诊模块
-        public async Task<EmptyResponse> SaveReferralAdd(ReferralAddRequest request)
+        public async Task<EmptyResponse> SaveConsultationRecord(ConsultationRecordEditRequest request)
+        {
+            var editInfo = await _consultationRepository.GetAsync(request.MyId);
+            editInfo = Mapper.Map(request, editInfo);
+            editInfo.ModifyUserName= editInfo.RecordUser = GetLoginUserName();
+            editInfo.RecordTime = DateTime.Now;
+            await _consultationRepository.UpdateAsync(editInfo);
+            int rs = _unitOfWork.Commit();
+            return rs > 0 ? EmptyResponse.CreateSuccess("保存成功") : EmptyResponse.CreateError("保存失败");
+        }
+
+            #endregion
+
+
+            #region 转诊模块
+            public async Task<EmptyResponse> SaveReferralAdd(ReferralAddRequest request)
         {
             var loginUserName = GetLoginUserName();
             var info = Mapper.Map<TBReferral>(request);

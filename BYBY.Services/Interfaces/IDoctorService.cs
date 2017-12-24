@@ -1,9 +1,4 @@
 ﻿using BYBY.Infrastructure;
-using BYBY.Repository.Entities;
-using BYBY.Services.Models;
-using BYBY.Services.Request;
-using BYBY.Services.Response;
-using BYBY.Services.Views;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -23,6 +18,12 @@ namespace BYBY.Services.Interfaces
         /// </summary>
         /// <returns></returns>
         Task<IList<SelectItem>> GetGroupHospitals();
+
+        /// <summary>
+        /// 获取当前登录医生所属医院下面的所有医生
+        /// </summary>
+        /// <returns></returns>
+        Task<IList<SelectItem>> GetDoctorListByHospital();
 
 
 

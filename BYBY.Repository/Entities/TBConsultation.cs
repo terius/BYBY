@@ -47,6 +47,53 @@ namespace BYBY.Repository.Entities
         /// </summary>
         public ConsultationStatus ConsultationStatus { get; set; }
 
+        /// <summary>
+        /// 审批人
+        /// </summary>
+        [StringLength(100)]
+        public string ApprovedUser { get; set; }
+
+
+        /// <summary>
+        /// 审批时间
+        /// </summary>
+        public DateTime? ApprovedTime { get; set; }
+
+
+        /// <summary>
+        /// 诊断
+        /// </summary>
+        [StringLength(500)]
+        public string Diagnosis { get; set; }
+
+
+        /// <summary>
+        /// 治疗意见
+        /// </summary>
+        [StringLength(500)]
+        public string TreatmentAdvice { get; set; }
+
+        /// <summary>
+        /// 治疗备注
+        /// </summary>
+        [StringLength(500)]
+        public string TreatmentRemark { get; set; }
+
+
+        /// <summary>
+        /// 记录人
+        /// </summary>
+        [StringLength(100)]
+        public string RecordUser { get; set; }
+
+
+        /// <summary>
+        /// 记录时间
+        /// </summary>
+        public DateTime? RecordTime { get; set; }
+
+
+
 
         /// <summary>
         /// 申请备注

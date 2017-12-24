@@ -2,6 +2,7 @@
 using BYBY.Services.Interfaces;
 using BYBY.Services.Request;
 using BYBYApp.Models;
+using System.IO;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -77,8 +78,9 @@ namespace BYBYApp.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<ActionResult> Detail(int id)
+        public async Task<ActionResult> Detail(int id,int? tab)
         {
+            ViewBag.TabId = tab;
             var model = await _medicalHistoryService.GetDetailModel(id);
             model.CardTypeList = await GetCacheAsync(CacheKeys.CardType);
             model.MarriageList = await GetCacheAsync(CacheKeys.Marriage);
@@ -86,8 +88,8 @@ namespace BYBYApp.Controllers
             model.NationList = await GetCacheAsync(CacheKeys.Nation);
             model.JobList = await GetCacheAsync(CacheKeys.Job);
             model.EthnicList = await GetCacheAsync(CacheKeys.Ethnic);
-          
-          //  model.FemaleMedicalDetails = await _medicalHistoryService.GetMedicalDetails(model.female)
+
+            //  model.FemaleMedicalDetails = await _medicalHistoryService.GetMedicalDetails(model.female)
             return View(model);
         }
 
@@ -198,15 +200,23 @@ namespace BYBYApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult UploadFile()
+        public async Task<JsonResult> UploadFile(int patientId)
         {
             string msg = "";
-            var newFilePath = UploadFile("MedicalHistoryFile", out msg);
+            var newFilePaths = UploadFile("MedicalHistoryFile", out msg);
             if (msg != "")
             {
-                return ErrorJson(msg);
+                return await Task.FromResult(ErrorJson(msg));
             }
-            return SuccessJson("上传成功");
+            var response = await _medicalHistoryService.SaveMHImage(newFilePaths, patientId);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> DeleteImage(MedicalHistoryImageDeleteRequest request)
+        {
+            var response = await _medicalHistoryService.DeleteImage(request);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
     }
 }

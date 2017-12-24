@@ -1,9 +1,10 @@
 ﻿using BYBY.Infrastructure.Domain;
+using BYBY.Infrastructure.Loger;
 using BYBY.Infrastructure.UnitOfWork;
 using System;
 using System.Data.Entity.Core;
 using System.Data.Entity.Infrastructure;
-
+using System.Data.Entity.Validation;
 
 namespace BYBY.Repository
 {
@@ -26,6 +27,11 @@ namespace BYBY.Repository
             {
               //  LoggingFactory.GetLogger().Log(oex);
                 throw new Exception("当前信息已被他人修改，请重新打开此页面");
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                LoggingFactory.GetLogger().Log(dbEx);
+                throw;
             }
             //catch (System.Data.Entity.Core.UpdateException uex)
             //{

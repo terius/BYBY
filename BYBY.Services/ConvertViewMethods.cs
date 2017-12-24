@@ -10,6 +10,7 @@ using BYBY.Infrastructure;
 using AutoMapper;
 using BYBY.Services.Account;
 using System.Threading.Tasks;
+using BYBY.Services.Models;
 
 namespace BYBY.Services
 {
@@ -199,6 +200,11 @@ namespace BYBY.Services
         {
             return val.HasValue ? val.Value : 0;
         }
+        private static string ToStringData(this object val)
+        {
+            return val == null ? "" : val.ToString();
+        }
+
         private static string ToDateTimeString(this DateTime? val)
         {
             return val.HasValue ? val.Value.ToString("yyyy-MM-dd HH:mm:ss") : "";
@@ -250,12 +256,33 @@ namespace BYBY.Services
                     Doctor = item.Doctor.Name,
                     Hospital = item.Hospital.Name,
                     RequestDate = item.RequestDate.ToDateString(),
-                    MHId = item.MedicalHistory.Id
+                    MHId = item.MedicalHistory.Id,
+                    ConsultationStatusColorClass= GetFontColorClass(item.ConsultationStatus)
                 };
 
                 dest.Add(view);
             }
             return dest;
+        }
+
+        private static string GetFontColorClass(ConsultationStatus status)
+        {
+            switch (status)
+            {
+                case ConsultationStatus.No:
+                    return "font-grey-salt";
+                case ConsultationStatus.Requesting:
+                    return "font-green-jungle";
+                case ConsultationStatus.Cancel:
+                    return "font-red-sunglo";
+                case ConsultationStatus.Confirm:
+                    return "font-blue-steel";
+                case ConsultationStatus.Complete:
+                    return "font-purple-plum";
+                default:
+                    break;
+            }
+            return "";
         }
 
 
@@ -301,6 +328,46 @@ namespace BYBY.Services
             return dest;
         }
 
+        public static IList<SelectItem> ConvertTo_SelectItem(this IEnumerable<TBDoctor> source)
+        {
+            var dest = new List<SelectItem>();
+            SelectItem sitem;
+            foreach (var item in source)
+            {
+                sitem = new SelectItem();
+                sitem.id = item.Id.ToString();
+                sitem.text = item.Name;
+                sitem.title = item.JobTitle;
+                dest.Add(sitem);
+            }
+            return dest;
+        }
 
+        public static ConsultationDetailModel C_To_ConsultationDetailModel(this TBConsultation source)
+        {
+            var view = Mapper.Map<ConsultationDetailModel>(source);
+            view.FemaleName = source.MedicalHistory.FeMalePatient.Name;
+            view.FemaleAge = source.MedicalHistory.FeMalePatient.Age.ToStringData();
+            view.MaleName = source.MedicalHistory.MalePatient.Name;
+            view.MaleAge = source.MedicalHistory.MalePatient.Age.ToStringData();
+            view.RequestUser = GetNameByUserName(source.AddUserName);
+            if (source.STime.Date == source.ETime.Date)
+            {
+                view.RequestDate = source.STime.ToString("yyyy-MM-dd HH:mm") + " - " + source.ETime.ToString("HH:mm");
+            }
+            else
+            {
+                view.RequestDate = source.STime.ToString("yyyy-MM-dd HH:mm") + " - " + source.ETime.ToString("yyyy-MM-dd HH:mm");
+            }
+          //  view.Remark = source.Remark;
+            view.Hospital = source.Hospital.Name;
+            view.ConsultationStatus = GetEnumDescription(source.ConsultationStatus);
+            view.ApprovedUser = GetNameByUserName(source.ApprovedUser);
+            view.ApprovedTime = source.ApprovedTime.ToDateTimeString();
+            view.Doctor = source.Doctor.Name;
+            view.RecordUser = GetNameByUserName(source.RecordUser);
+            view.RecordTime = source.RecordTime.ToDateTimeString();
+            return view;
+        }
     }
 }

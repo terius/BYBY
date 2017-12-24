@@ -36,6 +36,13 @@ namespace BYBY.Services.Implementations
             return new List<SelectItem>();
         }
 
+        public async Task<IList<SelectItem>> GetDoctorListByHospital()
+        {
+            var doctor = await GetLoginDoctorInfo();
+            var list = doctor.Hospital.Doctors.ConvertTo_SelectItem();
+            return list;
+        }
+
         public async Task<IList<SelectItem>> GetGroupHospitals()
         {
             IList<SelectItem> pList = new List<SelectItem>();

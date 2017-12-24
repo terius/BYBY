@@ -25,5 +25,7 @@
 
         public int MHId { get; set; }
 
+        public string ConsultationStatusColorClass { get; set; }
+
     }
 }

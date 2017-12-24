@@ -216,6 +216,15 @@ div {
     font-size: 20px;
 }
 
+.portlet.box > .portlet-title > .caption {
+    font-size: 16px;
+}
+
+    .portlet.box > .portlet-title > .caption > .fa {
+        font-size: 20px;
+        margin-top:2px;
+    }
+
 .portlet > .portlet-title > .querycontent {
     color: #666;
     float: left;
@@ -422,8 +431,8 @@ div {
         text-align: left;
         font-size: 16px;
         font-weight: 700;
-        height: 42px;
-        line-height: 42px;
+        height: 40px;
+        line-height: 40px;
         padding: 0 10px;
     }
 
@@ -433,24 +442,24 @@ div {
     padding-right: 0;
 }
 
-    .edit-view > .col-md-12 > .form-group, .detail-view > .col-md-12 > .form-group {
-        margin-right: 20px;
-        padding-bottom: 10px;
+.edit-view .col-md-12 > .form-group, .detail-view .col-md-12 > .form-group {
+    margin-right: 20px;
+    padding-bottom: 10px;
+}
+
+    .edit-view .col-md-12 > .form-group > label:first-child, .detail-view .col-md-12 > .form-group > label:first-child, .info-title {
+        font-weight: 700 !important;
+        min-width: 80px;
+        text-align: right;
+        padding-right: 10px;
     }
 
-        .edit-view > .col-md-12 > .form-group > label:first-child, .detail-view > .col-md-12 > .form-group > label:first-child, .info-title {
-            font-weight: 700 !important;
-            min-width: 80px;
-            text-align: right;
-            padding-right: 10px;
-        }
 
 
 
-
-        .edit-view > .col-md-12 > .form-group > label:last-child, .detail-view > .col-md-12 > .form-group > label:last-child {
-            min-width: 150px;
-        }
+.edit-view > .col-md-12 > .form-group > label:last-child, .detail-view > .col-md-12 > .form-group > label:last-child {
+    min-width: 150px;
+}
 
 
 .edit-view .pg-title {
@@ -657,6 +666,8 @@ div {
         display: inline-block;
         margin-right: 15px;
         position: relative;
+        border: 1px solid #4a83b6;
+        padding: 4px;
     }
 
         .ul-img-list > li > p {
@@ -667,7 +678,7 @@ div {
     .ul-img-list .delete {
         position: absolute;
         top: 10px;
-        right: 10px;
+        right: 0;
         color: red;
         display: none;
         cursor: pointer;
@@ -696,4 +707,8 @@ div {
     /*margin-bottom: -10px;
     margin-top: -10px;*/
     width: 60px;
+}
+
+.consultation-detail .form-group > label:first-child {
+    width: 100px;
 }

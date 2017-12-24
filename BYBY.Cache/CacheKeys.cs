@@ -37,6 +37,10 @@
         /// <summary>
         /// 医生
         /// </summary>
-        Doctor
+        Doctor,
+        /// <summary>
+        /// 母院
+        /// </summary>
+        MotherHospital
     }
 }

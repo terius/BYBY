@@ -240,6 +240,26 @@
     <Compile Include="Migrations\201712230843518_TBMedicalDetailDoctorEditToString.Designer.cs">
       <DependentUpon>201712230843518_TBMedicalDetailDoctorEditToString.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712240323234_TBMedicalHistoryImageModifyNameLength.cs" />
+    <Compile Include="Migrations\201712240323234_TBMedicalHistoryImageModifyNameLength.Designer.cs">
+      <DependentUpon>201712240323234_TBMedicalHistoryImageModifyNameLength.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712241148516_TBConsultationAddApprovedUserAndApprovedTime.cs" />
+    <Compile Include="Migrations\201712241148516_TBConsultationAddApprovedUserAndApprovedTime.Designer.cs">
+      <DependentUpon>201712241148516_TBConsultationAddApprovedUserAndApprovedTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712241230059_TBConsultationAddRecordData.cs" />
+    <Compile Include="Migrations\201712241230059_TBConsultationAddRecordData.Designer.cs">
+      <DependentUpon>201712241230059_TBConsultationAddRecordData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712241244008_TBConsultationModifyApprovedDate.cs" />
+    <Compile Include="Migrations\201712241244008_TBConsultationModifyApprovedDate.Designer.cs">
+      <DependentUpon>201712241244008_TBConsultationModifyApprovedDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712241245576_TBConsultationModifyApprovedDate2.cs" />
+    <Compile Include="Migrations\201712241245576_TBConsultationModifyApprovedDate2.Designer.cs">
+      <DependentUpon>201712241245576_TBConsultationModifyApprovedDate2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -376,6 +396,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712230843518_TBMedicalDetailDoctorEditToString.resx">
       <DependentUpon>201712230843518_TBMedicalDetailDoctorEditToString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712240323234_TBMedicalHistoryImageModifyNameLength.resx">
+      <DependentUpon>201712240323234_TBMedicalHistoryImageModifyNameLength.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712241148516_TBConsultationAddApprovedUserAndApprovedTime.resx">
+      <DependentUpon>201712241148516_TBConsultationAddApprovedUserAndApprovedTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712241230059_TBConsultationAddRecordData.resx">
+      <DependentUpon>201712241230059_TBConsultationAddRecordData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712241244008_TBConsultationModifyApprovedDate.resx">
+      <DependentUpon>201712241244008_TBConsultationModifyApprovedDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712241245576_TBConsultationModifyApprovedDate2.resx">
+      <DependentUpon>201712241245576_TBConsultationModifyApprovedDate2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

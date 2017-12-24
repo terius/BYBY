@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BYBY.Repository.Entities;
+using BYBY.Services.Models;
 using BYBY.Services.Request;
 using System;
 
@@ -21,6 +22,9 @@ namespace BYBY.Services
                 cfg.CreateMap<MedicalDetailAddRequest, TBMedicalDetail>();
                 cfg.CreateMap<ConsultationAddRequest, TBConsultation>();
                 cfg.CreateMap<ReferralAddRequest, TBReferral>();
+                cfg.CreateMap<TBMedicalHistoryImage, MedicalHistoryImageRequest>();
+                cfg.CreateMap<TBConsultation,ConsultationDetailModel>();
+                cfg.CreateMap<ConsultationRecordEditRequest, TBConsultation>();
                 //        cfg.CreateMap<TBMedicalDetail, MedicalDetailRequest>().ForMember(d => d.MenstruationLast,
                 //expression => expression.ResolveUsing(s => s.MenstruationLast.HasValue ? s.MenstruationLast.Value.ToString("yyyy-MM-dd") : ""));
             });

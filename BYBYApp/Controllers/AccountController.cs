@@ -136,6 +136,7 @@ namespace BYBYApp.Controllers
                 loginUserInfo.RoleName = RoleType.patient;
             }
             loginUserInfo.UserName = user.UserName;
+            loginUserInfo.IsMasterDoctor = user.IsMasterDoctor;
             Session["LoginUserInfo"] = loginUserInfo;
             return roleCookies;
         }

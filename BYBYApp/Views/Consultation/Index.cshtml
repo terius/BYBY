@@ -97,14 +97,22 @@
                         <td>{{info.FemaleAge}}</td>
                         <td>{{info.MaleName}}</td>
                         <td>{{info.MaleAge}}</td>
-                        <td><span class="font-blue">{{info.ConsultationStatus}}</span></td>
+                        <td><span :class="info.ConsultationStatusColorClass">{{info.ConsultationStatus}}</span></td>
                         <td>{{info.RequestDate}}</td>
                         <td>{{info.Doctor}}</td>
                         <td>{{info.AddUser}}</td>
                         <td>{{info.AddTime}}</td>
-                        <td>
-                            <div style="padding-top:5px">
-                                <a href="javascript:;" v-on:click="showConsultationDetail()" class="margin-right-10"><i class="fa fa-2x fa-heartbeat tooltips" data-container="body" data-placement="top" data-original-title="会诊详细"></i></a>
+                        <td style="padding-right:15px">
+                            <div style="padding-top:5px;text-align:right">
+                                @if (ViewBag.IsMasterDoctor == false)
+                                {
+                                    <a v-if="info.ConsultationStatus=='无' || info.ConsultationStatus=='已取消' || info.ConsultationStatus=='已完成'" href="javascript:;" class="margin-right-10" v-on:click="showConsultation(info.ConsultationStatus,info.Id)"><i class="fa fa-2x fa-stethoscope tooltips" data-container="body" data-placement="top" data-original-title="申请会诊"></i></a>
+                                }
+                                else
+                                {
+                                    <a v-if="info.ConsultationStatus=='无' || info.ConsultationStatus=='已取消' || info.ConsultationStatus=='已完成'" href="javascript:;" class="margin-right-10" v-on:click="showConsultation(info.ConsultationStatus,info.Id)"><i class="fa fa-2x fa-stethoscope tooltips" data-container="body" data-placement="top" data-original-title="申请会诊"></i></a>
+                                }
+                                <a :href="'/Consultation/Detail/' + info.Id" class="margin-right-10"><i class="fa fa-2x fa-heartbeat tooltips" data-container="body" data-placement="top" data-original-title="会诊详细"></i></a>
                                 <a :href="'/MedicalHistory/Detail/' + info.MHId" class="margin-right-10"><i class="fa fa-2x fa-file-text-o tooltips" data-container="body" data-placement="top" data-original-title="病历详细"></i></a>
 
                             </div>
@@ -139,12 +147,66 @@
     </div>
 </div>
 
+<div id="modal-consultation">
+    <v-modal v-cloak v-bind:tinfo="modalinfo" ref="consultationmodal">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" action="@Url.Action("SaveConsultationAdd","MedicalHistory")" id="saveConsultationForm">
+                    <input id="TBMedicalHistoryId" name="TBMedicalHistoryId" type="hidden" />
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">会诊医院</label>
+                            <div class="col-xs-6">
+                                <select2 id="HospitalId" class="w250 required" data-placeholder="--请选择医院--" :value="masterHospitalId" :options="HospitalList">
+                                </select2>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">申请会诊日期</label>
+                            <div class="col-xs-6">
+                                <date-picker-simple id="RequestDate" class="w250 required"></date-picker-simple>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">会诊医生</label>
+                            <div class="col-xs-6">
+                                <select2 id="DoctorId" class="w250 required" data-placeholder="--会诊医生--" :options="DoctorList">
+                                </select2>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">会诊时间段</label>
+                            <div class="col-xs-6">
+                                <div class="input-group input-datetime-range">
+                                    <input type="text" id="STime" class="form-control  required" name="STime">
+                                    <span class="input-group-addon"> 到 </span>
+                                    <input type="text" id="ETime" class="form-control required" name="ETime">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">申请备注</label>
+                            <div class="col-xs-6">
+                                <textarea name="Remark" class="form-control w300" maxlength="500" rows="3" cols="20"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <button type="button" slot="bottom" class="btn blue btn-outline" id="btnSaveConsultation">保  存</button>
+
+    </v-modal>
+</div>
+
 @{ Html.RenderPartial("_Paginator");}
 @section styles
 {
     @System.Web.Optimization.Styles.Render("~/bundles/css/datepicker")
     @System.Web.Optimization.Styles.Render("~/bundles/css/icheck")
     @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
+    @System.Web.Optimization.Styles.Render("~/bundles/css/datetimepicker")
 }
 
 @section pagejs
@@ -152,10 +214,14 @@
     @System.Web.Optimization.Scripts.Render("~/bundles/js/datepicker")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/icheck")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/select2")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/datetimepicker")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
     <script>
     $(function () {
 
         var allData =  @Html.RenderAsJson(Model);
+
     var vuetable;
     //  com.responsiveHeight("#tableshow", "#mycontent");
     Vue.component('v-page', {
@@ -172,7 +238,29 @@
             com.handleiCheck();
             com.handleDateRangePicker();
         }
-    });
+        });
+
+
+        var vueConsultation = new Vue({
+            el: '#modal-consultation',
+            data: {
+                modalinfo: {
+                    id: "modalconsultation",
+                    title: "填写会诊信息",
+                    data: {}
+
+                },
+                HospitalList: allData.HospitalList,
+                DoctorList: allData.DoctorList,
+                masterHospitalId: allData.MasterHospitalId
+
+            },
+            mounted: function () {
+                $("#saveConsultationForm").validateForm();
+                com.handleDateTimePicker();
+            }
+
+        });
 
 
 
@@ -192,13 +280,14 @@
         para.Stime = document.getElementById("txt_stime").value;
         para.Etime = document.getElementById("txt_etime").value;
         para.HospitalId = $("#Hostpital").val();
-        com.showLog(para);
+      //  com.showLog(para);
 
         com.ajaxquery("/Consultation/PageQuery", para).then(function (mydata) {
             mydata.query = function (pageIndex, sortIndex, sortType) {
                 search(pageIndex, sortIndex, sortType);
             }
-            //  com.showLog(mydata);
+
+              com.showLog(mydata);
             if (vuetable == null) {
                 vuetable = new Vue({
                     el: '#query-table',
@@ -229,9 +318,11 @@
 
                             }
                         },
-                        showConsultationDetail: function () {
-                            layer.alert('正在开发中，请稍后：）');
-                        }
+                        showConsultation: function (status, id) {//弹出会诊
+                                $("#TBMedicalHistoryId", "#saveConsultationForm").val(id);
+                                $('#modalconsultation').modal('show');
+
+                        },
 
                     }
                 })

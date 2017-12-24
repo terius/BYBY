@@ -5758,6 +5758,7 @@
     <Content Include="Views\Shared\_MedicalDetailBase.cshtml" />
     <Content Include="Views\Shared\_MedicalHistoryImage.cshtml" />
     <Content Include="Views\TEST\Upload.cshtml" />
+    <Content Include="Views\Consultation\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

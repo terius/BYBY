@@ -76,7 +76,7 @@ namespace BYBYApp
 
             //input mask
             bundles.Add(new ScriptBundle("~/bundles/js/inputmask").Include(
-                    "~/Metronic/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js"));
+                    "~/Scripts/inputmask.js"));
 
 
             //viewer js
@@ -111,6 +111,11 @@ namespace BYBYApp
                  "~/Metronic/assets/global/plugins/icheck/icheck.min.js"
                  ));
 
+            //jquery file Upload
+            bundles.Add(
+    new StyleBundle("~/bundles/css/jqfileupload")
+        .Include("~/Metronic/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css", new CssRewriteUrlTransform())
+        );
         }
     }
 }

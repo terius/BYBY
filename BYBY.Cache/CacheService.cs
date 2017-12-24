@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace BYBY.Cache
 {
@@ -72,6 +73,10 @@ namespace BYBY.Cache
                         var doctorData = await _doctorRepository.FindAllAsync();
                         cacheData = doctorData.ConvertTo_SelectItem();
                         break;
+                    case CacheKeys.MotherHospital:
+                        var motherHospitalData = await _hospitalRepository.FindAsync(d => d.IsMaster == true);
+                        cacheData = motherHospitalData.ToList().ConvertTo_SelectItem();
+                        break;
                     default:
                         break;
                 }
@@ -82,7 +87,7 @@ namespace BYBY.Cache
         }
 
 
-     
+
 
         private IList<SelectItem> CreateEnumList(Type type, bool ValueIsInt = true)
         {
@@ -109,7 +114,7 @@ namespace BYBY.Cache
         //    _cacheStorage.Store(CacheKeys.RoleModule.ToString(), Modules);
         //}
 
-       
+
     }
 
     public static class ConvertExt

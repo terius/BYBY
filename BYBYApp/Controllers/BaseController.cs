@@ -1,20 +1,19 @@
 ﻿using BYBY.Cache;
 using BYBY.Cache.CacheStorage;
 using BYBY.Infrastructure;
+using BYBY.Infrastructure.Helpers;
+using BYBY.Infrastructure.Loger;
 using BYBY.Repository.Entities;
 using BYBY.Services.Account;
 using BYBY.Services.Response;
 using BYBYApp.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using System.Web.Security;
 using System.Web;
-using BYBY.Infrastructure.Helpers;
-using BYBY.Infrastructure.Loger;
+using System.Web.Mvc;
 
 namespace BYBYApp.Controllers
 {
@@ -22,6 +21,7 @@ namespace BYBYApp.Controllers
     {
         readonly ICacheService _cacheService = CacheManager.GetCacheService();
         readonly RoleManager _roleManager = RoleFactory.GetRoleManager();
+      //  readonly UserManager _userManager = UserFactory.GetUserManager();
         public JsonResult ErrorJson(string errorMessage)
         {
             EmptyResponse res = new EmptyResponse();
@@ -34,7 +34,7 @@ namespace BYBYApp.Controllers
         {
             EmptyResponse res = new EmptyResponse();
             res.Result = true;
-            res.ErrorMessage = successMessage;
+            res.SuccessMessage = successMessage;
             return Json(res, JsonRequestBehavior.AllowGet);
         }
 
@@ -102,7 +102,8 @@ namespace BYBYApp.Controllers
 
         public RoleType LoginUserRoleType
         {
-            get {
+            get
+            {
                 RoleType roleType = RoleType.doctor;
                 var roleName = RoleName;
                 switch (roleName)
@@ -197,16 +198,20 @@ namespace BYBYApp.Controllers
         /// <param name="upType"></param>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public string UploadFile(string upType, out string msg)
+        public IList<string> UploadFile(string upType, out string msg)
         {
             msg = "";
-            string newFilePath = "";
+            IList<string> newFilePaths = new List<string>();
 
             try
             {
                 for (int i = 0; i < Request.Files.Count; i++)
                 {
                     HttpPostedFileBase uploadFile = Request.Files[i];
+                    if (string.IsNullOrWhiteSpace(uploadFile.FileName))
+                    {
+                        throw new FileNotFoundException("上传图片为空");
+                    }
                     var extArr = GetALLowUploadPicType();
                     string fileExt = System.IO.Path.GetExtension(uploadFile.FileName).ToLower();
                     string fileName = System.IO.Path.GetFileNameWithoutExtension(uploadFile.FileName);
@@ -218,13 +223,13 @@ namespace BYBYApp.Controllers
                             var path = "/Upfiles/" + upType + "/";
                             var ServerPath = Server.MapPath(path);
                             fileName += "_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + fileExt;
-                            if (!System.IO.Directory.Exists(ServerPath))
+                            if (!Directory.Exists(ServerPath))
                             {
-                                System.IO.Directory.CreateDirectory(ServerPath);
+                                Directory.CreateDirectory(ServerPath);
                             }
 
                             uploadFile.SaveAs(ServerPath + fileName);
-                            newFilePath = ServerPath + fileName;
+                            newFilePaths.Add(Path.Combine(path + fileName));
                         }
                     }
                     else
@@ -238,7 +243,7 @@ namespace BYBYApp.Controllers
                 LoggingFactory.GetLogger().Log("上传文件错误:\r\n" + ex.ToString());
                 msg = ex.Message;
             }
-            return newFilePath;
+            return newFilePaths;
         }
 
         private string GetALLowUploadPicType()
@@ -246,6 +251,8 @@ namespace BYBYApp.Controllers
             return System.Configuration.ConfigurationManager.AppSettings["UploadFileType"];
         }
 
+
+      
 
     }
 }

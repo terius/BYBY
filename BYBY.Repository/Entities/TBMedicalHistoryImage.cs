@@ -6,11 +6,11 @@ namespace BYBY.Repository.Entities
     public class TBMedicalHistoryImage : BaseEntity<int>
     {
 
-        [StringLength(30)]
+        [StringLength(100)]
         [Required]
         public string Name { get; set; }
 
-        [StringLength(100)]
+        [StringLength(200)]
         [Required]
         public string FilePath { get; set; }
 

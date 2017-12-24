@@ -111,5 +111,35 @@ namespace BYBY.Services.Interfaces
         /// <param name="request"></param>
         /// <returns></returns>
         Task<PagedData<ReferralListView>> GetReferralList(ReferralQueryRequest request);
+
+        /// <summary>
+        /// 保存病历图片
+        /// </summary>
+        /// <param name="filePaths"></param>
+        /// <param name="MHId"></param>
+        /// <returns></returns>
+        Task<EmptyResponse> SaveMHImage(IList<string> filePaths, int MHId);
+
+
+        /// <summary>
+        /// 删除病历附件
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<EmptyResponse> DeleteImage(MedicalHistoryImageDeleteRequest request);
+
+        /// <summary>
+        /// 会诊详细信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<ConsultationDetailModel> GetConsultationDetail(int id);
+
+        /// <summary>
+        /// 保存会诊记录信息
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<EmptyResponse> SaveConsultationRecord(ConsultationRecordEditRequest request);
     }
 }
