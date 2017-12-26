@@ -82,6 +82,7 @@
     <Compile Include="AutoMapperBootStrapper.cs" />
     <Compile Include="ConvertViewMethods.cs" />
     <Compile Include="Implementations\BaseService.cs" />
+    <Compile Include="Implementations\SystemService.cs" />
     <Compile Include="Implementations\DoctorService.cs" />
     <Compile Include="Implementations\MedicalHistoryService.cs" />
     <Compile Include="Implementations\UserAccountService.cs" />
@@ -89,9 +90,18 @@
     <Compile Include="Interfaces\IMedicalHistoryService.cs" />
     <Compile Include="Interfaces\IUserAccountService.cs" />
     <Compile Include="Interfaces\IBaseService.cs" />
+    <Compile Include="Interfaces\ISystemService.cs" />
+    <Compile Include="Models\CheckLisModel.cs" />
     <Compile Include="Models\ConsultationDetailModel.cs" />
     <Compile Include="Models\MedicalHistoryDetailModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\ConsultationCheckListRequest.cs" />
+    <Compile Include="Request\ConsultationMedicineListRequest.cs" />
+    <Compile Include="Request\CheckQueryRequest.cs" />
+    <Compile Include="Request\MedicineAddRequest.cs" />
+    <Compile Include="Request\MedicineQueryRequest.cs" />
+    <Compile Include="Request\OnlyHasIdRequest.cs" />
+    <Compile Include="Request\UpdateConsultationStatusRequest.cs" />
     <Compile Include="Request\ConsultationRecordEditRequest.cs" />
     <Compile Include="Request\MedicalHistoryImageDeleteRequest.cs" />
     <Compile Include="Request\MedicalHistoryImageRequest.cs" />
@@ -115,6 +125,8 @@
     <Compile Include="Response\MedicalHistoryResponse.cs" />
     <Compile Include="Response\ResponseBase.cs" />
     <Compile Include="ServiceExtensions.cs" />
+    <Compile Include="Views\CheckListView.cs" />
+    <Compile Include="Views\MedicineListView.cs" />
     <Compile Include="Views\ReferralListView.cs" />
     <Compile Include="Views\ConsultationListView.cs" />
     <Compile Include="Views\MedicalHistoryListView.cs" />
@@ -126,6 +138,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BYBY.Cache\BYBY.Cache.csproj">
+      <Project>{bcc33eff-5247-4573-b506-f89f9eec933c}</Project>
+      <Name>BYBY.Cache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BYBY.Infrastructure\BYBY.Infrastructure.csproj">
       <Project>{f0090aa7-49c1-490e-881b-d621e4140121}</Project>
       <Name>BYBY.Infrastructure</Name>

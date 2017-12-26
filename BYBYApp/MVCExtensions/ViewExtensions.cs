@@ -78,5 +78,15 @@ namespace BYBYApp
             }
             return roleType;
         }
+
+
+        public static string ToBackPage(this HtmlHelper helper)
+        {
+            if (HttpContext.Current.Session["DefaultUrl"] != null)
+            {
+                return HttpContext.Current.Session["DefaultUrl"] as string;
+            }
+            return "history.go(-1)";
+        }
     }
 }

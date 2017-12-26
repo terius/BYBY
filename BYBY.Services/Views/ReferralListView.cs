@@ -25,5 +25,26 @@
 
         public int MHId { get; set; }
 
+
+        /// <summary>
+        /// 会诊状态颜色样式
+        /// </summary>
+        public string ReferralStatusColorClass { get; set; }
+
+        /// <summary>
+        /// 病历转诊状态
+        /// </summary>
+        public string MHReferralStatus { get; set; }
+
+        /// <summary>
+        /// 病历转诊状态颜色样式
+        /// </summary>
+        public string MHReferralStatusColorClass { get; set; }
+
+        /// <summary>
+        /// 是否为最新的转诊
+        /// </summary>
+        public bool IsNewest { get; set; }
+
     }
 }

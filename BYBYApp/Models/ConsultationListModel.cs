@@ -11,5 +11,9 @@ namespace BYBYApp.Models
         public IList<SelectItem> HospitalList { get; set; }
 
         public IList<SelectItem> MotherHospitalList { get; set; }
+
+        public IList<SelectItem> MotherDoctorList { get; set; }
+
+        public int MasterHospitalId { get; set; }
     }
 }

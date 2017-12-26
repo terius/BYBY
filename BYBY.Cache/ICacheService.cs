@@ -9,6 +9,7 @@ namespace BYBY.Cache
     {
         Task<IList<SelectItem>> GetSelectItemAsync(CacheKeys key);
 
-      //  void SaveRoleModulesToCache(TBUser user, string roleName);
+        //  void SaveRoleModulesToCache(TBUser user, string roleName);
+        void RemoveCache(CacheKeys key);
     }
 }

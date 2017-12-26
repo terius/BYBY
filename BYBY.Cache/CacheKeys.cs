@@ -41,6 +41,19 @@
         /// <summary>
         /// 母院
         /// </summary>
-        MotherHospital
+        MotherHospital,
+        /// <summary>
+        /// 母院医生
+        /// </summary>
+        MotherDoctor,
+        /// <summary>
+        /// 药品
+        /// </summary>
+        Medicine,
+        /// <summary>
+        /// 检查项
+        /// </summary>
+        CheckAssay
+
     }
 }

@@ -65,5 +65,8 @@ namespace BYBY.Repository.Entities
         public virtual ICollection<TBConsultation> Consultations { get; set; }
 
         public virtual ICollection<TBReferral> Referrals { get; set; }
+
+        public int? NewestConsultationId { get; set; }
+        public int? NewestReferralId { get; set; }
     }
 }

@@ -120,6 +120,10 @@ com.jqFormOption = {
         $form.find(":text,select,:hidden").each(function (index, ele) {
             ele.value = com.valtrim(ele.value);
         })
+
+        $(".icheckBlue", $form).each(function (index, ele) {
+            ele.value = ele.checked ? true : false;
+        })
     },
     beforeSubmit: function (arr, $form, options) {
         // The array of form data takes the following form: 

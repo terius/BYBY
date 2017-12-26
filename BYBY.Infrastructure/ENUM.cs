@@ -56,7 +56,9 @@ namespace BYBY.Infrastructure
     /// </summary>
     public enum Sex
     {
+        [Description("女")]
         Male = 1,
+        [Description("男")]
         Female = 2
     }
 
@@ -129,4 +131,25 @@ namespace BYBY.Infrastructure
         DupError
     }
 
+    /// <summary>
+    /// 化验类型说明
+    /// </summary>
+    public enum AssayType
+    {
+        [Description("化验")]
+        Assay
+
+    }
+
+    /// <summary>
+    /// 检查模式
+    /// </summary>
+    public enum CheckMode
+    {
+        [Description("女方")]
+        Female,
+        [Description("男方")]
+        Male
+
+    }
 }

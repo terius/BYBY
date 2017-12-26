@@ -1,0 +1,314 @@
+﻿@model BYBYApp.Models.ConsultationListModel
+@{
+    ViewBag.Title = "药品管理";
+}
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            药品管理
+        </div>
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+        </div>
+    </div>
+
+    <div class="portlet-title">
+        <div class="querycontent">
+            <div class="form-inline" id="query-content">
+                <div class="form-group">
+                    <button type="button" class="btn blue btn-outline" id="btn-add">
+                        <i class="fa fa-plus"></i> 新增
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="myactions">
+            <a href="@Html.ToBackPage()" class="btn blue btn-outline">
+                <i class="fa fa-plus"></i> 返回
+            </a>
+        </div>
+    </div>
+    <div class="portlet-body" id="tableshow">
+        <table class="table  table-bordered" id="query-table" v-cloak>
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>医嘱编码</th>
+                    <th>医嘱名称</th>
+                    <th>药品分类</th>
+                    <th>药品简称</th>
+                    <th>药品规格</th>
+                    <th>使用频次</th>
+                    <th>使用剂量</th>
+                    <th>使用剂量单位</th>
+                    <th>用药方式</th>
+                    <th>默认用药天数</th>
+                    <th>注射标记</th>
+                    <th>是否使用</th>
+                    <th>操作</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr v-for="(info,index) in datas.Data">
+                    <td>{{index+1}}</td>
+                    <td>{{info.Code}}</td>
+                    <td>{{info.Name}}</td>
+                    <td>{{info.Type}}</td>
+                    <td>{{info.ShortName}}</td>
+                    <td>{{info.Spec}}</td>
+                    <td>{{info.Frequency}}</td>
+                    <td>{{info.Dose}}</td>
+                    <td>{{info.Unit}}</td>
+                    <td>{{info.Instructions}}</td>
+                    <td>{{info.DefaultUsedDay}}</td>
+                    <td>{{info.InjectionMarkText}}</td>
+                    <td>{{info.IsUsedText}}</td>
+                    <td>
+                        <div style="padding-top:10px;">
+                            <a href="javascript:;" class="margin-right-10" v-on:click="showEdit(info)"><i class="fa fa-2x fa-edit tooltips" data-container="body" data-placement="top" data-original-title="编辑"></i></a>
+                            <a href="javascript:;" class="margin-right-10" v-on:click="showDelete(info.Id)"><i class="fa fa-2x fa-remove tooltips" data-container="body" data-placement="top" data-original-title="删除"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr><td colspan="20"><v-page v-bind:page="datas"></v-page></td></tr>
+            </tfoot>
+        </table>
+
+    </div>
+</div>
+
+<div id="modal-add">
+    <v-modal v-cloak v-bind:tinfo="modalinfo">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" action="@Url.Action("AddMedicine","System")" id="add-medicine-form">
+                    @Html.AntiForgeryToken()
+                    <input name="Id" type="hidden" :value="addinfo.Id" />
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">医嘱编码</label>
+                            <div class="col-xs-6">
+                                <input type="text" name="Code" class="form-control w300 required" maxlength="100" :value="addinfo.Code">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">医嘱名称</label>
+                            <div class="col-xs-6">
+                                <input type="text" name="Name" class="form-control w300 required" maxlength="100" :value="addinfo.Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">药品分类</label>
+                            <div class="col-xs-6">
+                                <input type="text" name="Type" class="form-control w300 required" maxlength="100" :value="addinfo.Type">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">药品简称</label>
+                            <div class="col-xs-6">
+                                <input type="text" name="ShortName" class="form-control w300 required" maxlength="100" :value="addinfo.ShortName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">药品规格</label>
+                            <div class="col-xs-6">
+                                <input type="text" name="Spec" class="form-control w300" maxlength="100" :value="addinfo.Spec">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">使用频次</label>
+                            <div class="col-xs-6">
+                                <input type="text" name="Frequency" class="form-control w300" maxlength="100" :value="addinfo.Frequency">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">使用剂量</label>
+                            <div class="col-xs-6">
+                                <input type="number" min="0" name="Dose" class="form-control w300 required" maxlength="100" :value="addinfo.Dose">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">使用剂量单位</label>
+                            <div class="col-xs-6">
+                                <input type="text" name="Unit" class="form-control w300" maxlength="100" :value="addinfo.Unit">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">用药方式</label>
+                            <div class="col-xs-6">
+                                <input type="text" name="Instructions" class="form-control w300" maxlength="100" :value="addinfo.Instructions">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">默认用药天数</label>
+                            <div class="col-xs-6">
+                                <input type="text" name="DefaultUsedDay" class="form-control w300" maxlength="100" :value="addinfo.DefaultUsedDay">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-6 col-xs-offset-3">
+                                <div class="input-group">
+                                    <div class="icheck-inline">
+                                        <label>
+                                            <input type="checkbox" class="icheckBlue" id="InjectionMark" name="InjectionMark" >注射标记
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" class="icheckBlue" id="IsUsed" name="IsUsed" checked>是否使用
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <button type="button" slot="bottom" class="btn blue btn-outline" id="btn-save-add">保  存</button>
+
+    </v-modal>
+</div>
+
+@{ Html.RenderPartial("_Paginator");}
+@section styles
+{
+    @System.Web.Optimization.Styles.Render("~/bundles/css/icheck")
+}
+
+@section pagejs
+{
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/icheck")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
+    <script>
+        $(function () {
+            var vuetable;
+            Vue.component('v-page', {
+                template: "#vuetmp-paginator",
+                props: ["page"]
+            });
+
+            var vueadd = new Vue({
+                el: '#modal-add',
+                data: {
+                    modalinfo: {
+                        id: "modaladdnew",
+                        title: "新增药品"
+
+                    },
+                    addinfo: {
+                    }
+
+                },
+                mounted: function () {
+                    com.handleiCheck();
+                    $("#add-medicine-form").validateForm();
+
+                }
+
+            });
+
+
+
+            //    $(window).on("resize", App.initSlimScroll('#tableshow'));
+
+            var search = function (pageIndex, sortIndex, sortType) {
+                var para = {};
+                para.PageIndex = pageIndex || 1;
+                para.SortIndex = sortIndex || -1;
+                para.SortType = sortType || 0;
+                com.ajaxquery("/System/PageQueryMedicine", para).then(function (mydata) {
+                    mydata.query = function (pageIndex, sortIndex, sortType) {
+                        search(pageIndex, sortIndex, sortType);
+                    }
+
+                    com.showLog(mydata, "查询数据");
+                    if (vuetable == null) {
+                        vuetable = new Vue({
+                            el: '#query-table',
+                            data: {
+                                datas: mydata
+                            },
+                            mounted: function () {
+                                $('.tooltips').tooltip();
+                                //  App.initSlimScroll('#tableshow');
+                            },
+                            methods: {
+                                showEdit: function (editInfo) {
+                                    vueadd.modalinfo.title = "编辑药品";
+                                    vueadd.addinfo = editInfo;
+                                    if (editInfo.InjectionMark == true) {
+                                        $("#InjectionMark").iCheck("check");
+                                    }
+                                    else {
+                                        $("#InjectionMark").iCheck("uncheck");
+                                    }
+                                    if (editInfo.IsUsed == true) {
+                                        $("#IsUsed").iCheck("check");
+                                    }
+                                    else {
+                                        $("#IsUsed").iCheck("uncheck");
+                                    }
+                                    $("#add-medicine-form").attr("action", "/System/EditMedicine");
+                                    $('#modaladdnew').modal('show');
+                                },
+                                showDelete: function(id) {
+                                    com.confirm("是否要删除此条药品信息？", function () {
+                                        com.ajaxquery("/System/DeleteMedicine", { Id: id }).then(function (res) {
+                                            if (res.Result) {
+                                                ShowSuccessThenReload(res.SuccessMessage);
+                                            }
+                                            else {
+                                                ShowErrorMessage(res.ErrorMessage);
+                                            }
+                                        });
+
+                                    });
+                                }
+                            }
+                        })
+                    }
+                    else {
+                        vuetable.datas = mydata;
+                    }
+                });
+            };
+
+            //$("#btn-query").on("click", function () {
+            //    //   com.showLog(vuequery.info);
+            //    search();
+            //});
+
+            $("#btn-add").on("click", function () {
+                vueadd.modalinfo.title = "新增药品";
+                $("#add-medicine-form").attr("action", "/System/AddMedicine");
+                vueadd.addinfo = {};
+                $("#InjectionMark").iCheck("uncheck");
+                $("#IsUsed").iCheck("check");
+                $('#modaladdnew').modal('show');
+
+            });
+
+            $("#btn-save-add").on("click", function () {
+                com.jqFormOption.success = function (res) {
+                    if (res.Result) {
+                        ShowSuccessThenReload(res.SuccessMessage);
+                    }
+                    else {
+                        ShowErrorMessage(res.ErrorMessage);
+                    }
+                };
+                $("#add-medicine-form").ajaxSubmit(com.jqFormOption);
+
+            });
+
+            /*******************************初始执行方法***********************************/
+            search();
+
+        });
+    </script>
+}
+

@@ -79,6 +79,7 @@
                     <th>男方姓名</th>
                     <th>男方年龄</th>
                     <th>会诊状态</th>
+                    <th>病历会诊状态</th>
                     <th>会诊时间</th>
                     <th>会诊医生</th>
                     <th>申请人</th>
@@ -98,6 +99,7 @@
                         <td>{{info.MaleName}}</td>
                         <td>{{info.MaleAge}}</td>
                         <td><span :class="info.ConsultationStatusColorClass">{{info.ConsultationStatus}}</span></td>
+                        <td><span :class="info.MHConsultationStatusColorClass">{{info.MHConsultationStatus}}</span></td>
                         <td>{{info.RequestDate}}</td>
                         <td>{{info.Doctor}}</td>
                         <td>{{info.AddUser}}</td>
@@ -106,11 +108,15 @@
                             <div style="padding-top:5px;text-align:right">
                                 @if (ViewBag.IsMasterDoctor == false)
                                 {
-                                    <a v-if="info.ConsultationStatus=='无' || info.ConsultationStatus=='已取消' || info.ConsultationStatus=='已完成'" href="javascript:;" class="margin-right-10" v-on:click="showConsultation(info.ConsultationStatus,info.Id)"><i class="fa fa-2x fa-stethoscope tooltips" data-container="body" data-placement="top" data-original-title="申请会诊"></i></a>
+                                    //子院医生操作
+                                    <a v-if="info.MHConsultationStatus=='无' || info.MHConsultationStatus=='已取消' || info.MHConsultationStatus=='已完成'" href="javascript:;" class="margin-right-10" v-on:click="showConsultationRequest(info.MHId)"><i class="fa fa-2x fa-stethoscope tooltips" data-container="body" data-placement="top" data-original-title="申请会诊"></i></a>
+                                    <a v-if="info.MHConsultationStatus=='申请中'" href="javascript:;" class="margin-right-10" v-on:click="showConsultationConfirmPanel(info.Id,3)"><i class="fa fa-2x fa-mail-forward tooltips" data-container="body" data-placement="top" data-original-title="取消会诊"></i></a>
                                 }
                                 else
                                 {
-                                    <a v-if="info.ConsultationStatus=='无' || info.ConsultationStatus=='已取消' || info.ConsultationStatus=='已完成'" href="javascript:;" class="margin-right-10" v-on:click="showConsultation(info.ConsultationStatus,info.Id)"><i class="fa fa-2x fa-stethoscope tooltips" data-container="body" data-placement="top" data-original-title="申请会诊"></i></a>
+                                    //母院医生操作
+                                    <a v-if="info.MHConsultationStatus=='申请中'" href="javascript:;" class="margin-right-10" v-on:click="showConsultationConfirmPanel(info.Id,4)"><i class="fa fa-2x fa-hand-peace-o tooltips" data-container="body" data-placement="top" data-original-title="确认会诊"></i></a>
+                                    <a v-if="info.MHConsultationStatus=='已确认'" href="javascript:;" class="margin-right-10" v-on:click="showConsultationConfirmPanel(info.Id,5)"><i class="fa fa-2x fa-check-square tooltips" data-container="body" data-placement="top" data-original-title="完成会诊"></i></a>
                                 }
                                 <a :href="'/Consultation/Detail/' + info.Id" class="margin-right-10"><i class="fa fa-2x fa-heartbeat tooltips" data-container="body" data-placement="top" data-original-title="会诊详细"></i></a>
                                 <a :href="'/MedicalHistory/Detail/' + info.MHId" class="margin-right-10"><i class="fa fa-2x fa-file-text-o tooltips" data-container="body" data-placement="top" data-original-title="病历详细"></i></a>
@@ -127,6 +133,7 @@
                                 <p><b>男方姓名:</b>{{info.MaleName}}</p>
                                 <p><b>男方年龄:</b>{{info.MaleAge}}</p>
                                 <p><b>会诊状态:</b>{{info.ConsultationStatus}}</p>
+                                <p><b>病历会诊状态:</b>{{info.MHConsultationStatus}}</p>
                                 <p><b>会诊时间:</b>{{info.RequestDate}}</p>
                                 <p><b>会诊医生:</b>{{info.Doctor}}</p>
                                 <p><b>申请人:</b>{{info.AddUser}}</p>
@@ -220,7 +227,9 @@
     <script>
     $(function () {
 
+        /**/
         var allData =  @Html.RenderAsJson(Model);
+    /**/
 
     var vuetable;
     //  com.responsiveHeight("#tableshow", "#mycontent");
@@ -238,29 +247,29 @@
             com.handleiCheck();
             com.handleDateRangePicker();
         }
-        });
+    });
 
 
-        var vueConsultation = new Vue({
-            el: '#modal-consultation',
-            data: {
-                modalinfo: {
-                    id: "modalconsultation",
-                    title: "填写会诊信息",
-                    data: {}
-
-                },
-                HospitalList: allData.HospitalList,
-                DoctorList: allData.DoctorList,
-                masterHospitalId: allData.MasterHospitalId
+    var vueConsultation = new Vue({
+        el: '#modal-consultation',
+        data: {
+            modalinfo: {
+                id: "modalconsultation",
+                title: "申请会诊信息",
+                data: {}
 
             },
-            mounted: function () {
-                $("#saveConsultationForm").validateForm();
-                com.handleDateTimePicker();
-            }
+            HospitalList: allData.MotherHospitalList,
+            DoctorList: allData.MotherDoctorList,
+            masterHospitalId: allData.MasterHospitalId
 
-        });
+        },
+        mounted: function () {
+            $("#saveConsultationForm").validateForm();
+            com.handleDateTimePicker();
+        }
+
+    });
 
 
 
@@ -280,14 +289,14 @@
         para.Stime = document.getElementById("txt_stime").value;
         para.Etime = document.getElementById("txt_etime").value;
         para.HospitalId = $("#Hostpital").val();
-      //  com.showLog(para);
+        //  com.showLog(para);
 
         com.ajaxquery("/Consultation/PageQuery", para).then(function (mydata) {
             mydata.query = function (pageIndex, sortIndex, sortType) {
                 search(pageIndex, sortIndex, sortType);
             }
 
-              com.showLog(mydata);
+            com.showLog(mydata, "查询数据");
             if (vuetable == null) {
                 vuetable = new Vue({
                     el: '#query-table',
@@ -318,11 +327,44 @@
 
                             }
                         },
-                        showConsultation: function (status, id) {//弹出会诊
-                                $("#TBMedicalHistoryId", "#saveConsultationForm").val(id);
-                                $('#modalconsultation').modal('show');
+                        showConsultationRequest: function (mhid) {//申请会诊
+                            $("#TBMedicalHistoryId", "#saveConsultationForm").val(mhid);
+                            $('#modalconsultation').modal('show');
 
                         },
+                        showConsultationConfirmPanel: function (id, setStaus) {//取消会诊
+                            //会诊状态：
+                            //1 - 未申请
+                            //2 - 申请中
+                            //3 - 已取消
+                            //4 - 已确认
+                            //5 - 已完成
+                            var message = "";
+                            switch (setStaus) {
+                                case 3:
+                                    message = "是否要取消申请会诊？";
+                                    break;
+                                case 4:
+                                    message = "是否要确认会诊？";
+                                    break;
+                                case 5:
+                                    message = "是否要完成会诊？";
+                                    break;
+                                default:
+                            }
+                            com.confirm(message, function () {
+                                com.ajaxquery("/Consultation/UpdateConsultationStatus", { Id: id, Status: setStaus }).then(function (res) {
+                                    if (res.Result) {
+                                        ShowSuccessThenReload(res.SuccessMessage);
+                                    }
+                                    else {
+                                        ShowErrorMessage(res.ErrorMessage);
+                                    }
+                                });
+
+                            });
+
+                        }
 
                     }
                 })
@@ -346,6 +388,19 @@
         search();
     }).on('ifUnchecked', function (event) {
         search();
+    });
+
+    $("#btnSaveConsultation").on("click", function () {
+        com.jqFormOption.success = function (res) {
+            if (res.Result) {
+                ShowSuccessThenReload(res.SuccessMessage);
+            }
+            else {
+                ShowErrorMessage(res.ErrorMessage);
+            }
+        }
+        $("#saveConsultationForm").ajaxSubmit(com.jqFormOption);
+
     });
 
     /*******************************初始执行方法***********************************/

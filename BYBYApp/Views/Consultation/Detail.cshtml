@@ -78,11 +78,14 @@
                     <div class="record-view">
                         <div class="col-md-12 pg-title">
                             <div style="display:inline-block">会诊记录</div>
-                            <div style="float:right;display:inline-block">
-                                <button class="btn blue" id="btnShowRecordEdit">
-                                    <i class="fa fa-edit" style="padding-right:4px"></i><span>修改</span>
-                                </button>
-                            </div>
+                            @if (Html.IsMasterDoctor())
+                            {
+                                <div style="float:right;display:inline-block">
+                                    <button class="btn blue" id="btnShowRecordEdit">
+                                        <i class="fa fa-edit" style="padding-right:4px"></i><span>修改</span>
+                                    </button>
+                                </div>
+                            }
                         </div>
                         <div class="col-md-12 underline">
                             <div class="form-group">
@@ -126,7 +129,7 @@
                             <div class="portlet-body">
                                 <form method="post" action="@Url.Action("SaveRecord","Consultation")" id="editRecordForm">
                                     @Html.AntiForgeryToken()
-                                  
+
                                     <div class="row" id="edit-con-record">
                                         <input name="MyId" type="hidden" :value="info.Id" />
                                         <div class="col-md-12 underline">
@@ -181,6 +184,7 @@
                 </div>
 
             </div>
+            @**************************************************用药信息**************************************************@
             <div class="col-md-12">
                 <div class="portlet box green-meadow">
                     <div class="portlet-title">
@@ -190,64 +194,425 @@
                         <div class="tools">
                             <a href="javascript:;" class="collapse" data-original-title="" title="展开/折叠"> </a>
                         </div>
+                        @if (Html.IsMasterDoctor())
+                        {
+                            <div class="actions">
+                                <a href="@Url.Action("MedicineDic","System")" class="btn blue btn-sm">
+                                    <i class="fa fa-plus"></i> 药品字典配置
+                                </a>
+                                <a href="javascript:;" id="btn-add-medicine" class="btn blue btn-sm">
+                                    <i class="fa fa-plus"></i> 增加药品项
+                                </a>
+                            </div>
+                        }
+
+
                     </div>
                     <div class="portlet-body">
+                        <table class="table  table-bordered" id="query-table" v-cloak>
+                            <thead>
+                                <tr>
+                                    <th>药品名称</th>
+                                    <th>剂量</th>
+                                    <th>单位</th>
+                                    <th>频次</th>
+                                    <th>使用方法</th>
+                                    <th>用药天数</th>
+                                    <th>总剂量</th>
+                                    <th>执行日期</th>
+                                    <th>操作</th>
+                                </tr>
 
+                            </thead>
+                            <tbody>
+                                <tr v-if="datas.length==0"><td class="no-data" colspan="20">无数据</td></tr>
+                                <tr v-else v-for="(info,index) in datas">
+                                    <td>{{info.ShortName}}</td>
+                                    <td>{{info.Dose}}</td>
+                                    <td>{{info.Unit}}</td>
+                                    <td>{{info.Frequency}}</td>
+                                    <td>{{info.Instructions}}</td>
+                                    <td>{{info.UsedDays}}</td>
+                                    <td>{{info.AllDose}}</td>
+                                    <td>{{info.ActionDate}}</td>
+                                    <td>
+                                        <div style="padding-top:10px;">
+                                            <a href="javascript:;" class="margin-right-10" v-on:click="showEdit(info)"><i class="fa fa-2x fa-edit tooltips" data-container="body" data-placement="top" data-original-title="编辑"></i></a>
+                                            <a href="javascript:;" class="margin-right-10" v-on:click="showDelete(info.Id)"><i class="fa fa-2x fa-remove tooltips" data-container="body" data-placement="top" data-original-title="删除"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            @**************************************************检查化验**************************************************@
+            <div class="col-md-12">
+                <div class="portlet box green-meadow">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-flask"></i>检查化验
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse" data-original-title="" title="展开/折叠"> </a>
+                        </div>
+                        @if (Html.IsMasterDoctor())
+                        {
+                            <div class="actions">
+                                <a href="@Url.Action("CheckAssay","System")" class="btn blue btn-sm">
+                                    <i class="fa fa-plus"></i> 检查项目配置
+                                </a>
+                                <a href="javascript:;" id="btn-add-check" class="btn blue btn-sm">
+                                    <i class="fa fa-plus"></i> 增加检查项
+                                </a>
+                            </div>
+                        }
+
+
+                    </div>
+                    <div class="portlet-body">
+                        <table class="table  table-bordered" id="query-table2" v-cloak>
+                            <thead>
+                                <tr>
+                                    <th>检查项目</th>
+                                    <th>执行日期</th>
+                                    <th>操作</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr v-if="datas.length==0"><td class="no-data" colspan="20">无数据</td></tr>
+                                <tr v-else v-for="(info,index) in datas">
+                                    <td>{{info.CheckName}}</td>
+                                    <td>{{info.ActionDate}}</td>
+                                    <td>
+                                        <div style="padding-top:10px;">
+                                            <a href="javascript:;" class="margin-right-10" v-on:click="showEdit(info)"><i class="fa fa-2x fa-edit tooltips" data-container="body" data-placement="top" data-original-title="编辑"></i></a>
+                                            <a href="javascript:;" class="margin-right-10" v-on:click="showDelete(info.Id)"><i class="fa fa-2x fa-remove tooltips" data-container="body" data-placement="top" data-original-title="删除"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<div id="modal-medicine">
+    <v-modal v-cloak v-bind:tinfo="modalinfo">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" action="@Url.Action("AddMedicine","Consultation")" id="add-medicinesetup-form">
+                    @Html.AntiForgeryToken()
+                    <input name="Id" type="hidden" :value="addinfo.Id" />
+                    <input name="ConsultationId" type="hidden" :value="ConsultationId" />
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">药品名称</label>
+                            <div class="col-xs-6">
+                                <select2 id="MedicineId" class="w300 required" data-placeholder="--请选择药品名称--" :options="MedicineList" :value="addinfo.MedicineId">
+                                </select2>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">剂量</label>
+                            <div class="col-xs-6">
+                                <input type="text" name="Dose" readonly class="form-control w300" maxlength="100" :value="addinfo.Dose">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">单位</label>
+                            <div class="col-xs-6">
+                                <input type="text" name="Unit" readonly class="form-control w300" maxlength="100" :value="addinfo.Unit">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">频次</label>
+                            <div class="col-xs-6">
+                                <input type="text" name="Frequency" readonly class="form-control w300" maxlength="100" :value="addinfo.Frequency">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">使用方法</label>
+                            <div class="col-xs-6">
+                                <input type="text" name="Instructions" readonly class="form-control w300" maxlength="100" :value="addinfo.Instructions">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">用药天数</label>
+                            <div class="col-xs-6">
+                                <input type="number" min="0" name="UsedDays" class="form-control w300 required" maxlength="100" :value="addinfo.UsedDays">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">总剂量</label>
+                            <div class="col-xs-6">
+                                <input type="number" name="AllDose" class="form-control w300 required" maxlength="100" :value="addinfo.AllDose">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">执行日期</label>
+                            <div class="col-xs-6">
+                                <date-picker-simple id="ActionDate" class="w300 required" :value="addinfo.ActionDate"></date-picker-simple>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <button type="button" slot="bottom" class="btn blue btn-outline" id="save-medicine">确认</button>
+
+    </v-modal>
+</div>
+
+<div id="modal-check">
+    <v-modal v-cloak v-bind:tinfo="modalinfo">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" action="@Url.Action("AddCheck","Consultation")" id="add-check-form">
+                    @Html.AntiForgeryToken()
+                    <input name="Id" type="hidden" :value="addinfo.Id" />
+                    <input name="ConsultationId" type="hidden" :value="ConsultationId" />
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">检查项目</label>
+                            <div class="col-xs-6">
+                                <select2 id="CheckId" class="w300 required" data-placeholder="--请选择检查项目--" :options="CheckList" :value="addinfo.CheckId">
+                                </select2>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">执行日期</label>
+                            <div class="col-xs-6">
+                                <date-picker-simple id="ActionDate" class="w300 required" :value="addinfo.ActionDate"></date-picker-simple>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <button type="button" slot="bottom" class="btn blue btn-outline" id="save-check">确认</button>
+
+    </v-modal>
+</div>
 @section styles
 {
     @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
+    @System.Web.Optimization.Styles.Render("~/bundles/css/datepicker")
 }
 
 @section pagejs
 {
     @System.Web.Optimization.Scripts.Render("~/bundles/js/select2")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/datepicker")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
     <script>
-        $(function () {
-            var allData = @Html.RenderAsJson(Model);
-            com.showLog(allData);
-            var vueadd = new Vue({
-                el: '#edit-con-record',
-                data: {
-                    info: allData
-                },
-                mounted: function () {
-                 
+    $(function () {
+        /**/
+        var allData = @Html.RenderAsJson(Model);
+    /**/
+
+        com.showLog(allData);
+
+
+/**********************************会诊记录开始**********************************/
+        var vueadd = new Vue({
+            el: '#edit-con-record',
+            data: {
+                info: allData
+            },
+            mounted: function () {
+
+            }
+        });
+
+        $("#btnSaveRecordEdit").on("click", function () {
+            com.jqFormOption.success = function (res) {
+                if (res.Result) {
+                    ShowSuccessThenReload(res.SuccessMessage)
                 }
-            })
-
-
-            $("#btnSaveRecordEdit").on("click", function() {
-                com.jqFormOption.success = function (res) {
-                    if (res.Result) {
-                         ShowSuccessThenReload(res.SuccessMessage)
-                    }
-                    else {
-                        ShowErrorMessage(res.ErrorMessage)
-                    }
+                else {
+                    ShowErrorMessage(res.ErrorMessage)
                 }
-                $(this).closest("form").ajaxSubmit(com.jqFormOption);
-            })
+            }
+            $(this).closest("form").ajaxSubmit(com.jqFormOption);
+        });
+
+        $("#btnShowRecordEdit").on("click", function () {
+            $(".record-edit").show().prev().hide();
+        })
+        $("#btnHideRecordEdit").on("click", function () {
+            $(".record-edit").hide().prev().show();
+        })
+
+/**********************************会诊记录结束**********************************/
 
 
+/**********************************会诊药品开始**********************************/
+        var medForm = null;
+    var vueaddMedicine = new Vue({
+        el: '#modal-medicine',
+        data: {
+            modalinfo: {
+                id: "modaladdnew",
+                title: "新增药品"
 
-         
-            $("#btnShowRecordEdit").on("click", function () {
-                $(".record-edit").show().prev().hide();
-            })
-            $("#btnHideRecordEdit").on("click", function () {
-                $(".record-edit").hide().prev().show();
-            })
+            },
+            addinfo: {
 
-            
+            },
+            MedicineList: allData.MedicineList,
+            ConsultationId: allData.Id
+
+        },
+        mounted: function () {
+            medForm = $("#add-medicinesetup-form");
+            medForm.validateForm();
+
+        }
 
         });
+
+        var vueMedicine = new Vue({
+            el: '#query-table',
+            data: {
+                datas: allData.ConsultationMedicineList
+            },
+            mounted: function () {
+
+            },
+            methods: {
+                showEdit: function (editInfo) {
+                    vueaddMedicine.modalinfo.title = "编辑药品";
+                    vueaddMedicine.addinfo = editInfo;
+                    medForm.attr("action", "/Consultation/EditMedicine");
+                    $('#modaladdnew').modal('show');
+                },
+                showDelete: function (id) {
+                    com.confirm("是否要删除此条药品信息？", function () {
+                        com.ajaxquery("/Consultation/DeleteMedicine", { Id: id }).then(function (res) {
+                            if (res.Result) {
+                                ShowSuccessThenReload(res.SuccessMessage);
+                            }
+                            else {
+                                ShowErrorMessage(res.ErrorMessage);
+                            }
+                        });
+
+                    });
+                }
+            }
+        });
+
+        $("#save-medicine").on("click", function () {
+            com.jqFormOption.success = function (res) {
+                if (res.Result) {
+                    ShowSuccessThenReload(res.SuccessMessage)
+                }
+                else {
+                    ShowErrorMessage(res.ErrorMessage)
+                }
+            }
+            medForm.ajaxSubmit(com.jqFormOption);
+        })
+
+        $("#btn-add-medicine").on("click", function () {
+            vueaddMedicine.modalinfo.title = "新增药品";
+            medForm.attr("action", "/Consultation/AddMedicine");
+            vueaddMedicine.addinfo = {};
+            $('#modaladdnew').modal('show');
+        })
+  /**********************************会诊药品结束**********************************/
+
+/**********************************检查项目开始**********************************/
+
+        var checkForm = null;
+        var checkModal = null;
+        var vueAddCheck = new Vue({
+            el: '#modal-check',
+            data: {
+                modalinfo: {
+                    id: "modaladdcheck",
+                    title: "新增检查"
+
+                },
+                addinfo: {
+
+                },
+                CheckList: allData.CheckList,
+                ConsultationId: allData.Id
+
+            },
+            mounted: function () {
+                checkForm = $("#add-check-form");
+                checkModal = $("#modaladdcheck");
+                checkForm.validateForm();
+
+            }
+
+        });
+        var vueCheckList = new Vue({
+            el: '#query-table2',
+            data: {
+                datas: allData.ConsultationCheckList
+            },
+            mounted: function () {
+
+            },
+            methods: {
+                showEdit: function (editInfo) {
+                    vueAddCheck.modalinfo.title = "编辑检查项";
+                    vueAddCheck.addinfo = editInfo;
+                    checkForm.attr("action", "/Consultation/EditCheck");
+                    checkModal.modal('show');
+                },
+                showDelete: function (id) {
+                    com.confirm("是否要删除此项检查项目？", function () {
+                        com.ajaxquery("/Consultation/DeleteCheck", { Id: id }).then(function (res) {
+                            if (res.Result) {
+                                ShowSuccessThenReload(res.SuccessMessage);
+                            }
+                            else {
+                                ShowErrorMessage(res.ErrorMessage);
+                            }
+                        });
+
+                    });
+                }
+            }
+        });
+
+        $("#save-check").on("click", function () {
+            com.jqFormOption.success = function (res) {
+                if (res.Result) {
+                    ShowSuccessThenReload(res.SuccessMessage)
+                }
+                else {
+                    ShowErrorMessage(res.ErrorMessage)
+                }
+            }
+            checkForm.ajaxSubmit(com.jqFormOption);
+        })
+
+        $("#btn-add-check").on("click", function () {
+            vueAddCheck.modalinfo.title = "新增检查项";
+            checkForm.attr("action", "/Consultation/AddCheck");
+            vueAddCheck.addinfo = {};
+            checkModal.modal('show');
+        })
+
+
+
+/**********************************检查项目结束**********************************/
+
+
+});
     </script>
 }
 

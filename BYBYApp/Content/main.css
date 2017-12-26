@@ -222,7 +222,7 @@ div {
 
     .portlet.box > .portlet-title > .caption > .fa {
         font-size: 20px;
-        margin-top:2px;
+        margin-top: 2px;
     }
 
 .portlet > .portlet-title > .querycontent {
@@ -280,10 +280,14 @@ div {
         text-align: center;
     }
 
-    .table tbody td {
-        padding-top: 4px !important;
-        padding-bottom: 4px !important;
-    }
+td.no-data {
+    padding: 10px !important;
+}
+
+.table tbody td {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
 
 .portlet-body .table td {
     text-align: center;
@@ -314,6 +318,8 @@ div {
     .tb-detail-view.open {
         display: table-row;
     }
+
+
 
 
 
@@ -609,8 +615,10 @@ div {
     }
 
 
+.modal-body .form-group label:first-child {
+    font-weight: 700;
+}
 /************************************************页面样式************************************************/
-
 /*病历详细页面*/
 .title-patient {
     font-size: 20px;

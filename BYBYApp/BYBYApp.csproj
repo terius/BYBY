@@ -199,6 +199,7 @@
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\MedicalHistoryController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\SystemController.cs" />
     <Compile Include="Controllers\TESTController.cs" />
     <Compile Include="Controllers\TranferController.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
@@ -5759,6 +5760,8 @@
     <Content Include="Views\Shared\_MedicalHistoryImage.cshtml" />
     <Content Include="Views\TEST\Upload.cshtml" />
     <Content Include="Views\Consultation\Detail.cshtml" />
+    <Content Include="Views\System\MedicineDic.cshtml" />
+    <Content Include="Views\System\CheckAssay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

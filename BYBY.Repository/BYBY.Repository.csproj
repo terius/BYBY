@@ -56,6 +56,10 @@
     <Compile Include="DataContextFactory.cs" />
     <Compile Include="EFUnitOfWork.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\TBConsultationCheck.cs" />
+    <Compile Include="Entities\TBConsultationMedicine.cs" />
+    <Compile Include="Entities\TBCheckAssay.cs" />
+    <Compile Include="Entities\TBMedicine.cs" />
     <Compile Include="Entities\TBReferral.cs" />
     <Compile Include="Entities\TBEthnic.cs" />
     <Compile Include="Entities\TBConsultation.cs" />
@@ -260,6 +264,22 @@
     <Compile Include="Migrations\201712241245576_TBConsultationModifyApprovedDate2.Designer.cs">
       <DependentUpon>201712241245576_TBConsultationModifyApprovedDate2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712250800382_TBMedicalHistoryAddNewestId.cs" />
+    <Compile Include="Migrations\201712250800382_TBMedicalHistoryAddNewestId.Designer.cs">
+      <DependentUpon>201712250800382_TBMedicalHistoryAddNewestId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712251129494_addTableTBMedicine.cs" />
+    <Compile Include="Migrations\201712251129494_addTableTBMedicine.Designer.cs">
+      <DependentUpon>201712251129494_addTableTBMedicine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712260556563_addTableTBConsultationMedicine.cs" />
+    <Compile Include="Migrations\201712260556563_addTableTBConsultationMedicine.Designer.cs">
+      <DependentUpon>201712260556563_addTableTBConsultationMedicine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712261148384_addTableTBCheckAssay.cs" />
+    <Compile Include="Migrations\201712261148384_addTableTBCheckAssay.Designer.cs">
+      <DependentUpon>201712261148384_addTableTBCheckAssay.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -411,6 +431,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712241245576_TBConsultationModifyApprovedDate2.resx">
       <DependentUpon>201712241245576_TBConsultationModifyApprovedDate2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712250800382_TBMedicalHistoryAddNewestId.resx">
+      <DependentUpon>201712250800382_TBMedicalHistoryAddNewestId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712251129494_addTableTBMedicine.resx">
+      <DependentUpon>201712251129494_addTableTBMedicine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712260556563_addTableTBConsultationMedicine.resx">
+      <DependentUpon>201712260556563_addTableTBConsultationMedicine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712261148384_addTableTBCheckAssay.resx">
+      <DependentUpon>201712261148384_addTableTBCheckAssay.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

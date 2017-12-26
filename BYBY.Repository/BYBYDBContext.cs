@@ -26,6 +26,14 @@ namespace BYBY.Repository
         public DbSet<TBDoctor> TBDoctors { get; set; }
 
         public DbSet<TBReferral> TBReferrals { get; set; }
+
+        public DbSet<TBMedicine> TBMedicines { get; set; }
+
+        public DbSet<TBConsultationMedicine> TBConsultationMedicines { get; set; }
+
+        public DbSet<TBConsultationCheck> TBConsultationChecks { get; set; }
+
+        public DbSet<TBCheckAssay> TBCheckAssays { get; set; }
         public BYBYDBContext()
             : base("name=conn1")
         {

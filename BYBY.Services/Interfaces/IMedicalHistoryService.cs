@@ -141,5 +141,60 @@ namespace BYBY.Services.Interfaces
         /// <param name="request"></param>
         /// <returns></returns>
         Task<EmptyResponse> SaveConsultationRecord(ConsultationRecordEditRequest request);
+
+
+        /// <summary>
+        /// 取消会诊
+        /// </summary>
+        /// <param name="consultationId"></param>
+        /// <returns></returns>
+        Task<EmptyResponse> UpdateConsultationStatus(UpdateConsultationStatusRequest request);
+
+
+        /// <summary>
+        /// 新增药品
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<EmptyResponse> AddMedicine(ConsultationMedicineListRequest request);
+
+
+        /// <summary>
+        /// 修改药品
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<EmptyResponse> EditMedicine(ConsultationMedicineListRequest request);
+
+        /// <summary>
+        /// 删除药品
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<EmptyResponse> DeleteMedicine(OnlyHasIdRequest request);
+
+
+        /// <summary>
+        /// 新增检查项
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<EmptyResponse> AddCheck(ConsultationCheckListRequest request);
+
+
+        /// <summary>
+        /// 修改检查项
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<EmptyResponse> EditCheck(ConsultationCheckListRequest request);
+
+
+        /// <summary>
+        /// 删除检查项
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<EmptyResponse> DeleteCheck(OnlyHasIdRequest request);
     }
 }

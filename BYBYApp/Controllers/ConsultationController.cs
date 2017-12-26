@@ -45,7 +45,7 @@ namespace BYBYApp.Controllers
             ViewBag.IsMasterDoctor = LoginUserInfo.IsMasterDoctor;
 
             model.MotherHospitalList = await GetCacheAsync(CacheKeys.MotherHospital);
-            model.DoctorList = await GetCacheAsync(CacheKeys.Doctor);
+            model.MotherDoctorList = await GetCacheAsync(CacheKeys.MotherDoctor);
             model.MasterHospitalId = await _medicalHistoryService.GetDoctorMasterHospitalId();
             return View(model);
         }
@@ -58,8 +58,11 @@ namespace BYBYApp.Controllers
 
         public async Task<ActionResult> Detail(int id)
         {
+            SetBackPage();
             var model = await _medicalHistoryService.GetConsultationDetail(id);
             model.DoctorList = await _doctorService.GetDoctorListByHospital();
+            model.MedicineList = await GetCacheAsync(CacheKeys.Medicine);
+            model.CheckList = await GetCacheAsync(CacheKeys.CheckAssay);
             return await Task.FromResult(View(model));
         }
 
@@ -68,7 +71,63 @@ namespace BYBYApp.Controllers
         public async Task<ActionResult> SaveRecord(ConsultationRecordEditRequest request)
         {
             var response = await _medicalHistoryService.SaveConsultationRecord(request);
-       
+
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        /// <summary>
+        /// 取消会诊
+        /// </summary>
+        /// <param name="cancelRequest"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ActionResult> UpdateConsultationStatus(UpdateConsultationStatusRequest cancelRequest)
+        {
+            var response = await _medicalHistoryService.UpdateConsultationStatus(cancelRequest);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddMedicine(ConsultationMedicineListRequest request)
+        {
+            var response = await _medicalHistoryService.AddMedicine(request);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public async Task<ActionResult> EditMedicine(ConsultationMedicineListRequest request)
+        {
+            var response = await _medicalHistoryService.EditMedicine(request);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteMedicine(OnlyHasIdRequest request)
+        {
+            var response = await _medicalHistoryService.DeleteMedicine(request);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        [HttpPost]
+        public async Task<ActionResult> AddCheck(ConsultationCheckListRequest request)
+        {
+            var response = await _medicalHistoryService.AddCheck(request);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public async Task<ActionResult> EditCheck(ConsultationCheckListRequest request)
+        {
+            var response = await _medicalHistoryService.EditCheck(request);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteCheck(OnlyHasIdRequest request)
+        {
+            var response = await _medicalHistoryService.DeleteCheck(request);
             return Json(response, JsonRequestBehavior.AllowGet);
         }
     }

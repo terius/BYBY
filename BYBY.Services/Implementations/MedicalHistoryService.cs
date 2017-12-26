@@ -26,6 +26,10 @@ namespace BYBY.Services.Implementations
         readonly IRepository<TBReferral, int> _referralRepository;
         readonly IRepository<TBPatient, int> _patientRepository;
         readonly IRepository<TBMedicalHistoryImage, int> _imageRepository;
+        readonly IRepository<TBConsultationMedicine, int> _consultationMedicineRepository;
+        readonly IRepository<TBMedicine, int> _medicineRepository;
+        readonly IRepository<TBConsultationCheck, int> _consultationCheckRepository;
+        readonly IRepository<TBCheckAssay, int> _checkRepository;
         readonly IUnitOfWork _unitOfWork;
 
         public MedicalHistoryService(IRepository<TBMedicalHistory, int> repository,
@@ -34,6 +38,10 @@ namespace BYBY.Services.Implementations
             IRepository<TBReferral, int> referralRepository,
             IRepository<TBPatient, int> patientRepository,
             IRepository<TBMedicalHistoryImage, int> imageRepository,
+            IRepository<TBConsultationMedicine, int> consultationMedicineRepository,
+            IRepository<TBMedicine, int> medicineRepository,
+            IRepository<TBConsultationCheck, int> consultationCheckRepository,
+           IRepository<TBCheckAssay, int> checkRepository,
             IUnitOfWork unitOfWork)
         {
             _repository = repository;
@@ -42,6 +50,10 @@ namespace BYBY.Services.Implementations
             _referralRepository = referralRepository;
             _patientRepository = patientRepository;
             _imageRepository = imageRepository;
+            _consultationMedicineRepository = consultationMedicineRepository;
+            _medicineRepository = medicineRepository;
+            _consultationCheckRepository = consultationCheckRepository;
+            _checkRepository = checkRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -112,7 +124,7 @@ namespace BYBY.Services.Implementations
             model.EditModel = info.C_To_EditView();
             model.FemaleMedicalDetails = await GetMedicalDetails(info.FeMalePatient);
             model.MaleMedicalDetails = await GetMedicalDetails(info.MalePatient);
-            model.Images = Mapper.Map<List<MedicalHistoryImageRequest>>(info.TBMedicalHistoryImages.OrderBy(d=>d.Id));
+            model.Images = Mapper.Map<List<MedicalHistoryImageRequest>>(info.TBMedicalHistoryImages.OrderBy(d => d.Id));
             return model;
         }
 
@@ -218,8 +230,8 @@ namespace BYBY.Services.Implementations
             int rs = _unitOfWork.Commit();
             if (rs > 0)
             {
-               
-                filePath= HttpContext.Current.Server.MapPath(filePath);
+
+                filePath = HttpContext.Current.Server.MapPath(filePath);
                 FileHelper.DeleteFile(filePath);
             }
             return rs > 0 ? EmptyResponse.CreateSuccess("删除成功") : EmptyResponse.CreateError("删除失败");
@@ -234,13 +246,23 @@ namespace BYBY.Services.Implementations
             info.AddUserName = loginUserName;
             info.ConsultationStatus = ConsultationStatus.Requesting;
             await _consultationRepository.InsertAsync(info);
-
-            //更新病历会诊状态
-            var mdInfo = await _repository.GetAsync(request.TBMedicalHistoryId);
-            mdInfo.ConsultationStatus = ConsultationStatus.Requesting;
-            mdInfo.ModifyUserName = loginUserName;
-            await _repository.UpdateAsync(mdInfo);
             int rs = _unitOfWork.Commit();
+            if (rs > 0)
+            {
+                //更新病历会诊状态
+                var mdInfo = await _repository.GetAsync(request.TBMedicalHistoryId);
+                mdInfo.ConsultationStatus = ConsultationStatus.Requesting;
+                mdInfo.ModifyUserName = loginUserName;
+                mdInfo.NewestConsultationId = info.Id;
+                await _repository.UpdateAsync(mdInfo);
+                rs = _unitOfWork.Commit();
+                if (rs <= 0)
+                {
+                    await _consultationRepository.DeleteAsync(info);
+                    _unitOfWork.Commit();
+                }
+            }
+
             return rs > 0 ? EmptyResponse.CreateSuccess("保存成功") : EmptyResponse.CreateError("保存失败");
         }
 
@@ -252,7 +274,7 @@ namespace BYBY.Services.Implementations
             MHInfo.ModifyUserName = loginUserName;
             await _repository.UpdateAsync(MHInfo);
 
-            var cInfo = await _consultationRepository.GetAsync(MHInfo.Consultations.OrderByDescending(d => d.Id).First().Id);
+            var cInfo = await _consultationRepository.GetAsync(MHInfo.NewestConsultationId.Value);
             cInfo.ConsultationStatus = ConsultationStatus.Cancel;
             cInfo.ModifyUserName = loginUserName;
             await _consultationRepository.UpdateAsync(cInfo);
@@ -317,7 +339,7 @@ namespace BYBY.Services.Implementations
                 query = query.Where(d => d.HospitalId == request.HospitalId.Value);
             }
 
-
+            query = query.Where(d => d.Id == d.MedicalHistory.NewestConsultationId);
             //   var data = await _repository.FindAsync(d => d.MedicalHistoryNo == "9999");
             var pageData = PageQuery(query.OrderBy(d => d.Id), request, d => d.C_To_ConsultationListViews());
             return await Task.FromResult(pageData);
@@ -328,6 +350,7 @@ namespace BYBY.Services.Implementations
         public async Task<ConsultationDetailModel> GetConsultationDetail(int id)
         {
             var info = await _consultationRepository.GetAsync(id);
+            //   var info =  _consultationRepository.GetDbQuerySet().First(d => d.Id == id);
             var model = info.C_To_ConsultationDetailModel();
             return model;
         }
@@ -337,18 +360,144 @@ namespace BYBY.Services.Implementations
         {
             var editInfo = await _consultationRepository.GetAsync(request.MyId);
             editInfo = Mapper.Map(request, editInfo);
-            editInfo.ModifyUserName= editInfo.RecordUser = GetLoginUserName();
+            editInfo.ModifyUserName = editInfo.RecordUser = GetLoginUserName();
             editInfo.RecordTime = DateTime.Now;
             await _consultationRepository.UpdateAsync(editInfo);
             int rs = _unitOfWork.Commit();
             return rs > 0 ? EmptyResponse.CreateSuccess("保存成功") : EmptyResponse.CreateError("保存失败");
         }
 
-            #endregion
+        public async Task<EmptyResponse> UpdateConsultationStatus(UpdateConsultationStatusRequest request)
+        {
+            var loginUserName = GetLoginUserName();
+            var cInfo = await _consultationRepository.GetAsync(request.Id);
+            cInfo.ConsultationStatus = cInfo.MedicalHistory.ConsultationStatus = request.Status;
+            cInfo.ModifyUserName = cInfo.MedicalHistory.ModifyUserName = loginUserName;
+            await _consultationRepository.UpdateAsync(cInfo);
+            int rs = _unitOfWork.Commit();
+            string msg = "";
+            switch (request.Status)
+            {
+                case ConsultationStatus.No:
+                    break;
+                case ConsultationStatus.Requesting:
+                    msg = "申请";
+                    break;
+                case ConsultationStatus.Cancel:
+                    msg = "取消";
+                    break;
+                case ConsultationStatus.Confirm:
+                    msg = "确认";
+                    break;
+                case ConsultationStatus.Complete:
+                    msg = "完成";
+                    break;
+                default:
+                    break;
+            }
+            return rs > 0 ? EmptyResponse.CreateSuccess("会诊已" + msg) : EmptyResponse.CreateError("会诊" + msg + "失败");
+        }
 
 
-            #region 转诊模块
-            public async Task<EmptyResponse> SaveReferralAdd(ReferralAddRequest request)
+        #region 会诊详细信息-药品
+
+        /// <summary>
+        /// 新增药品
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<EmptyResponse> AddMedicine(ConsultationMedicineListRequest request)
+        {
+            var info = Mapper.Map<TBConsultationMedicine>(request);
+            info.AddUserName = GetLoginUserName();
+            info.Medicine = await _medicineRepository.GetAsync(request.MedicineId);
+            await _consultationMedicineRepository.InsertAsync(info);
+            int rs = _unitOfWork.Commit();
+            return rs > 0 ? EmptyResponse.CreateSuccess("新增成功") : EmptyResponse.CreateError("新增失败");
+        }
+
+        /// <summary>
+        /// 修改药品
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<EmptyResponse> EditMedicine(ConsultationMedicineListRequest request)
+        {
+            var info = await _consultationMedicineRepository.GetAsync(request.Id);
+            info = Mapper.Map(request, info);
+            info.ModifyUserName = GetLoginUserName();
+            await _consultationMedicineRepository.UpdateAsync(info);
+            int rs = _unitOfWork.Commit();
+            return rs > 0 ? EmptyResponse.CreateSuccess("编辑成功") : EmptyResponse.CreateError("编辑失败");
+        }
+
+        /// <summary>
+        /// 删除药品
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<EmptyResponse> DeleteMedicine(OnlyHasIdRequest request)
+        {
+            var info = await _consultationMedicineRepository.GetAsync(request.Id);
+            await _consultationMedicineRepository.DeleteAsync(info);
+            int rs = _unitOfWork.Commit();
+            return rs > 0 ? EmptyResponse.CreateSuccess("删除成功") : EmptyResponse.CreateError("删除失败");
+        }
+        #endregion
+
+
+        #region 会诊详细信息-检查项目
+
+        /// <summary>
+        /// 新增检查项
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<EmptyResponse> AddCheck(ConsultationCheckListRequest request)
+        {
+            var info = Mapper.Map<TBConsultationCheck>(request);
+            info.AddUserName = GetLoginUserName();
+            info.CheckAssay = await _checkRepository.GetAsync(request.CheckId);
+            await _consultationCheckRepository.InsertAsync(info);
+            int rs = _unitOfWork.Commit();
+            return rs > 0 ? EmptyResponse.CreateSuccess("新增成功") : EmptyResponse.CreateError("新增失败");
+        }
+
+        /// <summary>
+        /// 修改检查项
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<EmptyResponse> EditCheck(ConsultationCheckListRequest request)
+        {
+            var info = await _consultationCheckRepository.GetAsync(request.Id);
+            info = Mapper.Map(request, info);
+            info.ModifyUserName = GetLoginUserName();
+            await _consultationCheckRepository.UpdateAsync(info);
+            int rs = _unitOfWork.Commit();
+            return rs > 0 ? EmptyResponse.CreateSuccess("编辑成功") : EmptyResponse.CreateError("编辑失败");
+        }
+
+        /// <summary>
+        /// 删除检查项
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<EmptyResponse> DeleteCheck(OnlyHasIdRequest request)
+        {
+            var info = await _consultationCheckRepository.GetAsync(request.Id);
+            await _consultationCheckRepository.DeleteAsync(info);
+            int rs = _unitOfWork.Commit();
+            return rs > 0 ? EmptyResponse.CreateSuccess("删除成功") : EmptyResponse.CreateError("删除失败");
+        }
+        #endregion
+
+
+        #endregion
+
+
+        #region 转诊模块
+        public async Task<EmptyResponse> SaveReferralAdd(ReferralAddRequest request)
         {
             var loginUserName = GetLoginUserName();
             var info = Mapper.Map<TBReferral>(request);

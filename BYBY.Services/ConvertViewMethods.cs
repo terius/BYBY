@@ -257,13 +257,18 @@ namespace BYBY.Services
                     Hospital = item.Hospital.Name,
                     RequestDate = item.RequestDate.ToDateString(),
                     MHId = item.MedicalHistory.Id,
-                    ConsultationStatusColorClass= GetFontColorClass(item.ConsultationStatus)
+                    ConsultationStatusColorClass = GetFontColorClass(item.ConsultationStatus),
+                    MHConsultationStatus = item.MedicalHistory.ConsultationStatus.GetEnumDescription(),
+                    MHConsultationStatusColorClass = GetFontColorClass(item.MedicalHistory.ConsultationStatus),
+                    IsNewest = item.Id == item.MedicalHistory.NewestConsultationId
                 };
 
                 dest.Add(view);
             }
             return dest;
         }
+
+
 
         private static string GetFontColorClass(ConsultationStatus status)
         {
@@ -272,13 +277,13 @@ namespace BYBY.Services
                 case ConsultationStatus.No:
                     return "font-grey-salt";
                 case ConsultationStatus.Requesting:
-                    return "font-green-jungle";
+                    return "font-purple";
                 case ConsultationStatus.Cancel:
                     return "font-red-sunglo";
                 case ConsultationStatus.Confirm:
                     return "font-blue-steel";
                 case ConsultationStatus.Complete:
-                    return "font-purple-plum";
+                    return "font-green-jungle";
                 default:
                     break;
             }
@@ -359,7 +364,7 @@ namespace BYBY.Services
             {
                 view.RequestDate = source.STime.ToString("yyyy-MM-dd HH:mm") + " - " + source.ETime.ToString("yyyy-MM-dd HH:mm");
             }
-          //  view.Remark = source.Remark;
+            //  view.Remark = source.Remark;
             view.Hospital = source.Hospital.Name;
             view.ConsultationStatus = GetEnumDescription(source.ConsultationStatus);
             view.ApprovedUser = GetNameByUserName(source.ApprovedUser);
@@ -367,7 +372,49 @@ namespace BYBY.Services
             view.Doctor = source.Doctor.Name;
             view.RecordUser = GetNameByUserName(source.RecordUser);
             view.RecordTime = source.RecordTime.ToDateTimeString();
+            view.ConsultationMedicineList = source.ConsultationMedicines.C_To_ConsultationMedicineList();
+            view.ConsultationCheckList = source.ConsultationChecks.C_To_ConsultationCheckListRequest();
             return view;
+        }
+
+        public static IList<ConsultationMedicineListRequest> C_To_ConsultationMedicineList(this IEnumerable<TBConsultationMedicine> source)
+        {
+            IList<ConsultationMedicineListRequest> views = new List<ConsultationMedicineListRequest>();
+            ConsultationMedicineListRequest view;
+            foreach (var item in source)
+            {
+                view = new ConsultationMedicineListRequest();
+                view.ActionDate = item.ActionDate.ToDateString();
+                view.AllDose = item.AllDose;
+                view.UsedDays = item.UsedDays;
+                view.Dose = item.Medicine.Dose.ToString();
+                view.Frequency = item.Medicine.Frequency;
+                view.Id = item.Id;
+                view.Instructions = item.Medicine.Instructions;
+                view.MedicineId = item.MedicineId;
+                view.ShortName = item.Medicine.ShortName;
+                view.Unit = item.Medicine.Unit;
+                view.ConsultationId = item.ConsultationId;
+                views.Add(view);
+            }
+            return views;
+        }
+
+        public static IList<ConsultationCheckListRequest> C_To_ConsultationCheckListRequest(this IEnumerable<TBConsultationCheck> source)
+        {
+            IList<ConsultationCheckListRequest> views = new List<ConsultationCheckListRequest>();
+            ConsultationCheckListRequest view;
+            foreach (var item in source)
+            {
+                view = new ConsultationCheckListRequest();
+                view.ActionDate = item.ActionDate.ToDateString();
+                view.CheckId = item.CheckId;
+                view.CheckName = item.CheckAssay.Name;
+                view.ConsultationId = item.ConsultationId;
+                view.Id = item.Id;
+                views.Add(view);
+            }
+            return views;
         }
     }
 }

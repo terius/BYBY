@@ -19,6 +19,8 @@ namespace BYBY.Cache
         readonly IRepository<TBEthnic, int> _ethnicRepository;
         readonly IRepository<TBHospital, int> _hospitalRepository;
         readonly IRepository<TBDoctor, int> _doctorRepository;
+        readonly IRepository<TBMedicine, int> _medicineRepository;
+        readonly IRepository<TBCheckAssay, int> _checkRepository;
         readonly object NationObj = new object();
 
         public CacheService(ICacheStorage cacheStorage,
@@ -26,7 +28,9 @@ namespace BYBY.Cache
             IRepository<TBJob, int> jobRepository,
             IRepository<TBEthnic, int> ethnicRepository,
             IRepository<TBHospital, int> hospitalRepository,
-            IRepository<TBDoctor, int> doctorRepository
+            IRepository<TBDoctor, int> doctorRepository,
+            IRepository<TBMedicine, int> medicineRepository,
+            IRepository<TBCheckAssay, int> checkRepository
             )
         {
             _cacheStorage = cacheStorage;
@@ -35,6 +39,8 @@ namespace BYBY.Cache
             _ethnicRepository = ethnicRepository;
             _hospitalRepository = hospitalRepository;
             _doctorRepository = doctorRepository;
+            _medicineRepository = medicineRepository;
+            _checkRepository = checkRepository;
         }
 
         public async Task<IList<SelectItem>> GetSelectItemAsync(CacheKeys key)
@@ -77,6 +83,18 @@ namespace BYBY.Cache
                         var motherHospitalData = await _hospitalRepository.FindAsync(d => d.IsMaster == true);
                         cacheData = motherHospitalData.ToList().ConvertTo_SelectItem();
                         break;
+                    case CacheKeys.MotherDoctor:
+                        var motherDoctorData = await _doctorRepository.FindAsync(d => d.IsMasterDoctor == true);
+                        cacheData = motherDoctorData.ToList().ConvertTo_SelectItem();
+                        break;
+                    case CacheKeys.Medicine:
+                        var medicineData = await _medicineRepository.FindAllAsync();
+                        cacheData = medicineData.ConvertTo_SelectItem();
+                        break;
+                    case CacheKeys.CheckAssay:
+                        var checkData = await _checkRepository.FindAllAsync();
+                        cacheData = checkData.ConvertTo_SelectItem();
+                        break;
                     default:
                         break;
                 }
@@ -105,6 +123,11 @@ namespace BYBY.Cache
                 list.Add(myLi);
             }
             return list;
+        }
+
+        public void RemoveCache(CacheKeys key)
+        {
+            _cacheStorage.Remove(key.ToString());
         }
 
         //public void SaveRoleModulesToCache(TBUser user, string roleName)
@@ -187,6 +210,35 @@ namespace BYBY.Cache
                 sitem.id = item.Id.ToString();
                 sitem.text = item.User.Name;
                 sitem.title = item.JobTitle;
+                dest.Add(sitem);
+            }
+            return dest;
+        }
+
+        public static IList<SelectItem> ConvertTo_SelectItem(this IEnumerable<TBMedicine> source)
+        {
+            var dest = new List<SelectItem>();
+            SelectItem sitem;
+            foreach (var item in source)
+            {
+                sitem = new SelectItem();
+                sitem.id = item.Id.ToString();
+                sitem.text = item.ShortName;
+                sitem.title = item.Name;
+                dest.Add(sitem);
+            }
+            return dest;
+        }
+        public static IList<SelectItem> ConvertTo_SelectItem(this IEnumerable<TBCheckAssay> source)
+        {
+            var dest = new List<SelectItem>();
+            SelectItem sitem;
+            foreach (var item in source)
+            {
+                sitem = new SelectItem();
+                sitem.id = item.Id.ToString();
+                sitem.text = item.Name;
+                sitem.title = item.Code;
                 dest.Add(sitem);
             }
             return dest;

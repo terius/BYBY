@@ -84,5 +84,30 @@ namespace BYBY.Services.Models
         public IList<SelectItem> DoctorList { get; set; }
 
 
+        /// <summary>
+        /// 使用药品信息列表
+        /// </summary>
+        public IList<ConsultationMedicineListRequest> ConsultationMedicineList { get; set; }
+
+        /// <summary>
+        /// 药品列表
+        /// </summary>
+        public IList<SelectItem> MedicineList { get; set; }
+
+
+
+        /// <summary>
+        /// 检查项列表
+        /// </summary>
+        public IList<ConsultationCheckListRequest> ConsultationCheckList { get; set; }
+
+
+
+        /// <summary>
+        /// 检查项列表
+        /// </summary>
+        public IList<SelectItem> CheckList { get; set; }
+
+
     }
 }

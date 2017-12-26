@@ -1,5 +1,6 @@
 ﻿using BYBY.Infrastructure;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,6 +11,13 @@ namespace BYBY.Repository.Entities
     /// </summary>
     public class TBConsultation : BaseEntity<int>
     {
+        public TBConsultation()
+        {
+            this.ConsultationMedicines = new HashSet<TBConsultationMedicine>();
+            this.ConsultationChecks = new HashSet<TBConsultationCheck>();
+        }
+
+
         /// <summary>
         /// 病历Id
         /// </summary>
@@ -108,5 +116,9 @@ namespace BYBY.Repository.Entities
 
         [ForeignKey("TBMedicalHistoryId")]
         public virtual TBMedicalHistory MedicalHistory { get; set; }
+
+
+        public virtual ICollection<TBConsultationMedicine> ConsultationMedicines { get; set; }
+        public virtual ICollection<TBConsultationCheck> ConsultationChecks { get; set; }
     }
 }
