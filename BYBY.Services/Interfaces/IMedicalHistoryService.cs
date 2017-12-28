@@ -144,7 +144,7 @@ namespace BYBY.Services.Interfaces
 
 
         /// <summary>
-        /// 取消会诊
+        /// 更改会诊状态
         /// </summary>
         /// <param name="consultationId"></param>
         /// <returns></returns>
@@ -196,5 +196,13 @@ namespace BYBY.Services.Interfaces
         /// <param name="request"></param>
         /// <returns></returns>
         Task<EmptyResponse> DeleteCheck(OnlyHasIdRequest request);
+
+
+        /// <summary>
+        /// 更改会诊状态
+        /// </summary>
+        /// <param name="consultationId"></param>
+        /// <returns></returns>
+        Task<EmptyResponse> UpdateReferralStatus(UpdateReferralStatusRequest request);
     }
 }

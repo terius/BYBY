@@ -21,6 +21,7 @@ namespace BYBY.Cache
         readonly IRepository<TBDoctor, int> _doctorRepository;
         readonly IRepository<TBMedicine, int> _medicineRepository;
         readonly IRepository<TBCheckAssay, int> _checkRepository;
+        readonly IRepository<TBConsultationRoom, int> _roomRepository;
         readonly object NationObj = new object();
 
         public CacheService(ICacheStorage cacheStorage,
@@ -30,7 +31,8 @@ namespace BYBY.Cache
             IRepository<TBHospital, int> hospitalRepository,
             IRepository<TBDoctor, int> doctorRepository,
             IRepository<TBMedicine, int> medicineRepository,
-            IRepository<TBCheckAssay, int> checkRepository
+            IRepository<TBCheckAssay, int> checkRepository,
+            IRepository<TBConsultationRoom, int> roomRepository
             )
         {
             _cacheStorage = cacheStorage;
@@ -41,6 +43,7 @@ namespace BYBY.Cache
             _doctorRepository = doctorRepository;
             _medicineRepository = medicineRepository;
             _checkRepository = checkRepository;
+            _roomRepository = roomRepository;
         }
 
         public async Task<IList<SelectItem>> GetSelectItemAsync(CacheKeys key)
@@ -94,6 +97,10 @@ namespace BYBY.Cache
                     case CacheKeys.CheckAssay:
                         var checkData = await _checkRepository.FindAllAsync();
                         cacheData = checkData.ConvertTo_SelectItem();
+                        break;
+                    case CacheKeys.Room:
+                        var roomData = await _roomRepository.FindAllAsync();
+                        cacheData = roomData.ConvertTo_SelectItem();
                         break;
                     default:
                         break;
@@ -239,6 +246,21 @@ namespace BYBY.Cache
                 sitem.id = item.Id.ToString();
                 sitem.text = item.Name;
                 sitem.title = item.Code;
+                dest.Add(sitem);
+            }
+            return dest;
+        }
+
+        public static IList<SelectItem> ConvertTo_SelectItem(this IEnumerable<TBConsultationRoom> source)
+        {
+            var dest = new List<SelectItem>();
+            SelectItem sitem;
+            foreach (var item in source)
+            {
+                sitem = new SelectItem();
+                sitem.id = item.Id.ToString();
+                sitem.text = item.Name;
+                sitem.title = item.Remark;
                 dest.Add(sitem);
             }
             return dest;

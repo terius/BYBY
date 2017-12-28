@@ -65,7 +65,7 @@ namespace BYBYApp
               ));
 
 
-           
+
             //bootstrap select
             bundles.Add(new StyleBundle("~/bundles/css/bootstrapselect")
                 .Include("~/Metronic/assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css", new CssRewriteUrlTransform())
@@ -113,9 +113,21 @@ namespace BYBYApp
 
             //jquery file Upload
             bundles.Add(
-    new StyleBundle("~/bundles/css/jqfileupload")
-        .Include("~/Metronic/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css", new CssRewriteUrlTransform())
-        );
+              new StyleBundle("~/bundles/css/jqfileupload")
+            .Include("~/Metronic/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css", new CssRewriteUrlTransform())
+            );
+
+
+            //timepicker
+            bundles.Add(
+           new StyleBundle("~/bundles/css/timepicker")
+               .Include("~/Metronic/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css", new CssRewriteUrlTransform())
+               );
+            bundles.Add(
+             new ScriptBundle("~/bundles/js/timepicker")
+                 .Include(
+                 "~/Metronic/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"
+                 ));
         }
     }
 }

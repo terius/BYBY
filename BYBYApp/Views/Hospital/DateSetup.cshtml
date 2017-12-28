@@ -1,0 +1,226 @@
+﻿@model IList<BYBY.Services.Views.DateSetupListView>
+@{
+    ViewBag.Title = "会诊时段配置";
+}
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            会诊时段配置
+        </div>
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+        </div>
+    </div>
+
+    <div class="portlet-title">
+        <div class="querycontent">
+            <div class="form-inline" id="query-content">
+                <div class="form-group">
+                    <button type="button" class="btn blue btn-outline" id="btn-add">
+                        <i class="fa fa-plus"></i> 新增会诊时段
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="portlet-body">
+        <table class="table  table-bordered date-set-table" id="query-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>时段</th>
+                    <th>默认会诊人数</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(info,index) in list">
+                    <td>{{index+1}}</td>
+                    <td>{{info.STime}} - {{info.ETime}}</td>
+                    <td>{{info.DefaultPeople}}</td>
+                    <td>
+                        <a href="javascript:;" v-on:click="showDelete(info.Id)"><i class="fa fa-2x fa-remove tooltips" data-container="body" data-placement="top" data-original-title="删除"></i></a>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<div id="modal-add">
+    <v-modal v-cloak v-bind:tinfo="modalinfo">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" action="@Url.Action("AddDateSetup","Hospital")" id="save-form">
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">开始时段</label>
+                            <div class="col-xs-6">
+                                <input type="text" id="STime" name="STime" class="form-control timepicker timepicker-24 w300 required" :value="addinfo.STime" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">结束时段</label>
+                            <div class="col-xs-6">
+                                <input type="text" id="ETime" name="ETime" class="form-control timepicker timepicker-24 w300 required" :value="addinfo.STime" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">默认会诊人数</label>
+                            <div class="col-xs-6">
+                                <input type="text" name="DefaultPeople" class="form-control  w300 required">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <button type="button" slot="bottom" class="btn blue btn-outline" id="btn-save" v-on:click="save">保  存</button>
+    </v-modal>
+</div>
+
+
+@section styles
+{
+    @System.Web.Optimization.Styles.Render("~/bundles/css/timepicker")
+}
+
+@section pagejs
+{
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/timepicker")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
+    <script>
+        $(function () {
+           var allData =  @Html.RenderAsJson(Model);
+            var addForm = null;
+            var addModal = null;
+
+            var vueList = new Vue({
+                el: "#query-table",
+                data: {
+                    list: allData
+                },
+                mounted: function() {
+                  
+                },
+                methods: {
+                    showDelete: function (id) {
+                        com.confirm("是否要删除此会诊时段？", function () {
+                            com.ajaxquery("/Hospital/DeleteDateSetup", { Id: id }).then(function (res) {
+                                if (res.Result) {
+                                    ShowSuccessThenReload(res.SuccessMessage);
+                                }
+                                else {
+                                    ShowErrorMessage(res.ErrorMessage);
+                                }
+                            });
+
+                        });
+                    }
+                }
+
+            });
+
+
+            var vueadd = new Vue({
+                el: '#modal-add',
+                data: {
+                    modalinfo: {
+                        id: "modeladdnew",
+                        title: "新增时段",
+                        data: {}
+
+                    },
+                    addinfo: {}
+
+                },
+                mounted: function () {
+                    $('.timepicker-24').timepicker({
+                        autoclose: true,
+                        minuteStep: 30,
+                        showSeconds: false,
+                        showMeridian: false
+                    });
+                    addForm = $("#save-form");
+                    addModal = $("#modeladdnew");
+                    addForm.validateForm();
+                },
+                methods: {
+                    save: function () {
+                        com.jqFormOption.checkval = function() {
+                            var stime = $("#STime").val();
+                            var etime = $("#ETime").val();
+                            stime = Date.parse("01/01/2011 " + stime + ":00");
+                            etime = Date.parse("01/01/2011 " + etime + ":00");
+                            if (stime >= etime) {
+                                ShowLayerAlert("开始时段不能大于结束时段");
+                                return false;
+                            }
+                            return true;
+                        }
+                       // if (Date.parse('01/01/2011 ') > Date.parse('01/01/2011 5:10:10'))
+                        com.jqFormOption.success = function (res) {
+                            if (res.Result) {
+                                ShowSuccessThenReload(res.SuccessMessage);
+                            }
+                            else {
+                                ShowErrorMessage(res.ErrorMessage);
+                            }
+                        };
+                        addForm.ajaxSubmit(com.jqFormOption);
+                    }
+                }
+
+            });
+
+
+
+            //var vueList = new Vue({
+            //    el: "#room-list",
+            //    data: {
+            //        list: allData
+            //    },
+            //    methods: {
+            //        showEdit: function (editInfo) {
+            //            com.showLog(editInfo);
+            //            vueadd.modalinfo.title = "编辑诊室";
+            //            vueadd.addinfo = editInfo;
+            //            addForm.attr("action", "/Hospital/EditRoom");
+            //            addModal.modal('show');
+            //        },
+            //        showDelete: function (id) {
+            //            com.confirm("是否要删除此诊室？", function () {
+            //                com.ajaxquery("/Hospital/DeleteRoom", { Id: id }).then(function (res) {
+            //                    if (res.Result) {
+            //                        ShowSuccessThenReload(res.SuccessMessage);
+            //                    }
+            //                    else {
+            //                        ShowErrorMessage(res.ErrorMessage);
+            //                    }
+            //                });
+
+            //            });
+            //        }
+            //    }
+
+            //});
+
+
+            $("#btn-add").on("click", function() {
+                addModal.modal('show');
+            })
+
+
+
+            /*******************************初始执行方法***********************************/
+
+
+        });
+    </script>
+}
+

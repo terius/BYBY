@@ -34,6 +34,12 @@ namespace BYBY.Repository
         public DbSet<TBConsultationCheck> TBConsultationChecks { get; set; }
 
         public DbSet<TBCheckAssay> TBCheckAssays { get; set; }
+
+        public DbSet<TBConsultationRoom> TBConsultationRooms { get; set; }
+
+        public DbSet<TBDateSetup> TBDateSetups { get; set; }
+
+        public DbSet<TBPlan> TBPlans { get; set; }
         public BYBYDBContext()
             : base("name=conn1")
         {

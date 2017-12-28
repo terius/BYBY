@@ -117,8 +117,24 @@ div {
     margin-right: 10px;
 }
 
+.margin-left-10 {
+    margin-left: 10px;
+}
+
 .margin-left-20 {
     margin-left: 20px;
+}
+
+.margin-left-30 {
+    margin-left: 30px;
+}
+
+.margin-right-20 {
+    margin-right: 20px;
+}
+
+.margin-right-30 {
+    margin-right: 30px;
 }
 
 
@@ -353,6 +369,12 @@ td.no-data {
         margin-left: 10px;
     }
 
+.table > tfoot   td.action {
+    padding: 10px !important;
+    border: none;
+    text-align: center !important;
+}
+
 
 
 .page-num-input {
@@ -533,6 +555,8 @@ td.no-data {
     background-color: #2f853b;
     color: #fff !important;
 }
+
+
 /************************datepicker样式************************/
 .datepicker.datepicker-dropdown {
     z-index: 20001;
@@ -719,4 +743,48 @@ td.no-data {
 
 .consultation-detail .form-group > label:first-child {
     width: 100px;
+}
+
+.room-list .content {
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.room-list .pic {
+    height: 130px;
+    text-align: center;
+    padding: 10px;
+}
+
+.room-list .title {
+    text-align: center;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+    .room-list .title > h3 {
+        margin: 0;
+    }
+
+.room-list .control {
+    padding: 10px;
+    height: 54px;
+    text-align: center;
+}
+
+
+.date-set-table tr td {
+    font-size: 20px;
+    padding: 15px !important;
+}
+
+/************************************************排班页面************************************************/
+.plan-table tr td {
+    font-size: 18px;
+    padding: 15px 4px !important;
+}
+
+.plan-table .select2-selection.select2-selection--single {
+    padding-left: 0 !important;
+    padding-right: 20px !important;
 }

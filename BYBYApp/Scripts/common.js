@@ -112,6 +112,7 @@ $.fn.validateForm = function (option) {
 
 com.jqFormOption = {
     data: {},
+    checkval: null,
     error: function (result, textStatus, errorThrown) {
         com.showLog(result);
         ShowLayerAlert(result.responseText);
@@ -129,10 +130,16 @@ com.jqFormOption = {
         // The array of form data takes the following form: 
         // [ { name: 'username', value: 'jresig' }, { name: 'password', value: 'secret' } ] 
         // return false to cancel submit   
+        var checkok = true;
         if ($form.valid) {
-            return $form.valid();
+            checkok = $form.valid();
         }
-        return true;
+        if (checkok) {
+            if (typeof com.jqFormOption.checkval === "function") {
+                return com.jqFormOption.checkval();
+            }
+        }
+        return checkok;
 
     }
 }
@@ -490,7 +497,7 @@ com.initImageUpload = function (target, url, successFun) {
     })
 }
 
-com.replaceUrlParam = function(url, paramName, paramValue) {
+com.replaceUrlParam = function (url, paramName, paramValue) {
     if (paramValue == null)
         paramValue = '';
     var pattern = new RegExp('\\b(' + paramName + '=).*?(&|$)')

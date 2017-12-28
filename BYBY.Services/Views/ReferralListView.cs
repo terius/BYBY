@@ -25,7 +25,7 @@
 
         public int MHId { get; set; }
 
-
+        public string Remark { get; set; }
         /// <summary>
         /// 会诊状态颜色样式
         /// </summary>

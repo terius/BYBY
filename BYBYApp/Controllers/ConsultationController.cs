@@ -63,6 +63,7 @@ namespace BYBYApp.Controllers
             model.DoctorList = await _doctorService.GetDoctorListByHospital();
             model.MedicineList = await GetCacheAsync(CacheKeys.Medicine);
             model.CheckList = await GetCacheAsync(CacheKeys.CheckAssay);
+            ViewBag.IsMasterDoctor = LoginUserInfo.IsMasterDoctor;
             return await Task.FromResult(View(model));
         }
 

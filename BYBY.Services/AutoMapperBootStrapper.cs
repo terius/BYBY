@@ -44,8 +44,19 @@ namespace BYBY.Services
                 cfg.CreateMap<CheckListView, TBCheckAssay>();
 
                 cfg.CreateMap<ConsultationCheckListRequest, TBConsultationCheck>();
+
+                cfg.CreateMap<ConsultationRoomListView, TBConsultationRoom>();
+                cfg.CreateMap<TBConsultationRoom, ConsultationRoomListView>().ForMember(d => d.Pic,
+           expression => expression.ResolveUsing(s => string.IsNullOrWhiteSpace(s.Pic) ? "/images/doctor.png" : s.Pic));
+
+                cfg.CreateMap<TBDateSetup, DateSetupListView>().ForMember(d => d.STime,
+     expression => expression.ResolveUsing(s => s.STime.ToString("HH:mm"))).ForMember(d => d.ETime,
+     expression => expression.ResolveUsing(s => s.ETime.ToString("HH:mm")));
                 //        cfg.CreateMap<TBMedicalDetail, MedicalDetailRequest>().ForMember(d => d.MenstruationLast,
                 //expression => expression.ResolveUsing(s => s.MenstruationLast.HasValue ? s.MenstruationLast.Value.ToString("yyyy-MM-dd") : ""));
+
+                cfg.CreateMap<TBPlan, PlanView>()
+                .ForMember(d => d.DoctorName, expression => expression.ResolveUsing(s => s.Doctor.Name));
             });
 
         }

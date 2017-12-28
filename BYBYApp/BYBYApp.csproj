@@ -196,6 +196,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ConsultationController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\HospitalController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\MedicalHistoryController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ReferralListModel.cs" />
     <Compile Include="Models\ConsultationListModel.cs" />
     <Compile Include="Models\DataTablesEntity.cs" />
     <Compile Include="Models\LoginUserInfo.cs" />
@@ -5762,6 +5764,9 @@
     <Content Include="Views\Consultation\Detail.cshtml" />
     <Content Include="Views\System\MedicineDic.cshtml" />
     <Content Include="Views\System\CheckAssay.cshtml" />
+    <Content Include="Views\Hospital\ConsultationRoom.cshtml" />
+    <Content Include="Views\Hospital\DateSetup.cshtml" />
+    <Content Include="Views\Hospital\Plan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

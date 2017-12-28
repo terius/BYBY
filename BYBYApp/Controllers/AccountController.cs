@@ -32,7 +32,8 @@ namespace BYBYApp.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
-        //    ClearSession();
+         
+            //    ClearSession();
             return View();
         }
 

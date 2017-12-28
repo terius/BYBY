@@ -10,9 +10,11 @@
         </div>
         <div class="actions">
             @*<button class="btn blue btn-outline" id="btnEdit">
-                    <i class="fa fa-edit" style="padding-right:4px"></i>修改
-                </button>*@
+            <i class="fa fa-edit" style="padding-right:4px"></i>修改
+        </button>*@
+            <a class="btn fa fa-reply btn-default " href="javascript:;" onclick="history.go(-1)" data-original-title="返回" title="返回"> </a>
             <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+
         </div>
     </div>
 
@@ -78,7 +80,7 @@
                     <div class="record-view">
                         <div class="col-md-12 pg-title">
                             <div style="display:inline-block">会诊记录</div>
-                            @if (Html.IsMasterDoctor())
+                            @if (ViewBag.IsMasterDoctor == true)
                             {
                                 <div style="float:right;display:inline-block">
                                     <button class="btn blue" id="btnShowRecordEdit">
@@ -194,7 +196,7 @@
                         <div class="tools">
                             <a href="javascript:;" class="collapse" data-original-title="" title="展开/折叠"> </a>
                         </div>
-                        @if (Html.IsMasterDoctor())
+                        @if (ViewBag.IsMasterDoctor == true)
                         {
                             <div class="actions">
                                 <a href="@Url.Action("MedicineDic","System")" class="btn blue btn-sm">
@@ -220,7 +222,10 @@
                                     <th>用药天数</th>
                                     <th>总剂量</th>
                                     <th>执行日期</th>
-                                    <th>操作</th>
+                                    @if (ViewBag.IsMasterDoctor == true)
+                                    {
+                                        <th>操作</th>
+                                    }
                                 </tr>
 
                             </thead>
@@ -235,12 +240,15 @@
                                     <td>{{info.UsedDays}}</td>
                                     <td>{{info.AllDose}}</td>
                                     <td>{{info.ActionDate}}</td>
-                                    <td>
-                                        <div style="padding-top:10px;">
-                                            <a href="javascript:;" class="margin-right-10" v-on:click="showEdit(info)"><i class="fa fa-2x fa-edit tooltips" data-container="body" data-placement="top" data-original-title="编辑"></i></a>
-                                            <a href="javascript:;" class="margin-right-10" v-on:click="showDelete(info.Id)"><i class="fa fa-2x fa-remove tooltips" data-container="body" data-placement="top" data-original-title="删除"></i></a>
-                                        </div>
-                                    </td>
+                                    @if (ViewBag.IsMasterDoctor == true)
+                                    {
+                                        <td>
+                                            <div style="padding-top:10px;">
+                                                <a href="javascript:;" class="margin-right-10" v-on:click="showEdit(info)"><i class="fa fa-2x fa-edit tooltips" data-container="body" data-placement="top" data-original-title="编辑"></i></a>
+                                                <a href="javascript:;" class="margin-right-10" v-on:click="showDelete(info.Id)"><i class="fa fa-2x fa-remove tooltips" data-container="body" data-placement="top" data-original-title="删除"></i></a>
+                                            </div>
+                                        </td>
+                                    }
                                 </tr>
                             </tbody>
                         </table>
@@ -258,7 +266,7 @@
                         <div class="tools">
                             <a href="javascript:;" class="collapse" data-original-title="" title="展开/折叠"> </a>
                         </div>
-                        @if (Html.IsMasterDoctor())
+                        @if (ViewBag.IsMasterDoctor == true)
                         {
                             <div class="actions">
                                 <a href="@Url.Action("CheckAssay","System")" class="btn blue btn-sm">
@@ -278,7 +286,11 @@
                                 <tr>
                                     <th>检查项目</th>
                                     <th>执行日期</th>
-                                    <th>操作</th>
+                                    @if (ViewBag.IsMasterDoctor == true)
+                                    {
+                                        <th>操作</th>
+                                    }
+
                                 </tr>
 
                             </thead>
@@ -287,12 +299,15 @@
                                 <tr v-else v-for="(info,index) in datas">
                                     <td>{{info.CheckName}}</td>
                                     <td>{{info.ActionDate}}</td>
-                                    <td>
-                                        <div style="padding-top:10px;">
-                                            <a href="javascript:;" class="margin-right-10" v-on:click="showEdit(info)"><i class="fa fa-2x fa-edit tooltips" data-container="body" data-placement="top" data-original-title="编辑"></i></a>
-                                            <a href="javascript:;" class="margin-right-10" v-on:click="showDelete(info.Id)"><i class="fa fa-2x fa-remove tooltips" data-container="body" data-placement="top" data-original-title="删除"></i></a>
-                                        </div>
-                                    </td>
+                                    @if (ViewBag.IsMasterDoctor == true)
+                                    {
+                                        <td>
+                                            <div style="padding-top:10px;">
+                                                <a href="javascript:;" class="margin-right-10" v-on:click="showEdit(info)"><i class="fa fa-2x fa-edit tooltips" data-container="body" data-placement="top" data-original-title="编辑"></i></a>
+                                                <a href="javascript:;" class="margin-right-10" v-on:click="showDelete(info.Id)"><i class="fa fa-2x fa-remove tooltips" data-container="body" data-placement="top" data-original-title="删除"></i></a>
+                                            </div>
+                                        </td>
+                                    }
                                 </tr>
                             </tbody>
                         </table>

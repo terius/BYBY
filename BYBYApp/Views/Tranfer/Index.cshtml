@@ -1,4 +1,4 @@
-﻿
+﻿@model BYBYApp.Models.ReferralListModel
 @{
     ViewBag.Title = "转诊管理";
 }
@@ -55,7 +55,7 @@
                 </div>
             </div>
         </div>
-       
+
     </div>
     <div class="portlet-body" id="tableshow">
         <table class="table  table-bordered" id="query-table" v-cloak>
@@ -69,6 +69,7 @@
                     <th>男方姓名</th>
                     <th>男方年龄</th>
                     <th>转诊状态</th>
+                    <th>病历转诊状态</th>
                     <th>转诊时间</th>
                     <th>转诊医生</th>
                     <th>申请人</th>
@@ -87,21 +88,34 @@
                         <td>{{info.FemaleAge}}</td>
                         <td>{{info.MaleName}}</td>
                         <td>{{info.MaleAge}}</td>
-                        <td><span class="font-blue">{{info.ReferralStatus}}</span></td>
+                        <td><span :class="info.ReferralStatusColorClass">{{info.ReferralStatus}}</span></td>
+                        <td><span :class="info.MHReferralStatusColorClass">{{info.MHReferralStatus}}</span></td>
                         <td>{{info.RequestDate}}</td>
                         <td></td>
                         <td>{{info.AddUser}}</td>
                         <td>{{info.AddTime}}</td>
-                        <td>
-                            <div style="padding-top:5px">
-                                <a href="javascript:;" v-on:click="showReferralDetail()" class="margin-right-10"><i class="fa fa-2x fa-file-text-o tooltips" data-container="body" data-placement="top" data-original-title="转诊详细"></i></a>
+                        <td style="padding-right:15px">
+                            <div style="padding-top:5px;text-align:right">
+                                @if (ViewBag.IsMasterDoctor == false)
+                                {
+                                    //子院医生操作
+                                    <a v-if="info.MHReferralStatus=='无' || info.MHReferralStatus=='已取消'" href="javascript:;" class="margin-right-10" v-on:click="showRequest(info.MHId)"><i class="fa fa-2x fa-stethoscope tooltips" data-container="body" data-placement="top" data-original-title="申请转诊"></i></a>
+                                    <a v-if="info.MHReferralStatus=='申请中'" href="javascript:;" class="margin-right-10" v-on:click="showConfirmPanel(info.Id,3)"><i class="fa fa-2x fa-mail-forward tooltips" data-container="body" data-placement="top" data-original-title="取消转诊"></i></a>
+                                }
+                                else
+                                {
+                                    //母院医生操作
+                                    <a v-if="info.MHReferralStatus=='申请中'" href="javascript:;" class="margin-right-10" v-on:click="showConfirmPanel(info.Id,4)"><i class="fa fa-2x fa-hand-peace-o tooltips" data-container="body" data-placement="top" data-original-title="确认转诊"></i></a>
+                                    <a v-if="info.MHReferralStatus=='申请中'" href="javascript:;" class="margin-right-10" v-on:click="showConfirmPanel(info.Id,3)"><i class="fa fa-2x fa-mail-forward tooltips" data-container="body" data-placement="top" data-original-title="取消转诊"></i></a>
+                                }
+                                @*<a :href="'/Tranfer/Detail/' + info.Id" class="margin-right-10"><i class="fa fa-2x fa-file-text-o tooltips" data-container="body" data-placement="top" data-original-title="转诊详细"></i></a>*@
                                 <a :href="'/MedicalHistory/Detail/' + info.MHId" class="margin-right-10"><i class="fa fa-2x fa-file-text-o tooltips" data-container="body" data-placement="top" data-original-title="病历详细"></i></a>
 
                             </div>
                         </td>
                     </tr>
                     <tr class="tb-detail-view">
-                        <td colspan="11">
+                        <td colspan="20">
                             <div class="col-md-6">
                                 <p><b>转诊医院:</b>{{info.Hospital}}</p>
                                 <p><b>女方姓名:</b>{{info.FemaleName}}</p>
@@ -113,6 +127,7 @@
                                 <p><b>转诊医生:</b>{{info.Doctor}}</p>
                                 <p><b>申请人:</b>{{info.AddUser}}</p>
                                 <p><b>申请时间:</b>{{info.AddTime}}</p>
+                                <p><b>备注:</b>{{info.Remark}}</p>
                             </div>
 
                         </td>
@@ -129,23 +144,130 @@
     </div>
 </div>
 
+<div id="modal-Referral">
+    <v-modal v-cloak v-bind:tinfo="modalinfo" ref="Referralmodal">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" action="@Url.Action("SaveReferralAdd","MedicalHistory")" id="saveReferralForm">
+                    <input id="TBMedicalHistoryId" name="TBMedicalHistoryId" type="hidden" />
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">会诊医院</label>
+                            <div class="col-xs-6">
+                                <select2 id="HospitalId" class="w250 " data-placeholder="--请选择医院--" :value="masterHospitalId" :options="HospitalList">
+                                </select2>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">申请会诊日期</label>
+                            <div class="col-xs-6">
+                                <date-picker-simple id="RequestDate" class="w250 "></date-picker-simple>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 ">申请备注</label>
+                            <div class="col-xs-6">
+                                <textarea name="Remark" class="form-control w300" maxlength="500" rows="3" cols="20"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <button type="button" slot="bottom" class="btn blue btn-outline" id="btnSaveReferral">保  存</button>
+
+    </v-modal>
+</div>
+
+@*<div id="modal-detail">
+    <v-modal v-cloak v-bind:tinfo="modalinfo">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-inline detail-view consultation-detail">
+                    <div class="col-md-12 pg-title">
+                        <div>患者信息</div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>女方姓名:</label>
+                            <label class="w300">{{info.FemaleName}}</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label>女方年龄:</label>
+                            <label class="w250">{{info.FemaleAge}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>男方姓名:</label>
+                            <label class="w250">{{info.MaleName}}</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label>男方年龄:</label>
+                            <label class="w250">{{info.MaleAge}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 pg-title">
+                        <div>申请信息</div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>申请人:</label>
+                            <label class="w300">{{info.RequestUser}}</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label>会诊申请医院:</label>
+                            <label class="w250">@Model.Hospital</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 underline">
+                        <div class="form-group">
+                            <label>会诊审批人:</label>
+                            <label class="w300">@Model.ApprovedUser</label>
+                        </div>
+                        <div class="form-group">
+                            <label>会诊审批日期:</label>
+                            <label class="w500">@Model.ApprovedTime</label>
+                        </div>
+                    </div>
+                  
+            
+                </div>
+
+            </div>
+        </div>
+        <button type="button" slot="bottom" class="btn blue btn-outline" id="btnSaveReferral">保  存</button>
+
+    </v-modal>
+</div>*@
+
 @{ Html.RenderPartial("_Paginator");}
 @section styles
 {
+    @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
     @System.Web.Optimization.Styles.Render("~/bundles/css/datepicker")
     @System.Web.Optimization.Styles.Render("~/bundles/css/icheck")
 }
 
 @section pagejs
 {
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/select2")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/datepicker")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/icheck")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
     <script>
         $(function () {
             com.handleiCheck();
-            var allData = {};// @*@Html.RenderAsJson(Model);*@
+            var allData = @Html.RenderAsJson(Model);
 
             var vuetable;
+            var addForm = null;
+            var addModal = null;
             //  com.responsiveHeight("#tableshow", "#mycontent");
             Vue.component('v-page', {
                 template: "#vuetmp-paginator",
@@ -153,29 +275,27 @@
             });
 
 
-            allData.STime = "";
-            allData.ETime = "";
-            allData.skey = "";
-            //var vuequery = new Vue({
-            //    el: '#query-content',
-            //    data: {
-            //        info: allData
-            //    },
-            //    mounted: function () {
-            //        var vm = this;
-            //        com.handleDateRangePicker();
-            //        $(".input-daterange input.s-time").on('change', function (ob) {
-            //            vm.info.STime = ob.target.value;
-            //        });
-            //        $(".input-daterange input.e-time").on('change', function (ob) {
-            //            vm.info.ETime = ob.target.value;
-            //        });
-            //    }
-            //});
+            var vueReferral = new Vue({
+                el: '#modal-Referral',
+                data: {
+                    modalinfo: {
+                        id: "modalReferral",
+                        title: "填写转诊信息",
+                        data: {}
 
+                    },
+                    HospitalList: allData.HospitalList,
+                    masterHospitalId: allData.MasterHospitalId
 
+                },
+                mounted: function () {
+                    addForm = $("#saveReferralForm");
+                    addModal = $("#modalReferral");
+                    addForm.validateForm();
+                    //  com.handleDateTimePicker();
+                }
 
-            //    $(window).on("resize", App.initSlimScroll('#tableshow'));
+            });
 
             var search = function (pageIndex, sortIndex, sortType) {
                 var para = {};
@@ -190,13 +310,13 @@
                 para.Stime = document.getElementById("txt_stime").value;
                 para.Etime = document.getElementById("txt_etime").value;
 
-                com.showLog(para);
+               // com.showLog(para);
 
                 com.ajaxquery("/Tranfer/PageQuery", para).then(function (mydata) {
                     mydata.query = function (pageIndex, sortIndex, sortType) {
                         search(pageIndex, sortIndex, sortType);
                     }
-                    //  com.showLog(mydata);
+                      com.showLog(mydata);
                     if (vuetable == null) {
                         vuetable = new Vue({
                             el: '#query-table',
@@ -227,8 +347,37 @@
 
                                     }
                                 },
-                                showReferralDetail: function() {
-                                    layer.alert('正在开发中，请稍后：）');
+                                showRequest: function (mhid) {
+                                    $("#TBMedicalHistoryId", addForm).val(mhid);
+                                    addModal.modal('show');
+                                },
+                                showConfirmPanel: function (id, setStaus) {
+                                    //转诊状态：
+                                    //1 - 未申请
+                                    //2 - 申请中
+                                    //3 - 已取消
+                                    //4 - 已确认
+                                    var message = "";
+                                    switch (setStaus) {
+                                        case 3:
+                                            message = "是否要取消申请转诊？";
+                                            break;
+                                        case 4:
+                                            message = "是否要确认转诊？";
+                                            break;
+                                        default:
+                                    }
+                                    com.confirm(message, function () {
+                                        com.ajaxquery("/Tranfer/UpdateReferralStatus", { Id: id, Status: setStaus }).then(function (res) {
+                                            if (res.Result) {
+                                                ShowSuccessThenReload(res.SuccessMessage);
+                                            }
+                                            else {
+                                                ShowErrorMessage(res.ErrorMessage);
+                                            }
+                                        });
+
+                                    });
                                 }
 
                             }
@@ -246,7 +395,18 @@
             });
 
 
+            $("#btnSaveReferral").on("click", function () {
+                com.jqFormOption.success = function (res) {
+                    if (res.Result) {
+                        ShowSuccessThenReload(res.SuccessMessage);
+                    }
+                    else {
+                        ShowErrorMessage(res.ErrorMessage);
+                    }
+                }
+                addForm.ajaxSubmit(com.jqFormOption);
 
+            });
 
 
             $(".icheck-inline .icheckBlue").on('ifChecked', function (event) {

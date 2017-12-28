@@ -290,6 +290,24 @@ namespace BYBY.Services
             return "";
         }
 
+        private static string GetReferralFontColorClass(ReferralStatus status)
+        {
+            switch (status)
+            {
+                case ReferralStatus.No:
+                    return "font-grey-salt";
+                case ReferralStatus.Requesting:
+                    return "font-purple";
+                case ReferralStatus.Cancel:
+                    return "font-red-sunglo";
+                case ReferralStatus.Confirm:
+                    return "font-green-jungle";
+                default:
+                    break;
+            }
+            return "";
+        }
+
 
         public static IList<ReferralListView> C_To_ReferralListViews(this IEnumerable<TBReferral> source)
         {
@@ -310,7 +328,14 @@ namespace BYBY.Services
                     AddUser = GetNameByUserName(item.AddUserName),
                     Hospital = item.Hospital.Name,
                     RequestDate = item.RequestDate.ToDateString(),
-                    MHId = item.MedicalHistory.Id
+                    MHId = item.MedicalHistory.Id,
+                    IsNewest = item.Id == item.MedicalHistory.NewestReferralId,
+                    MHReferralStatus = item.MedicalHistory.ReferralStatus.GetEnumDescription(),
+                    MHReferralStatusColorClass = GetReferralFontColorClass(item.MedicalHistory.ReferralStatus),
+                    ReferralStatusColorClass = GetReferralFontColorClass(item.ReferralStatus),
+                    Remark = item.Remark
+
+
                 };
 
                 dest.Add(view);

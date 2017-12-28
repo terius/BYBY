@@ -152,4 +152,11 @@ namespace BYBY.Infrastructure
         Male
 
     }
+
+    public enum WeekSelect
+    {
+        PrevWeek = 1,
+        NextWeek = 2,
+        ThisWeek = 3
+    }
 }

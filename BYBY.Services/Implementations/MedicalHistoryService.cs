@@ -504,13 +504,24 @@ namespace BYBY.Services.Implementations
             info.AddUserName = loginUserName;
             info.ReferralStatus = ReferralStatus.Requesting;
             await _referralRepository.InsertAsync(info);
-
-            //更新病历会诊状态
-            var mdInfo = await _repository.GetAsync(request.TBMedicalHistoryId);
-            mdInfo.ReferralStatus = ReferralStatus.Requesting;
-            mdInfo.ModifyUserName = loginUserName;
-            await _repository.UpdateAsync(mdInfo);
             int rs = _unitOfWork.Commit();
+            if (rs > 0)
+            {
+                //更新病历会诊状态
+                var mdInfo = await _repository.GetAsync(request.TBMedicalHistoryId);
+                mdInfo.ReferralStatus = ReferralStatus.Requesting;
+                mdInfo.NewestReferralId = info.Id;
+                mdInfo.ModifyUserName = loginUserName;
+                await _repository.UpdateAsync(mdInfo);
+                rs = _unitOfWork.Commit();
+                if (rs <= 0)
+                {
+                    await _referralRepository.DeleteAsync(info);
+                    _unitOfWork.Commit();
+                }
+            }
+
+          
             return rs > 0 ? EmptyResponse.CreateSuccess("保存成功") : EmptyResponse.CreateError("保存失败");
         }
 
@@ -579,11 +590,40 @@ namespace BYBY.Services.Implementations
                 query = query.Where(d => d.RequestDate <= edt);
             }
 
-
+            query = query.Where(d => d.Id == d.MedicalHistory.NewestReferralId);
             //   var data = await _repository.FindAsync(d => d.MedicalHistoryNo == "9999");
             var pageData = PageQuery(query.OrderBy(d => d.Id), request, d => d.C_To_ReferralListViews());
             return await Task.FromResult(pageData);
 
+        }
+
+
+        public async Task<EmptyResponse> UpdateReferralStatus(UpdateReferralStatusRequest request)
+        {
+            var loginUserName = GetLoginUserName();
+            var info = await _referralRepository.GetAsync(request.Id);
+            info.ReferralStatus = info.MedicalHistory.ReferralStatus = request.Status;
+            info.ModifyUserName = info.MedicalHistory.ModifyUserName = loginUserName;
+            await _referralRepository.UpdateAsync(info);
+            int rs = _unitOfWork.Commit();
+            string msg = "";
+            switch (request.Status)
+            {
+                case ReferralStatus.No:
+                    break;
+                case ReferralStatus.Requesting:
+                    msg = "申请";
+                    break;
+                case ReferralStatus.Cancel:
+                    msg = "取消";
+                    break;
+                case ReferralStatus.Confirm:
+                    msg = "确认";
+                    break;
+                default:
+                    break;
+            }
+            return rs > 0 ? EmptyResponse.CreateSuccess("转诊已" + msg) : EmptyResponse.CreateError("转诊" + msg + "失败");
         }
 
         #endregion

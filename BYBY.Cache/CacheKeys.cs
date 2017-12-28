@@ -53,7 +53,11 @@
         /// <summary>
         /// 检查项
         /// </summary>
-        CheckAssay
+        CheckAssay,
+        /// <summary>
+        ///  会诊室
+        /// </summary>
+        Room
 
     }
 }
