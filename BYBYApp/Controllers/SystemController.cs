@@ -89,5 +89,10 @@ namespace BYBYApp.Controllers
             var response = await _service.DeleteCheck(request);
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+
+        public async Task<ActionResult> UserManager()
+        {
+            return View();
+        }
     }
 }

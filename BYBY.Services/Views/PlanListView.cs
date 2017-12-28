@@ -38,12 +38,12 @@ namespace BYBY.Services.Views
     public class PlanView
     {
         public int Id { get; set; }
-        public DateTime STime { get; set; }
+        public string STime { get; set; }
 
-        public DateTime ETime { get; set; }
+        public string ETime { get; set; }
 
         public int DoctorId { get; set; }
-        public DateTime PlanDate { get; set; }
+        public string PlanDate { get; set; }
 
         public int RoomId { get; set; }
 

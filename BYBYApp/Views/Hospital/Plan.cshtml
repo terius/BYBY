@@ -31,10 +31,14 @@
                         本周
                     </button>
                 </div>
-                <div class="form-group">
-                    <label for="search-key">会诊室：</label>
-                    @*<select2 id="Hostpital" class="w196" data-placeholder="--请选择医院--" :options="info.HospitalList">
-                        </select2>*@
+                <div class="form-group" id="rooms">
+                    <select class="selectpicker show-tick " data-width="196px" id="room-select">
+                        @foreach (var item in Model.RoomList)
+                        {
+                            <option value="@item.id">@item.text</option>
+                        }
+
+                    </select>
                 </div>
             </div>
         </div>
@@ -54,15 +58,12 @@
                     <td>{{index+1}}</td>
                     <td>{{info.STime}} - {{info.ETime}}</td>
                     <td v-for="planView in info.OneDayPlans">
-                        <span v-if="planView.Id !=0">{{planView.DoctorName}}/{{planView.People}}</span>
-                        <div v-if="editmodel==1" class="form-inline">
-                            <select class="selectpicker show-tick" data-width="150px" name="DoctorId">
-                                <option value="">无</option>
-                                <template v-for="doctor in DoctorList">
-                                    <option :value="doctor.id">{{doctor.text}}</option>
-                                </template>
-                            </select>
-                            <input type="text" name="People" style="width:50px" class="form-control">
+                        <span v-if="planView.Id !=0 && editmodel==0">{{planView.DoctorName}}/{{planView.People}}</span>
+                        <div v-if="editmodel==1">
+                            <select2 id="DoctorId" class="w150" data-placeholder="无" v-model="planView.DoctorId" :options="DoctorList">
+                            </select2>
+                            <input type="text" name="People" placeholder="会诊人数" v-model="planView.People" style="width:150px;margin-top:10px" class="form-control">
+
                         </div>
                     </td>
                 </tr>
@@ -75,7 +76,7 @@
                             <span v-if="editmodel==0">编辑</span>
                             <span v-else>取消编辑</span>
                         </button>
-                        <button type="button" class="btn blue btn-outline" v-if="editmodel==1" id="btn-save">
+                        <button type="button" class="btn blue btn-outline" v-if="editmodel==1" id="btn-save" v-on:click="save()">
                             保存
                         </button>
                     </td>
@@ -90,11 +91,13 @@
 
 @section styles
 {
+    @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
     @System.Web.Optimization.Styles.Render("~/bundles/css/bootstrapselect")
 }
 
 @section pagejs
 {
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/select2")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/bootstrapselect")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
@@ -103,12 +106,15 @@
             var vuetable = null;
             var dateSelect = null;
              var allData = @Html.RenderAsJson(Model);
-             com.showLog(allData,"默认")
+          //   com.showLog(allData,"默认")
+
+
 
             var search = function (weekSelect, roomId) {
                 var para = {};
                 para.WeekSelect = weekSelect;
                 para.DateSelect = dateSelect;
+                para.RoomId = $("#room-select").val();
                 com.showLog(para,"查询参数");
                 com.ajaxquery("/Hospital/QueryPlan", para).then(function (mydata) {
 
@@ -132,6 +138,16 @@
                                     else {
                                         vuetable.editmodel = 0;
                                     }
+                                },
+                                save: function () {
+                                    com.ajaxquery("/Hospital/SavePlan", this.list.DateViews).then(function (res) {
+                                        if (res.Result) {
+                                            ShowSuccessThenReload(res.SuccessMessage);
+                                        }
+                                        else {
+                                            ShowErrorMessage(res.ErrorMessage);
+                                        }
+                                    });
                                 }
                             }
 
@@ -153,6 +169,8 @@
             }).on("click", "#btn-next-week", function () {
                 search(2);
             }).on("click", "#btn-this-week", function () {
+                search(3);
+            }).on("change", "#room-select", function () {
                 search(3);
             });
 

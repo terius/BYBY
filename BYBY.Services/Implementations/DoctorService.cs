@@ -3,7 +3,11 @@ using BYBY.Infrastructure.Domain;
 using BYBY.Infrastructure.UnitOfWork;
 using BYBY.Repository.Entities;
 using BYBY.Services.Interfaces;
+using BYBY.Services.Request;
+using BYBY.Services.Response;
+using BYBY.Services.Views;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BYBY.Services.Implementations
@@ -57,6 +61,16 @@ namespace BYBY.Services.Implementations
                 pList.Add(hosp);
             }
             return pList;
+        }
+
+        public async Task<PagedData<DoctorListView>> GetDoctorList(QueryDoctorRequest request)
+        {
+            var query = _repository.GetDbQuerySet();
+
+            //   var data = await _repository.FindAsync(d => d.MedicalHistoryNo == "9999");
+            var pageData = PageQuery(query.OrderBy(d => d.Id), request, d => d.C_To_DoctorListView());
+            return await Task.FromResult(pageData);
+
         }
 
     }

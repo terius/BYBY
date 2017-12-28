@@ -95,6 +95,7 @@
     <Compile Include="Interfaces\ISystemService.cs" />
     <Compile Include="Models\CheckLisModel.cs" />
     <Compile Include="Models\ConsultationDetailModel.cs" />
+    <Compile Include="Models\DoctorListModel.cs" />
     <Compile Include="Models\MedicalHistoryDetailModel.cs" />
     <Compile Include="Models\PlanListModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Request\MedicineQueryRequest.cs" />
     <Compile Include="Request\OnlyHasIdRequest.cs" />
     <Compile Include="Request\PlanQueryRequest.cs" />
+    <Compile Include="Request\QueryDoctorRequest.cs" />
     <Compile Include="Request\UpdateReferralStatusRequest.cs" />
     <Compile Include="Request\UpdateConsultationStatusRequest.cs" />
     <Compile Include="Request\ConsultationRecordEditRequest.cs" />
@@ -135,6 +137,7 @@
     <Compile Include="Views\CheckListView.cs" />
     <Compile Include="Views\ConsultationRoomListView.cs" />
     <Compile Include="Views\DateSetupListView.cs" />
+    <Compile Include="Views\DoctorListView.cs" />
     <Compile Include="Views\MedicineListView.cs" />
     <Compile Include="Views\PlanListView.cs" />
     <Compile Include="Views\ReferralListView.cs" />

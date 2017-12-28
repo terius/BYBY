@@ -52,11 +52,10 @@ namespace BYBY.Services
                 cfg.CreateMap<TBDateSetup, DateSetupListView>().ForMember(d => d.STime,
      expression => expression.ResolveUsing(s => s.STime.ToString("HH:mm"))).ForMember(d => d.ETime,
      expression => expression.ResolveUsing(s => s.ETime.ToString("HH:mm")));
-                //        cfg.CreateMap<TBMedicalDetail, MedicalDetailRequest>().ForMember(d => d.MenstruationLast,
-                //expression => expression.ResolveUsing(s => s.MenstruationLast.HasValue ? s.MenstruationLast.Value.ToString("yyyy-MM-dd") : ""));
 
                 cfg.CreateMap<TBPlan, PlanView>()
                 .ForMember(d => d.DoctorName, expression => expression.ResolveUsing(s => s.Doctor.Name));
+                cfg.CreateMap<PlanView, TBPlan>();
             });
 
         }
@@ -67,7 +66,7 @@ namespace BYBY.Services
             {
                 if (source.HasValue)
                 {
-                    return source.Value.ToString("yyyy-MM-dd");
+                    return source.Value.ToString("yyyy-MM-dd HH:mm:ss");
                 }
 
                 return string.Empty;
@@ -98,7 +97,7 @@ namespace BYBY.Services
             {
                 if (source != DateTime.MaxValue && source != DateTime.MinValue)
                 {
-                    return source.ToString("yyyy-MM-dd");
+                    return source.ToString("yyyy-MM-dd HH:mm:ss");
                 }
 
                 return string.Empty;

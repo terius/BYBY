@@ -2,6 +2,7 @@
 using BYBY.Services.Models;
 using BYBY.Services.Request;
 using BYBY.Services.Views;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -11,10 +12,12 @@ namespace BYBYApp.Controllers
     {
 
         readonly IHospitalService _service;
+        readonly IDoctorService _doctorService;
 
-        public HospitalController(IHospitalService service)
+        public HospitalController(IHospitalService service, IDoctorService doctorService)
         {
             _service = service;
+            _doctorService = doctorService;
         }
 
         // GET: Hospital
@@ -73,6 +76,7 @@ namespace BYBYApp.Controllers
         {
             PlanListModel model = new PlanListModel();
             model.DoctorList = await GetCacheAsync(BYBY.Cache.CacheKeys.Doctor);
+            model.RoomList = await GetCacheAsync(BYBY.Cache.CacheKeys.Room);
             return View(model);
         }
 
@@ -81,5 +85,29 @@ namespace BYBYApp.Controllers
             var response = await _service.GetPlanList(request);
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> SavePlan(IList<DateSetupView> request)
+        {
+            var response = await _service.SavePlan(request);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public async Task<ActionResult> Doctor()
+        {
+            return View();
+        }
+
+
+        public async Task<JsonResult> QueryDoctor(QueryDoctorRequest request)
+        {
+            var pageData = await _doctorService.GetDoctorList(request);
+            return Json(pageData, JsonRequestBehavior.AllowGet);
+        }
+
+       
+
+       
     }
 }

@@ -141,13 +141,26 @@ namespace BYBY.Services.Implementations
 
         public async Task<EmptyResponse> AddDateSetup(AddDateSetupRequest request)
         {
+           
             DateTime stime = DateTime.Parse("2000-01-01 " + request.STime);
             DateTime etime = DateTime.Parse("2000-01-01 " + request.ETime);
+            var isDup = await CheckDateSetupDup(stime, etime);
+            if (isDup)
+            {
+                return EmptyResponse.CreateError("会诊时段不能重复");
+            }
             var info = new TBDateSetup { STime = stime, ETime = etime, DefaultPeople = request.DefaultPeople };
             info.AddUserName = GetLoginUserName();
             await _dateRepository.InsertAsync(info);
             int rs = _unitOfWork.Commit();
             return rs > 0 ? EmptyResponse.CreateSuccess("新增成功") : EmptyResponse.CreateError("新增失败");
+        }
+
+        private async Task<bool> CheckDateSetupDup(DateTime stime, DateTime etime)
+        {
+            var icount = await _dateRepository.FindCount(d => (d.ETime > stime && d.ETime <= etime)
+            || (d.STime >= stime && d.STime < etime) || (d.STime <= stime && d.ETime >= etime));
+            return icount > 0;
         }
 
         public async Task<EmptyResponse> DeleteDateSetup(OnlyHasIdRequest request)
@@ -166,7 +179,7 @@ namespace BYBY.Services.Implementations
             DateSetupView dataView;
             DateTime monday = DateTime.MinValue;
             DateTime dateSelect = string.IsNullOrWhiteSpace(request.DateSelect) ? DateTime.Now : DateTime.Parse(request.DateSelect);
-         
+
             switch (request.WeekSelect)
             {
                 case WeekSelect.PrevWeek:
@@ -183,7 +196,12 @@ namespace BYBY.Services.Implementations
                     break;
             }
             var nextMonday = monday.AddDays(7);
-            var planDatas = (await _planRepository.FindAsync(d => d.PlanDate >= monday && d.PlanDate < nextMonday)).ToList();
+            var planDatas = (await _planRepository.FindAsync(d => d.PlanDate >= monday && d.PlanDate < nextMonday && d.RoomId == request.RoomId)).ToList();
+            //if (request.RoomId > 0)
+            //{
+            //    queryPlan = queryPlan.Where(d => d.RoomId == request.RoomId);
+            //}
+
             DateTime stepDate = DateTime.MinValue;
             //  DateTime stepDateNext = DateTime.MinValue;
             PlanView planView;
@@ -210,10 +228,11 @@ namespace BYBY.Services.Implementations
                     else
                     {
                         planView = new PlanView();
-                        planView.STime = _stime;
-                        planView.ETime = _etime;
+                        planView.STime = _stime.ToString("yyyy-MM-dd HH:mm:ss");
+                        planView.ETime = _etime.ToString("yyyy-MM-dd HH:mm:ss");
                         planView.People = dataSetup.DefaultPeople;
-                        planView.PlanDate = stepDate;
+                        planView.PlanDate = stepDate.ToString("yyyy-MM-dd HH:mm:ss");
+                        planView.RoomId = request.RoomId;
 
                     }
                     dataView.OneDayPlans.Add(planView);
@@ -224,12 +243,42 @@ namespace BYBY.Services.Implementations
             for (int i = 0; i < 7; i++)
             {
                 stepDate = monday.AddDays(i);
-                weekTitle = stepDate.ToString("MM-dd") + "(" + stepDate.DayOfWeek.GetDayOfWeekText() + ")";
+                weekTitle = stepDate.ToString("MM-dd") + " (" + stepDate.DayOfWeek.GetDayOfWeekText() + ")";
                 plan.WeekTitles.Add(weekTitle);
             }
             plan.DateSelect = monday.ToString("yyyy-MM-dd");
             return plan;
         }
+
+        public async Task<EmptyResponse> SavePlan(IList<DateSetupView> request)
+        {
+            TBPlan info;
+            var user = GetLoginUserName();
+            foreach (var dataView in request)
+            {
+                foreach (var planView in dataView.OneDayPlans)
+                {
+                    if (planView.Id > 0)
+                    {
+                        info = await _planRepository.GetAsync(planView.Id);
+                        info = Mapper.Map(planView, info);
+                        info.ModifyUserName = user;
+                        await _planRepository.UpdateAsync(info);
+                    }
+                    else if (planView.DoctorId > 0)
+                    {
+                        info = Mapper.Map<TBPlan>(planView);
+                        info.AddUserName = user;
+                        await _planRepository.InsertAsync(info);
+                    }
+                }
+            }
+            int rs = _unitOfWork.Commit();
+            return rs > 0 ? EmptyResponse.CreateSuccess("保存成功") : EmptyResponse.CreateError("保存失败");
+        }
+
+
+    
 
     }
 }

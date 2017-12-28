@@ -21,7 +21,7 @@ namespace BYBYApp.Controllers
     public class AccountController : BaseController
     {
         readonly UserManager _userManager = UserFactory.GetUserManager();
-      //  readonly UserManager _userManager = UserFactory.GetUserManager();
+        //  readonly UserManager _userManager = UserFactory.GetUserManager();
         readonly IUserAccountService _userAccountService;
         public AccountController(IUserAccountService userAccountService)
         {
@@ -32,7 +32,7 @@ namespace BYBYApp.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
-         
+
             //    ClearSession();
             return View();
         }
@@ -65,11 +65,16 @@ namespace BYBYApp.Controllers
             try
             {
 
+#if DEBUG
 
-                //if (!CheckValidCode(loginModel.ValidCode))
-                //{
-                //    return ErrorJson("验证码错误");
-                //}
+#else
+              if (!CheckValidCode(loginModel.ValidCode))
+                {
+                    return ErrorJson("验证码错误");
+                }
+#endif
+
+
 
                 // 1. 利用ASP.NET Identity获取用户对象
                 var user = await _userManager.FindAsync(loginModel.UserName, loginModel.Password);
@@ -83,7 +88,7 @@ namespace BYBYApp.Controllers
                 {
                     return ErrorJson("登录角色错误");
                 }
-              
+
                 //  _userManager.get
                 // 2. 利用ASP.NET Identity获取identity 对象
                 var identity = await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
@@ -95,7 +100,7 @@ namespace BYBYApp.Controllers
                 ticket.ExpiresUtc = currUtc.Add(TimeSpan.FromMinutes(30));
                 AuthenticationManager.SignIn(ticket, identity);
                 SaveRoleModuleToSession(user, loginModel.RoleName);
-                Response.Cookies.Add(CreateAccountCookie(user,loginModel.RoleName));
+                Response.Cookies.Add(CreateAccountCookie(user, loginModel.RoleName));
 
                 //var request = new UserLoginRequest { UserName = loginModel.UserName, Password = loginModel.Password, RoleId = loginModel.RoleId };
                 //var response = await _userAccountService.UserLogin(request);
@@ -119,7 +124,7 @@ namespace BYBYApp.Controllers
             roleCookies.Values.Add("username", user.UserName);
             roleCookies.Values.Add("truename", user.Name);
             roleCookies.Values.Add("rolename", roleName);
-           // roleCookies.Value = roleName;
+            // roleCookies.Value = roleName;
             roleCookies.Expires = DateTime.Now.AddDays(1);
             var loginUserInfo = new LoginUserInfo();
             loginUserInfo.Id = user.Id;

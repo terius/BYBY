@@ -1,16 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BYBY.Infrastructure;
+using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BYBY.Repository.Entities
 {
     public class TBDoctor : BaseEntity<int>
     {
-      
+
         [Required]
         [StringLength(20)]
         public string Name { get; set; }
 
- 
+
         [StringLength(50)]
         public string JobTitle { get; set; }
 
@@ -32,5 +34,9 @@ namespace BYBY.Repository.Entities
         /// 是否为母院医生
         /// </summary>
         public bool IsMasterDoctor { get; set; }
+
+
+        public Sex Sex { get; set; }
+        public DateTime? Birthday { get; set; }
     }
 }

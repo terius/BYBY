@@ -43,5 +43,7 @@ namespace BYBY.Services.Interfaces
         Task<EmptyResponse> DeleteDateSetup(OnlyHasIdRequest request);
 
         Task<PlanListView> GetPlanList(PlanQueryRequest request);
+        Task<EmptyResponse> SavePlan(IList<DateSetupView> request);
+
     }
 }

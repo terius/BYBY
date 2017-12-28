@@ -40,5 +40,9 @@ namespace BYBY.Infrastructure.Helpers
         {
             return DateTime.Now.Year - dt.Year;
         }
+        public static string GetAge(this DateTime? dt)
+        {
+            return dt == null ? "" : (DateTime.Now.Year - dt.Value.Year).ToString();
+        }
     }
 }

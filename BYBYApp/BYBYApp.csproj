@@ -200,6 +200,7 @@
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\MedicalHistoryController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\PatientStatisticsController.cs" />
     <Compile Include="Controllers\SystemController.cs" />
     <Compile Include="Controllers\TESTController.cs" />
     <Compile Include="Controllers\TranferController.cs" />
@@ -3913,25 +3914,6 @@
     <Content Include="Metronic\assets\global\plugins\holder.js" />
     <Content Include="Metronic\assets\global\plugins\horizontal-timeline\horizontal-timeline.js" />
     <Content Include="Metronic\assets\global\plugins\horizontal-timeline\horizontal-timeline.min.js" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\banner.jpg" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\custom.css" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\icheck.png" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\ie\arrow-bottom.png" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\ie\arrow-top.png" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\ie\header-line.png" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\ie\icon-fork.png" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\ie\icon-github.png" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\ie\icon-lab.png" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\ie\icon-options.png" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\ie\icon-star.png" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\montserrat-bold.svg" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\montserrat-regular.svg" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\normalize.css" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\index.html" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\js\custom.js" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\js\custom.min.js" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\js\jquery.js" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\js\zepto.js" />
     <Content Include="Metronic\assets\global\plugins\icheck\icheck.js" />
     <Content Include="Metronic\assets\global\plugins\icheck\icheck.min.js" />
     <Content Include="Metronic\assets\global\plugins\icheck\skins\all.css" />
@@ -5767,6 +5749,9 @@
     <Content Include="Views\Hospital\ConsultationRoom.cshtml" />
     <Content Include="Views\Hospital\DateSetup.cshtml" />
     <Content Include="Views\Hospital\Plan.cshtml" />
+    <Content Include="Views\Hospital\Doctor.cshtml" />
+    <Content Include="Views\System\UserManager.cshtml" />
+    <Content Include="Views\PatientStatistics\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -5937,13 +5922,6 @@
     <Content Include="Metronic\assets\global\plugins\icheck\.gitignore" />
     <Content Include="Metronic\assets\global\plugins\icheck\bower.json" />
     <Content Include="Metronic\assets\global\plugins\icheck\CHANGELOG.md" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\custom.styl" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\montserrat-bold.eot" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\montserrat-bold.ttf" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\montserrat-bold.woff" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\montserrat-regular.eot" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\montserrat-regular.ttf" />
-    <Content Include="Metronic\assets\global\plugins\icheck\demo\css\montserrat-regular.woff" />
     <Content Include="Metronic\assets\global\plugins\icheck\icheck.jquery.json" />
     <Content Include="Metronic\assets\global\plugins\icheck\README.md" />
     <Content Include="Metronic\assets\global\plugins\jcrop\README.md" />

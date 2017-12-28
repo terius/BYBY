@@ -441,5 +441,24 @@ namespace BYBY.Services
             }
             return views;
         }
+
+        public static IList<DoctorListView> C_To_DoctorListView(this IEnumerable<TBDoctor> source)
+        {
+            IList<DoctorListView> views = new List<DoctorListView>();
+            DoctorListView view;
+            foreach (var item in source)
+            {
+                view = new DoctorListView();
+                view.Age = item.Birthday.GetAge();
+                view.Hospital = item.Hospital.Name;
+                view.IsMasterDoctor = item.IsMasterDoctor ? "是" : "否";
+                view.JobTitle = item.JobTitle;
+                view.Name = item.Name;
+                view.Sex = item.Sex.GetEnumDescription();
+                view.Id = item.Id;
+                views.Add(view);
+            }
+            return views;
+        }
     }
 }

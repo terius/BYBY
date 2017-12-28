@@ -1,4 +1,7 @@
 ﻿using BYBY.Infrastructure;
+using BYBY.Services.Request;
+using BYBY.Services.Response;
+using BYBY.Services.Views;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -24,6 +27,9 @@ namespace BYBY.Services.Interfaces
         /// </summary>
         /// <returns></returns>
         Task<IList<SelectItem>> GetDoctorListByHospital();
+
+
+        Task<PagedData<DoctorListView>> GetDoctorList(QueryDoctorRequest request);
 
 
 

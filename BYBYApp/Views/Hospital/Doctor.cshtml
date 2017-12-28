@@ -1,0 +1,148 @@
+﻿@model IList<BYBY.Services.Views.DateSetupListView>
+@{
+    ViewBag.Title = "医生管理";
+}
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            医生管理
+        </div>
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+        </div>
+    </div>
+
+    <div class="portlet-title">
+        <div class="querycontent">
+            <div class="form-inline" id="query-content">
+                @*<div class="form-group">
+                        <button type="button" class="btn blue btn-outline" id="btn-add">
+                            <i class="fa fa-plus"></i> 新增医生
+                        </button>
+                    </div>*@
+            </div>
+        </div>
+
+    </div>
+    <div class="portlet-body">
+        <table class="table  table-bordered date-set-table" id="query-table" v-cloak>
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>年龄</th>
+                    <th>职称</th>
+                    <th>所属医院</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(info,index) in datas.Data">
+                    <td>{{index+1}}</td>
+                    <td>{{info.Name}}</td>
+                    <td>{{info.Sex}}</td>
+                    <td>{{info.Age}}</td>
+                    <td>{{info.JobTitle}}</td>
+                    <td>{{info.Hospital}}</td>
+                </tr>
+
+            </tbody>
+            <tfoot>
+                <tr><td colspan="20"><v-page v-bind:page="datas"></v-page></td></tr>
+            </tfoot>
+        </table>
+
+    </div>
+</div>
+<div id="modal-add">
+    <v-modal v-cloak v-bind:tinfo="modalinfo">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" action="@Url.Action("AddDateSetup","Hospital")" id="save-form">
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">开始时段</label>
+                            <div class="col-xs-6">
+                                <input type="text" id="STime" name="STime" class="form-control timepicker timepicker-24 w300 required" :value="addinfo.STime">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">结束时段</label>
+                            <div class="col-xs-6">
+                                <input type="text" id="ETime" name="ETime" class="form-control timepicker timepicker-24 w300 required" :value="addinfo.STime">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">默认会诊人数</label>
+                            <div class="col-xs-6">
+                                <input type="text" name="DefaultPeople" class="form-control  w300 required">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <button type="button" slot="bottom" class="btn blue btn-outline" id="btn-save" v-on:click="save">保  存</button>
+    </v-modal>
+</div>
+
+@{ Html.RenderPartial("_Paginator");}
+@section styles
+{
+    @System.Web.Optimization.Styles.Render("~/bundles/css/timepicker")
+}
+
+@section pagejs
+{
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/timepicker")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
+    <script>
+        $(function () {
+           var allData =  @Html.RenderAsJson(Model);
+           var vuetable = null;
+
+
+            var search = function (pageIndex, sortIndex, sortType) {
+                var para = {};
+                para.PageIndex = pageIndex || 1;
+                para.SortIndex = sortIndex || -1;
+                para.SortType = sortType || 0;
+              //  para.SearchKey = $("#search-key").val();
+                com.ajaxquery("/Hospital/QueryDoctor", para).then(function (mydata) {
+                    mydata.query = function (pageIndex, sortIndex, sortType) {
+                        search(pageIndex, sortIndex, sortType);
+                    }
+                    //  com.showLog(mydata);
+                    if (vuetable == null) {
+                        vuetable = new Vue({
+                            el: '#query-table',
+                            data: {
+                                datas: mydata
+                            },
+                            mounted: function () {
+                                $('.tooltips').tooltip();
+                                //  App.initSlimScroll('#tableshow');
+                            },
+                            methods: {
+                            
+                              
+                              
+                              
+                            }
+                        })
+                    }
+                    else {
+                        vuetable.datas = mydata;
+                    }
+                });
+            };
+            /*******************************初始执行方法***********************************/
+
+            search();
+        });
+    </script>
+}
+

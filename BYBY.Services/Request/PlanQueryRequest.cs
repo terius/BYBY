@@ -9,6 +9,6 @@ namespace BYBY.Services.Request
 
         public WeekSelect WeekSelect { get; set; }
 
-      
+        public int RoomId { get; set; }
     }
 }

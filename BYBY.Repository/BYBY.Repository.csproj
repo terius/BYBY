@@ -299,6 +299,10 @@
     <Compile Include="Migrations\201712280418413_TBPlanAddSTimeAndETime.Designer.cs">
       <DependentUpon>201712280418413_TBPlanAddSTimeAndETime.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712281540072_TBDoctorAddSexAndBirthday.cs" />
+    <Compile Include="Migrations\201712281540072_TBDoctorAddSexAndBirthday.Designer.cs">
+      <DependentUpon>201712281540072_TBDoctorAddSexAndBirthday.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -474,6 +478,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712280418413_TBPlanAddSTimeAndETime.resx">
       <DependentUpon>201712280418413_TBPlanAddSTimeAndETime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712281540072_TBDoctorAddSexAndBirthday.resx">
+      <DependentUpon>201712281540072_TBDoctorAddSexAndBirthday.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
