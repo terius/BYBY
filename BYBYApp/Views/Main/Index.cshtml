@@ -1,11 +1,11 @@
-﻿
+﻿@model BYBY.Services.Models.MainModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "主页";
 }
 
 <div class="row">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 blue" href="#">
+        <a class="dashboard-stat dashboard-stat-v2 blue" href="@Url.Action("AddNew","MedicalHistory")">
             <div class="visual">
                 <i class="fa fa-plus-square"></i>
             </div>
@@ -18,7 +18,7 @@
         </a>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 green-jungle" href="#">
+        <a class="dashboard-stat dashboard-stat-v2 green-jungle" href="@Url.Action("Index","Consultation")">
             <div class="visual">
                 <i class="fa fa-stethoscope"></i>
             </div>
@@ -26,12 +26,16 @@
                 <div class="number">
                     <span>会诊状态</span>
                 </div>
-                <div class="desc"><span>申请中：6</span><span>确认：2</span><span>取消：2</span></div>
+                <div class="desc">
+                    <span>申请中：@Model.ConsultationRequestCount</span>
+                    <span>确认：@Model.ConsultationConfirmCount</span>
+                    <span>取消：@Model.ConsultationCancelCount</span>
+                </div>
             </div>
         </a>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 green" href="#">
+        <a class="dashboard-stat dashboard-stat-v2 green" href="@Url.Action("Index","Tranfer")">
             <div class="visual">
                 <i class="fa fa-ambulance"></i>
             </div>
@@ -39,7 +43,11 @@
                 <div class="number">
                     <span>转诊状态</span>
                 </div>
-                <div class="desc"><span>申请中：9</span><span>确认：2</span><span>取消：2</span></div>
+                <div class="desc">
+                    <span>申请中：@Model.ReferralRequestCount</span>
+                    <span>确认：@Model.ReferralConfirmCount</span>
+                    <span>取消：@Model.ReferralCancelCount</span>
+                </div>
             </div>
         </a>
     </div>
@@ -50,7 +58,7 @@
             </div>
             <div class="details">
                 <div class="number">
-                    <span>排版总览</span>
+                    <span>排班总览</span>
                 </div>
                 <div class="desc">27</div>
             </div>
@@ -58,16 +66,64 @@
     </div>
 </div>
 <div class="portlet light bordered">
-  
-
     <div class="portlet-title">
-       
+        <div class="caption">
+            医生排班管理
+        </div>
         <div class="actions">
             <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
         </div>
     </div>
+    <div class="portlet-title">
+        <div class="querycontent">
+            <div class="form-inline" id="query-content">
+                <div class="form-group margin-right-10">
+                    <button type="button" class="btn blue btn-outline" id="btn-prev-week">
+                        <i class="fa fa-angle-left"></i> 上一周
+                    </button>
+                </div>
+                <div class="form-group margin-right-10">
+                    <button type="button" class="btn blue btn-outline" id="btn-next-week">
+                        下一周 <i class="fa fa-angle-right"></i>
+                    </button>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn blue btn-outline" id="btn-this-week">
+                        本周
+                    </button>
+                </div>
+                <div class="form-group" id="rooms">
+                    <select class="selectpicker show-tick " data-width="196px" id="room-select">
+                        @foreach (var item in Model.RoomList)
+                        {
+                            <option value="@item.id">@item.text</option>
+                        }
+
+                    </select>
+                </div>
+            </div>
+        </div>
+
+    </div>
     <div class="portlet-body">
-        内容
+        <table class="table  table-bordered plan-table" id="query-table" v-cloak>
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>时段</th>
+                    <th v-for="week in list.WeekTitles">{{week}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(info,index) in list.DateViews">
+                    <td>{{index+1}}</td>
+                    <td>{{info.STime}} - {{info.ETime}}</td>
+                    <td v-for="planView in info.OneDayPlans">
+                        <span v-if="planView.Id !=0">{{planView.DoctorName}}/{{planView.People}}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
     </div>
 </div>
@@ -98,6 +154,90 @@
                 padding-right: 15px;
             }
     </style>
+
+}
+
+@section pagejs
+{
+    <script>
+        $(function () {
+            var vuetable = null;
+            var dateSelect = null;
+            var allData = @Html.RenderAsJson(Model);
+            //   com.showLog(allData,"默认")
+
+
+
+            var search = function (weekSelect, roomId) {
+                var para = {};
+                para.WeekSelect = weekSelect;
+                para.DateSelect = dateSelect;
+                para.RoomId = $("#room-select").val();
+                com.showLog(para, "查询参数");
+                com.ajaxquery("/Hospital/QueryPlan", para).then(function (mydata) {
+
+                    com.showLog(mydata);
+                    if (vuetable == null) {
+                        vuetable = new Vue({
+                            el: '#query-table',
+                            data: {
+                                list: mydata,
+                                editmodel: 0,
+                                DoctorList: allData.DoctorList
+                            },
+                            mounted: function () {
+
+                            },
+                            methods: {
+                                showEdit: function () {
+                                    if (vuetable.editmodel == 0) {
+                                        vuetable.editmodel = 1;
+                                    }
+                                    else {
+                                        vuetable.editmodel = 0;
+                                    }
+                                },
+                                save: function () {
+                                    com.ajaxquery("/Hospital/SavePlan", this.list.DateViews).then(function (res) {
+                                        if (res.Result) {
+                                            ShowSuccessThenReload(res.SuccessMessage);
+                                        }
+                                        else {
+                                            ShowErrorMessage(res.ErrorMessage);
+                                        }
+                                    });
+                                }
+                            }
+
+                        })
+                    }
+                    else {
+                        vuetable.list = mydata;
+                        dateSelect = mydata.DateSelect;
+                    }
+                });
+            };
+
+
+
+
+
+            $("#query-content").on("click", "#btn-prev-week", function () {
+                search(1);
+            }).on("click", "#btn-next-week", function () {
+                search(2);
+            }).on("click", "#btn-this-week", function () {
+                search(3);
+            }).on("change", "#room-select", function () {
+                search(3);
+            });
+
+
+
+            /*******************************初始执行方法***********************************/
+            search(3, 0)
+        });
+    </script>
 
 }
 

@@ -4,6 +4,7 @@ using BYBY.Services.Models;
 using BYBY.Services.Request;
 using BYBY.Services.Views;
 using System;
+using BYBY.Infrastructure.Helpers;
 
 namespace BYBY.Services
 {
@@ -19,7 +20,13 @@ namespace BYBY.Services
                 cfg.CreateMap<string, DateTime?>().ConvertUsing<StringToDateTimeHasNullConverter>();
                 cfg.CreateMap<string, DateTime>().ConvertUsing<StringToDateTimeConverter>();
                 cfg.CreateMap<bool, string>().ConvertUsing<BooleanToStringConverter>();
-                cfg.CreateMap<TBMedicalDetail, MedicalDetailRequest>();
+                cfg.CreateMap<TBMedicalDetail, MedicalDetailRequest>()
+                .ForMember(d => d.ManLastMarriageDate,
+                expression => expression.ResolveUsing(s => s.ManLastMarriageDate.ToDateString()))
+                .ForMember(d => d.MarriageLastPregnancyDate,
+                expression => expression.ResolveUsing(s => s.MarriageLastPregnancyDate.ToDateString()))
+                  .ForMember(d => d.MenstruationLast,
+                expression => expression.ResolveUsing(s => s.MenstruationLast.ToDateString()));
                 cfg.CreateMap<MedicalDetailRequest, TBMedicalDetail>();
                 cfg.CreateMap<MedicalDetailAddRequest, TBMedicalDetail>();
                 cfg.CreateMap<ConsultationAddRequest, TBConsultation>();

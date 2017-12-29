@@ -196,12 +196,12 @@ namespace BYBY.Services.Implementations
                     break;
             }
             var nextMonday = monday.AddDays(7);
-            var planDatas = (await _planRepository.FindAsync(d => d.PlanDate >= monday && d.PlanDate < nextMonday && d.RoomId == request.RoomId)).ToList();
-            //if (request.RoomId > 0)
-            //{
-            //    queryPlan = queryPlan.Where(d => d.RoomId == request.RoomId);
-            //}
-
+            var planDatas = await _planRepository.FindAsync(d => d.PlanDate >= monday && d.PlanDate < nextMonday && d.RoomId == request.RoomId);
+            if (request.DoctorId > 0)
+            {
+                planDatas = planDatas.Where(d => d.DoctorId == request.DoctorId);
+            }
+            var planDataList = planDatas.ToList();
             DateTime stepDate = DateTime.MinValue;
             //  DateTime stepDateNext = DateTime.MinValue;
             PlanView planView;
@@ -220,7 +220,7 @@ namespace BYBY.Services.Implementations
                     stepDate = monday.AddDays(i);
                     _stime = DateTime.Parse(stepDate.ToString("yyyy-MM-dd ") + dataView.STime);
                     _etime = DateTime.Parse(stepDate.ToString("yyyy-MM-dd ") + dataView.ETime);
-                    tablePlan = planDatas.FirstOrDefault(d => d.STime == _stime && d.ETime == _etime);
+                    tablePlan = planDataList.FirstOrDefault(d => d.STime == _stime && d.ETime == _etime);
                     if (tablePlan != null)
                     {
                         planView = Mapper.Map<PlanView>(tablePlan);

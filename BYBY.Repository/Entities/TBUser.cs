@@ -101,5 +101,16 @@ namespace BYBY.Repository.Entities
             }
         }
 
+        [NotMapped]
+        public int DoctorId
+        {
+            get
+            {
+                var doctor = Doctors.FirstOrDefault();
+                return doctor == null ? 0 : doctor.Id;
+
+            }
+        }
+
     }
 }

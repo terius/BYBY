@@ -204,5 +204,11 @@ namespace BYBY.Services.Interfaces
         /// <param name="consultationId"></param>
         /// <returns></returns>
         Task<EmptyResponse> UpdateReferralStatus(UpdateReferralStatusRequest request);
+
+        /// <summary>
+        /// 主页
+        /// </summary>
+        /// <returns></returns>
+        Task<MainModel> GetMainModel();
     }
 }

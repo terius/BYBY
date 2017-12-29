@@ -205,15 +205,7 @@ namespace BYBY.Services
             return val == null ? "" : val.ToString();
         }
 
-        private static string ToDateTimeString(this DateTime? val)
-        {
-            return val.HasValue ? val.Value.ToString("yyyy-MM-dd HH:mm:ss") : "";
-        }
-
-        private static string ToDateString(this DateTime val)
-        {
-            return val.ToString("yyyy-MM-dd");
-        }
+      
 
         /// <summary>
         /// 根据枚举得到描述信息

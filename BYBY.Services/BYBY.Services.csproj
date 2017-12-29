@@ -96,6 +96,7 @@
     <Compile Include="Models\CheckLisModel.cs" />
     <Compile Include="Models\ConsultationDetailModel.cs" />
     <Compile Include="Models\DoctorListModel.cs" />
+    <Compile Include="Models\MainModel.cs" />
     <Compile Include="Models\MedicalHistoryDetailModel.cs" />
     <Compile Include="Models\PlanListModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

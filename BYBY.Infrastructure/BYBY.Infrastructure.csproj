@@ -53,7 +53,6 @@
     <Compile Include="Domain\IReadOnlyRepository.cs" />
     <Compile Include="Domain\IRepository.cs" />
     <Compile Include="ENUM.cs" />
-    <Compile Include="Helpers\DateHelper.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Helpers\DateTimeExtensions.cs" />

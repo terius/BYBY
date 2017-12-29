@@ -7,6 +7,7 @@ using BYBY.Repository.Entities;
 using BYBY.Services.Account;
 using BYBY.Services.Response;
 using BYBYApp.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,7 +24,7 @@ namespace BYBYApp.Controllers
     {
         readonly ICacheService _cacheService = CacheManager.GetCacheService();
         readonly RoleManager _roleManager = RoleFactory.GetRoleManager();
-      //  readonly UserManager _userManager = UserFactory.GetUserManager();
+        readonly UserManager _userManager = UserFactory.GetUserManager();
         public JsonResult ErrorJson(string errorMessage)
         {
             EmptyResponse res = new EmptyResponse();
@@ -129,6 +130,25 @@ namespace BYBYApp.Controllers
             }
         }
 
+        private RoleType GetRoleTypeByRoleName(string roleName)
+        {
+            roleName = roleName.ToLower();
+            switch (roleName)
+            {
+                case "patient":
+                    return RoleType.patient;
+                case "doctor":
+                    return RoleType.doctor;
+                case "customerservice":
+                    return RoleType.customerservice;
+                case "admin":
+                    return RoleType.admin;
+                default:
+                    break;
+            }
+            throw new Exception("角色错误");
+        }
+
         public string RoleName
         {
             get
@@ -152,11 +172,28 @@ namespace BYBYApp.Controllers
                 var login = Session["LoginUserInfo"] as LoginUserInfo;
                 if (login == null)
                 {
-                    throw new Exception("用户登录超时");
+                    var user = GetLoginInfoAsync().Result;
+                    login = new LoginUserInfo();
+                    login.Id = user.Id;
+                    login.IsMasterDoctor = user.IsMasterDoctor;
+                    login.Name = user.Name;
+                    login.RoleName = GetRoleTypeByRoleName(user.RoleName);
+                    login.UserName = user.UserName;
+                    login.DoctorId = user.DoctorId;
+                    Session["LoginUserInfo"] = login;
 
                 }
                 return login;
             }
+        }
+
+      
+
+        public async Task<TBUser> GetLoginInfoAsync()
+        {
+            var userId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            var user = await _userManager.FindByIdAsync(userId);
+            return user;
         }
 
         public async Task<IList<TBModule>> GetRoleModules()

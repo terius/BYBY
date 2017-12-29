@@ -399,6 +399,26 @@ namespace BYBY.Services.Implementations
         }
 
 
+        public async Task<MainModel> GetMainModel()
+        {
+            MainModel model = new MainModel();
+            var status = (await _consultationRepository.FindAsync(d => d.Id == d.MedicalHistory.NewestConsultationId)).Select(d=>d.ConsultationStatus).ToList();
+            model.ConsultationCancelCount = status.Count(d => d == ConsultationStatus.Cancel);
+            model.ConsultationConfirmCount = status.Count(d => d == ConsultationStatus.Confirm);
+            model.ConsultationRequestCount = status.Count(d => d == ConsultationStatus.Requesting);
+
+            var rstatus = (await _referralRepository.FindAsync(d => d.Id == d.MedicalHistory.NewestReferralId)).Select(d => d.ReferralStatus).ToList();
+            model.ReferralCancelCount = rstatus.Count(d => d == ReferralStatus.Cancel);
+            model.ReferralConfirmCount = rstatus.Count(d => d == ReferralStatus.Confirm);
+            model.ReferralRequestCount = rstatus.Count(d => d == ReferralStatus.Requesting);
+
+            
+
+            return model;
+
+        }
+
+
         #region 会诊详细信息-药品
 
         /// <summary>

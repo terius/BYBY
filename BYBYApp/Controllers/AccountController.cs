@@ -126,24 +126,24 @@ namespace BYBYApp.Controllers
             roleCookies.Values.Add("rolename", roleName);
             // roleCookies.Value = roleName;
             roleCookies.Expires = DateTime.Now.AddDays(1);
-            var loginUserInfo = new LoginUserInfo();
-            loginUserInfo.Id = user.Id;
-            loginUserInfo.Name = user.Name;
-            if (roleName == RoleType.customerservice.ToString())
-            {
-                loginUserInfo.RoleName = RoleType.customerservice;
-            }
-            else if (roleName == RoleType.doctor.ToString())
-            {
-                loginUserInfo.RoleName = RoleType.doctor;
-            }
-            else if (roleName == RoleType.patient.ToString())
-            {
-                loginUserInfo.RoleName = RoleType.patient;
-            }
-            loginUserInfo.UserName = user.UserName;
-            loginUserInfo.IsMasterDoctor = user.IsMasterDoctor;
-            Session["LoginUserInfo"] = loginUserInfo;
+            //var loginUserInfo = new LoginUserInfo();
+            //loginUserInfo.Id = user.Id;
+            //loginUserInfo.Name = user.Name;
+            //if (roleName == RoleType.customerservice.ToString())
+            //{
+            //    loginUserInfo.RoleName = RoleType.customerservice;
+            //}
+            //else if (roleName == RoleType.doctor.ToString())
+            //{
+            //    loginUserInfo.RoleName = RoleType.doctor;
+            //}
+            //else if (roleName == RoleType.patient.ToString())
+            //{
+            //    loginUserInfo.RoleName = RoleType.patient;
+            //}
+            //loginUserInfo.UserName = user.UserName;
+            //loginUserInfo.IsMasterDoctor = user.IsMasterDoctor;
+            //Session["LoginUserInfo"] = loginUserInfo;
             return roleCookies;
         }
 
