@@ -88,6 +88,20 @@ namespace BYBY.Repository.Entities
         }
 
         [NotMapped]
+        public bool IsChildDoctor
+        {
+            get
+            {
+                if (!IsDoctor)
+                {
+                    return false;
+                }
+                return !Doctors.First().IsMasterDoctor;
+
+            }
+        }
+
+        [NotMapped]
         public int DoctorMasterHospitalId
         {
             get

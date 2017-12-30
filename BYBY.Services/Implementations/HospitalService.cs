@@ -196,7 +196,11 @@ namespace BYBY.Services.Implementations
                     break;
             }
             var nextMonday = monday.AddDays(7);
-            var planDatas = await _planRepository.FindAsync(d => d.PlanDate >= monday && d.PlanDate < nextMonday && d.RoomId == request.RoomId);
+            var planDatas = await _planRepository.FindAsync(d => d.PlanDate >= monday && d.PlanDate < nextMonday);
+            if (request.RoomId >0)
+            {
+                planDatas = planDatas.Where(d => d.RoomId == request.RoomId);
+            }
             if (request.DoctorId > 0)
             {
                 planDatas = planDatas.Where(d => d.DoctorId == request.DoctorId);

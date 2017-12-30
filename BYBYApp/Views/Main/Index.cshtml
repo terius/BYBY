@@ -4,19 +4,22 @@
 }
 
 <div class="row">
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 blue" href="@Url.Action("AddNew","MedicalHistory")">
-            <div class="visual">
-                <i class="fa fa-plus-square"></i>
-            </div>
-            <div class="details">
-                <div class="number">
-                    <span>新建患者</span>
+    @if (Model.RoleType == BYBY.Infrastructure.RoleType.customerservice || Model.IsChildDoctor)
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 blue" href="@Url.Action("AddNew", "MedicalHistory")">
+                <div class="visual">
+                    <i class="fa fa-plus-square"></i>
                 </div>
-                <div class="desc"></div>
-            </div>
-        </a>
-    </div>
+                <div class="details">
+                    <div class="number">
+                        <span>新建患者</span>
+                    </div>
+                    <div class="desc"></div>
+                </div>
+            </a>
+        </div>
+    }
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <a class="dashboard-stat dashboard-stat-v2 green-jungle" href="@Url.Action("Index","Consultation")">
             <div class="visual">
@@ -65,68 +68,62 @@
         </a>
     </div>
 </div>
-<div class="portlet light bordered">
-    <div class="portlet-title">
-        <div class="caption">
-            医生排班管理
-        </div>
-        <div class="actions">
-            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
-        </div>
-    </div>
-    <div class="portlet-title">
-        <div class="querycontent">
-            <div class="form-inline" id="query-content">
-                <div class="form-group margin-right-10">
-                    <button type="button" class="btn blue btn-outline" id="btn-prev-week">
-                        <i class="fa fa-angle-left"></i> 上一周
-                    </button>
-                </div>
-                <div class="form-group margin-right-10">
-                    <button type="button" class="btn blue btn-outline" id="btn-next-week">
-                        下一周 <i class="fa fa-angle-right"></i>
-                    </button>
-                </div>
-                <div class="form-group">
-                    <button type="button" class="btn blue btn-outline" id="btn-this-week">
-                        本周
-                    </button>
-                </div>
-                <div class="form-group" id="rooms">
-                    <select class="selectpicker show-tick " data-width="196px" id="room-select">
-                        @foreach (var item in Model.RoomList)
-                        {
-                            <option value="@item.id">@item.text</option>
-                        }
-
-                    </select>
-                </div>
+@if (Model.DoctorId > 0)
+{
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                排班查看
+            </div>
+            <div class="actions">
+                <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
             </div>
         </div>
+        <div class="portlet-title">
+            <div class="querycontent">
+                <div class="form-inline" id="query-content">
+                    <div class="form-group margin-right-10">
+                        <button type="button" class="btn blue btn-outline" id="btn-prev-week">
+                            <i class="fa fa-angle-left"></i> 上一周
+                        </button>
+                    </div>
+                    <div class="form-group margin-right-10">
+                        <button type="button" class="btn blue btn-outline" id="btn-next-week">
+                            下一周 <i class="fa fa-angle-right"></i>
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn blue btn-outline" id="btn-this-week">
+                            本周
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-    </div>
-    <div class="portlet-body">
-        <table class="table  table-bordered plan-table" id="query-table" v-cloak>
-            <thead>
-                <tr>
-                    <th>序号</th>
-                    <th>时段</th>
-                    <th v-for="week in list.WeekTitles">{{week}}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(info,index) in list.DateViews">
-                    <td>{{index+1}}</td>
-                    <td>{{info.STime}} - {{info.ETime}}</td>
-                    <td v-for="planView in info.OneDayPlans">
-                        <span v-if="planView.Id !=0">{{planView.DoctorName}}/{{planView.People}}</span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        </div>
+        <div class="portlet-body">
+            <table class="table  table-bordered plan-table" id="query-table" v-cloak>
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>时段</th>
+                        <th v-for="week in list.WeekTitles">{{week}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(info,index) in list.DateViews">
+                        <td>{{index+1}}</td>
+                        <td>{{info.STime}} - {{info.ETime}}</td>
+                        <td v-for="planView in info.OneDayPlans">
+                            <span v-if="planView.Id !=0">{{planView.RoomName}} / {{planView.People}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
+        </div>
     </div>
-</div>
+}
 
 @section styles
 {
@@ -166,76 +163,79 @@
             var allData = @Html.RenderAsJson(Model);
             //   com.showLog(allData,"默认")
 
+            if (allData.DoctorId>0)
+            {
 
+                var search = function (weekSelect, roomId) {
+                    var para = {};
+                    para.WeekSelect = weekSelect;
+                    para.DateSelect = dateSelect;
+                    para.RoomId = $("#room-select").val();
+                    para.DoctorId= allData.DoctorId;
+                    com.showLog(para, "查询参数");
+                    com.ajaxquery("/Hospital/QueryPlan", para).then(function (mydata) {
 
-            var search = function (weekSelect, roomId) {
-                var para = {};
-                para.WeekSelect = weekSelect;
-                para.DateSelect = dateSelect;
-                para.RoomId = $("#room-select").val();
-                com.showLog(para, "查询参数");
-                com.ajaxquery("/Hospital/QueryPlan", para).then(function (mydata) {
-
-                    com.showLog(mydata);
-                    if (vuetable == null) {
-                        vuetable = new Vue({
-                            el: '#query-table',
-                            data: {
-                                list: mydata,
-                                editmodel: 0,
-                                DoctorList: allData.DoctorList
-                            },
-                            mounted: function () {
-
-                            },
-                            methods: {
-                                showEdit: function () {
-                                    if (vuetable.editmodel == 0) {
-                                        vuetable.editmodel = 1;
-                                    }
-                                    else {
-                                        vuetable.editmodel = 0;
-                                    }
+                        com.showLog(mydata);
+                        if (vuetable == null) {
+                            vuetable = new Vue({
+                                el: '#query-table',
+                                data: {
+                                    list: mydata,
+                                    editmodel: 0,
+                                    DoctorList: allData.DoctorList
                                 },
-                                save: function () {
-                                    com.ajaxquery("/Hospital/SavePlan", this.list.DateViews).then(function (res) {
-                                        if (res.Result) {
-                                            ShowSuccessThenReload(res.SuccessMessage);
+                                mounted: function () {
+
+                                },
+                                methods: {
+                                    showEdit: function () {
+                                        if (vuetable.editmodel == 0) {
+                                            vuetable.editmodel = 1;
                                         }
                                         else {
-                                            ShowErrorMessage(res.ErrorMessage);
+                                            vuetable.editmodel = 0;
                                         }
-                                    });
+                                    },
+                                    save: function () {
+                                        com.ajaxquery("/Hospital/SavePlan", this.list.DateViews).then(function (res) {
+                                            if (res.Result) {
+                                                ShowSuccessThenReload(res.SuccessMessage);
+                                            }
+                                            else {
+                                                ShowErrorMessage(res.ErrorMessage);
+                                            }
+                                        });
+                                    }
                                 }
-                            }
 
-                        })
-                    }
-                    else {
-                        vuetable.list = mydata;
-                        dateSelect = mydata.DateSelect;
-                    }
+                            })
+                        }
+                        else {
+                            vuetable.list = mydata;
+                            dateSelect = mydata.DateSelect;
+                        }
+                    });
+                };
+
+
+
+
+
+                $("#query-content").on("click", "#btn-prev-week", function () {
+                    search(1);
+                }).on("click", "#btn-next-week", function () {
+                    search(2);
+                }).on("click", "#btn-this-week", function () {
+                    search(3);
+                }).on("change", "#room-select", function () {
+                    search(3);
                 });
-            };
 
 
 
-
-
-            $("#query-content").on("click", "#btn-prev-week", function () {
-                search(1);
-            }).on("click", "#btn-next-week", function () {
-                search(2);
-            }).on("click", "#btn-this-week", function () {
-                search(3);
-            }).on("change", "#room-select", function () {
-                search(3);
-            });
-
-
-
-            /*******************************初始执行方法***********************************/
-            search(3, 0)
+                /*******************************初始执行方法***********************************/
+                search(3, 0);
+            }
         });
     </script>
 

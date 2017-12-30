@@ -176,6 +176,7 @@ namespace BYBYApp.Controllers
                     login = new LoginUserInfo();
                     login.Id = user.Id;
                     login.IsMasterDoctor = user.IsMasterDoctor;
+                    login.IsChildDoctor = user.IsChildDoctor;
                     login.Name = user.Name;
                     login.RoleName = GetRoleTypeByRoleName(user.RoleName);
                     login.UserName = user.UserName;

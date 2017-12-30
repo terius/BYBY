@@ -18,11 +18,14 @@ namespace BYBYApp.Controllers
         public async Task<ActionResult> Index()
         {
             MainModel model = await _medicalHistoryService.GetMainModel();
-           
-            if (LoginUserRoleType == BYBY.Infrastructure.RoleType.doctor)
+            var loginUser = LoginUserInfo;
+            model.RoleType = LoginUserInfo.RoleName;
+
+            if (model.RoleType == BYBY.Infrastructure.RoleType.doctor)
             {
                 model.RoomList = await GetCacheAsync(BYBY.Cache.CacheKeys.Room);
                 model.DoctorId = LoginUserInfo.DoctorId;
+                model.IsChildDoctor = LoginUserInfo.IsChildDoctor;
             }
             return View(model);
         }

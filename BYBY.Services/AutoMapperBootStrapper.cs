@@ -61,7 +61,8 @@ namespace BYBY.Services
      expression => expression.ResolveUsing(s => s.ETime.ToString("HH:mm")));
 
                 cfg.CreateMap<TBPlan, PlanView>()
-                .ForMember(d => d.DoctorName, expression => expression.ResolveUsing(s => s.Doctor.Name));
+                .ForMember(d => d.DoctorName, expression => expression.ResolveUsing(s => s.Doctor.Name))
+                .ForMember(d => d.RoomName, expression => expression.ResolveUsing(s => s.Room.Name));
                 cfg.CreateMap<PlanView, TBPlan>();
             });
 

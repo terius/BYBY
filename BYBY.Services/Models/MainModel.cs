@@ -17,5 +17,8 @@ namespace BYBY.Services.Models
         public IList<SelectItem> RoomList { get; set; }
 
         public int DoctorId { get; set; }
+
+        public bool IsChildDoctor { get; set; }
+        public RoleType RoleType { get; set; }
     }
 }

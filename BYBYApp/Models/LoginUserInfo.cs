@@ -18,6 +18,8 @@ namespace BYBYApp.Models
 
         public bool IsMasterDoctor { get; set; }
 
+        public bool IsChildDoctor { get; set; }
+
         public int DoctorId { get; set; }
 
     }
