@@ -120,12 +120,14 @@ namespace BYBYApp.Controllers
 
         private HttpCookie CreateAccountCookie(TBUser user, string roleName)
         {
-            HttpCookie roleCookies = new HttpCookie("AccountCookies");
-            roleCookies.Values.Add("username", user.UserName);
-            roleCookies.Values.Add("truename", user.Name);
-            roleCookies.Values.Add("rolename", roleName);
+            Session["LoginUserInfo"] = ConvertToLoginUserInfo(user);
+            HttpCookie accountCookies = new HttpCookie("AccountCookies");
+            accountCookies.Values.Add("username", user.UserName);
+            accountCookies.Values.Add("truename", user.Name);
+            accountCookies.Values.Add("rolename", roleName);
+            accountCookies.Values.Add("userid", user.Id);
             // roleCookies.Value = roleName;
-            roleCookies.Expires = DateTime.Now.AddDays(1);
+            accountCookies.Expires = DateTime.Now.AddDays(1);
             //var loginUserInfo = new LoginUserInfo();
             //loginUserInfo.Id = user.Id;
             //loginUserInfo.Name = user.Name;
@@ -144,7 +146,7 @@ namespace BYBYApp.Controllers
             //loginUserInfo.UserName = user.UserName;
             //loginUserInfo.IsMasterDoctor = user.IsMasterDoctor;
             //Session["LoginUserInfo"] = loginUserInfo;
-            return roleCookies;
+            return accountCookies;
         }
 
 

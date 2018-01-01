@@ -1,4 +1,5 @@
-﻿using BYBY.Services.Request;
+﻿using BYBY.Services.Models;
+using BYBY.Services.Request;
 using BYBY.Services.Response;
 using BYBY.Services.Views;
 using System.Collections.Generic;
@@ -8,11 +9,14 @@ namespace BYBY.Services.Interfaces
 {
     public interface IHospitalService : IBaseService
     {
+
+       
+
         /// <summary>
         /// 查询会诊室
         /// </summary>
         /// <returns></returns>
-        Task<IList<ConsultationRoomListView>> GetRoomList();
+        Task<IList<ConsultationRoomListView>> GetRoomList(int hosptitalId = 0);
 
         /// <summary>
         /// 新增会诊室

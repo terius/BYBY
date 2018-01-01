@@ -369,7 +369,7 @@ td.no-data {
         margin-left: 10px;
     }
 
-.table > tfoot   td.action {
+.table > tfoot td.action {
     padding: 10px !important;
     border: none;
     text-align: center !important;
@@ -749,6 +749,17 @@ td.no-data {
     border: 1px solid #ddd;
     margin-bottom: 20px;
 }
+
+.room-list .toptitle {
+    text-align: center;
+    background-color: #397FAE;
+    color: #fff;
+    padding: 10px;
+}
+
+    .room-list .toptitle > h3 {
+        margin: 0 !important;
+    }
 
 .room-list .pic {
     height: 130px;

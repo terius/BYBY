@@ -215,8 +215,9 @@ namespace BYBY.Cache
             {
                 sitem = new SelectItem();
                 sitem.id = item.Id.ToString();
-                sitem.text = item.User.Name;
+                sitem.text = item.Name;
                 sitem.title = item.JobTitle;
+                sitem.parent = item.HospitalId.ToString();
                 dest.Add(sitem);
             }
             return dest;
@@ -261,6 +262,7 @@ namespace BYBY.Cache
                 sitem.id = item.Id.ToString();
                 sitem.text = item.Name;
                 sitem.title = item.Remark;
+                sitem.parent = item.HospitalId.ToString();
                 dest.Add(sitem);
             }
             return dest;

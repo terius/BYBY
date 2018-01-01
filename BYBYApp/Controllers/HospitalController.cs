@@ -23,14 +23,22 @@ namespace BYBYApp.Controllers
         // GET: Hospital
         public async Task<ActionResult> ConsultationRoom()
         {
-            var model = await _service.GetRoomList();
+            var model = new ConsultationRoomModel();
+            model.RoomList = await _service.GetRoomList();
+            model.HospitalList = await GetCacheAsync(BYBY.Cache.CacheKeys.Hospital);
             return View(model);
+        }
+
+        public async Task<JsonResult> QueryRoomByHospital(int hospitalId = 0)
+        {
+            var response = await _service.GetRoomList(hospitalId);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddRoom(AddRoomRequest  request)
+        public async Task<ActionResult> AddRoom(AddRoomRequest request)
         {
             var response = await _service.AddRoom(request);
             return Json(response, JsonRequestBehavior.AllowGet);
@@ -77,6 +85,7 @@ namespace BYBYApp.Controllers
             PlanListModel model = new PlanListModel();
             model.DoctorList = await GetCacheAsync(BYBY.Cache.CacheKeys.Doctor);
             model.RoomList = await GetCacheAsync(BYBY.Cache.CacheKeys.Room);
+            model.HospitalList = await GetCacheAsync(BYBY.Cache.CacheKeys.Hospital);
             return View(model);
         }
 
@@ -106,8 +115,8 @@ namespace BYBYApp.Controllers
             return Json(pageData, JsonRequestBehavior.AllowGet);
         }
 
-       
 
-       
+
+
     }
 }

@@ -264,7 +264,7 @@ com.ajaxquery = function (url, request, ajaxParams) {
     return abp.ajax($.extend({
         url: url,
         type: 'POST',
-        data: JSON.stringify(request)
+        data: request ? JSON.stringify(request) : null
     }, ajaxParams));
 }
 

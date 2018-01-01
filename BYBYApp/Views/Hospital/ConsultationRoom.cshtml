@@ -1,4 +1,4 @@
-﻿@model IList<BYBY.Services.Views.ConsultationRoomListView>
+﻿@model BYBY.Services.Models.ConsultationRoomModel
 @{
     ViewBag.Title = "会诊室管理";
 }
@@ -16,6 +16,11 @@
     <div class="portlet-title">
         <div class="querycontent">
             <div class="form-inline" id="query-content">
+                <div class="form-group margin-left-20" id="select-hospital">
+                    <label for="search-key">选择医院：</label>
+                    <select2 id="Hostpital" class="w196" data-placeholder="--请选择医院--" :options="HospitalList">
+                    </select2>
+                </div>
                 <div class="form-group">
                     <button type="button" class="btn blue btn-outline" id="btn-add">
                         <i class="fa fa-plus"></i> 新增诊室
@@ -29,17 +34,20 @@
         <div class="row room-list" id="room-list" v-cloak>
             <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" v-for="info in list">
                 <div class="content">
+                    <div class="toptitle">
+                        <h3>{{info.HospitalName}}</h3>
+                    </div>
                     <div class="pic">
                         <img :src="info.Pic" style="height:100%" />
                     </div>
                     <div class="title"><h3>{{info.Name}}</h3></div>
                     <div class="control">
                         <a href="javascript:;" class="btn blue btn-outline" v-on:click="showEdit(info)" style="margin-right:30px">编辑名称</a>
-                        <a href="javascript:;" class="btn blue btn-outline" v-on:click="showDelete(info.Id)" >删除诊室</a>
+                        <a href="javascript:;" class="btn blue btn-outline" v-on:click="showDelete(info.Id)">删除诊室</a>
                     </div>
                 </div>
             </div>
-          
+
 
         </div>
 
@@ -48,13 +56,20 @@
 
 
 <div id="modal-add">
-    <v-modal v-cloak v-bind:tinfo="modalinfo" >
+    <v-modal v-cloak v-bind:tinfo="modalinfo">
         <div class="row">
             <div class="col-md-12">
                 <form method="post" action="@Url.Action("AddRoom","Hospital")" id="save-form">
                     <input id="Id" name="Id" type="hidden" :value="addinfo.Id" />
                     @Html.AntiForgeryToken()
                     <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">选择医院</label>
+                            <div class="col-xs-6">
+                                <select2 id="HospitalId" class="w300" data-placeholder="--请选择医院--" :value="addinfo.HospitalId" :options="HospitalList">
+                                </select2>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="control-label col-xs-3">诊室名称</label>
                             <div class="col-xs-6">
@@ -74,17 +89,35 @@
 
 @section styles
 {
+    @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
 }
 
 @section pagejs
 {
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/select2")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
-<script>
+    <script>
         $(function () {
            var allData =  @Html.RenderAsJson(Model);
             var addForm = null;
             var addModal = null;
+
+            var vuequery = new Vue({
+                el: '#select-hospital',
+                data: {
+                    HospitalList: allData.HospitalList
+
+                },
+                mounted: function() {
+                    $("#Hostpital").on("change", function () {
+                        com.ajaxquery("/Hospital/QueryRoomByHospital?hospitalId=" + $(this).val()).then(function (roomList) {
+                            vueList.list = roomList;
+                        });
+                    })
+                }
+            })
+
 
             var vueadd = new Vue({
                 el: '#modal-add',
@@ -95,7 +128,8 @@
                         data: {}
 
                     },
-                    addinfo: {}
+                    addinfo: {},
+                    HospitalList: allData.HospitalList
 
                 },
                 mounted: function () {
@@ -105,6 +139,9 @@
                 },
                 methods: {
                     save: function () {
+                        //var hid = $("#HospitalId").val();
+                        //alert(hid);
+                        //return;
                         com.jqFormOption.success = function (res) {
                             if (res.Result) {
                                 ShowSuccessThenReload(res.SuccessMessage);
@@ -122,7 +159,7 @@
             var vueList = new Vue({
                 el: "#room-list",
                 data: {
-                    list: allData
+                    list: allData.RoomList
                 },
                 methods: {
                     showEdit: function (editInfo) {
@@ -157,12 +194,12 @@
                 addModal.modal('show');
             })
 
-            
+
 
             /*******************************初始执行方法***********************************/
-         
+
 
         });
-</script>
+    </script>
 }
 

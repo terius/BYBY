@@ -153,15 +153,33 @@ namespace BYBYApp.Controllers
         {
             get
             {
-                //RolePrincipal r = (RolePrincipal)User;
-                //var rolesArray = r.GetRoles();
-                //return rolesArray[0];
-                if (Request.Cookies["AccountCookies"] == null)
-                {
-                    return "";
-                }
-                return Request.Cookies["AccountCookies"].Values["rolename"];
+                return GetCookieValue("rolename");
             }
+        }
+
+        public string UserName
+        {
+            get
+            {
+                return GetCookieValue("username");
+            }
+        }
+
+        public string TrueName
+        {
+            get
+            {
+                return GetCookieValue("truename");
+            }
+        }
+
+        private string GetCookieValue(string name)
+        {
+            if (Request.Cookies["AccountCookies"] == null)
+            {
+                throw new Exception("登录超时，请重新登录");
+            }
+            return Request.Cookies["AccountCookies"].Values[name];
         }
 
 
@@ -173,14 +191,7 @@ namespace BYBYApp.Controllers
                 if (login == null)
                 {
                     var user = GetLoginInfoAsync().Result;
-                    login = new LoginUserInfo();
-                    login.Id = user.Id;
-                    login.IsMasterDoctor = user.IsMasterDoctor;
-                    login.IsChildDoctor = user.IsChildDoctor;
-                    login.Name = user.Name;
-                    login.RoleName = GetRoleTypeByRoleName(user.RoleName);
-                    login.UserName = user.UserName;
-                    login.DoctorId = user.DoctorId;
+                    login = ConvertToLoginUserInfo(user);
                     Session["LoginUserInfo"] = login;
 
                 }
@@ -188,11 +199,25 @@ namespace BYBYApp.Controllers
             }
         }
 
-      
+        public LoginUserInfo ConvertToLoginUserInfo(TBUser user)
+        {
+            var login = new LoginUserInfo();
+            login.Id = user.Id;
+            login.IsMasterDoctor = user.IsMasterDoctor;
+            login.IsChildDoctor = user.IsChildDoctor;
+            login.Name = user.Name;
+            login.RoleName = GetRoleTypeByRoleName(user.RoleName);
+            login.UserName = user.UserName;
+            login.DoctorId = user.DoctorId;
+            return login;
+        }
+
+
 
         public async Task<TBUser> GetLoginInfoAsync()
         {
-            var userId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            //    var userId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            var userId = GetCookieValue("userid");
             var user = await _userManager.FindByIdAsync(userId);
             return user;
         }

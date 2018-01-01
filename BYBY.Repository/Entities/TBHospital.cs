@@ -11,6 +11,7 @@ namespace BYBY.Repository.Entities
         public TBHospital()
         {
             Doctors = new HashSet<TBDoctor>();
+            Rooms = new HashSet<TBConsultationRoom>();
         }
 
         [Required]
@@ -35,6 +36,9 @@ namespace BYBY.Repository.Entities
 
         [ForeignKey("ParentHospitalId")]
         public virtual TBHospital ParentHospital { get; set; }
+
+
+        public virtual ICollection<TBConsultationRoom> Rooms { get; set; }
 
 
     }

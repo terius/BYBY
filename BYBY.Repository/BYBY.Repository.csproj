@@ -303,6 +303,14 @@
     <Compile Include="Migrations\201712281540072_TBDoctorAddSexAndBirthday.Designer.cs">
       <DependentUpon>201712281540072_TBDoctorAddSexAndBirthday.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801011101325_TBConsultationRoomAddHospitalId.cs" />
+    <Compile Include="Migrations\201801011101325_TBConsultationRoomAddHospitalId.Designer.cs">
+      <DependentUpon>201801011101325_TBConsultationRoomAddHospitalId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801011110410_TBConsultationRoomAddHospitalId2.cs" />
+    <Compile Include="Migrations\201801011110410_TBConsultationRoomAddHospitalId2.Designer.cs">
+      <DependentUpon>201801011110410_TBConsultationRoomAddHospitalId2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -481,6 +489,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712281540072_TBDoctorAddSexAndBirthday.resx">
       <DependentUpon>201712281540072_TBDoctorAddSexAndBirthday.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801011101325_TBConsultationRoomAddHospitalId.resx">
+      <DependentUpon>201801011101325_TBConsultationRoomAddHospitalId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801011110410_TBConsultationRoomAddHospitalId2.resx">
+      <DependentUpon>201801011110410_TBConsultationRoomAddHospitalId2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

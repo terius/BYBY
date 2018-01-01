@@ -95,6 +95,7 @@
     <Compile Include="Interfaces\ISystemService.cs" />
     <Compile Include="Models\CheckLisModel.cs" />
     <Compile Include="Models\ConsultationDetailModel.cs" />
+    <Compile Include="Models\ConsultationRoomModel.cs" />
     <Compile Include="Models\DoctorListModel.cs" />
     <Compile Include="Models\MainModel.cs" />
     <Compile Include="Models\MedicalHistoryDetailModel.cs" />

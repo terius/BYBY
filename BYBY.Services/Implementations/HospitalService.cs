@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using BYBY.Services.Models;
 
 namespace BYBY.Services.Implementations
 {
@@ -39,15 +40,27 @@ namespace BYBY.Services.Implementations
             _cacheService = cacheService;
         }
 
+
+      
+
         /// <summary>
         /// 获取会诊室列表
         /// </summary>
         /// <returns></returns>
-        public async Task<IList<ConsultationRoomListView>> GetRoomList()
+        public async Task<IList<ConsultationRoomListView>> GetRoomList(int hosptitalId = 0)
         {
-            var query = await _roomRepository.FindAllAsync();
-            var list = Mapper.Map<IList<ConsultationRoomListView>>(query);
-            return list;
+            IList<TBConsultationRoom> list;
+            if (hosptitalId == 0)
+            {
+                list = _roomRepository.GetDbQuerySet().OrderBy(d => d.HospitalId).ToList();
+            }
+            else
+            {
+                list = (await _roomRepository.FindAsync(d => d.HospitalId == hosptitalId)).OrderBy(d => d.HospitalId).ToList();
+            }
+
+            var views = Mapper.Map<IList<ConsultationRoomListView>>(list);
+            return views;
         }
 
 
@@ -58,12 +71,12 @@ namespace BYBY.Services.Implementations
         /// <returns></returns>
         public async Task<EmptyResponse> AddRoom(AddRoomRequest request)
         {
-            bool exists = await CheckRoomNameExists(request.Name);
+            bool exists = await CheckRoomNameExists(request.Name,request.HospitalId);
             if (exists)
             {
                 return EmptyResponse.CreateError("诊室名称不能重复");
             }
-            var info = new TBConsultationRoom { Name = request.Name };
+            var info = new TBConsultationRoom { Name = request.Name,HospitalId = request.HospitalId };
             info.AddUserName = GetLoginUserName();
             await _roomRepository.InsertAsync(info);
             int rs = _unitOfWork.Commit();
@@ -74,16 +87,16 @@ namespace BYBY.Services.Implementations
             return rs > 0 ? EmptyResponse.CreateSuccess("新增成功") : EmptyResponse.CreateError("新增失败");
         }
 
-        private async Task<bool> CheckRoomNameExists(string name, int id = 0)
+        private async Task<bool> CheckRoomNameExists(string name,int hospitalId, int id = 0)
         {
             if (id == 0)
             {
-                var icout = await _roomRepository.FindCount(d => d.Name == name);
+                var icout = await _roomRepository.FindCount(d => d.Name == name && d.HospitalId == hospitalId);
                 return icout > 0;
             }
             else
             {
-                var icout = await _roomRepository.FindCount(d => d.Name == name && d.Id != id);
+                var icout = await _roomRepository.FindCount(d => d.Name == name && d.HospitalId == hospitalId && d.Id != id);
                 return icout > 0;
             }
         }
@@ -95,7 +108,7 @@ namespace BYBY.Services.Implementations
         /// <returns></returns>
         public async Task<EmptyResponse> EditRoom(ConsultationRoomListView request)
         {
-            bool exists = await CheckRoomNameExists(request.Name, request.Id);
+            bool exists = await CheckRoomNameExists(request.Name,request.HospitalId, request.Id);
             if (exists)
             {
                 return EmptyResponse.CreateError("诊室名称不能重复");
@@ -141,7 +154,7 @@ namespace BYBY.Services.Implementations
 
         public async Task<EmptyResponse> AddDateSetup(AddDateSetupRequest request)
         {
-           
+
             DateTime stime = DateTime.Parse("2000-01-01 " + request.STime);
             DateTime etime = DateTime.Parse("2000-01-01 " + request.ETime);
             var isDup = await CheckDateSetupDup(stime, etime);
@@ -197,7 +210,7 @@ namespace BYBY.Services.Implementations
             }
             var nextMonday = monday.AddDays(7);
             var planDatas = await _planRepository.FindAsync(d => d.PlanDate >= monday && d.PlanDate < nextMonday);
-            if (request.RoomId >0)
+            if (request.RoomId > 0)
             {
                 planDatas = planDatas.Where(d => d.RoomId == request.RoomId);
             }
@@ -282,7 +295,7 @@ namespace BYBY.Services.Implementations
         }
 
 
-    
+
 
     }
 }

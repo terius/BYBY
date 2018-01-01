@@ -1,13 +1,12 @@
 ﻿using BYBY.Infrastructure;
+using BYBY.Services.Views;
 using System.Collections.Generic;
 
 namespace BYBY.Services.Models
 {
-    public class PlanListModel
+    public class ConsultationRoomModel
     {
-        public IList<SelectItem> DoctorList { get; set; }
-        public IList<SelectItem> RoomList { get; set; }
-
         public IList<SelectItem> HospitalList { get; set; }
+        public IList<ConsultationRoomListView> RoomList { get; set; }
     }
 }

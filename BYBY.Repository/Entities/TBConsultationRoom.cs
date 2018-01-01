@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BYBY.Repository.Entities
 {
@@ -11,5 +12,11 @@ namespace BYBY.Repository.Entities
 
         [StringLength(200)]
         public string Remark { get; set; }
+
+       
+        public int HospitalId { get; set; }
+
+        [ForeignKey("HospitalId")]
+        public virtual TBHospital Hospital { get; set; }
     }
 }

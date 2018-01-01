@@ -31,14 +31,13 @@
                         本周
                     </button>
                 </div>
-                <div class="form-group" id="rooms">
-                    <select class="selectpicker show-tick " data-width="196px" id="room-select">
-                        @foreach (var item in Model.RoomList)
-                        {
-                            <option value="@item.id">@item.text</option>
-                        }
-
-                    </select>
+                <div class="form-group" id="select-content">
+                    <select2 id="SelectHospital" class="w150" data-placeholder="--请选择医院--" :options="HospitalList">
+                    </select2>
+                    <select2 id="SelectRoom" class="w150" data-placeholder="--请选择会诊室--" :options="RoomList">
+                    </select2>
+                    <select2 id="SelectDoctor" class="w150" data-placeholder="--请选择医生--" :options="DoctorList">
+                    </select2>
                 </div>
             </div>
         </div>
@@ -105,16 +104,73 @@
         $(function () {
             var vuetable = null;
             var dateSelect = null;
-             var allData = @Html.RenderAsJson(Model);
+            var allData = @Html.RenderAsJson(Model);
+
+            var vuequery = new Vue({
+                el: '#select-content',
+                data: {
+                    HospitalList: allData.HospitalList,
+                    RoomList: allData.RoomList,
+                    DoctorList: allData.DoctorList
+                },
+                mounted: function () {
+                    $("#SelectRoom").val(allData.RoomList[0].id).trigger('change');
+                    var vm = this;
+                    $("#SelectHospital").on("change", function () {
+                        var selectHid = $(this).val();
+                       // alert(selectHid);
+                        if (!selectHid) {
+                            vm.RoomList = allData.RoomList;
+                            vm.DoctorList = allData.DoctorList;
+                            vm.RoomList.splice(0, 0, { id: "", text: "" }); 
+                            vm.DoctorList.splice(0, 0, { id: "", text: "" }); 
+                            return;
+                        }
+                        var selectRooms = [];
+                        selectRooms.push({ id: "", text: "" });
+                        for (var i = 0; i < allData.RoomList.length; i++) {
+                            if (allData.RoomList[i].parent == selectHid) {
+                                selectRooms.push(allData.RoomList[i]);
+                            }
+                        }
+                        vm.RoomList = selectRooms;
+                     //   $("#SelectRoom").val("").trigger('change');
+
+
+                        var selectDoctors = [];
+                        selectDoctors.push({id:"",text:""});
+                        for (var i = 0; i < allData.DoctorList.length; i++) {
+                            if (allData.DoctorList[i].parent == selectHid) {
+                                selectDoctors.push(allData.DoctorList[i]);
+                            }
+                        }
+                        vm.DoctorList = selectDoctors;
+                       // $("#SelectDoctor").val("").trigger('change');
+
+                    });
+                    $("#SelectDoctor").on("change", function () {
+                       // selectDoctor = $(this).val();
+                       // $("[name='DoctorId']").val(selectDoctorId).trigger('change');
+                    });
+                },
+                methods: {
+                }
+
+            })
           //   com.showLog(allData,"默认")
 
 
 
-            var search = function (weekSelect, roomId) {
+            var search = function (weekSelect) {
+                var roomId = $("#SelectRoom").val();
+                if (!roomId) {
+                    ShowLayerAlert("请先选择会诊室");
+                    return;
+                }
                 var para = {};
                 para.WeekSelect = weekSelect;
                 para.DateSelect = dateSelect;
-                para.RoomId = $("#room-select").val();
+                para.RoomId = roomId;
                 com.showLog(para,"查询参数");
                 com.ajaxquery("/Hospital/QueryPlan", para).then(function (mydata) {
 
@@ -132,6 +188,10 @@
                             },
                             methods: {
                                 showEdit: function () {
+                                    var selectRoom = $("#SelectRoom").val();
+                                    alert(selectRoom)
+                                    return;
+
                                     if (vuetable.editmodel == 0) {
                                         vuetable.editmodel = 1;
                                     }
@@ -140,6 +200,7 @@
                                     }
                                 },
                                 save: function () {
+
                                     com.ajaxquery("/Hospital/SavePlan", this.list.DateViews).then(function (res) {
                                         if (res.Result) {
                                             ShowSuccessThenReload(res.SuccessMessage);

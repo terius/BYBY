@@ -54,7 +54,8 @@ namespace BYBY.Services
 
                 cfg.CreateMap<ConsultationRoomListView, TBConsultationRoom>();
                 cfg.CreateMap<TBConsultationRoom, ConsultationRoomListView>().ForMember(d => d.Pic,
-           expression => expression.ResolveUsing(s => string.IsNullOrWhiteSpace(s.Pic) ? "/images/doctor.png" : s.Pic));
+           expression => expression.ResolveUsing(s => string.IsNullOrWhiteSpace(s.Pic) ? "/images/doctor.png" : s.Pic))
+           .ForMember(d => d.HospitalName,expression => expression.ResolveUsing(s => s.Hospital.Name));
 
                 cfg.CreateMap<TBDateSetup, DateSetupListView>().ForMember(d => d.STime,
      expression => expression.ResolveUsing(s => s.STime.ToString("HH:mm"))).ForMember(d => d.ETime,
@@ -62,7 +63,8 @@ namespace BYBY.Services
 
                 cfg.CreateMap<TBPlan, PlanView>()
                 .ForMember(d => d.DoctorName, expression => expression.ResolveUsing(s => s.Doctor.Name))
-                .ForMember(d => d.RoomName, expression => expression.ResolveUsing(s => s.Room.Name));
+                .ForMember(d => d.RoomName, expression => expression.ResolveUsing(s => s.Room.Name))
+                .ForMember(d => d.HospitalName, expression => expression.ResolveUsing(s => s.Room.Hospital.Name));
                 cfg.CreateMap<PlanView, TBPlan>();
             });
 

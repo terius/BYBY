@@ -9,6 +9,8 @@ namespace BYBY.Infrastructure
 
         public string title { get; set; }
 
+        public string parent { get; set; }
+
         public IList<SelectItem> children { get; set; }
     }
 }

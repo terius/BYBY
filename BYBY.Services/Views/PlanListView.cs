@@ -51,6 +51,8 @@ namespace BYBY.Services.Views
 
         public string RoomName { get; set; }
 
+        public string HospitalName { get; set; }
+
 
 
         public string DoctorName { get; set; }
