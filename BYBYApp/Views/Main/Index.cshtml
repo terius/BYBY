@@ -55,7 +55,7 @@
         </a>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 purple" href="#">
+        <a class="dashboard-stat dashboard-stat-v2 purple" href="@Url.Action("Plan","Hospital")">
             <div class="visual">
                 <i class="fa fa-calendar"></i>
             </div>
@@ -115,7 +115,7 @@
                         <td>{{index+1}}</td>
                         <td>{{info.STime}} - {{info.ETime}}</td>
                         <td v-for="planView in info.OneDayPlans">
-                            <span v-if="planView.Id !=0">{{planView.RoomName}} / {{planView.People}}</span>
+                            <span v-if="planView.Id !=0">{{planView.HospitalName}}/{{planView.RoomName}}<br>{{planView.People}}</span>
                         </td>
                     </tr>
                 </tbody>

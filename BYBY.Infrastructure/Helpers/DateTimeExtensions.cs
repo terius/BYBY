@@ -56,6 +56,8 @@ namespace BYBY.Infrastructure.Helpers
             return val.HasValue ? val.Value.ToString("yyyy-MM-dd") : "";
         }
 
+      
+
         public static DateTime GetBirthdayFromIDCard(this string idcard)
         {
             DateTime birthday = DateTime.Parse("1900-01-01");

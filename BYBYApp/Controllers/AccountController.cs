@@ -1,13 +1,12 @@
-﻿using BYBY.Infrastructure;
-using BYBY.Infrastructure.Helpers;
+﻿using BYBY.Infrastructure.Helpers;
 using BYBY.Infrastructure.Loger;
 using BYBY.Repository.Entities;
+using BYBY.Services;
 using BYBY.Services.Account;
 using BYBY.Services.Interfaces;
 using BYBY.Services.Response;
 using BYBYApp.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Infrastructure;
 using Microsoft.Owin.Security;
 using System;
@@ -100,6 +99,7 @@ namespace BYBYApp.Controllers
                 ticket.ExpiresUtc = currUtc.Add(TimeSpan.FromMinutes(30));
                 AuthenticationManager.SignIn(ticket, identity);
                 SaveRoleModuleToSession(user, loginModel.RoleName);
+                Session["LoginUserInfo"] = user.ConvertToLoginUserInfo();
                 Response.Cookies.Add(CreateAccountCookie(user, loginModel.RoleName));
 
                 //var request = new UserLoginRequest { UserName = loginModel.UserName, Password = loginModel.Password, RoleId = loginModel.RoleId };
@@ -120,7 +120,6 @@ namespace BYBYApp.Controllers
 
         private HttpCookie CreateAccountCookie(TBUser user, string roleName)
         {
-            Session["LoginUserInfo"] = ConvertToLoginUserInfo(user);
             HttpCookie accountCookies = new HttpCookie("AccountCookies");
             accountCookies.Values.Add("username", user.UserName);
             accountCookies.Values.Add("truename", user.Name);

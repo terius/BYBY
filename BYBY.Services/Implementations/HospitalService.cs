@@ -41,23 +41,24 @@ namespace BYBY.Services.Implementations
         }
 
 
-      
+
 
         /// <summary>
         /// 获取会诊室列表
         /// </summary>
         /// <returns></returns>
-        public async Task<IList<ConsultationRoomListView>> GetRoomList(int hosptitalId = 0)
+        public async Task<IList<ConsultationRoomListView>> GetRoomList()
         {
             IList<TBConsultationRoom> list;
-            if (hosptitalId == 0)
-            {
-                list = _roomRepository.GetDbQuerySet().OrderBy(d => d.HospitalId).ToList();
-            }
-            else
-            {
-                list = (await _roomRepository.FindAsync(d => d.HospitalId == hosptitalId)).OrderBy(d => d.HospitalId).ToList();
-            }
+            var hosptitalId = LoginUserInfo.HospitalId;
+            //if (hosptitalId == 0)
+            //{
+            //    list = _roomRepository.GetDbQuerySet().OrderBy(d => d.HospitalId).ToList();
+            //}
+            //else
+            //{
+            list = (await _roomRepository.FindAsync(d => d.HospitalId == hosptitalId)).OrderBy(d => d.HospitalId).ToList();
+            //  }
 
             var views = Mapper.Map<IList<ConsultationRoomListView>>(list);
             return views;
@@ -71,12 +72,12 @@ namespace BYBY.Services.Implementations
         /// <returns></returns>
         public async Task<EmptyResponse> AddRoom(AddRoomRequest request)
         {
-            bool exists = await CheckRoomNameExists(request.Name,request.HospitalId);
+            bool exists = await CheckRoomNameExists(request.Name, request.HospitalId);
             if (exists)
             {
                 return EmptyResponse.CreateError("诊室名称不能重复");
             }
-            var info = new TBConsultationRoom { Name = request.Name,HospitalId = request.HospitalId };
+            var info = new TBConsultationRoom { Name = request.Name, HospitalId = request.HospitalId };
             info.AddUserName = GetLoginUserName();
             await _roomRepository.InsertAsync(info);
             int rs = _unitOfWork.Commit();
@@ -87,16 +88,16 @@ namespace BYBY.Services.Implementations
             return rs > 0 ? EmptyResponse.CreateSuccess("新增成功") : EmptyResponse.CreateError("新增失败");
         }
 
-        private async Task<bool> CheckRoomNameExists(string name,int hospitalId, int id = 0)
+        private async Task<bool> CheckRoomNameExists(string name, int hospitalId, int id = 0)
         {
             if (id == 0)
             {
-                var icout = await _roomRepository.FindCount(d => d.Name == name && d.HospitalId == hospitalId);
+                var icout = await _roomRepository.FindCountAsync(d => d.Name == name && d.HospitalId == hospitalId);
                 return icout > 0;
             }
             else
             {
-                var icout = await _roomRepository.FindCount(d => d.Name == name && d.HospitalId == hospitalId && d.Id != id);
+                var icout = await _roomRepository.FindCountAsync(d => d.Name == name && d.HospitalId == hospitalId && d.Id != id);
                 return icout > 0;
             }
         }
@@ -108,7 +109,7 @@ namespace BYBY.Services.Implementations
         /// <returns></returns>
         public async Task<EmptyResponse> EditRoom(ConsultationRoomListView request)
         {
-            bool exists = await CheckRoomNameExists(request.Name,request.HospitalId, request.Id);
+            bool exists = await CheckRoomNameExists(request.Name, request.HospitalId, request.Id);
             if (exists)
             {
                 return EmptyResponse.CreateError("诊室名称不能重复");
@@ -171,9 +172,8 @@ namespace BYBY.Services.Implementations
 
         private async Task<bool> CheckDateSetupDup(DateTime stime, DateTime etime)
         {
-            var icount = await _dateRepository.FindCount(d => (d.ETime > stime && d.ETime <= etime)
-            || (d.STime >= stime && d.STime < etime) || (d.STime <= stime && d.ETime >= etime));
-            return icount > 0;
+            return await _dateRepository.ExistAsync(d => (d.ETime > stime && d.ETime <= etime)
+             || (d.STime >= stime && d.STime < etime) || (d.STime <= stime && d.ETime >= etime));
         }
 
         public async Task<EmptyResponse> DeleteDateSetup(OnlyHasIdRequest request)
@@ -250,6 +250,10 @@ namespace BYBY.Services.Implementations
                         planView.People = dataSetup.DefaultPeople;
                         planView.PlanDate = stepDate.ToString("yyyy-MM-dd HH:mm:ss");
                         planView.RoomId = request.RoomId;
+                        //if (request.DoctorId > 0)
+                        //{
+                        //    planView.DoctorId = request.DoctorId;
+                        //}
 
                     }
                     dataView.OneDayPlans.Add(planView);
@@ -275,16 +279,28 @@ namespace BYBY.Services.Implementations
             {
                 foreach (var planView in dataView.OneDayPlans)
                 {
+
                     if (planView.Id > 0)
                     {
+
                         info = await _planRepository.GetAsync(planView.Id);
                         info = Mapper.Map(planView, info);
-                        info.ModifyUserName = user;
-                        await _planRepository.UpdateAsync(info);
+                        if (planView.DoctorId > 0)
+                        {
+                            await CheckDoctorIsAlreadyPlan(info);
+                            info.ModifyUserName = user;
+                            await _planRepository.UpdateAsync(info);
+                        }
+                        else
+                        {
+                            await _planRepository.DeleteAsync(info);
+                        }
+
                     }
                     else if (planView.DoctorId > 0)
                     {
                         info = Mapper.Map<TBPlan>(planView);
+                        await CheckDoctorIsAlreadyPlan(info);
                         info.AddUserName = user;
                         await _planRepository.InsertAsync(info);
                     }
@@ -292,6 +308,48 @@ namespace BYBY.Services.Implementations
             }
             int rs = _unitOfWork.Commit();
             return rs > 0 ? EmptyResponse.CreateSuccess("保存成功") : EmptyResponse.CreateError("保存失败");
+        }
+
+        private async Task CheckDoctorIsAlreadyPlan(TBPlan plan)
+        {
+            TBPlan hasPlan = null;
+            if (plan.Id > 0)
+            {
+                //检查当前时段此会诊室是否已有排班
+                hasPlan = await _planRepository.FindSingleAsync(d => d.RoomId == plan.RoomId && d.STime == plan.STime && d.ETime == plan.ETime && d.Id != plan.Id);
+                if (hasPlan != null)
+                {
+                    throw new Exception(string.Format("会诊室：{0}在 {1} 到 {2} 时段已有医生：{3}排班，请重新设置排班",
+                        hasPlan.Room.Name, hasPlan.STime.ToDateTimeString(), hasPlan.ETime.ToDateTimeString(), hasPlan.Doctor.Name));
+                }
+
+                //检查此医生在当前时间段是否已有排班
+                hasPlan = await _planRepository.FindSingleAsync(d => d.DoctorId == plan.DoctorId && d.STime == plan.STime && d.ETime == plan.ETime && d.Id != plan.Id);
+                if (hasPlan != null)
+                {
+                    throw new Exception(string.Format("医生：{0}在 {1} 到 {2} 时段已有排班，请重新设置排班",
+                        hasPlan.Doctor.Name, hasPlan.STime.ToDateTimeString(), hasPlan.ETime.ToDateTimeString()));
+                }
+            }
+            else
+            {
+                //检查当前时段此会诊室是否已有排班
+                hasPlan = await _planRepository.FindSingleAsync(d => d.RoomId == plan.RoomId && d.STime == plan.STime && d.ETime == plan.ETime);
+                if (hasPlan != null)
+                {
+                    throw new Exception(string.Format("会诊室：{0}在 {1} 到 {2} 时段已有医生：{3}排班，请重新设置排班",
+                        hasPlan.Room.Name, hasPlan.STime.ToDateTimeString(), hasPlan.ETime.ToDateTimeString(), hasPlan.Doctor.Name));
+                }
+                //检查此医生在当前时间段是否已有排班
+                hasPlan = await _planRepository.FindSingleAsync(d => d.DoctorId == plan.DoctorId && d.STime == plan.STime && d.ETime == plan.ETime);
+                if (hasPlan != null)
+                {
+                    throw new Exception(string.Format("医生：{0}在 {1} 到 {2} 时段已有排班，请重新设置排班",
+                        hasPlan.Doctor.Name, hasPlan.STime.ToDateTimeString(), hasPlan.ETime.ToDateTimeString()));
+                }
+
+            }
+
         }
 
 

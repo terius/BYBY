@@ -16,7 +16,7 @@ namespace BYBY.Services.Interfaces
         /// 查询会诊室
         /// </summary>
         /// <returns></returns>
-        Task<IList<ConsultationRoomListView>> GetRoomList(int hosptitalId = 0);
+        Task<IList<ConsultationRoomListView>> GetRoomList();
 
         /// <summary>
         /// 新增会诊室

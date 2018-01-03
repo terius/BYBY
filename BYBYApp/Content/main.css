@@ -145,6 +145,7 @@ div {
 
 .top-menu {
     margin-top: 15px !important;
+    width: 250px;
 }
 
 .page-logo .logo {
@@ -159,8 +160,16 @@ div {
     display: none;
 }
 
-
-
+.center-title {
+    /*position:absolute;*/
+    display: inline-block;
+    text-align: center;
+    width: calc(100% - 490px);
+    line-height: 80px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #fff;
+}
 /*****************************************左侧菜单样式*****************************************/
 .page-sidebar .page-sidebar-menu > li > a > .arrow:before, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a > .arrow:before {
     top: 16px;
@@ -247,7 +256,7 @@ div {
     display: inline-block;
     font-size: 14px;
     line-height: 14px;
-    padding: 0;
+    padding: 0 0 0 10px;
 }
 
 @media (min-width: 768px) {
@@ -310,7 +319,9 @@ td.no-data {
     vertical-align: middle;
 }
 
-
+.portlet-body .table a > i {
+    padding-top: 5px;
+}
 
 
 .tb-detail-view {
@@ -791,8 +802,14 @@ td.no-data {
 
 /************************************************排班页面************************************************/
 .plan-table tr td {
-    font-size: 18px;
-    padding: 15px 4px !important;
+    font-size: 16px;
+    padding: 15px 2px !important;
+}
+
+.plan-table .chk {
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 .plan-table .select2-selection.select2-selection--single {

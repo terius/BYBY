@@ -32,6 +32,17 @@ namespace BYBY.Services.Implementations
             return response;
         }
 
+        public async Task<string> CreateUserReturnUserId(UserCreateRequest request)
+        {
+            var res = await CreateUserAsync(request);
+            if (res.Result)
+            {
+                var userInfo = await _userManager.FindByNameAsync(request.UserName);
+                return userInfo.Id;
+            }
+            return null;
+        }
+
         public async Task<EmptyResponse> UserLogin(UserLoginRequest request)
         {
             var response = new EmptyResponse();
@@ -74,6 +85,18 @@ namespace BYBY.Services.Implementations
                 }
             }
             return false;
+        }
+
+        public async Task UpdateUserNameAsync(string userId, string newUserName)
+        {
+            await _userManager.UpdateUserNameAsync(userId, newUserName);
+
+        }
+
+        public async Task<IdentityResult> DeleteUserAsync(string userId)
+        {
+            return await _userManager.DeleteByUserIdAsync(userId);
+
         }
     }
 }

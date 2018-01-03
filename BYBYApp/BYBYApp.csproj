@@ -216,7 +216,6 @@
     <Compile Include="Models\ReferralListModel.cs" />
     <Compile Include="Models\ConsultationListModel.cs" />
     <Compile Include="Models\DataTablesEntity.cs" />
-    <Compile Include="Models\LoginUserInfo.cs" />
     <Compile Include="Models\MedicalHistoryAddModel.cs" />
     <Compile Include="Models\MedicalHistoryListModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -249,6 +248,7 @@
     <Content Include="images\logo.png" />
     <Content Include="images\male.png" />
     <Content Include="images\patient.png" />
+    <Content Include="images\room.png" />
     <Content Include="images\sort_asc.png" />
     <Content Include="images\sort_both.png" />
     <Content Include="images\sort_desc.png" />

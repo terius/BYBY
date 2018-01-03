@@ -10,5 +10,11 @@ namespace BYBY.Services.Interfaces
         Task<EmptyResponse> CreateUserAsync(UserCreateRequest request);
 
         Task<EmptyResponse> UserLogin(UserLoginRequest request);
+
+        Task<string> CreateUserReturnUserId(UserCreateRequest request);
+
+        Task UpdateUserNameAsync(string userId, string newUserName);
+
+        Task<IdentityResult> DeleteUserAsync(string userId);
     }
 }

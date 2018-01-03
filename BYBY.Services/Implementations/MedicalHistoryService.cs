@@ -168,7 +168,7 @@ namespace BYBY.Services.Implementations
 
         private async Task<string> GetMedicalDetailTitle(int patientId)
         {
-            var icount = await _medicalDetailRepository.FindCount(d => d.PatientId == patientId);
+            var icount = await _medicalDetailRepository.FindCountAsync(d => d.PatientId == patientId);
             return icount <= 0 ? "初诊病历" : ("复诊病历" + icount);
         }
 

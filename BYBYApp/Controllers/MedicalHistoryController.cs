@@ -1,8 +1,10 @@
 ﻿using BYBY.Cache;
+using BYBY.Infrastructure;
 using BYBY.Services.Interfaces;
 using BYBY.Services.Request;
 using BYBYApp.Models;
-using System.IO;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -57,6 +59,7 @@ namespace BYBYApp.Controllers
             model.EthnicList = await GetCacheAsync(CacheKeys.Ethnic, true);
             model.AddModel.FemaleNation = model.AddModel.MaleNation = DefaultChinaId;
             model.AddModel.FemaleEthnic = model.AddModel.MaleEthnic = DefaultEthnicId;
+            model.AddModel.FemaleCardType = model.AddModel.MaleCardType = (CardType)(Convert.ToInt32(model.CardTypeList.First(d => d.text == "身份证").id));
             return View(model);
         }
 
@@ -78,7 +81,7 @@ namespace BYBYApp.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<ActionResult> Detail(int id,int? tab)
+        public async Task<ActionResult> Detail(int id, int? tab)
         {
             ViewBag.TabId = tab;
             var model = await _medicalHistoryService.GetDetailModel(id);

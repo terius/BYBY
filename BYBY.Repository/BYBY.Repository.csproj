@@ -311,6 +311,18 @@
     <Compile Include="Migrations\201801011110410_TBConsultationRoomAddHospitalId2.Designer.cs">
       <DependentUpon>201801011110410_TBConsultationRoomAddHospitalId2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801021043321_TBDoctorRemoveUserIdRequired.cs" />
+    <Compile Include="Migrations\201801021043321_TBDoctorRemoveUserIdRequired.Designer.cs">
+      <DependentUpon>201801021043321_TBDoctorRemoveUserIdRequired.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801021412306_DoctorAddColumns.cs" />
+    <Compile Include="Migrations\201801021412306_DoctorAddColumns.Designer.cs">
+      <DependentUpon>201801021412306_DoctorAddColumns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801030411013_TBUserAddHospitalId.cs" />
+    <Compile Include="Migrations\201801030411013_TBUserAddHospitalId.Designer.cs">
+      <DependentUpon>201801030411013_TBUserAddHospitalId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -495,6 +507,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801011110410_TBConsultationRoomAddHospitalId2.resx">
       <DependentUpon>201801011110410_TBConsultationRoomAddHospitalId2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801021043321_TBDoctorRemoveUserIdRequired.resx">
+      <DependentUpon>201801021043321_TBDoctorRemoveUserIdRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801021412306_DoctorAddColumns.resx">
+      <DependentUpon>201801021412306_DoctorAddColumns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801030411013_TBUserAddHospitalId.resx">
+      <DependentUpon>201801030411013_TBUserAddHospitalId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

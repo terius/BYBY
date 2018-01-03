@@ -38,9 +38,15 @@ namespace BYBY.Repository.Repositories
             return Task.FromResult(GetDbQuerySet().Where(predicate));
         }
 
-        public virtual Task<int> FindCount(Expression<Func<T, bool>> predicate)
+        public virtual Task<int> FindCountAsync(Expression<Func<T, bool>> predicate)
         {
             return Task.FromResult(GetDbQuerySet().Where(predicate).Count());
+
+        }
+
+        public virtual Task<bool> ExistAsync(Expression<Func<T, bool>> predicate)
+        {
+            return Task.FromResult(GetDbQuerySet().Where(predicate).Count() > 0);
 
         }
 

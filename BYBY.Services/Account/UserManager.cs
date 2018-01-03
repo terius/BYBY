@@ -34,7 +34,7 @@ namespace BYBY.Services.Account
             user.Password = new PasswordHasher().HashPassword(defaultPwd);
             user.UserName = request.UserName;
             user.Name = request.Name;
-          //  user.Id = Guid.NewGuid().ToString();
+            //  user.Id = Guid.NewGuid().ToString();
             var result = await CreateAsync(user);
             // newUserId = user.Id;
             if (result.Succeeded)
@@ -63,6 +63,16 @@ namespace BYBY.Services.Account
             }
         }
 
+        public async Task UpdateUserNameAsync(string userId, string newUserName)
+        {
+            var userInfo = await FindByIdAsync(userId);
+            if (userInfo != null && !userInfo.UserName.Equals(newUserName))
+            {
+                userInfo.UserName = newUserName;
+                await UpdateAsync(userInfo);
+            }
+        }
+
 
 
         public bool CheckPasswordByUserName(string userName, string password)
@@ -75,6 +85,12 @@ namespace BYBY.Services.Account
         {
             var user = this.FindByName(userName);
             return this.Delete(user);
+        }
+
+        public async Task<IdentityResult> DeleteByUserIdAsync(string userId)
+        {
+            var user = await FindByIdAsync(userId);
+            return await DeleteAsync(user);
         }
 
         public async Task<IEnumerable<TBUser>> GetAllUsers()

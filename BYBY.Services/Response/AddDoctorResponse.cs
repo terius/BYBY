@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BYBY.Services.Request
+namespace BYBY.Services.Response
 {
-    public class QueryDoctorRequest : PageQueryRequest
+    public class AddDoctorResponse : ResponseBase
     {
-        public string SearchKey { get; set; }
+        public int Id { get; set; }
     }
 }

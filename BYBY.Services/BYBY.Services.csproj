@@ -131,6 +131,8 @@
     <Compile Include="Request\PageQueryRequest.cs" />
     <Compile Include="Request\UserLoginRequest.cs" />
     <Compile Include="Request\UserCreateRequest.cs" />
+    <Compile Include="Response\EditDoctorResponse.cs" />
+    <Compile Include="Response\AddDoctorResponse.cs" />
     <Compile Include="Response\PagedData.cs" />
     <Compile Include="Response\LoginResponse.cs" />
     <Compile Include="Response\MedicalHistoryResponse.cs" />
@@ -140,6 +142,7 @@
     <Compile Include="Views\ConsultationRoomListView.cs" />
     <Compile Include="Views\DateSetupListView.cs" />
     <Compile Include="Views\DoctorListView.cs" />
+    <Compile Include="Views\LoginUserInfo.cs" />
     <Compile Include="Views\MedicineListView.cs" />
     <Compile Include="Views\PlanListView.cs" />
     <Compile Include="Views\ReferralListView.cs" />

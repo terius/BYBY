@@ -205,7 +205,7 @@ namespace BYBY.Services
             return val == null ? "" : val.ToString();
         }
 
-      
+
 
         /// <summary>
         /// 根据枚举得到描述信息
@@ -442,15 +442,58 @@ namespace BYBY.Services
             {
                 view = new DoctorListView();
                 view.Age = item.Birthday.GetAge();
-                view.Hospital = item.Hospital.Name;
+                view.HospitalName = item.Hospital.Name;
                 view.IsMasterDoctor = item.IsMasterDoctor ? "是" : "否";
                 view.JobTitle = item.JobTitle;
                 view.Name = item.Name;
-                view.Sex = item.Sex.GetEnumDescription();
+                view.SexText = item.Sex.GetEnumDescription();
                 view.Id = item.Id;
+                view.Address = item.Address;
+                view.Birthday = item.Birthday.ToDateString();
+                view.HospitalId = item.HospitalId;
+                view.ImageUrl = item.ImageUrl;
+                view.Phone = item.Phone;
+                view.Remark = item.Remark;
+                view.Sex = item.Sex;
+                view.UserName = string.IsNullOrWhiteSpace(item.UserId) ? "" : item.User.UserName;
+                view.UserId = item.UserId;
                 views.Add(view);
             }
             return views;
+        }
+
+
+        public static LoginUserInfo ConvertToLoginUserInfo(this TBUser user)
+        {
+            var login = new LoginUserInfo();
+            login.Id = user.Id;
+            login.IsMasterDoctor = user.IsMasterDoctor;
+            login.IsChildDoctor = user.IsChildDoctor;
+            login.Name = user.Name;
+            login.RoleName = GetRoleTypeByRoleName(user.RoleName);
+            login.UserName = user.UserName;
+            login.DoctorId = user.DoctorId;
+            login.HospitalId = user.HospitalId.HasValue ? user.HospitalId.Value : 0;
+            return login;
+        }
+
+        private static RoleType GetRoleTypeByRoleName(string roleName)
+        {
+            roleName = roleName.ToLower();
+            switch (roleName)
+            {
+                case "patient":
+                    return RoleType.patient;
+                case "doctor":
+                    return RoleType.doctor;
+                case "customerservice":
+                    return RoleType.customerservice;
+                case "admin":
+                    return RoleType.admin;
+                default:
+                    break;
+            }
+            throw new Exception("角色错误");
         }
     }
 }

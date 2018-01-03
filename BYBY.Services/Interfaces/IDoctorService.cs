@@ -32,6 +32,14 @@ namespace BYBY.Services.Interfaces
         Task<PagedData<DoctorListView>> GetDoctorList(QueryDoctorRequest request);
 
 
+        Task<AddDoctorResponse> AddDoctor(DoctorListView request);
+
+        Task<EditDoctorResponse> EditDoctor(DoctorListView request);
+
+
+        Task<EmptyResponse> DeleteDoctor(OnlyHasIdRequest request);
+
+        Task<EmptyResponse> SaveDoctorImage(int Id, string url);
 
     }
 }

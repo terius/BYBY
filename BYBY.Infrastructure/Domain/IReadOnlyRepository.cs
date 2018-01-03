@@ -14,7 +14,9 @@ namespace BYBY.Infrastructure.Domain
         Task<T> FindSingleAsync(Expression<Func<T, bool>> predicate);
         Task<IQueryable<T>> FindAsync(Expression<Func<T, bool>> predicate);
 
-        Task<int> FindCount(Expression<Func<T, bool>> predicate);
+        Task<int> FindCountAsync(Expression<Func<T, bool>> predicate);
+
+        Task<bool> ExistAsync(Expression<Func<T, bool>> predicate);
 
     }
 }

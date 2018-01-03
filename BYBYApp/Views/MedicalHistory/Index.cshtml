@@ -47,11 +47,12 @@
                 </div>
             </div>
         </div>
-        <div class="myactions" >
-            <a href="@Url.Action("AddNew","MedicalHistory")" class="btn blue btn-outline">
+        <div class="myactions">
+            <a href="@Url.Action("AddNew", "MedicalHistory")" class="btn blue btn-outline">
                 <i class="fa fa-plus"></i> 新增患者
             </a>
         </div>
+
     </div>
     <div class="portlet-body" id="tableshow">
         <table class="table  table-bordered" id="query-table" v-cloak>
@@ -93,12 +94,11 @@
                         <td><span class="font-blue">{{info.ReferralStatus}}</span></td>
                         <td>{{info.Addtime}}</td>
                         <td>
-                            <div style="padding-top:5px">
-                                <a :href="'/MedicalHistory/Detail/' + info.Id" class="margin-right-10"><i class="fa fa-2x fa-file-text-o tooltips" data-container="body" data-placement="top" data-original-title="病历详细"></i></a>
-                                <a href="javascript:;" class="margin-right-10" v-on:click="showConsultation(info.ConsultationStatus,info.Id)"><i class="fa fa-2x fa-stethoscope tooltips" data-container="body" data-placement="top" data-original-title="会诊"></i></a>
-                                <a href="javascript:;" class="margin-right-10" v-on:click="showReferral(info.ReferralStatus,info.Id)"><i class="fa fa-2x fa-ambulance tooltips" data-container="body" data-placement="top" data-original-title="转诊"></i></a>
-                                <a href="javascript:;" v-on:click="deletemh(info.ConsultationStatus,info.ReferralStatus,info.Id)"><i class="fa fa-2x fa-remove tooltips" data-container="body" data-placement="top" data-original-title="删除"></i></a>
-                            </div>
+                            <a :href="'/MedicalHistory/Detail/' + info.Id" class="margin-right-10"><i class="fa fa-2x fa-file-text-o tooltips" data-container="body" data-placement="top" data-original-title="病历详细"></i></a>
+                            <a href="javascript:;" class="margin-right-10" v-on:click="showConsultation(info.ConsultationStatus,info.Id)"><i class="fa fa-2x fa-stethoscope tooltips" data-container="body" data-placement="top" data-original-title="会诊"></i></a>
+                            <a href="javascript:;" class="margin-right-10" v-on:click="showReferral(info.ReferralStatus,info.Id)"><i class="fa fa-2x fa-ambulance tooltips" data-container="body" data-placement="top" data-original-title="转诊"></i></a>
+                            <a href="javascript:;" v-on:click="deletemh(info.ConsultationStatus,info.ReferralStatus,info.Id)"><i class="fa fa-2x fa-remove tooltips" data-container="body" data-placement="top" data-original-title="删除"></i></a>
+
                         </td>
                     </tr>
                     <tr class="tb-detail-view">

@@ -1,4 +1,4 @@
-﻿@model IList<BYBY.Services.Views.DateSetupListView>
+﻿@model BYBY.Services.Models.DoctorListModel
 @{
     ViewBag.Title = "医生管理";
 }
@@ -16,35 +16,51 @@
     <div class="portlet-title">
         <div class="querycontent">
             <div class="form-inline" id="query-content">
-                @*<div class="form-group">
-                        <button type="button" class="btn blue btn-outline" id="btn-add">
-                            <i class="fa fa-plus"></i> 新增医生
-                        </button>
-                    </div>*@
+                <div class="form-group">
+                    <label for="search-key">姓名或用户名：</label>
+                    <input type="text" class="form-control" id="search-key" maxlength="20">
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn blue btn-outline margin-left-20" id="btn-query">
+                        <i class="fa fa-search"></i> 查询
+                    </button>
+                </div>
             </div>
+        </div>
+        <div class="myactions">
+            <button type="button" class="btn blue btn-outline" id="btn-add">
+                <i class="fa fa-plus"></i> 新增医生
+            </button>
         </div>
 
     </div>
     <div class="portlet-body">
-        <table class="table  table-bordered date-set-table" id="query-table" v-cloak>
+        <table class="table  table-bordered" id="query-table" v-cloak>
             <thead>
                 <tr>
                     <th>序号</th>
+                    <th>登录用户名</th>
                     <th>姓名</th>
                     <th>性别</th>
                     <th>年龄</th>
                     <th>职称</th>
                     <th>所属医院</th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(info,index) in datas.Data">
                     <td>{{index+1}}</td>
+                    <td>{{info.UserName}}</td>
                     <td>{{info.Name}}</td>
-                    <td>{{info.Sex}}</td>
+                    <td>{{info.SexText}}</td>
                     <td>{{info.Age}}</td>
                     <td>{{info.JobTitle}}</td>
-                    <td>{{info.Hospital}}</td>
+                    <td>{{info.HospitalName}}</td>
+                    <td>
+                        <a href="javascript:;" class="margin-right-10" v-on:click="showEdit(info)"><i class="fa fa-2x fa-edit tooltips" data-container="body" data-placement="top" data-original-title="编辑医生"></i></a>
+                        <a href="javascript:;" v-on:click="showDelete(info.Id)"><i class="fa fa-2x fa-remove tooltips" data-container="body" data-placement="top" data-original-title="删除医生"></i></a>
+                    </td>
                 </tr>
 
             </tbody>
@@ -59,25 +75,91 @@
     <v-modal v-cloak v-bind:tinfo="modalinfo">
         <div class="row">
             <div class="col-md-12">
-                <form method="post" action="@Url.Action("AddDateSetup","Hospital")" id="save-form">
+                <form method="post" action="@Url.Action("AddDoctor","Hospital")" id="save-form">
                     @Html.AntiForgeryToken()
+                    <input id="Id" name="Id" type="hidden" :value="addinfo.Id" />
+                    <input id="UserId" name="UserId" type="hidden" :value="addinfo.UserId" />
+                    <input id="ImageUrl" name="ImageUrl" type="hidden" :value="addinfo.ImageUrl" />
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <label class="control-label col-xs-3">开始时段</label>
+                            <label class="control-label col-xs-3">登录用户名<span class="requiredspan">*</span></label>
                             <div class="col-xs-6">
-                                <input type="text" id="STime" name="STime" class="form-control timepicker timepicker-24 w300 required" :value="addinfo.STime">
+                                <input type="text" name="UserName" class="form-control required w300" :value="addinfo.UserName">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-xs-3">结束时段</label>
+                            <label class="control-label col-xs-3">姓名<span class="requiredspan">*</span></label>
                             <div class="col-xs-6">
-                                <input type="text" id="ETime" name="ETime" class="form-control timepicker timepicker-24 w300 required" :value="addinfo.STime">
+                                <input type="text" name="Name" class="form-control required w300" :value="addinfo.Name">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-xs-3">默认会诊人数</label>
+                            <label class="control-label col-xs-3">性别</label>
                             <div class="col-xs-6">
-                                <input type="text" name="DefaultPeople" class="form-control  w300 required">
+                                <div class="input-group">
+                                    <div class="icheck-inline">
+                                        <label>
+                                            <input type="radio" id="sexman" name="SelectSex" class="icheckBlue" value="2" checked>
+                                            男
+                                        </label>
+                                        <label>
+                                            <input type="radio" id="sexwoman" name="SelectSex" class="icheckBlue" value="1">
+                                            女
+                                        </label>
+                                        <input id="Sex" name="Sex" type="hidden" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">出生日期<span class="requiredspan">*</span></label>
+                            <div class="col-xs-6">
+                                <date-picker-simple id="Birthday" class="w300 required" defaultDate="1980-01-01" :value="addinfo.Birthday"></date-picker-simple>
+                                @*<input type="text" id="Birthday" name="Birthday" class="form-control w300" :value="addinfo.Birthday">*@
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">联系电话</label>
+                            <div class="col-xs-6">
+                                <input type="text" id="Phone" name="Phone" class="form-control w300" :value="addinfo.Phone">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">联系地址</label>
+                            <div class="col-xs-6">
+                                <input type="text" name="Address" class="form-control  w300" :value="addinfo.Address">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">所属医院</label>
+                            <div class="col-xs-6">
+                                <select2 id="HospitalId" class="w300" data-placeholder="--请选择医院--" :value="addinfo.HospitalId" :options="HospitalList">
+                                </select2>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">职称</label>
+                            <div class="col-xs-6">
+                                <input type="text" name="JobTitle" class="form-control  w300" :value="addinfo.JobTitle">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">医生介绍</label>
+                            <div class="col-xs-6">
+                                <textarea id="Remark" name="Remark" class="form-control w300" rows="4" cols="20" :value="addinfo.Remark"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">头像</label>
+                            <div class="col-xs-6">
+                                <div id="uploadfile">
+                                    <span class="btn green fileinput-button">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                        <span>选择文件</span>
+                                        <input type="file" name="upfile1" accept="image/*" id="upfile1">
+                                    </span>
+                                    <ul class="ul-img-list" id="upimages"></ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -91,58 +173,145 @@
 @{ Html.RenderPartial("_Paginator");}
 @section styles
 {
-    @System.Web.Optimization.Styles.Render("~/bundles/css/timepicker")
+    @System.Web.Optimization.Styles.Render("~/bundles/css/datepicker")
+    @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
+    @System.Web.Optimization.Styles.Render("~/bundles/css/icheck")
+    @System.Web.Optimization.Styles.Render("~/bundles/css/jqfileupload")
 }
 
 @section pagejs
 {
-    @System.Web.Optimization.Scripts.Render("~/bundles/js/timepicker")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/datepicker")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/select2")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/icheck")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
     <script>
-        $(function () {
-           var allData =  @Html.RenderAsJson(Model);
-           var vuetable = null;
+    $(function () {
+        /**/
+        var allData =  @Html.RenderAsJson(Model);
+    /**/
+    var vuetable = null;
+    var addForm = null;
+    var addModal = null;
+    Vue.component('v-page', {
+        template: "#vuetmp-paginator",
+        props: ["page"]
+    });
 
 
-            var search = function (pageIndex, sortIndex, sortType) {
-                var para = {};
-                para.PageIndex = pageIndex || 1;
-                para.SortIndex = sortIndex || -1;
-                para.SortType = sortType || 0;
-              //  para.SearchKey = $("#search-key").val();
-                com.ajaxquery("/Hospital/QueryDoctor", para).then(function (mydata) {
-                    mydata.query = function (pageIndex, sortIndex, sortType) {
-                        search(pageIndex, sortIndex, sortType);
+    var search = function (pageIndex, sortIndex, sortType) {
+        var para = {};
+        para.PageIndex = pageIndex || 1;
+        para.SortIndex = sortIndex || -1;
+        para.SortType = sortType || 0;
+        para.SearchKey = $("#search-key").val();
+        com.ajaxquery("/Hospital/QueryDoctor", para).then(function (mydata) {
+            mydata.query = function (pageIndex, sortIndex, sortType) {
+                search(pageIndex, sortIndex, sortType);
+            }
+              com.showLog(mydata);
+            if (vuetable == null) {
+                vuetable = new Vue({
+                    el: '#query-table',
+                    data: {
+                        datas: mydata
+                    },
+                    mounted: function () {
+                        $('.tooltips').tooltip();
+                        //  App.initSlimScroll('#tableshow');
+                    },
+                    methods: {
+                        showEdit: function (editInfo) {
+                            vueadd.modalinfo.title = "编辑医生";
+                            vueadd.addinfo = editInfo;
+                            com.showLog(editInfo, "编辑数据");
+                            com.loadImage("#uploadfile", "upfile1", editInfo.ImageUrl,"ImageUrl");
+                            addForm.attr("action", "/Hospital/EditDoctor");
+                            addModal.modal('show');
+                        },
+                        showDelete: function (id) {
+                            com.confirm("是否要删除此医生？", function () {
+                                com.ajaxquery("/Hospital/DeleteDoctor", { Id: id }).then(function (res) {
+                                    if (res.Result) {
+                                        ShowSuccessThenReload(res.SuccessMessage);
+                                    }
+                                    else {
+                                        ShowErrorMessage(res.ErrorMessage);
+                                    }
+                                });
+
+                            });
+                        }
+
+
+
                     }
-                    //  com.showLog(mydata);
-                    if (vuetable == null) {
-                        vuetable = new Vue({
-                            el: '#query-table',
-                            data: {
-                                datas: mydata
-                            },
-                            mounted: function () {
-                                $('.tooltips').tooltip();
-                                //  App.initSlimScroll('#tableshow');
-                            },
-                            methods: {
-                            
-                              
-                              
-                              
-                            }
-                        })
+                })
+            }
+            else {
+                vuetable.datas = mydata;
+            }
+        });
+    };
+
+
+    var vueadd = new Vue({
+        el: '#modal-add',
+        data: {
+            modalinfo: {
+                id: "modeladdnew",
+                title: "新增医生",
+                data: {}
+
+            },
+            addinfo: {},
+            HospitalList: allData.HospitalList,
+            selectsex: 1
+
+        },
+        mounted: function () {
+            addForm = $("#save-form");
+            addModal = $("#modeladdnew");
+
+            addForm.validateForm();
+            $('#uploadfile').myUploadImage({ isSingle: true });
+          //  com.singleImage("#uploadfile");
+            com.handleiCheck();
+        },
+        methods: {
+            save: function () {
+                var sex = document.getElementById("sexman").checked ? 1 : 2;
+                $("#Sex").val(sex);
+                com.jqFormOption.success = function (res) {
+                    if (res.Result) {
+                        ShowSuccessThenReload(res.SuccessMessage);
                     }
                     else {
-                        vuetable.datas = mydata;
+                        ShowErrorMessage(res.ErrorMessage);
                     }
-                });
-            };
-            /*******************************初始执行方法***********************************/
+                };
+                addForm.ajaxSubmit(com.jqFormOption);
+            }
+        }
 
-            search();
-        });
+    });
+
+
+    $("#btn-query").on("click", function () {
+        search();
+    });
+
+    $("#btn-add").on("click", function () {
+        vueadd.modalinfo.title = "新增医生";
+        addForm.attr("action", "/Hospital/AddDoctor");
+        vueadd.addinfo = {};
+        addModal.modal('show');
+    })
+    /*******************************初始执行方法***********************************/
+
+    search();
+});
     </script>
 }
 

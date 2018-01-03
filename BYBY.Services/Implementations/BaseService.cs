@@ -3,13 +3,14 @@ using BYBY.Services.Account;
 using BYBY.Services.Interfaces;
 using BYBY.Services.Request;
 using BYBY.Services.Response;
+using BYBY.Services.Views;
 using Microsoft.AspNet.Identity;
 using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using System.Web;
 
 namespace BYBY.Services.Implementations
 {
@@ -87,7 +88,29 @@ namespace BYBY.Services.Implementations
         public async Task<int> GetDoctorMasterHospitalId()
         {
             var userInfo = await GetLoginInfoAsync();
-            return userInfo.DoctorMasterHospitalId;
+            return userInfo.MasterHospitalId;
+        }
+
+        //public async Task<int> GetLoginUserHospitalId()
+        //{
+        //    var userInfo = await GetLoginInfoAsync();
+        //    return userInfo.ho;
+        //}
+
+        public LoginUserInfo LoginUserInfo
+        {
+            get
+            {
+                var login = HttpContext.Current.Session["LoginUserInfo"] as LoginUserInfo;
+                if (login == null)
+                {
+                    var user = GetLoginInfoAsync().Result;
+                    login = user.ConvertToLoginUserInfo();
+                    HttpContext.Current.Session["LoginUserInfo"] = login;
+
+                }
+                return login;
+            }
         }
 
         /// <summary>
@@ -108,7 +131,7 @@ namespace BYBY.Services.Implementations
         }
 
 
-      
+
 
     }
 

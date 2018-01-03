@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <div class="portlet-title">
+    <div class="portlet-title" id="top-action">
         <div class="querycontent">
             <div class="form-inline" id="query-content">
                 <div class="form-group margin-right-10">
@@ -41,7 +41,12 @@
                 </div>
             </div>
         </div>
-
+        <div class="myactions">
+            <button type="button" class="btn blue btn-outline margin-right-20" id="btn-edit" v-on:click="showEdit()">
+                <span v-if="editmodel==0">编辑</span>
+                <span v-else>取消编辑</span>
+            </button>
+        </div>
     </div>
     <div class="portlet-body">
         <table class="table  table-bordered plan-table" id="query-table" v-cloak>
@@ -54,16 +59,17 @@
             </thead>
             <tbody>
                 <tr v-for="(info,index) in list.DateViews">
-                    <td>{{index+1}}</td>
-                    <td>{{info.STime}} - {{info.ETime}}</td>
-                    <td v-for="planView in info.OneDayPlans">
-                        <span v-if="planView.Id !=0 && editmodel==0">{{planView.DoctorName}}/{{planView.People}}</span>
+                    <td style="width:50px">{{index+1}}</td>
+                    <td style="width:120px">{{info.STime}} - {{info.ETime}}</td>
+                    <td v-for="planView in info.OneDayPlans" style="position:relative">
+                        <span v-if="planView.Id !=0 && editmodel==0">{{planView.HospitalName}}/{{planView.RoomName}}<br>{{planView.DoctorName}}/{{planView.People}}</span>
                         <div v-if="editmodel==1">
                             <select2 id="DoctorId" class="w150" data-placeholder="无" v-model="planView.DoctorId" :options="DoctorList">
                             </select2>
                             <input type="text" name="People" placeholder="会诊人数" v-model="planView.People" style="width:150px;margin-top:10px" class="form-control">
 
                         </div>
+
                     </td>
                 </tr>
 
@@ -71,10 +77,7 @@
             <tfoot>
                 <tr>
                     <td colspan="10" class="action">
-                        <button type="button" class="btn blue btn-outline margin-right-20" id="btn-edit" v-on:click="showEdit()">
-                            <span v-if="editmodel==0">编辑</span>
-                            <span v-else>取消编辑</span>
-                        </button>
+
                         <button type="button" class="btn blue btn-outline" v-if="editmodel==1" id="btn-save" v-on:click="save()">
                             保存
                         </button>
@@ -106,57 +109,6 @@
             var dateSelect = null;
             var allData = @Html.RenderAsJson(Model);
 
-            var vuequery = new Vue({
-                el: '#select-content',
-                data: {
-                    HospitalList: allData.HospitalList,
-                    RoomList: allData.RoomList,
-                    DoctorList: allData.DoctorList
-                },
-                mounted: function () {
-                    $("#SelectRoom").val(allData.RoomList[0].id).trigger('change');
-                    var vm = this;
-                    $("#SelectHospital").on("change", function () {
-                        var selectHid = $(this).val();
-                       // alert(selectHid);
-                        if (!selectHid) {
-                            vm.RoomList = allData.RoomList;
-                            vm.DoctorList = allData.DoctorList;
-                            vm.RoomList.splice(0, 0, { id: "", text: "" }); 
-                            vm.DoctorList.splice(0, 0, { id: "", text: "" }); 
-                            return;
-                        }
-                        var selectRooms = [];
-                        selectRooms.push({ id: "", text: "" });
-                        for (var i = 0; i < allData.RoomList.length; i++) {
-                            if (allData.RoomList[i].parent == selectHid) {
-                                selectRooms.push(allData.RoomList[i]);
-                            }
-                        }
-                        vm.RoomList = selectRooms;
-                     //   $("#SelectRoom").val("").trigger('change');
-
-
-                        var selectDoctors = [];
-                        selectDoctors.push({id:"",text:""});
-                        for (var i = 0; i < allData.DoctorList.length; i++) {
-                            if (allData.DoctorList[i].parent == selectHid) {
-                                selectDoctors.push(allData.DoctorList[i]);
-                            }
-                        }
-                        vm.DoctorList = selectDoctors;
-                       // $("#SelectDoctor").val("").trigger('change');
-
-                    });
-                    $("#SelectDoctor").on("change", function () {
-                       // selectDoctor = $(this).val();
-                       // $("[name='DoctorId']").val(selectDoctorId).trigger('change');
-                    });
-                },
-                methods: {
-                }
-
-            })
           //   com.showLog(allData,"默认")
 
 
@@ -171,6 +123,7 @@
                 para.WeekSelect = weekSelect;
                 para.DateSelect = dateSelect;
                 para.RoomId = roomId;
+                para.DoctorId = $("#SelectDoctor").val();
                 com.showLog(para,"查询参数");
                 com.ajaxquery("/Hospital/QueryPlan", para).then(function (mydata) {
 
@@ -181,24 +134,14 @@
                             data: {
                                 list: mydata,
                                 editmodel: 0,
-                                DoctorList: allData.DoctorList
+                                DoctorList: allData.DoctorList,
+                                selectDoctor: para.DoctorId
                             },
                             mounted: function () {
 
                             },
                             methods: {
-                                showEdit: function () {
-                                    var selectRoom = $("#SelectRoom").val();
-                                    alert(selectRoom)
-                                    return;
 
-                                    if (vuetable.editmodel == 0) {
-                                        vuetable.editmodel = 1;
-                                    }
-                                    else {
-                                        vuetable.editmodel = 0;
-                                    }
-                                },
                                 save: function () {
 
                                     com.ajaxquery("/Hospital/SavePlan", this.list.DateViews).then(function (res) {
@@ -217,11 +160,84 @@
                     else {
                         vuetable.list = mydata;
                         dateSelect = mydata.DateSelect;
+                        vuetable.selectDoctor = para.DoctorId;
+
                     }
                 });
             };
 
+            var vuequery = new Vue({
+                el: '#top-action',
+                data: {
+                    HospitalList: allData.HospitalList,
+                    RoomList: allData.RoomList,
+                    DoctorList: allData.DoctorList,
+                    editmodel: 0
+                },
+                mounted: function () {
 
+                    var vm = this;
+                    $("#SelectHospital").on("change", function () {
+                        var selectHid = $(this).val();
+                        // alert(selectHid);
+                        if (!selectHid) {
+                            vm.RoomList = allData.RoomList;
+                            vm.DoctorList = allData.DoctorList;
+                            vm.RoomList.splice(0, 0, { id: "", text: "",parent:"" });
+                            vm.DoctorList.splice(0, 0, { id: "", text: "", parent: "" });
+                            return;
+                        }
+
+                      //  $("#SelectRoom").val("").trigger('change');
+                        var selectRooms = [];
+                        selectRooms.push({ id: "", text: "", parent: "" });
+                        for (var i = 0; i < allData.RoomList.length; i++) {
+                            if (allData.RoomList[i].parent == selectHid) {
+                                selectRooms.push(allData.RoomList[i]);
+                            }
+                        }
+                        vm.RoomList = selectRooms;
+                      //  $("#SelectRoom").val(null).trigger('change');
+
+
+                        var selectDoctors = [];
+                        selectDoctors.push({ id: "", text: "", parent: "" });
+                        for (var i = 0; i < allData.DoctorList.length; i++) {
+                            if (allData.DoctorList[i].parent == selectHid) {
+                                selectDoctors.push(allData.DoctorList[i]);
+                            }
+                        }
+                        vm.DoctorList = selectDoctors;
+                        // $("#SelectDoctor").val("").trigger('change');
+
+                    });
+                    $("#SelectRoom,#SelectDoctor").on("change", function () {
+                        search(3);
+                    });
+                  //  $("#SelectHospital").val(allData.HospitalList[0].id).trigger('change');
+                    $("#SelectRoom").val(allData.RoomList[0].id).trigger('change');
+                },
+                methods: {
+                    showEdit: function () {
+                        var roomId = $("#SelectRoom").val();
+                        if (!roomId) {
+                            ShowLayerAlert("请先选择会诊室");
+                            return;
+                        }
+
+                        if (vuequery.editmodel == 0) {
+                            vuequery.editmodel = vuetable.editmodel= 1;
+
+                            com.setDisabled("#query-content", true);
+                        }
+                        else {
+                            vuequery.editmodel = vuetable.editmodel = 0;
+                            com.setDisabled("#query-content", false);
+                        }
+                    }
+                }
+
+            })
 
 
 
@@ -231,14 +247,12 @@
                 search(2);
             }).on("click", "#btn-this-week", function () {
                 search(3);
-            }).on("change", "#room-select", function () {
-                search(3);
             });
 
 
 
             /*******************************初始执行方法***********************************/
-            search(3, 0)
+         //   search(3, 0)
 
         });
     </script>

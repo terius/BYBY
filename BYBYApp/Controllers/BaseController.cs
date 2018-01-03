@@ -4,10 +4,11 @@ using BYBY.Infrastructure;
 using BYBY.Infrastructure.Helpers;
 using BYBY.Infrastructure.Loger;
 using BYBY.Repository.Entities;
+using BYBY.Services;
 using BYBY.Services.Account;
 using BYBY.Services.Response;
+using BYBY.Services.Views;
 using BYBYApp.Models;
-using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -72,6 +73,8 @@ namespace BYBYApp.Controllers
         public int DefaultChinaId { get; set; }
         public int DefaultEthnicId { get; set; }
 
+
+
         public async Task<IList<SelectItem>> GetCacheAsync(CacheKeys key, bool GetDefaultId = false)
         {
             IList<SelectItem> cacheData = await _cacheService.GetSelectItemAsync(key);
@@ -97,9 +100,15 @@ namespace BYBYApp.Controllers
             return cacheData;
         }
 
+
+
         public void SaveRoleModuleToSession(TBUser user, string roleName)
         {
             var modules = user.GetModules(roleName);
+            if (user.IsMasterDoctor)
+            {
+                modules = modules.Where(d => d.Name != "MedicalHistory").ToList();
+            }
             Session["RoleModule"] = modules;
         }
 
@@ -130,24 +139,7 @@ namespace BYBYApp.Controllers
             }
         }
 
-        private RoleType GetRoleTypeByRoleName(string roleName)
-        {
-            roleName = roleName.ToLower();
-            switch (roleName)
-            {
-                case "patient":
-                    return RoleType.patient;
-                case "doctor":
-                    return RoleType.doctor;
-                case "customerservice":
-                    return RoleType.customerservice;
-                case "admin":
-                    return RoleType.admin;
-                default:
-                    break;
-            }
-            throw new Exception("角色错误");
-        }
+
 
         public string RoleName
         {
@@ -173,6 +165,14 @@ namespace BYBYApp.Controllers
             }
         }
 
+        public bool IsMasterDoctor
+        {
+            get
+            {
+                return LoginUserInfo.IsMasterDoctor;
+            }
+        }
+
         private string GetCookieValue(string name)
         {
             if (Request.Cookies["AccountCookies"] == null)
@@ -191,7 +191,7 @@ namespace BYBYApp.Controllers
                 if (login == null)
                 {
                     var user = GetLoginInfoAsync().Result;
-                    login = ConvertToLoginUserInfo(user);
+                    login = user.ConvertToLoginUserInfo();
                     Session["LoginUserInfo"] = login;
 
                 }
@@ -199,18 +199,7 @@ namespace BYBYApp.Controllers
             }
         }
 
-        public LoginUserInfo ConvertToLoginUserInfo(TBUser user)
-        {
-            var login = new LoginUserInfo();
-            login.Id = user.Id;
-            login.IsMasterDoctor = user.IsMasterDoctor;
-            login.IsChildDoctor = user.IsChildDoctor;
-            login.Name = user.Name;
-            login.RoleName = GetRoleTypeByRoleName(user.RoleName);
-            login.UserName = user.UserName;
-            login.DoctorId = user.DoctorId;
-            return login;
-        }
+
 
 
 
@@ -228,7 +217,14 @@ namespace BYBYApp.Controllers
             if (modules == null)
             {
                 var role = await _roleManager.FindByNameAsync(RoleName);
-                modules = role.RoleModules.Select(d => d.Module).OrderBy(d => d.OrderBy).ToList();
+                if (IsMasterDoctor)
+                {
+                    modules = role.RoleModules.Select(d => d.Module).Where(d => d.Name != "MedicalHistory").OrderBy(d => d.OrderBy).ToList();
+                }
+                else
+                {
+                    modules = role.RoleModules.Select(d => d.Module).OrderBy(d => d.OrderBy).ToList();
+                }
             }
             return modules;
         }

@@ -30,12 +30,14 @@
         }
         else if (item.ParentId == null)
         {
+
             <li class="nav-item">
                 <a href="@item.Path" class="nav-link" data-pageid="@item.Id">
                     <i class="@item.Icon"></i>@*icon-notebook*@
                     <span class="title">@item.Text</span>
                 </a>
             </li>
+
         }
     }
 

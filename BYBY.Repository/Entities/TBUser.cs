@@ -38,9 +38,14 @@ namespace BYBY.Repository.Entities
 
         public DateTime? LastLoginTime { get; set; }
 
+        public int? HospitalId { get; set; }
+
         public virtual ICollection<TBUserRole> UserRoles { get; set; }
 
         public virtual ICollection<TBDoctor> Doctors { get; set; }
+
+        [ForeignKey("HospitalId")]
+        public virtual TBHospital Hospital { get; set; }
 
         protected override void Validate()
         {
@@ -50,7 +55,10 @@ namespace BYBY.Repository.Entities
 
         public IList<TBModule> GetModules(string roleName)
         {
+
             return UserRoles.FirstOrDefault(d => d.Role.Name == roleName).Role.RoleModules.Select(d => d.Module).OrderBy(d => d.OrderBy).ToList();
+
+
         }
         [NotMapped]
         public string RoleName
@@ -102,16 +110,20 @@ namespace BYBY.Repository.Entities
         }
 
         [NotMapped]
-        public int DoctorMasterHospitalId
+        public int MasterHospitalId
         {
             get
             {
-                if (!IsDoctor)
+                if (!HospitalId.HasValue)
                 {
                     return 0;
                 }
-                var hospital = Doctors.First().Hospital;
-                return hospital.ParentHospitalId.HasValue ? hospital.ParentHospital.Id : hospital.Id;
+                //if (!IsDoctor)
+                //{
+                //    return 0;
+                //}
+                //var hospital = Doctors.First().Hospital;
+                return Hospital.ParentHospitalId.HasValue ? Hospital.ParentHospital.Id : HospitalId.Value;
             }
         }
 
@@ -125,6 +137,18 @@ namespace BYBY.Repository.Entities
 
             }
         }
+
+        //[NotMapped]
+        //public int HospitalId
+        //{
+        //    get
+        //    {
+        //        var doctor = Doctors.FirstOrDefault();
+        //        return doctor == null ? 0 : doctor.Hospital.Id;
+
+        //    }
+        //}
+
 
     }
 }

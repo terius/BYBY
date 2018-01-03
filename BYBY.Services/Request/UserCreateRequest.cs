@@ -10,5 +10,7 @@
 
         public string RoleName { get; set; }
 
+        public int HospitalId { get; set; }
+
     }
 }

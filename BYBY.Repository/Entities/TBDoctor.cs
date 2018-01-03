@@ -17,7 +17,7 @@ namespace BYBY.Repository.Entities
         public string JobTitle { get; set; }
 
 
-        [Required]
+  
         [StringLength(128)]
         public string UserId { get; set; }
 
@@ -38,5 +38,17 @@ namespace BYBY.Repository.Entities
 
         public Sex Sex { get; set; }
         public DateTime? Birthday { get; set; }
+
+        [StringLength(500)]
+        public string Remark { get; set; }
+
+        [StringLength(100)]
+        public string Phone { get; set; }
+
+        [StringLength(300)]
+        public string Address { get; set; }
+
+        [StringLength(100)]
+        public string ImageUrl { get; set; }
     }
 }

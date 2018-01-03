@@ -25,15 +25,15 @@ namespace BYBYApp.Controllers
         {
             var model = new ConsultationRoomModel();
             model.RoomList = await _service.GetRoomList();
-            model.HospitalList = await GetCacheAsync(BYBY.Cache.CacheKeys.Hospital);
+            //   model.HospitalList = await GetCacheAsync(BYBY.Cache.CacheKeys.Hospital);
             return View(model);
         }
 
-        public async Task<JsonResult> QueryRoomByHospital(int hospitalId = 0)
-        {
-            var response = await _service.GetRoomList(hospitalId);
-            return Json(response, JsonRequestBehavior.AllowGet);
-        }
+        //public async Task<JsonResult> QueryRoomByHospital()
+        //{
+        //    var response = await _service.GetRoomList();
+        //    return Json(response, JsonRequestBehavior.AllowGet);
+        //}
 
 
         [HttpPost]
@@ -103,9 +103,13 @@ namespace BYBYApp.Controllers
         }
 
 
+        #region 医生模块
+
         public async Task<ActionResult> Doctor()
         {
-            return View();
+            var model = new DoctorListModel();
+            model.HospitalList = await GetCacheAsync(BYBY.Cache.CacheKeys.Hospital);
+            return View(model);
         }
 
 
@@ -115,7 +119,49 @@ namespace BYBYApp.Controllers
             return Json(pageData, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddDoctor(DoctorListView request)
+        {
+            var response = await _doctorService.AddDoctor(request);
+            if (response.Result)
+            {
+                string msg = "";
+                var newFilePaths = UploadFile("DoctorImage", out msg);
+                if (msg == "" && newFilePaths.Count > 0)
+                {
+                    await _doctorService.SaveDoctorImage(response.Id, newFilePaths[0]);
+                    //  return  ErrorJson(msg);
+                }
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditDoctor(DoctorListView request)
+        {
+            var response = await _doctorService.EditDoctor(request);
+            if (response.Result)
+            {
+                string msg = "";
+                var newFilePaths = UploadFile("DoctorImage", out msg);
+                if (msg == "" && newFilePaths.Count > 0)
+                {
+                    await _doctorService.SaveDoctorImage(response.Id, newFilePaths[0]);
+                    //  return  ErrorJson(msg);
+                }
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
 
+        [HttpPost]
+        public async Task<ActionResult> DeleteDoctor(OnlyHasIdRequest request)
+        {
+            var response = await _doctorService.DeleteDoctor(request);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
 
 
     }

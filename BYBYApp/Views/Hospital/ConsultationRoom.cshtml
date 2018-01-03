@@ -16,11 +16,11 @@
     <div class="portlet-title">
         <div class="querycontent">
             <div class="form-inline" id="query-content">
-                <div class="form-group margin-left-20" id="select-hospital">
+                @*<div class="form-group margin-left-20" id="select-hospital">
                     <label for="search-key">选择医院：</label>
                     <select2 id="Hostpital" class="w196" data-placeholder="--请选择医院--" :options="HospitalList">
                     </select2>
-                </div>
+                </div>*@
                 <div class="form-group">
                     <button type="button" class="btn blue btn-outline" id="btn-add">
                         <i class="fa fa-plus"></i> 新增诊室
@@ -34,9 +34,9 @@
         <div class="row room-list" id="room-list" v-cloak>
             <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" v-for="info in list">
                 <div class="content">
-                    <div class="toptitle">
+                    @*<div class="toptitle">
                         <h3>{{info.HospitalName}}</h3>
-                    </div>
+                    </div>*@
                     <div class="pic">
                         <img :src="info.Pic" style="height:100%" />
                     </div>
@@ -63,13 +63,13 @@
                     <input id="Id" name="Id" type="hidden" :value="addinfo.Id" />
                     @Html.AntiForgeryToken()
                     <div class="form-horizontal">
-                        <div class="form-group">
+                        @*<div class="form-group">
                             <label class="control-label col-xs-3">选择医院</label>
                             <div class="col-xs-6">
                                 <select2 id="HospitalId" class="w300" data-placeholder="--请选择医院--" :value="addinfo.HospitalId" :options="HospitalList">
                                 </select2>
                             </div>
-                        </div>
+                        </div>*@
                         <div class="form-group">
                             <label class="control-label col-xs-3">诊室名称</label>
                             <div class="col-xs-6">
@@ -103,20 +103,20 @@
             var addForm = null;
             var addModal = null;
 
-            var vuequery = new Vue({
-                el: '#select-hospital',
-                data: {
-                    HospitalList: allData.HospitalList
+            //var vuequery = new Vue({
+            //    el: '#select-hospital',
+            //    data: {
+            //        HospitalList: allData.HospitalList
 
-                },
-                mounted: function() {
-                    $("#Hostpital").on("change", function () {
-                        com.ajaxquery("/Hospital/QueryRoomByHospital?hospitalId=" + $(this).val()).then(function (roomList) {
-                            vueList.list = roomList;
-                        });
-                    })
-                }
-            })
+            //    },
+            //    mounted: function() {
+            //        $("#Hostpital").on("change", function () {
+            //            com.ajaxquery("/Hospital/QueryRoomByHospital?hospitalId=" + $(this).val()).then(function (roomList) {
+            //                vueList.list = roomList;
+            //            });
+            //        })
+            //    }
+            //})
 
 
             var vueadd = new Vue({
@@ -129,7 +129,7 @@
 
                     },
                     addinfo: {},
-                    HospitalList: allData.HospitalList
+                  //  HospitalList: allData.HospitalList
 
                 },
                 mounted: function () {

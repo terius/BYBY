@@ -4,8 +4,8 @@
 }
 
 @*<div class="page-content-title">
-        <span class="title">新增病历</span>
-    </div>*@
+    <span class="title">新增病历</span>
+</div>*@
 
 
 <div class="portlet light bordered">
@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <div class="portlet-body form">
+    <div class="portlet-body">
         <form method="post" action="@Url.Action("SaveAdd","MedicalHistory")" id="saveForm">
             @Html.AntiForgeryToken()
             <div class="form-inline">
@@ -37,15 +37,13 @@
                         </edit-input>
                         <edit-input id="FixPhone" maxlength="50" text="固定电话" v-model="info.AddModel.FixPhone">
                         </edit-input>
-                    </div>
-                    <div class="col-md-12">
-                        <edit-input id="Address" text="通讯地址" myclass="w450" v-model="info.AddModel.Address">
+                        <edit-input id="Address" text="通讯地址" myclass="w300" v-model="info.AddModel.Address">
                         </edit-input>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="Address" >备注</label>
-                            <textarea id="Remark" name="Remark" class="form-control w450" rows="3" cols="20" v-model="info.AddModel.Remark"></textarea>
+                            <label for="Address">备注</label>
+                            <textarea id="Remark" name="Remark" class="form-control w500" rows="1" cols="20" v-model="info.AddModel.Remark"></textarea>
                         </div>
                     </div>
 
@@ -56,12 +54,6 @@
                         <edit-input id="FemaleName" text="姓名" myclass="required" v-model="info.AddModel.FemaleName">
                             <span slot="othertext" class="requiredspan">*</span>
                         </edit-input>
-                        <date-picker id="FemaleBirthday" text="出生年月" myclass="required" defaultDate="1980-01-01" v-model="info.AddModel.FemaleBirthday">
-                            <span slot="othertext" class="requiredspan">*</span>
-                        </date-picker>
-
-                    </div>
-                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="FemaleCardType">证件类型<span class="requiredspan">*</span></label>
                             <select2 id="FemaleCardType" class="required w196" data-placeholder="--请选择证件类型--" errormessage="证件类型不能为空"
@@ -72,13 +64,16 @@
                         <edit-input id="FemaleCardNo" text="证件号" myclass="required" v-model="info.AddModel.FemaleCardNo">
                             <span slot="othertext" class="requiredspan">*</span>
                         </edit-input>
+                        <date-picker id="FemaleBirthday" text="出生年月" myclass="required" defaultDate="1980-01-01" v-model="info.AddModel.FemaleBirthday">
+                            <span slot="othertext" class="requiredspan">*</span>
+                        </date-picker>
+                    </div>
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="FemaleCardType">婚姻状况</label>
                             <select2 id="FemaleMarriage" class="w196" data-placeholder="--请选择婚姻状况--" :options="info.MarriageList" v-model="info.AddModel.FemaleMarriage">
                             </select2>
                         </div>
-                    </div>
-                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="FemaleNation">国籍</label>
                             <select2 id="FemaleNation" class="w196" data-placeholder="--请选择国籍--" :options="info.NationList" v-model="info.AddModel.FemaleNation">
@@ -116,12 +111,7 @@
                         <edit-input id="MaleName" text="姓名" myclass="required" v-model="info.AddModel.MaleName">
                             <span slot="othertext" class="requiredspan">*</span>
                         </edit-input>
-                        <date-picker id="MaleBirthday" text="出生年月" myclass="required" defaultDate="1980-01-01" v-model="info.AddModel.MaleBirthday">
-                            <span slot="othertext" class="requiredspan">*</span>
-                        </date-picker>
 
-                    </div>
-                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="MaleCardType">证件类型<span class="requiredspan">*</span></label>
                             <select2 id="MaleCardType" class="required w196" data-placeholder="--请选择证件类型--" errormessage="证件类型不能为空" :options="info.CardTypeList" v-model="info.AddModel.MaleCardType">
@@ -131,13 +121,16 @@
                         <edit-input id="MaleCardNo" text="证件号" myclass="required" v-model="info.AddModel.MaleCardNo">
                             <span slot="othertext" class="requiredspan">*</span>
                         </edit-input>
+                        <date-picker id="MaleBirthday" text="出生年月" myclass="required" defaultDate="1980-01-01" v-model="info.AddModel.MaleBirthday">
+                            <span slot="othertext" class="requiredspan">*</span>
+                        </date-picker>
+                    </div>
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="MaleCardType">婚姻状况</label>
                             <select2 id="MaleMarriage" class="w196" data-placeholder="--请选择婚姻状况--" :options="info.MarriageList" v-model="info.AddModel.MaleMarriage">
                             </select2>
                         </div>
-                    </div>
-                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="MaleNation">国籍</label>
                             <select2 id="MaleNation" class="w196" data-placeholder="--请选择国籍--" :options="info.NationList" v-model="info.AddModel.MaleNation">
@@ -169,11 +162,13 @@
             </div>
             <div class="form-actions" style="text-align:center">
                 @*<div class="row">
-                    <div class="col-md-offset-3 col-md-4" style="text-align:center">*@
+                    <div class="col-md-offset-3 col-md-4" style="text-align:center">
+                        *@
                         <button type="button" class="btn btn-outline blue" id="btnSave">提交</button>
                         <a href="@Url.Action("Index","MedicalHistory")" type="button" class="btn btn-outline blue margin-left-20" id="btnCancel">返回</a>
                         @*<button type="button" class="btn btn-outline blue" id="btnTest">测试</button>*@
-                    @*</div>
+                        @*
+                    </div>
                 </div>*@
             </div>
         </form>
@@ -184,7 +179,12 @@
 {
     @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
     @System.Web.Optimization.Styles.Render("~/bundles/css/datepicker")
-
+<style>
+    .control-label {
+        padding-left: 0;
+        padding-right: 0;
+    }
+</style>
 
 }
 
@@ -194,81 +194,80 @@
     @System.Web.Optimization.Scripts.Render("~/bundles/js/datepicker")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
-    <script>
-        $(function () {
+<script>
+    $(function () {
 
 
 
-            var allData = @Html.RenderAsJson(Model);
-            $("#btnSave").on("click", function () {
-                if ($("#saveForm").valid()) {
-                    com.jqFormOption.success = function (res) {
-                        if (res.Result)
-                        {
-                            ShowSuccessThenGotoUrl(res.SuccessMessage,"/MedicalHistory/Index")
-                        }
-                    }
-                    $("#saveForm").ajaxSubmit(com.jqFormOption);
+        /**/
+        /**/
+        var allData = @Html.RenderAsJson(Model);
+    /**/
+    /**/
+    com.showLog(allData);
+    $("#btnSave").on("click", function () {
+        if ($("#saveForm").valid()) {
+            com.jqFormOption.success = function (res) {
+                if (res.Result) {
+                    ShowSuccessThenGotoUrl(res.SuccessMessage, "/MedicalHistory/Index")
+                }
+            }
+            $("#saveForm").ajaxSubmit(com.jqFormOption);
+        }
+    })
+
+    var vueadd = new Vue({
+        el: '#editform',
+        data: {
+            info: allData
+        },
+        mounted: function () {
+            // com.setContentHeight("#editform",)
+            //  App.initSlimScroll('#editform');
+            $("#MaleCardNo").on("blur", function () {
+                var date = com.getBirthdayFromSFZ($(this).val());
+                if (date) {
+                    $("#MaleBirthday").datepicker('setDate', date);
                 }
             })
 
-            var flag = 1;
-            $("#btnTest").on("click", function () {
-                //if (flag == 1) {
-                //    vueadd.info.AddModel.FemaleCardType = "2";
-                //    flag = 2;
-                //}
-                //else
-                //{
-                //    vueadd.info.AddModel.FemaleCardType = "3";
-                //    flag = 1;
-                //}
-                var p = $("#MaleCardNo").position();
-                com.showLog(p, "position");
-              //  com.showLog(vueadd.info.AddModel);
-
-            })
-
-
-           var vueadd = new Vue({
-               el: '#editform',
-               data: {
-                   info: allData
-                },
-               mounted: function () {
-                  // com.setContentHeight("#editform",)
-                  //  App.initSlimScroll('#editform');
-                },
-                methods: {
-
+            $("#FemaleCardNo").on("blur", function () {
+                var date = com.getBirthdayFromSFZ($(this).val());
+                if (date) {
+                    $("#FemaleBirthday").datepicker('setDate', date);
                 }
             })
+        },
+        methods: {
 
-           $("#saveForm").validateForm();
+        }
+    })
+
+    $("#saveForm").validateForm();
 
 
-            //测试
-           //vueadd.info.AddModel.MedicalHistoryNo = "324234723434";
-           //vueadd.info.AddModel.FemalePhone = "13965774654";
-           //vueadd.info.AddModel.MalePhone = "13775648455";
-           //vueadd.info.AddModel.FemaleName = "张玲";
-           //vueadd.info.AddModel.FemaleBirthday = "1980-11-02";
-           //vueadd.info.AddModel.FemaleCardType = "3";
-           //vueadd.info.AddModel.FemaleCardNo = "320584394855096523";
+    //测试
+    //vueadd.info.AddModel.MedicalHistoryNo = "324234723434";
+    //vueadd.info.AddModel.FemalePhone = "13965774654";
+    //vueadd.info.AddModel.MalePhone = "13775648455";
+    //vueadd.info.AddModel.FemaleName = "张玲";
+    //vueadd.info.AddModel.FemaleBirthday = "1980-11-02";
+    //vueadd.info.AddModel.FemaleCardType = "3";
+    //vueadd.info.AddModel.FemaleCardNo = "320584394855096523";
 
-           //vueadd.info.AddModel.MaleName = "王大伟";
-           //vueadd.info.AddModel.MaleBirthday = "1979-03-02";
-           //vueadd.info.AddModel.MaleCardType = "1";
-           //vueadd.info.AddModel.MaleCardNo = "320584394328596509";
-           //$('.date-picker').datepicker({
-           //    autoclose: true,
-           //    format: "yyyy-mm-dd",
-           //    language: "zh-CN",
-           //    clearBtn: true,
-           //    defaultViewDate:"2001-10-10"
-           //});
-        })
-    </script>
-    <script src="~/Scripts/page/MedicalHistoryAdd.js"></script>
+    //vueadd.info.AddModel.MaleName = "王大伟";
+    //vueadd.info.AddModel.MaleBirthday = "1979-03-02";
+    //vueadd.info.AddModel.MaleCardType = "1";
+    //vueadd.info.AddModel.MaleCardNo = "320584394328596509";
+    //$('.date-picker').datepicker({
+    //    autoclose: true,
+    //    format: "yyyy-mm-dd",
+    //    language: "zh-CN",
+    //    clearBtn: true,
+    //    defaultViewDate:"2001-10-10"
+    //});
+})
+</script>
+<script src="~/Scripts/page/MedicalHistoryAdd.js"></script>
 }
 

@@ -56,9 +56,9 @@ namespace BYBY.Infrastructure
     /// </summary>
     public enum Sex
     {
-        [Description("女")]
-        Male = 1,
         [Description("男")]
+        Male = 1,
+        [Description("女")]
         Female = 2
     }
 

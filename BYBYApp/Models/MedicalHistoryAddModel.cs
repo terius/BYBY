@@ -33,5 +33,7 @@ namespace BYBYApp.Models
 
 
         public MedicalHistoryAddRequest AddModel { get; set; }
+
+        public int DefaultCardType { get; set; }
     }
 }
