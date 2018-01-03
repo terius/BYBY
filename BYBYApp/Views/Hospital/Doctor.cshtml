@@ -17,8 +17,7 @@
         <div class="querycontent">
             <div class="form-inline" id="query-content">
                 <div class="form-group">
-                    <label for="search-key">姓名或用户名：</label>
-                    <input type="text" class="form-control" id="search-key" maxlength="20">
+                    <input type="text" class="form-control" id="search-key" maxlength="20" placeholder="姓名或用户名">
                 </div>
                 <div class="form-group">
                     <button type="button" class="btn blue btn-outline margin-left-20" id="btn-query">
@@ -79,7 +78,7 @@
                     @Html.AntiForgeryToken()
                     <input id="Id" name="Id" type="hidden" :value="addinfo.Id" />
                     <input id="UserId" name="UserId" type="hidden" :value="addinfo.UserId" />
-                    <input id="ImageUrl" name="ImageUrl" type="hidden" :value="addinfo.ImageUrl" />
+
                     <div class="form-horizontal">
                         <div class="form-group">
                             <label class="control-label col-xs-3">登录用户名<span class="requiredspan">*</span></label>
@@ -131,9 +130,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-xs-3">所属医院</label>
+                            <label class="control-label col-xs-3">所属医院<span class="requiredspan">*</span></label>
                             <div class="col-xs-6">
-                                <select2 id="HospitalId" class="w300" data-placeholder="--请选择医院--" :value="addinfo.HospitalId" :options="HospitalList">
+                                <select2 id="HospitalId" class="w300 required" data-placeholder="--请选择医院--" :value="addinfo.HospitalId" :options="HospitalList">
                                 </select2>
                             </div>
                         </div>
@@ -158,6 +157,7 @@
                                         <span>选择文件</span>
                                         <input type="file" name="upfile1" accept="image/*" id="upfile1">
                                     </span>
+                                    <input id="ImageUrl" name="ImageUrl" type="hidden" :value="addinfo.ImageUrl" />
                                     <ul class="ul-img-list" id="upimages"></ul>
                                 </div>
                             </div>
@@ -223,10 +223,12 @@
                     },
                     methods: {
                         showEdit: function (editInfo) {
+                            $('#uploadfile').myUploadImage("clear");
                             vueadd.modalinfo.title = "编辑医生";
                             vueadd.addinfo = editInfo;
                             com.showLog(editInfo, "编辑数据");
-                            com.loadImage("#uploadfile", "upfile1", editInfo.ImageUrl,"ImageUrl");
+                          //  com.loadImage("#uploadfile", "upfile1", editInfo.ImageUrl,"ImageUrl");
+                            $('#uploadfile').myUploadImage("loadSingle", editInfo.ImageUrl);
                             addForm.attr("action", "/Hospital/EditDoctor");
                             addModal.modal('show');
                         },
@@ -273,7 +275,6 @@
         mounted: function () {
             addForm = $("#save-form");
             addModal = $("#modeladdnew");
-
             addForm.validateForm();
             $('#uploadfile').myUploadImage({ isSingle: true });
           //  com.singleImage("#uploadfile");
@@ -302,7 +303,8 @@
         search();
     });
 
-    $("#btn-add").on("click", function () {
+        $("#btn-add").on("click", function () {
+            $('#uploadfile').myUploadImage("clear");
         vueadd.modalinfo.title = "新增医生";
         addForm.attr("action", "/Hospital/AddDoctor");
         vueadd.addinfo = {};

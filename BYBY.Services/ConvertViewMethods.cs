@@ -443,7 +443,7 @@ namespace BYBY.Services
                 view = new DoctorListView();
                 view.Age = item.Birthday.GetAge();
                 view.HospitalName = item.Hospital.Name;
-                view.IsMasterDoctor = item.IsMasterDoctor ? "是" : "否";
+                //view.IsMasterDoctor = item.IsMasterDoctor ? "是" : "否";
                 view.JobTitle = item.JobTitle;
                 view.Name = item.Name;
                 view.SexText = item.Sex.GetEnumDescription();
@@ -457,6 +457,7 @@ namespace BYBY.Services
                 view.Sex = item.Sex;
                 view.UserName = string.IsNullOrWhiteSpace(item.UserId) ? "" : item.User.UserName;
                 view.UserId = item.UserId;
+                view.Department = item.Department;
                 views.Add(view);
             }
             return views;

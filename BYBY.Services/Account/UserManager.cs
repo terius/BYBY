@@ -34,6 +34,7 @@ namespace BYBY.Services.Account
             user.Password = new PasswordHasher().HashPassword(defaultPwd);
             user.UserName = request.UserName;
             user.Name = request.Name;
+            user.HospitalId = request.HospitalId;
             //  user.Id = Guid.NewGuid().ToString();
             var result = await CreateAsync(user);
             // newUserId = user.Id;
@@ -69,6 +70,17 @@ namespace BYBY.Services.Account
             if (userInfo != null && !userInfo.UserName.Equals(newUserName))
             {
                 userInfo.UserName = newUserName;
+                await UpdateAsync(userInfo);
+            }
+        }
+
+        public async Task UpdateUserNameAndHospitalAsync(string userId, string newUserName,int hospitalId)
+        {
+            var userInfo = await FindByIdAsync(userId);
+            if (userInfo != null)
+            {
+                userInfo.UserName = newUserName;
+                userInfo.HospitalId = hospitalId;
                 await UpdateAsync(userInfo);
             }
         }

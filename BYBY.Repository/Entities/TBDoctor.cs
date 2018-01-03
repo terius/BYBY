@@ -50,5 +50,8 @@ namespace BYBY.Repository.Entities
 
         [StringLength(100)]
         public string ImageUrl { get; set; }
+
+        [StringLength(100)]
+        public string Department { get; set; }
     }
 }

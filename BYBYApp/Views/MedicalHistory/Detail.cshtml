@@ -342,16 +342,29 @@
                  }
             });
 
-
-             com.initImageUpload("#uploadfile", "/MedicalHistory/UploadFile?patientId=" + allData.EditModel.MHId, function(res) {
-                 if (res.Result) {
-                     var newurl = com.replaceUrlParam(location.href, "tab", 4);
-                     ShowSuccessThenGotoUrl(res.SuccessMessage,newurl);
-                 }
-                 else {
-                     ShowErrorMessage(res.ErrorMessage)
+             $('#uploadfile').myUploadImage({
+                 url: "/MedicalHistory/UploadFile?patientId=" + allData.EditModel.MHId,
+                 successFun: function(res) {
+                     if (res.Result) {
+                         var newurl = com.replaceUrlParam(location.href, "tab", 4);
+                         ShowSuccessThenGotoUrl(res.SuccessMessage, newurl);
+                     }
+                     else {
+                         ShowErrorMessage(res.ErrorMessage)
+                     }
                  }
              });
+
+
+             //com.initImageUpload("#uploadfile", "/MedicalHistory/UploadFile?patientId=" + allData.EditModel.MHId, function(res) {
+             //    if (res.Result) {
+             //        var newurl = com.replaceUrlParam(location.href, "tab", 4);
+             //        ShowSuccessThenGotoUrl(res.SuccessMessage,newurl);
+             //    }
+             //    else {
+             //        ShowErrorMessage(res.ErrorMessage)
+             //    }
+             //});
         })
 
 

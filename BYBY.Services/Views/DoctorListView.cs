@@ -19,10 +19,8 @@ namespace BYBY.Services.Views
         public int HospitalId { get; set; }
 
 
-        /// <summary>
-        /// 是否为母院医生
-        /// </summary>
-        public string IsMasterDoctor { get; set; }
+       
+      //  public string IsMasterDoctor { get; set; }
 
         public Sex Sex { get; set; }
 
@@ -41,6 +39,8 @@ namespace BYBY.Services.Views
         public string UserName { get; set; }
 
         public string UserId { get; set; }
+
+        public string Department { get; set; }
 
     }
 }

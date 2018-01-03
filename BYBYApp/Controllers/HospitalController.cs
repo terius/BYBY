@@ -161,6 +161,13 @@ namespace BYBYApp.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+        public async Task<ActionResult> DoctorDetail()
+        {
+            var model = new DoctorListModel();
+            model.HospitalList = await GetCacheAsync(BYBY.Cache.CacheKeys.Hospital);
+            return View(model);
+        }
+
         #endregion
 
 

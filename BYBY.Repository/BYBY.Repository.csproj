@@ -323,6 +323,10 @@
     <Compile Include="Migrations\201801030411013_TBUserAddHospitalId.Designer.cs">
       <DependentUpon>201801030411013_TBUserAddHospitalId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801031307503_TBDoctorAddDepartment.cs" />
+    <Compile Include="Migrations\201801031307503_TBDoctorAddDepartment.Designer.cs">
+      <DependentUpon>201801031307503_TBDoctorAddDepartment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -516,6 +520,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801030411013_TBUserAddHospitalId.resx">
       <DependentUpon>201801030411013_TBUserAddHospitalId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801031307503_TBDoctorAddDepartment.resx">
+      <DependentUpon>201801031307503_TBDoctorAddDepartment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
