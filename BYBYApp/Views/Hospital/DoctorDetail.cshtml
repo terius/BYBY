@@ -1,0 +1,65 @@
+﻿@model BYBY.Services.Models.DoctorDetailModel
+@{
+    ViewBag.Title = "医生详细信息";
+}
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            医生详细信息
+        </div>
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+        </div>
+    </div>
+    <div class="portlet-body" id="doctor-detail">
+        <div class="row doctor-detail">
+
+            <div class="col-md-2 profile-userpic" ><img :src="info.ImageUrl" class="img-responsive" /></div>
+            <div class="col-md-9">
+                <h3 style="margin:0 0 10px 0">{{info.Name}}</h3>
+                <p>{{info.HospitalName}}</p>
+                <p>{{info.HospitalName}}</p>
+                <p>{{info.HospitalName}}</p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@section styles
+{
+    @*<link href="/Metronic/assets/pages/css/profile.min.css" rel="stylesheet" type="text/css" />*@
+    <style>
+        .profile-userpic img {
+            float: none;
+            margin: 0 auto;
+            width: 50%;
+            height: 50%;
+            -webkit-border-radius: 50% !important;
+            -moz-border-radius: 50% !important;
+            border-radius: 50% !important;
+        }
+    </style>
+}
+
+@section pagejs
+{
+    <script>
+
+        $(function () {
+            var allData =  @Html.RenderAsJson(Model);
+            var vueDetail = new Vue({
+                el: "#doctor-detail",
+                data: {
+                    info: allData
+                }
+            })
+
+        })
+
+    </script>
+
+}
+

@@ -93,6 +93,7 @@
     <Compile Include="Interfaces\IUserAccountService.cs" />
     <Compile Include="Interfaces\IBaseService.cs" />
     <Compile Include="Interfaces\ISystemService.cs" />
+    <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\CheckLisModel.cs" />
     <Compile Include="Models\ConsultationDetailModel.cs" />
     <Compile Include="Models\ConsultationRoomModel.cs" />

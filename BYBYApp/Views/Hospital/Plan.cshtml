@@ -31,13 +31,28 @@
                         本周
                     </button>
                 </div>
-                <div class="form-group" id="select-content">
-                    <select2 id="SelectHospital" class="w150" data-placeholder="--请选择医院--" :options="HospitalList">
-                    </select2>
-                    <select2 id="SelectRoom" class="w150" data-placeholder="--请选择会诊室--" :options="RoomList">
-                    </select2>
-                    <select2 id="SelectDoctor" class="w150" data-placeholder="--请选择医生--" :options="DoctorList">
-                    </select2>
+                <div class="form-group">
+                    <select class="selectpicker show-tick " data-width="196px" id="SelectRoom">
+                        @foreach (var item in Model.RoomList)
+                        {
+                            <option value="@item.id">@item.text</option>
+                        }
+
+                    </select>
+                    <select class="selectpicker show-tick " data-width="196px" id="SelectDoctor">
+                        <option>--所有医生--</option>
+                        @foreach (var item in Model.DoctorList)
+                        {
+                            <option value="@item.id">@item.text</option>
+                        }
+
+                    </select>
+                    @*<select2 id="SelectHospital" class="w150" data-placeholder="--请选择医院--" :options="HospitalList">
+                        </select2>
+                        <select2 id="SelectRoom" class="w150" data-placeholder="--请选择会诊室--" :options="RoomList">
+                        </select2>
+                        <select2 id="SelectDoctor" class="w150" data-placeholder="--请选择医生--" :options="DoctorList">
+                        </select2>*@
                 </div>
             </div>
         </div>
@@ -62,7 +77,7 @@
                     <td style="width:50px">{{index+1}}</td>
                     <td style="width:120px">{{info.STime}} - {{info.ETime}}</td>
                     <td v-for="planView in info.OneDayPlans" style="position:relative">
-                        <span v-if="planView.Id !=0 && editmodel==0">{{planView.HospitalName}}/{{planView.RoomName}}<br>{{planView.DoctorName}}/{{planView.People}}</span>
+                        <span v-if="planView.Id !=0 && editmodel==0">{{planView.DoctorName}}/{{planView.People}}</span>
                         <div v-if="editmodel==1">
                             <select2 id="DoctorId" class="w150" data-placeholder="无" v-model="planView.DoctorId" :options="DoctorList">
                             </select2>
@@ -169,53 +184,53 @@
             var vuequery = new Vue({
                 el: '#top-action',
                 data: {
-                    HospitalList: allData.HospitalList,
+                  //  HospitalList: allData.HospitalList,
                     RoomList: allData.RoomList,
                     DoctorList: allData.DoctorList,
                     editmodel: 0
                 },
                 mounted: function () {
 
-                    var vm = this;
-                    $("#SelectHospital").on("change", function () {
-                        var selectHid = $(this).val();
-                        // alert(selectHid);
-                        if (!selectHid) {
-                            vm.RoomList = allData.RoomList;
-                            vm.DoctorList = allData.DoctorList;
-                            vm.RoomList.splice(0, 0, { id: "", text: "",parent:"" });
-                            vm.DoctorList.splice(0, 0, { id: "", text: "", parent: "" });
-                            return;
-                        }
+                  //  var vm = this;
+                    //$("#SelectHospital").on("change", function () {
+                    //    var selectHid = $(this).val();
+                    //    // alert(selectHid);
+                    //    if (!selectHid) {
+                    //        vm.RoomList = allData.RoomList;
+                    //        vm.DoctorList = allData.DoctorList;
+                    //        vm.RoomList.splice(0, 0, { id: "", text: "",parent:"" });
+                    //        vm.DoctorList.splice(0, 0, { id: "", text: "", parent: "" });
+                    //        return;
+                    //    }
 
-                      //  $("#SelectRoom").val("").trigger('change');
-                        var selectRooms = [];
-                        selectRooms.push({ id: "", text: "", parent: "" });
-                        for (var i = 0; i < allData.RoomList.length; i++) {
-                            if (allData.RoomList[i].parent == selectHid) {
-                                selectRooms.push(allData.RoomList[i]);
-                            }
-                        }
-                        vm.RoomList = selectRooms;
-                      //  $("#SelectRoom").val(null).trigger('change');
+                    //  //  $("#SelectRoom").val("").trigger('change');
+                    //    var selectRooms = [];
+                    //    selectRooms.push({ id: "", text: "", parent: "" });
+                    //    for (var i = 0; i < allData.RoomList.length; i++) {
+                    //        if (allData.RoomList[i].parent == selectHid) {
+                    //            selectRooms.push(allData.RoomList[i]);
+                    //        }
+                    //    }
+                    //    vm.RoomList = selectRooms;
+                    //  //  $("#SelectRoom").val(null).trigger('change');
 
 
-                        var selectDoctors = [];
-                        selectDoctors.push({ id: "", text: "", parent: "" });
-                        for (var i = 0; i < allData.DoctorList.length; i++) {
-                            if (allData.DoctorList[i].parent == selectHid) {
-                                selectDoctors.push(allData.DoctorList[i]);
-                            }
-                        }
-                        vm.DoctorList = selectDoctors;
-                        // $("#SelectDoctor").val("").trigger('change');
+                    //    var selectDoctors = [];
+                    //    selectDoctors.push({ id: "", text: "", parent: "" });
+                    //    for (var i = 0; i < allData.DoctorList.length; i++) {
+                    //        if (allData.DoctorList[i].parent == selectHid) {
+                    //            selectDoctors.push(allData.DoctorList[i]);
+                    //        }
+                    //    }
+                    //    vm.DoctorList = selectDoctors;
+                    //    // $("#SelectDoctor").val("").trigger('change');
 
-                    });
+                    //});
                     $("#SelectRoom,#SelectDoctor").on("change", function () {
                         search(3);
                     });
                   //  $("#SelectHospital").val(allData.HospitalList[0].id).trigger('change');
-                    $("#SelectRoom").val(allData.RoomList[0].id).trigger('change');
+                  //  $("#SelectRoom").val(allData.RoomList[0].id).trigger('change');
                 },
                 methods: {
                     showEdit: function () {
@@ -252,7 +267,7 @@
 
 
             /*******************************初始执行方法***********************************/
-         //   search(3, 0)
+            search(3, 0)
 
         });
     </script>

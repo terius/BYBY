@@ -5,6 +5,7 @@ using BYBY.Infrastructure.Domain;
 using BYBY.Infrastructure.UnitOfWork;
 using BYBY.Repository.Entities;
 using BYBY.Services.Interfaces;
+using BYBY.Services.Models;
 using BYBY.Services.Request;
 using BYBY.Services.Response;
 using BYBY.Services.Views;
@@ -185,6 +186,13 @@ namespace BYBY.Services.Implementations
                 _cacheService.RemoveCache(CacheKeys.Doctor);
             }
             return rs > 0 ? EmptyResponse.CreateSuccess("删除成功") : EmptyResponse.CreateError("删除失败");
+        }
+
+        public async Task<DoctorDetailModel> GetDoctorDetail(int id)
+        {
+            var info = await _repository.GetAsync(id);
+            var model = Mapper.Map<DoctorDetailModel>(info);
+            return model;
         }
 
     }

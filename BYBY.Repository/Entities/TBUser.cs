@@ -90,7 +90,8 @@ namespace BYBY.Repository.Entities
                 {
                     return false;
                 }
-                return Doctors.First().IsMasterDoctor;
+                var d = Doctors.FirstOrDefault();
+                return d == null ? false : d.IsMasterDoctor;
 
             }
         }
@@ -104,8 +105,9 @@ namespace BYBY.Repository.Entities
                 {
                     return false;
                 }
-                return !Doctors.First().IsMasterDoctor;
-
+                var d = Doctors.FirstOrDefault();
+                var rs = d == null ? false : d.IsMasterDoctor;
+                return !rs;
             }
         }
 

@@ -30,10 +30,10 @@ namespace BYBY.Repository.Entities
         [ForeignKey("UserId")]
         public virtual TBUser User { get; set; }
 
-        /// <summary>
-        /// 是否为母院医生
-        /// </summary>
-        public bool IsMasterDoctor { get; set; }
+        ///// <summary>
+        ///// 是否为母院医生
+        ///// </summary>
+        //public bool IsMasterDoctor { get; set; }
 
 
         public Sex Sex { get; set; }
@@ -53,5 +53,17 @@ namespace BYBY.Repository.Entities
 
         [StringLength(100)]
         public string Department { get; set; }
+
+        [NotMapped]
+        public bool IsMasterDoctor
+        {
+            get
+            {
+                return Hospital.IsMaster;
+
+            }
+        }
+
+        public bool IsAdmin { get; set; }
     }
 }

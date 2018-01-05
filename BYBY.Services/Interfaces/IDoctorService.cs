@@ -1,4 +1,5 @@
 ﻿using BYBY.Infrastructure;
+using BYBY.Services.Models;
 using BYBY.Services.Request;
 using BYBY.Services.Response;
 using BYBY.Services.Views;
@@ -40,6 +41,8 @@ namespace BYBY.Services.Interfaces
         Task<EmptyResponse> DeleteDoctor(OnlyHasIdRequest request);
 
         Task<EmptyResponse> SaveDoctorImage(int Id, string url);
+
+        Task<DoctorDetailModel> GetDoctorDetail(int id);
 
     }
 }

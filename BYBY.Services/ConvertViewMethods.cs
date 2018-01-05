@@ -440,24 +440,26 @@ namespace BYBY.Services
             DoctorListView view;
             foreach (var item in source)
             {
-                view = new DoctorListView();
+                view = Mapper.Map<DoctorListView>(item);
                 view.Age = item.Birthday.GetAge();
                 view.HospitalName = item.Hospital.Name;
                 //view.IsMasterDoctor = item.IsMasterDoctor ? "是" : "否";
-                view.JobTitle = item.JobTitle;
-                view.Name = item.Name;
+                //  view.JobTitle = item.JobTitle;
+                //  view.Name = item.Name;
                 view.SexText = item.Sex.GetEnumDescription();
-                view.Id = item.Id;
-                view.Address = item.Address;
+                //   view.Id = item.Id;
+                //   view.Address = item.Address;
                 view.Birthday = item.Birthday.ToDateString();
-                view.HospitalId = item.HospitalId;
-                view.ImageUrl = item.ImageUrl;
-                view.Phone = item.Phone;
-                view.Remark = item.Remark;
-                view.Sex = item.Sex;
+                //  view.HospitalId = item.HospitalId;
+                //  view.ImageUrl = item.ImageUrl;
+                // view.Phone = item.Phone;
+                // view.Remark = item.Remark;
+                //   view.Sex = item.Sex;
                 view.UserName = string.IsNullOrWhiteSpace(item.UserId) ? "" : item.User.UserName;
-                view.UserId = item.UserId;
-                view.Department = item.Department;
+                //  view.UserId = item.UserId;
+                // view.Department = item.Department;
+                view.RoleText = item.IsAdmin ? "管理员" : "普通用户";
+
                 views.Add(view);
             }
             return views;

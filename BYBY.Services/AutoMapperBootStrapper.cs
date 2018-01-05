@@ -69,6 +69,10 @@ namespace BYBY.Services
 
 
                 cfg.CreateMap<DoctorListView, TBDoctor>();
+                cfg.CreateMap<TBDoctor, DoctorListView>();
+                cfg.CreateMap<TBDoctor, DoctorDetailModel>()
+                .ForMember(d => d.HospitalName, expression => expression.ResolveUsing(s => s.Hospital.Name))
+                .ForMember(d => d.UserName, expression => expression.ResolveUsing(s => string.IsNullOrWhiteSpace(s.UserId) ? "" : s.User.UserName));
             });
 
         }

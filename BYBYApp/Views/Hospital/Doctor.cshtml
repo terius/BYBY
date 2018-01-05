@@ -44,6 +44,7 @@
                     <th>年龄</th>
                     <th>职称</th>
                     <th>所属医院</th>
+                    <th>用户角色</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -56,9 +57,11 @@
                     <td>{{info.Age}}</td>
                     <td>{{info.JobTitle}}</td>
                     <td>{{info.HospitalName}}</td>
+                    <td>{{info.RoleText}}</td>
                     <td>
                         <a href="javascript:;" class="margin-right-10" v-on:click="showEdit(info)"><i class="fa fa-2x fa-edit tooltips" data-container="body" data-placement="top" data-original-title="编辑医生"></i></a>
-                        <a href="javascript:;" v-on:click="showDelete(info.Id)"><i class="fa fa-2x fa-remove tooltips" data-container="body" data-placement="top" data-original-title="删除医生"></i></a>
+                        <a href="javascript:;" class="margin-right-10" v-on:click="showDelete(info.Id)"><i class="fa fa-2x fa-remove tooltips" data-container="body" data-placement="top" data-original-title="删除医生"></i></a>
+                        <a :href="'/Hospital/DoctorDetail/' + info.Id" ><i class="fa fa-2x fa-file-text-o tooltips" data-container="body" data-placement="top" data-original-title="详细信息"></i></a>
                     </td>
                 </tr>
 
@@ -137,6 +140,12 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="control-label col-xs-3">所属部门</label>
+                            <div class="col-xs-6">
+                                <input type="text" name="Department" class="form-control  w300" :value="addinfo.Department">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="control-label col-xs-3">职称</label>
                             <div class="col-xs-6">
                                 <input type="text" name="JobTitle" class="form-control  w300" :value="addinfo.JobTitle">
@@ -146,6 +155,18 @@
                             <label class="control-label col-xs-3">医生介绍</label>
                             <div class="col-xs-6">
                                 <textarea id="Remark" name="Remark" class="form-control w300" rows="4" cols="20" :value="addinfo.Remark"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3">是否为管理员</label>
+                            <div class="col-xs-6">
+                                <div class="icheck-inline">
+                                    <label>
+                                        <input type="checkbox" id="CheckIsAdmin" name="CheckIsAdmin" class="icheckBlue" value="1">
+                                        是
+                                    </label>
+                                    <input id="IsAdmin" name="IsAdmin" type="hidden" />
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -187,10 +208,14 @@
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
     <script>
+      
+
     $(function () {
         /**/
         var allData =  @Html.RenderAsJson(Model);
     /**/
+
+       
     var vuetable = null;
     var addForm = null;
     var addModal = null;
@@ -227,6 +252,19 @@
                             vueadd.modalinfo.title = "编辑医生";
                             vueadd.addinfo = editInfo;
                             com.showLog(editInfo, "编辑数据");
+                            if (editInfo.Sex == 1) {
+                                $("#sexman").iCheck("check");
+                            }
+                            else {
+                                $("#sexwoman").iCheck("check");
+                            }
+
+                            if (editInfo.IsAdmin == true) {
+                                $("#CheckIsAdmin").iCheck("check");
+                            }
+                            else {
+                                $("#CheckIsAdmin").iCheck("uncheck");
+                            }
                           //  com.loadImage("#uploadfile", "upfile1", editInfo.ImageUrl,"ImageUrl");
                             $('#uploadfile').myUploadImage("loadSingle", editInfo.ImageUrl);
                             addForm.attr("action", "/Hospital/EditDoctor");
@@ -268,8 +306,7 @@
 
             },
             addinfo: {},
-            HospitalList: allData.HospitalList,
-            selectsex: 1
+            HospitalList: allData.HospitalList
 
         },
         mounted: function () {
@@ -279,11 +316,18 @@
             $('#uploadfile').myUploadImage({ isSingle: true });
           //  com.singleImage("#uploadfile");
             com.handleiCheck();
+            //if (allData.LockHospitalId > 0) {
+            //    $("#HospitalId").select2("enable", false)
+            //}
         },
         methods: {
             save: function () {
                 var sex = document.getElementById("sexman").checked ? 1 : 2;
                 $("#Sex").val(sex);
+
+                var isadmin = document.getElementById("CheckIsAdmin").checked ? true : false;
+                $("#IsAdmin").val(isadmin);
+
                 com.jqFormOption.success = function (res) {
                     if (res.Result) {
                         ShowSuccessThenReload(res.SuccessMessage);
@@ -308,6 +352,9 @@
         vueadd.modalinfo.title = "新增医生";
         addForm.attr("action", "/Hospital/AddDoctor");
         vueadd.addinfo = {};
+        vueadd.addinfo.HospitalId = allData.LockHospitalId;
+        $("#sexman").iCheck("check");
+        $("#CheckIsAdmin").iCheck("uncheck");
         addModal.modal('show');
     })
     /*******************************初始执行方法***********************************/

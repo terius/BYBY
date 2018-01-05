@@ -87,7 +87,7 @@ namespace BYBY.Cache
                         cacheData = motherHospitalData.ToList().ConvertTo_SelectItem();
                         break;
                     case CacheKeys.MotherDoctor:
-                        var motherDoctorData = await _doctorRepository.FindAsync(d => d.IsMasterDoctor == true);
+                        var motherDoctorData = await _doctorRepository.FindAsync(d => d.Hospital.IsMaster == true);
                         cacheData = motherDoctorData.ToList().ConvertTo_SelectItem();
                         break;
                     case CacheKeys.Medicine:

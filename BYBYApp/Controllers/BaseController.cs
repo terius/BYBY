@@ -173,6 +173,14 @@ namespace BYBYApp.Controllers
             }
         }
 
+        public int LogingUserHospitalId
+        {
+            get
+            {
+                return LoginUserInfo.HospitalId;
+            }
+        }
+
         private string GetCookieValue(string name)
         {
             if (Request.Cookies["AccountCookies"] == null)

@@ -42,5 +42,9 @@ namespace BYBY.Services.Views
 
         public string Department { get; set; }
 
+        public string RoleText { get; set; }
+
+        public bool IsAdmin { get; set; }
+
     }
 }

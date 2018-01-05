@@ -5752,6 +5752,7 @@
     <Content Include="Views\Hospital\Doctor.cshtml" />
     <Content Include="Views\System\UserManager.cshtml" />
     <Content Include="Views\PatientStatistics\Index.cshtml" />
+    <Content Include="Views\Hospital\DoctorDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -8,6 +8,6 @@ namespace BYBY.Services.Models
         public IList<SelectItem> DoctorList { get; set; }
         public IList<SelectItem> RoomList { get; set; }
 
-        public IList<SelectItem> HospitalList { get; set; }
+      //  public IList<SelectItem> HospitalList { get; set; }
     }
 }

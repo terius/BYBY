@@ -5,6 +5,7 @@ using BYBY.Services.Views;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace BYBYApp.Controllers
 {
@@ -80,12 +81,16 @@ namespace BYBYApp.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+
+        #region 排班模块
         public async Task<ActionResult> Plan()
         {
             PlanListModel model = new PlanListModel();
             model.DoctorList = await GetCacheAsync(BYBY.Cache.CacheKeys.Doctor);
-            model.RoomList = await GetCacheAsync(BYBY.Cache.CacheKeys.Room);
-            model.HospitalList = await GetCacheAsync(BYBY.Cache.CacheKeys.Hospital);
+            var roomList = await GetCacheAsync(BYBY.Cache.CacheKeys.Room);
+
+            model.RoomList = roomList.Where(d => d.parent == LogingUserHospitalId.ToString()).ToList();
+         //   model.HospitalList = await GetCacheAsync(BYBY.Cache.CacheKeys.Hospital);
             return View(model);
         }
 
@@ -102,6 +107,8 @@ namespace BYBYApp.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+        #endregion
+
 
         #region 医生模块
 
@@ -109,6 +116,7 @@ namespace BYBYApp.Controllers
         {
             var model = new DoctorListModel();
             model.HospitalList = await GetCacheAsync(BYBY.Cache.CacheKeys.Hospital);
+            model.LockHospitalId = LogingUserHospitalId;
             return View(model);
         }
 
@@ -161,10 +169,9 @@ namespace BYBYApp.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> DoctorDetail()
+        public async Task<ActionResult> DoctorDetail(int id)
         {
-            var model = new DoctorListModel();
-            model.HospitalList = await GetCacheAsync(BYBY.Cache.CacheKeys.Hospital);
+            var model = await _doctorService.GetDoctorDetail(id);
             return View(model);
         }
 
