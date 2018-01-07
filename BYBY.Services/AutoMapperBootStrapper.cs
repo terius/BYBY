@@ -21,12 +21,9 @@ namespace BYBY.Services
                 cfg.CreateMap<string, DateTime>().ConvertUsing<StringToDateTimeConverter>();
                 cfg.CreateMap<bool, string>().ConvertUsing<BooleanToStringConverter>();
                 cfg.CreateMap<TBMedicalDetail, MedicalDetailRequest>()
-                .ForMember(d => d.ManLastMarriageDate,
-                expression => expression.ResolveUsing(s => s.ManLastMarriageDate.ToDateString()))
-                .ForMember(d => d.MarriageLastPregnancyDate,
-                expression => expression.ResolveUsing(s => s.MarriageLastPregnancyDate.ToDateString()))
-                  .ForMember(d => d.MenstruationLast,
-                expression => expression.ResolveUsing(s => s.MenstruationLast.ToDateString()));
+                .ForMember(d => d.ManLastMarriageDate,expression => expression.ResolveUsing(s => s.ManLastMarriageDate.ToDateString()))
+                .ForMember(d => d.MarriageLastPregnancyDate,expression => expression.ResolveUsing(s => s.MarriageLastPregnancyDate.ToDateString()))
+                .ForMember(d => d.MenstruationLast,expression => expression.ResolveUsing(s => s.MenstruationLast.ToDateString()));
                 cfg.CreateMap<MedicalDetailRequest, TBMedicalDetail>();
                 cfg.CreateMap<MedicalDetailAddRequest, TBMedicalDetail>();
                 cfg.CreateMap<ConsultationAddRequest, TBConsultation>();
@@ -34,18 +31,16 @@ namespace BYBY.Services
                 cfg.CreateMap<TBMedicalHistoryImage, MedicalHistoryImageRequest>();
                 cfg.CreateMap<TBConsultation, ConsultationDetailModel>();
                 cfg.CreateMap<ConsultationRecordEditRequest, TBConsultation>();
-                cfg.CreateMap<TBMedicine, MedicineListView>().ForMember(d => d.InjectionMarkText,
-                expression => expression.ResolveUsing(s => s.InjectionMark == true ? "是" : "否"))
-                .ForMember(d => d.IsUsedText,
-                expression => expression.ResolveUsing(s => s.IsUsed == true ? "是" : "否"));
+                cfg.CreateMap<TBMedicine, MedicineListView>()
+                .ForMember(d => d.InjectionMarkText,expression => expression.ResolveUsing(s => s.InjectionMark == true ? "是" : "否"))
+                .ForMember(d => d.IsUsedText,expression => expression.ResolveUsing(s => s.IsUsed == true ? "是" : "否"));
                 cfg.CreateMap<MedicineAddRequest, TBMedicine>();
                 cfg.CreateMap<ConsultationMedicineListRequest, TBConsultationMedicine>();
 
 
-                cfg.CreateMap<TBCheckAssay, CheckListView>().ForMember(d => d.AssayTypeText,
-           expression => expression.ResolveUsing(s => s.AssayType.HasValue ? s.AssayType.GetEnumDescription() : ""))
-           .ForMember(d => d.CheckModeText,
-           expression => expression.ResolveUsing(s => s.CheckMode.HasValue? s.CheckMode.GetEnumDescription() : ""));
+                cfg.CreateMap<TBCheckAssay, CheckListView>()
+                .ForMember(d => d.AssayTypeText,expression => expression.ResolveUsing(s => s.AssayType.HasValue ? s.AssayType.GetEnumDescription() : ""))
+                .ForMember(d => d.CheckModeText,expression => expression.ResolveUsing(s => s.CheckMode.HasValue ? s.CheckMode.GetEnumDescription() : ""));
 
 
                 cfg.CreateMap<CheckListView, TBCheckAssay>();
@@ -53,18 +48,19 @@ namespace BYBY.Services
                 cfg.CreateMap<ConsultationCheckListRequest, TBConsultationCheck>();
 
                 cfg.CreateMap<ConsultationRoomListView, TBConsultationRoom>();
-                cfg.CreateMap<TBConsultationRoom, ConsultationRoomListView>().ForMember(d => d.Pic,
-           expression => expression.ResolveUsing(s => string.IsNullOrWhiteSpace(s.Pic) ? "/images/room.png" : s.Pic))
-           .ForMember(d => d.HospitalName,expression => expression.ResolveUsing(s => s.Hospital.Name));
+                cfg.CreateMap<TBConsultationRoom, ConsultationRoomListView>()
+                .ForMember(d => d.Pic, expression => expression.ResolveUsing(s => string.IsNullOrWhiteSpace(s.Pic) ? "/images/room.png" : s.Pic))
+                .ForMember(d => d.HospitalName, expression => expression.ResolveUsing(s => s.Hospital.Name));
 
-                cfg.CreateMap<TBDateSetup, DateSetupListView>().ForMember(d => d.STime,
-     expression => expression.ResolveUsing(s => s.STime.ToString("HH:mm"))).ForMember(d => d.ETime,
-     expression => expression.ResolveUsing(s => s.ETime.ToString("HH:mm")));
+                cfg.CreateMap<TBDateSetup, DateSetupListView>()
+                .ForMember(d => d.STime, expression => expression.ResolveUsing(s => s.STime.ToString("HH:mm")))
+                .ForMember(d => d.ETime, expression => expression.ResolveUsing(s => s.ETime.ToString("HH:mm")));
 
                 cfg.CreateMap<TBPlan, PlanView>()
                 .ForMember(d => d.DoctorName, expression => expression.ResolveUsing(s => s.Doctor.Name))
                 .ForMember(d => d.RoomName, expression => expression.ResolveUsing(s => s.Room.Name))
                 .ForMember(d => d.HospitalName, expression => expression.ResolveUsing(s => s.Room.Hospital.Name));
+
                 cfg.CreateMap<PlanView, TBPlan>();
 
 
@@ -73,6 +69,13 @@ namespace BYBY.Services
                 cfg.CreateMap<TBDoctor, DoctorDetailModel>()
                 .ForMember(d => d.HospitalName, expression => expression.ResolveUsing(s => s.Hospital.Name))
                 .ForMember(d => d.UserName, expression => expression.ResolveUsing(s => string.IsNullOrWhiteSpace(s.UserId) ? "" : s.User.UserName));
+
+                cfg.CreateMap<TBConsultation, PlanConsultationView>()
+                .ForMember(d => d.Hospital, expression => expression.ResolveUsing(s => s.Hospital.Name))
+                .ForMember(d => d.Doctor, expression => expression.ResolveUsing(s => s.Doctor.Name))
+                .ForMember(d => d.Female, expression => expression.ResolveUsing(s => s.MedicalHistory.FeMalePatient.Name))
+                .ForMember(d => d.Male, expression => expression.ResolveUsing(s => s.MedicalHistory.MalePatient.Name))
+                .ForMember(d => d.Status, expression => expression.ResolveUsing(s => s.ConsultationStatus.GetEnumDescription()));
             });
 
         }

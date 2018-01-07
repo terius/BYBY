@@ -125,6 +125,7 @@ namespace BYBYApp.Controllers
             accountCookies.Values.Add("truename", user.Name);
             accountCookies.Values.Add("rolename", roleName);
             accountCookies.Values.Add("userid", user.Id);
+            accountCookies.Values.Add("userimg", user.UserImg);
             // roleCookies.Value = roleName;
             accountCookies.Expires = DateTime.Now.AddDays(1);
             //var loginUserInfo = new LoginUserInfo();

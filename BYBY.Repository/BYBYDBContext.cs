@@ -60,7 +60,7 @@ namespace BYBY.Repository
             modelBuilder.Entity<TBMedicalHistory>().HasRequired(m => m.FeMalePatient).WithMany(n => n.FeMaleMedicalHistorys).HasForeignKey(m => m.FeMalePatientId).WillCascadeOnDelete(false);
 
             modelBuilder.Entity<TBHospital>().HasMany(t => t.Doctors).WithRequired(p => p.Hospital).WillCascadeOnDelete(false);
-
+            modelBuilder.Entity<TBPlan>().HasMany(t => t.Consultations).WithRequired(p => p.Plan).WillCascadeOnDelete(false);
         }
     }
 }

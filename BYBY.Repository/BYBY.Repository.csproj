@@ -335,6 +335,14 @@
     <Compile Include="Migrations\201801050703126_TBDoctorAddIsAdmin.Designer.cs">
       <DependentUpon>201801050703126_TBDoctorAddIsAdmin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801071206403_TBConsultationAddPlanId.cs" />
+    <Compile Include="Migrations\201801071206403_TBConsultationAddPlanId.Designer.cs">
+      <DependentUpon>201801071206403_TBConsultationAddPlanId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801071208127_TBConsultationAddPlanId2.cs" />
+    <Compile Include="Migrations\201801071208127_TBConsultationAddPlanId2.Designer.cs">
+      <DependentUpon>201801071208127_TBConsultationAddPlanId2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -537,6 +545,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801050703126_TBDoctorAddIsAdmin.resx">
       <DependentUpon>201801050703126_TBDoctorAddIsAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801071206403_TBConsultationAddPlanId.resx">
+      <DependentUpon>201801071206403_TBConsultationAddPlanId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801071208127_TBConsultationAddPlanId2.resx">
+      <DependentUpon>201801071208127_TBConsultationAddPlanId2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

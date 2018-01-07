@@ -61,15 +61,16 @@
             <div class="col-md-12">
                 <form method="post" action="@Url.Action("AddRoom","Hospital")" id="save-form">
                     <input id="Id" name="Id" type="hidden" :value="addinfo.Id" />
+                    <input id="HospitalId" name="HospitalId" type="hidden" :value="addinfo.HospitalId" />
                     @Html.AntiForgeryToken()
                     <div class="form-horizontal">
                         @*<div class="form-group">
-                            <label class="control-label col-xs-3">选择医院</label>
-                            <div class="col-xs-6">
-                                <select2 id="HospitalId" class="w300" data-placeholder="--请选择医院--" :value="addinfo.HospitalId" :options="HospitalList">
-                                </select2>
-                            </div>
-                        </div>*@
+                <label class="control-label col-xs-3">选择医院</label>
+                <div class="col-xs-6">
+                    <select2 id="HospitalId" class="w300" data-placeholder="--请选择医院--" :value="addinfo.HospitalId" :options="HospitalList">
+                    </select2>
+                </div>
+            </div>*@
                         <div class="form-group">
                             <label class="control-label col-xs-3">诊室名称</label>
                             <div class="col-xs-6">

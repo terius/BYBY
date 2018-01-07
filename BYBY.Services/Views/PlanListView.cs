@@ -13,7 +13,8 @@ namespace BYBY.Services.Views
         public IList<DateSetupView> DateViews { get; set; }
         public IList<string> WeekTitles { get; set; }
         public string DateSelect { get; set; }
-
+       
+        public string EndDate { get; set; }
     }
 
     public class DateSetupView
@@ -56,5 +57,21 @@ namespace BYBY.Services.Views
 
 
         public string DoctorName { get; set; }
+
+        public int ConsultationCount { get; set; }
+
+        public IList<PlanConsultationView> ConsultationList { get; set; }
     }
+
+    public class PlanConsultationView
+    {
+        public string Hospital { get; set; }
+        public string Doctor { get; set; }
+        public string Female { get; set; }
+        public string Male { get; set; }
+        public string Status { get; set; }
+
+        public int Id { get; set; }
+    }
+  
 }

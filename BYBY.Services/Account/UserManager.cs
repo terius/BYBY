@@ -45,10 +45,19 @@ namespace BYBY.Services.Account
             return result;
         }
 
-        private async Task<bool> CheckUserNameExist(string userName)
+        private async Task<bool> CheckUserNameExist(string userName, string userId = null)
         {
+
             var info = await FindByNameAsync(userName);
-            return info != null;
+            if (userId == null)
+            {
+                return info != null;
+            }
+            if (info != null && info.Id != userId)
+            {
+                return true;
+            }
+            return false;
         }
 
 
@@ -66,6 +75,10 @@ namespace BYBY.Services.Account
 
         public async Task UpdateUserNameAsync(string userId, string newUserName)
         {
+            if (await CheckUserNameExist(newUserName,userId))
+            {
+                throw new Exception("该用户名已存在，无法编辑");
+            }
             var userInfo = await FindByIdAsync(userId);
             if (userInfo != null && !userInfo.UserName.Equals(newUserName))
             {
@@ -74,8 +87,12 @@ namespace BYBY.Services.Account
             }
         }
 
-        public async Task UpdateUserNameAndHospitalAsync(string userId, string newUserName,int hospitalId)
+        public async Task UpdateUserNameAndHospitalAsync(string userId, string newUserName, int hospitalId)
         {
+            if (await CheckUserNameExist(newUserName, userId))
+            {
+                throw new Exception("该用户名已存在，无法编辑");
+            }
             var userInfo = await FindByIdAsync(userId);
             if (userInfo != null)
             {

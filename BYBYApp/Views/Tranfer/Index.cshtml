@@ -260,11 +260,11 @@
     @System.Web.Optimization.Scripts.Render("~/bundles/js/icheck")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
-    <script>
+<script>
         $(function () {
             com.handleiCheck();
             var allData = @Html.RenderAsJson(Model);
-
+            var status = "@ViewBag.Status";
             var vuetable;
             var addForm = null;
             var addModal = null;
@@ -410,15 +410,37 @@
 
 
             $(".icheck-inline .icheckBlue").on('ifChecked', function (event) {
-                search();
+                var id = $(this).attr("id");
+                if (id == "checkall") {
+                    $("#checkrequest").iCheck("uncheck");
+                    $("#checkcancel").iCheck("uncheck");
+                    $("#checkconfirm").iCheck("uncheck");
+                }
+                else {
+                    $("#checkall").iCheck("uncheck");
+                }
+                //search();
             }).on('ifUnchecked', function (event) {
-                search();
+                // search();
             });
 
             /*******************************初始执行方法***********************************/
+            switch (status) {
+                case "2":
+                    $("#checkrequest").iCheck("check");
+                    break;
+                case "3":
+                    $("#checkcancel").iCheck("check");
+                    break;
+                case "4":
+                    $("#checkconfirm").iCheck("check");
+                    break;
+                default:
+            }
+
             search();
 
         });
-    </script>
+</script>
 }
 

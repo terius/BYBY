@@ -21,7 +21,7 @@
         </div>
     }
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 green-jungle" href="@Url.Action("Index","Consultation")">
+        <div class="dashboard-stat dashboard-stat-v2 green-jungle" id="Consultation">
             <div class="visual">
                 <i class="fa fa-stethoscope"></i>
             </div>
@@ -30,15 +30,15 @@
                     <span>会诊状态</span>
                 </div>
                 <div class="desc">
-                    <span>申请中：@Model.ConsultationRequestCount</span>
-                    <span>确认：@Model.ConsultationConfirmCount</span>
-                    <span>取消：@Model.ConsultationCancelCount</span>
+                    <span class="status-info"><a href="@Url.Action("Index","Consultation",new { status=2})">申请中：@Model.ConsultationRequestCount</a></span>
+                    <span class="status-info"><a href="@Url.Action("Index","Consultation",new { status=4})">确认：@Model.ConsultationConfirmCount</a></span>
+                    <span class="status-info"><a href="@Url.Action("Index","Consultation",new { status=3})">取消：@Model.ConsultationCancelCount</a></span>
                 </div>
             </div>
-        </a>
+        </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 green" href="@Url.Action("Index","Tranfer")">
+        <div class="dashboard-stat dashboard-stat-v2 green" id="Tranfer">
             <div class="visual">
                 <i class="fa fa-ambulance"></i>
             </div>
@@ -47,12 +47,12 @@
                     <span>转诊状态</span>
                 </div>
                 <div class="desc">
-                    <span>申请中：@Model.ReferralRequestCount</span>
-                    <span>确认：@Model.ReferralConfirmCount</span>
-                    <span>取消：@Model.ReferralCancelCount</span>
+                    <span><a href="@Url.Action("Index","Tranfer",new { status=2})">申请中：@Model.ReferralRequestCount</a></span>
+                    <span><a href="@Url.Action("Index","Tranfer",new { status=4})">确认：@Model.ReferralConfirmCount</a></span>
+                    <span><a href="@Url.Action("Index","Tranfer",new { status=3})">取消：@Model.ReferralCancelCount</a></span>
                 </div>
             </div>
-        </a>
+        </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <a class="dashboard-stat dashboard-stat-v2 purple" href="@Url.Action("Plan","Hospital")">
@@ -97,6 +97,9 @@
                             本周
                         </button>
                     </div>
+                    <div class="form-group plan-date-range">
+                        <h3 id="date-range-text">日期选择范围：2018-01-01 - 2018-01-07</h3>
+                    </div>
                 </div>
             </div>
 
@@ -115,7 +118,26 @@
                         <td>{{index+1}}</td>
                         <td>{{info.STime}} - {{info.ETime}}</td>
                         <td v-for="planView in info.OneDayPlans">
-                            <span v-if="planView.Id !=0">{{planView.HospitalName}}/{{planView.RoomName}}<br>{{planView.People}}</span>
+                            <div v-if="planView.Id !=0" class="view-content" v-on:mouseenter="showConsultation" v-on:mouseleave="hideConsultation">
+                                <p><strong>会诊室：</strong>{{planView.RoomName}}</p>
+                                <p><strong>排班医生：</strong>{{planView.DoctorName}}</p>
+                                <p><strong>排班人数：</strong>{{planView.People}}</p>
+                                <div class="cons-detail">
+                                    <p><strong>当前申请会诊数：</strong><a href="javascript:;" class="show-tips">{{planView.ConsultationCount}}</a></p>
+                                    <div class="popover fade bottom in" data-popout="true" style="top: 0; left: 0;">
+                                        <div class="arrow" style="left: 50%;"></div>
+                                        <div class="popover-content text-center">
+                                            <div class="cons-detail-list" v-for="cons in planView.ConsultationList">
+                                                <p><strong>申请医院：</strong>{{cons.Hospital}}  <strong>申请医生：</strong>{{cons.Doctor}}</p>
+                                                <p><strong>女方患者：</strong>{{cons.Female}}  <strong>男方患者：</strong>{{cons.Male}}</p>
+                                                <p><strong>会诊状态：</strong>{{cons.Status}}</p>
+                                                <p><a :href="'/Consultation/Detail?id=' + cons.Id">查看详细</a></p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -150,6 +172,10 @@
             .dashboard-stat .details .desc > span {
                 padding-right: 15px;
             }
+
+        #Consultation a, #Tranfer a {
+            color: #fff;
+        }
     </style>
 
 }
@@ -174,7 +200,7 @@
                     para.DoctorId= allData.DoctorId;
                     com.showLog(para, "查询参数");
                     com.ajaxquery("/Hospital/QueryPlan", para).then(function (mydata) {
-
+                        $("#date-range-text").text("日期选择范围：" + mydata.DateSelect + " - " + mydata.EndDate);
                         com.showLog(mydata);
                         if (vuetable == null) {
                             vuetable = new Vue({
@@ -185,7 +211,7 @@
                                     DoctorList: allData.DoctorList
                                 },
                                 mounted: function () {
-
+                                 
                                 },
                                 methods: {
                                     showEdit: function () {
@@ -205,6 +231,31 @@
                                                 ShowErrorMessage(res.ErrorMessage);
                                             }
                                         });
+                                    },
+                                    showConsultation: function (event) {
+
+                                        var $this = $(".show-tips", event.target);
+                                        var val = $this.text();
+                                        if (val == "0") {
+                                            return;
+                                        }
+                                        var tips = $this.parent().next();
+
+                                        var os = $this.position();
+                                        var newLeft = os.left - (tips.outerWidth() / 2) + 5;
+                                        var newTop = os.top + $this.height();
+                                        //  com.showLog("newLeft:" + newLeft + "   newTop:" + newTop + " width:" + tips.outerWidth());
+                                        tips.css({ "left": newLeft, "top": newTop }).show().on("mouseleave", function () {
+                                            tips.hide();
+                                        });
+                                    },
+                                    hideConsultation: function (event) {
+                                        var tips = $(".popover", event.target);
+                                        setTimeout(function () {
+                                            if (!$(".popover:hover").length) {
+                                                tips.hide();
+                                            }
+                                        }, 100);
                                     }
                                 }
 
@@ -218,7 +269,32 @@
                 };
 
 
+                var showTips = function (target) {
 
+                    $(target).on("mouseenter", function () {
+                        var $this = $(".show-tips", this);
+                        var val = $this.text();
+                        if (val == "0") {
+                            return;
+                        }
+                        var tips = $this.parent().next();
+
+                        var os = $this.position();
+                        var newLeft = os.left - (tips.outerWidth() / 2) + 5;
+                        var newTop = os.top + $this.height();
+                        //  com.showLog("newLeft:" + newLeft + "   newTop:" + newTop + " width:" + tips.outerWidth());
+                        tips.css({ "left": newLeft, "top": newTop }).show().on("mouseleave", function () {
+                            tips.hide();
+                        });
+                    }).on("mouseleave", function () {
+                        var tips = $(".popover", this);
+                        setTimeout(function () {
+                            if (!$(".popover:hover").length) {
+                                tips.hide();
+                            }
+                        }, 100);
+                    });
+                }
 
 
                 $("#query-content").on("click", "#btn-prev-week", function () {
@@ -230,6 +306,8 @@
                 }).on("change", "#room-select", function () {
                     search(3);
                 });
+
+
 
 
 

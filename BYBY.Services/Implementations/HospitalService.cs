@@ -72,12 +72,13 @@ namespace BYBY.Services.Implementations
         /// <returns></returns>
         public async Task<EmptyResponse> AddRoom(AddRoomRequest request)
         {
-            bool exists = await CheckRoomNameExists(request.Name, request.HospitalId);
+            var hospitalId = LoginUserHospitalId;
+            bool exists = await CheckRoomNameExists(request.Name, hospitalId);
             if (exists)
             {
                 return EmptyResponse.CreateError("诊室名称不能重复");
             }
-            var info = new TBConsultationRoom { Name = request.Name, HospitalId = request.HospitalId };
+            var info = new TBConsultationRoom { Name = request.Name, HospitalId = hospitalId };
             info.AddUserName = GetLoginUserName();
             await _roomRepository.InsertAsync(info);
             int rs = _unitOfWork.Commit();
@@ -115,7 +116,8 @@ namespace BYBY.Services.Implementations
                 return EmptyResponse.CreateError("诊室名称不能重复");
             }
             var editInfo = await _roomRepository.GetAsync(request.Id);
-            editInfo = Mapper.Map(request, editInfo);
+            editInfo.Name = request.Name;
+
             editInfo.ModifyUserName = GetLoginUserName();
             await _roomRepository.UpdateAsync(editInfo);
             int rs = _unitOfWork.Commit();
@@ -188,6 +190,7 @@ namespace BYBY.Services.Implementations
         public async Task<PlanListView> GetPlanList(PlanQueryRequest request)
         {
             var query = await _dateRepository.FindAllAsync();
+            var hospitalId = LoginUserHospitalId;
             PlanListView plan = new PlanListView();
             DateSetupView dataView;
             DateTime monday = DateTime.MinValue;
@@ -209,7 +212,7 @@ namespace BYBY.Services.Implementations
                     break;
             }
             var nextMonday = monday.AddDays(7);
-            var planDatas = await _planRepository.FindAsync(d => d.PlanDate >= monday && d.PlanDate < nextMonday);
+            var planDatas = await _planRepository.FindAsync(d => d.PlanDate >= monday && d.PlanDate < nextMonday && d.Doctor.HospitalId == hospitalId);
             if (request.RoomId > 0)
             {
                 planDatas = planDatas.Where(d => d.RoomId == request.RoomId);
@@ -241,6 +244,8 @@ namespace BYBY.Services.Implementations
                     if (tablePlan != null)
                     {
                         planView = Mapper.Map<PlanView>(tablePlan);
+                        planView.ConsultationCount = tablePlan.ValidConsultations.Count();
+                        planView.ConsultationList = Mapper.Map<IList<PlanConsultationView>>(tablePlan.ValidConsultations);
                     }
                     else
                     {
@@ -268,6 +273,7 @@ namespace BYBY.Services.Implementations
                 plan.WeekTitles.Add(weekTitle);
             }
             plan.DateSelect = monday.ToString("yyyy-MM-dd");
+            plan.EndDate = monday.AddDays(6).ToString("yyyy-MM-dd");
             return plan;
         }
 
@@ -293,6 +299,7 @@ namespace BYBY.Services.Implementations
                         }
                         else
                         {
+                          
                             await _planRepository.DeleteAsync(info);
                         }
 

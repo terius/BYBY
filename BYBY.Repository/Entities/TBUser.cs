@@ -140,6 +140,17 @@ namespace BYBY.Repository.Entities
             }
         }
 
+        [NotMapped]
+        public string UserImg
+        {
+            get
+            {
+                var doctor = Doctors.FirstOrDefault();
+                return doctor == null ? "" : doctor.ImageUrl;
+
+            }
+        }
+
         //[NotMapped]
         //public int HospitalId
         //{

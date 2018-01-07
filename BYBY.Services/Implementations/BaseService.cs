@@ -113,6 +113,14 @@ namespace BYBY.Services.Implementations
             }
         }
 
+        public int LoginUserHospitalId
+        {
+            get
+            {
+                return LoginUserInfo.HospitalId;
+            }
+        }
+
         /// <summary>
         /// 是否为母院医生
         /// </summary>

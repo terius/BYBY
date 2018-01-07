@@ -181,6 +181,14 @@ namespace BYBYApp.Controllers
             }
         }
 
+        public int LoginDoctorId
+        {
+            get
+            {
+                return LoginUserInfo.DoctorId;
+            }
+        }
+
         private string GetCookieValue(string name)
         {
             if (Request.Cookies["AccountCookies"] == null)

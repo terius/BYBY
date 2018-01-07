@@ -146,6 +146,9 @@ namespace BYBYApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SaveConsultationAdd(ConsultationAddRequest request)
         {
+            request.DoctorId = LoginDoctorId;
+            //request.RequestDate = DateTime.Now.Date;
+
             var response = await _medicalHistoryService.SaveConsultationAdd(request);
             return Json(response, JsonRequestBehavior.AllowGet);
         }

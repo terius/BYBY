@@ -1,4 +1,5 @@
 ﻿using BYBY.Cache;
+using BYBY.Infrastructure;
 using BYBY.Services.Interfaces;
 using BYBY.Services.Models;
 using BYBY.Services.Request;
@@ -23,7 +24,7 @@ namespace BYBYApp.Controllers
         }
 
         // GET: Consultation
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? status)
         {
             var model = new ConsultationListModel();
             var loginInfo = LoginUserInfo;
@@ -47,6 +48,7 @@ namespace BYBYApp.Controllers
             model.MotherHospitalList = await GetCacheAsync(CacheKeys.MotherHospital);
             model.MotherDoctorList = await GetCacheAsync(CacheKeys.MotherDoctor);
             model.MasterHospitalId = await _medicalHistoryService.GetDoctorMasterHospitalId();
+            ViewBag.Status = status;
             return View(model);
         }
 

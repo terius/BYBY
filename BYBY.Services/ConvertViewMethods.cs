@@ -184,14 +184,8 @@ namespace BYBY.Services
             {
                 return "";
             }
-            var rs = Task.Run(() =>
-            {
-                var user = _userManager.FindByNameAsync(userName);
-
-                return user;
-            }).Result;
-
-            return rs.Name;
+            var user = _userManager.FindByNameAsync(userName).Result;
+            return user == null ? "" : user.Name;
         }
 
 

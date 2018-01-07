@@ -86,11 +86,11 @@ namespace BYBYApp.Controllers
         public async Task<ActionResult> Plan()
         {
             PlanListModel model = new PlanListModel();
-            model.DoctorList = await GetCacheAsync(BYBY.Cache.CacheKeys.Doctor);
+            var doctorList = await GetCacheAsync(BYBY.Cache.CacheKeys.Doctor);
             var roomList = await GetCacheAsync(BYBY.Cache.CacheKeys.Room);
-
+            model.DoctorList = doctorList.Where(d => d.parent == LogingUserHospitalId.ToString()).ToList();
             model.RoomList = roomList.Where(d => d.parent == LogingUserHospitalId.ToString()).ToList();
-         //   model.HospitalList = await GetCacheAsync(BYBY.Cache.CacheKeys.Hospital);
+            //   model.HospitalList = await GetCacheAsync(BYBY.Cache.CacheKeys.Hospital);
             return View(model);
         }
 

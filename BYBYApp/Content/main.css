@@ -801,9 +801,21 @@ td.no-data {
 }
 
 /************************************************排班页面************************************************/
+.plan-date-range {
+    margin-left: 30px;
+}
+
+    .plan-date-range h3 {
+        font-weight: 600;
+        font-size: 16px;
+        margin:0;
+    }
+
+
+
 .plan-table tr td {
-    font-size: 16px;
-    padding: 15px 2px !important;
+    font-size: 14px;
+    padding: 10px 5px !important;
 }
 
 .plan-table .chk {
@@ -816,3 +828,43 @@ td.no-data {
     padding-left: 0 !important;
     padding-right: 20px !important;
 }
+
+.plan-table tbody p {
+    margin: 0 0 2px 0;
+    text-align: left;
+}
+
+.plan-table .show-tips {
+}
+
+.plan-table .cons-detail {
+    position: relative;
+}
+
+    .plan-table .cons-detail .popover, .plan-table .cons-detail .popover-content {
+        max-width: 500px;
+    }
+
+    .plan-table .cons-detail .cons-detail-list {
+        padding: 10px;
+        border-bottom: 1px solid red;
+        white-space: nowrap;
+    }
+/************************************************医生详细信息页面************************************************/
+.doctor-detail {
+    display: inline-block
+}
+
+    .doctor-detail .detail {
+        padding: 10px 10px 10px 20px;
+        float: left;
+    }
+
+        .doctor-detail .detail > h3, .doctor-detail .detail > p {
+            margin: 0 0 10px 0;
+        }
+
+        .doctor-detail .detail .hosp {
+            font-size: 18px;
+            color: #2D5F8B;
+        }

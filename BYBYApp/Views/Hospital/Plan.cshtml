@@ -34,25 +34,28 @@
                 <div class="form-group">
                     <select class="selectpicker show-tick " data-width="196px" id="SelectRoom">
                         @foreach (var item in Model.RoomList)
-                        {
-                            <option value="@item.id">@item.text</option>
-                        }
+            {
+                <option value="@item.id">@item.text</option>
+}
 
                     </select>
                     <select class="selectpicker show-tick " data-width="196px" id="SelectDoctor">
                         <option>--所有医生--</option>
                         @foreach (var item in Model.DoctorList)
-                        {
-                            <option value="@item.id">@item.text</option>
-                        }
+            {
+                <option value="@item.id">@item.text</option>
+}
 
                     </select>
                     @*<select2 id="SelectHospital" class="w150" data-placeholder="--请选择医院--" :options="HospitalList">
-                        </select2>
-                        <select2 id="SelectRoom" class="w150" data-placeholder="--请选择会诊室--" :options="RoomList">
-                        </select2>
-                        <select2 id="SelectDoctor" class="w150" data-placeholder="--请选择医生--" :options="DoctorList">
-                        </select2>*@
+            </select2>
+            <select2 id="SelectRoom" class="w150" data-placeholder="--请选择会诊室--" :options="RoomList">
+            </select2>
+            <select2 id="SelectDoctor" class="w150" data-placeholder="--请选择医生--" :options="DoctorList">
+            </select2>*@
+                </div>
+                <div class="form-group plan-date-range">
+                    <h3 id="date-range-text">日期选择范围：2018-01-01 - 2018-01-07</h3>
                 </div>
             </div>
         </div>
@@ -76,8 +79,28 @@
                 <tr v-for="(info,index) in list.DateViews">
                     <td style="width:50px">{{index+1}}</td>
                     <td style="width:120px">{{info.STime}} - {{info.ETime}}</td>
-                    <td v-for="planView in info.OneDayPlans" style="position:relative">
-                        <span v-if="planView.Id !=0 && editmodel==0">{{planView.DoctorName}}/{{planView.People}}</span>
+                    <td v-for="planView in info.OneDayPlans">
+                        <div v-if="planView.Id !=0 && editmodel==0" class="view-content" v-on:mouseenter="showConsultation" v-on:mouseleave="hideConsultation">
+                            <p><strong>排班医生：</strong>{{planView.DoctorName}}</p>
+                            <p><strong>排班人数：</strong>{{planView.People}}</p>
+                            <div class="cons-detail">
+                                <p><strong>当前申请会诊数：</strong><a href="javascript:;" class="show-tips">{{planView.ConsultationCount}}</a></p>
+                                <div class="popover fade bottom in" data-popout="true" style="top: 0; left: 0;">
+                                    <div class="arrow" style="left: 50%;"></div>
+                                    <div class="popover-content text-center">
+                                        <div class="cons-detail-list" v-for="cons in planView.ConsultationList">
+                                            <p><strong>申请医院：</strong>{{cons.Hospital}}  <strong>申请医生：</strong>{{cons.Doctor}}</p>
+                                            <p><strong>女方患者：</strong>{{cons.Female}}  <strong>男方患者：</strong>{{cons.Male}}</p>
+                                            <p><strong>会诊状态：</strong>{{cons.Status}}</p>
+                                            <p><a :href="'/Consultation/Detail?id=' + cons.Id">查看详细</a></p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
                         <div v-if="editmodel==1">
                             <select2 id="DoctorId" class="w150" data-placeholder="无" v-model="planView.DoctorId" :options="DoctorList">
                             </select2>
@@ -139,10 +162,10 @@
                 para.DateSelect = dateSelect;
                 para.RoomId = roomId;
                 para.DoctorId = $("#SelectDoctor").val();
-                com.showLog(para,"查询参数");
+             //   com.showLog(para,"查询参数");
                 com.ajaxquery("/Hospital/QueryPlan", para).then(function (mydata) {
-
-                    com.showLog(mydata);
+                    $("#date-range-text").text("日期选择范围：" + mydata.DateSelect + " - " + mydata.EndDate);
+                  //  com.showLog(mydata);
                     if (vuetable == null) {
                         vuetable = new Vue({
                             el: '#query-table',
@@ -153,12 +176,13 @@
                                 selectDoctor: para.DoctorId
                             },
                             mounted: function () {
-
+                               // showTips(".view-content");
                             },
                             methods: {
 
                                 save: function () {
-
+                                  //  com.showLog(this.list.DateViews);
+                                   // return;
                                     com.ajaxquery("/Hospital/SavePlan", this.list.DateViews).then(function (res) {
                                         if (res.Result) {
                                             ShowSuccessThenReload(res.SuccessMessage);
@@ -167,6 +191,31 @@
                                             ShowErrorMessage(res.ErrorMessage);
                                         }
                                     });
+                                },
+                                showConsultation: function (event) {
+                                  
+                                    var $this = $(".show-tips", event.target);
+                                    var val = $this.text();
+                                    if (val == "0") {
+                                        return;
+                                    }
+                                    var tips = $this.parent().next();
+
+                                    var os = $this.position();
+                                    var newLeft = os.left - (tips.outerWidth() / 2) + 5;
+                                    var newTop = os.top + $this.height();
+                                    //  com.showLog("newLeft:" + newLeft + "   newTop:" + newTop + " width:" + tips.outerWidth());
+                                    tips.css({ "left": newLeft, "top": newTop }).show().on("mouseleave", function () {
+                                        tips.hide();
+                                    });
+                                },
+                                hideConsultation: function (event) {
+                                    var tips = $(".popover", event.target);
+                                    setTimeout(function () {
+                                        if (!$(".popover:hover").length) {
+                                            tips.hide();
+                                        }
+                                    }, 100);
                                 }
                             }
 
@@ -176,7 +225,7 @@
                         vuetable.list = mydata;
                         dateSelect = mydata.DateSelect;
                         vuetable.selectDoctor = para.DoctorId;
-
+                      //  showTips(".view-content");
                     }
                 });
             };
@@ -253,6 +302,8 @@
                 }
 
             })
+
+      
 
 
 

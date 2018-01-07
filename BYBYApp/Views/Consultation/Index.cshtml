@@ -229,6 +229,8 @@
 
         /**/
         var allData =  @Html.RenderAsJson(Model);
+        var status = "@ViewBag.Status";
+
     /**/
 
     var vuetable;
@@ -296,7 +298,7 @@
                 search(pageIndex, sortIndex, sortType);
             }
 
-            com.showLog(mydata, "查询数据");
+        //    com.showLog(mydata, "查询数据");
             if (vuetable == null) {
                 vuetable = new Vue({
                     el: '#query-table',
@@ -384,10 +386,20 @@
 
 
 
-    $(".icheck-inline .icheckBlue").on('ifChecked', function (event) {
-        search();
+        $(".icheck-inline .icheckBlue").on('ifChecked', function (event) {
+            var id = $(this).attr("id");
+            if (id == "checkall") {
+                $("#checkrequest").iCheck("uncheck");
+                $("#checkcancel").iCheck("uncheck");
+                $("#checkconfirm").iCheck("uncheck");
+                $("#checkcomplete").iCheck("uncheck");
+            }
+            else {
+                $("#checkall").iCheck("uncheck");
+            }
+        //search();
     }).on('ifUnchecked', function (event) {
-        search();
+       // search();
     });
 
     $("#btnSaveConsultation").on("click", function () {
@@ -403,7 +415,23 @@
 
     });
 
-    /*******************************初始执行方法***********************************/
+        /*******************************初始执行方法***********************************/
+        switch (status) {
+            case "2":
+                $("#checkrequest").iCheck("check");
+                break;
+            case "3":
+                $("#checkcancel").iCheck("check");
+                break;
+            case "4":
+                $("#checkconfirm").iCheck("check");
+                break;
+            case "5":
+                $("#checkcomplete").iCheck("check");
+                break;
+            default:
+        }
+       
     search();
 
 });

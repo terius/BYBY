@@ -101,6 +101,12 @@ namespace BYBY.Repository.Entities
         public DateTime? RecordTime { get; set; }
 
 
+        /// <summary>
+        /// 申请排班Id
+        /// </summary>
+        public int PlanId { get; set; }
+
+
 
 
         /// <summary>
@@ -116,6 +122,9 @@ namespace BYBY.Repository.Entities
 
         [ForeignKey("TBMedicalHistoryId")]
         public virtual TBMedicalHistory MedicalHistory { get; set; }
+
+        [ForeignKey("PlanId")]
+        public virtual TBPlan Plan { get; set; }
 
 
         public virtual ICollection<TBConsultationMedicine> ConsultationMedicines { get; set; }
