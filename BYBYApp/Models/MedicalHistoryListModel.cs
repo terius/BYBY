@@ -8,6 +8,8 @@ namespace BYBYApp.Models
         public IList<SelectItem> HospitalList { get; set; }
         public IList<SelectItem> DoctorList { get; set; }
 
-        public int MasterHospitalId { get; set; }
+        public IList<SelectItem> MasterHospitalList { get; set; }
+
+        public string DefaultMasterHospitalId { get; set; }
     }
 }

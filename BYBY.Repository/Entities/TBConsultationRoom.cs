@@ -1,10 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BYBY.Repository.Entities
 {
     public class TBConsultationRoom : BaseEntity<int>
     {
+        public TBConsultationRoom()
+        {
+            Plans = new HashSet<TBPlan>();
+        }
+
+
         [StringLength(100)]
         [Required]
         public string Name { get; set; }
@@ -18,5 +25,7 @@ namespace BYBY.Repository.Entities
 
         [ForeignKey("HospitalId")]
         public virtual TBHospital Hospital { get; set; }
+
+        public virtual ICollection<TBPlan> Plans { get; set; }
     }
 }

@@ -97,6 +97,16 @@ namespace BYBY.Repository.Entities
         }
 
         [NotMapped]
+        public bool IsMasterUser
+        {
+            get
+            {
+                return Hospital == null ? false : (Hospital.IsMaster ? true : false);
+
+            }
+        }
+
+        [NotMapped]
         public bool IsChildDoctor
         {
             get
@@ -112,20 +122,40 @@ namespace BYBY.Repository.Entities
         }
 
         [NotMapped]
-        public int MasterHospitalId
+        public IList<TBHospital> MasterHospitalIds
         {
             get
             {
                 if (!HospitalId.HasValue)
                 {
-                    return 0;
+                    return new List<TBHospital>();
                 }
                 //if (!IsDoctor)
                 //{
                 //    return 0;
                 //}
                 //var hospital = Doctors.First().Hospital;
-                return Hospital.ParentHospitalId.HasValue ? Hospital.ParentHospital.Id : HospitalId.Value;
+                return Hospital.MasterHospitals.Select(d => d.MasterHospital).ToList();
+                //   return Hospital.ParentHospitalId.HasValue ? Hospital.ParentHospital.Id : HospitalId.Value;
+            }
+        }
+
+        [NotMapped]
+        public IList<TBHospital> ChildHospitalIds
+        {
+            get
+            {
+                if (!HospitalId.HasValue)
+                {
+                    return new List<TBHospital>();
+                }
+                //if (!IsDoctor)
+                //{
+                //    return 0;
+                //}
+                //var hospital = Doctors.First().Hospital;
+                return Hospital.ChildHospitals.Select(d => d.ChildHospital).ToList();
+                //   return Hospital.ParentHospitalId.HasValue ? Hospital.ParentHospital.Id : HospitalId.Value;
             }
         }
 

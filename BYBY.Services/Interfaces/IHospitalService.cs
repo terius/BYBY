@@ -1,4 +1,5 @@
-﻿using BYBY.Services.Models;
+﻿using BYBY.Infrastructure;
+using BYBY.Services.Models;
 using BYBY.Services.Request;
 using BYBY.Services.Response;
 using BYBY.Services.Views;
@@ -48,6 +49,8 @@ namespace BYBY.Services.Interfaces
 
         Task<PlanListView> GetPlanList(PlanQueryRequest request);
         Task<EmptyResponse> SavePlan(IList<DateSetupView> request);
+
+        Task<IList<SelectItem>> GetPlansByHospitalId(OnlyHasIdRequest request);
 
     }
 }

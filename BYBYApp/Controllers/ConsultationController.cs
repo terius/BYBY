@@ -45,9 +45,9 @@ namespace BYBYApp.Controllers
             }
             ViewBag.IsMasterDoctor = LoginUserInfo.IsMasterDoctor;
 
-            model.MotherHospitalList = await GetCacheAsync(CacheKeys.MotherHospital);
+            model.MotherHospitalList = await _medicalHistoryService.GetLoginUserMasterHospitalList();
             model.MotherDoctorList = await GetCacheAsync(CacheKeys.MotherDoctor);
-            model.MasterHospitalId = await _medicalHistoryService.GetDoctorMasterHospitalId();
+            model.MasterHospitalId = model.MotherHospitalList.Count > 0 ? model.MotherHospitalList[0].id : "0";
             ViewBag.Status = status;
             return View(model);
         }

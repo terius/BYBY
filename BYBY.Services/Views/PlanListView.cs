@@ -73,5 +73,7 @@ namespace BYBY.Services.Views
 
         public int Id { get; set; }
     }
+
+  
   
 }

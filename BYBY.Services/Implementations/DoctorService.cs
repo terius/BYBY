@@ -21,6 +21,7 @@ namespace BYBY.Services.Implementations
 
         readonly IRepository<TBDoctor, int> _repository;
         readonly IRepository<TBHospital, int> _hospitalRepository;
+        readonly IRepository<TBMasterHospital, int> _masterHospitalRepository;
         readonly IUnitOfWork _unitOfWork;
         readonly ICacheService _cacheService;
         readonly IUserAccountService _userService;
@@ -29,6 +30,7 @@ namespace BYBY.Services.Implementations
             IRepository<TBHospital, int> hospitalRepository,
             ICacheService cacheService,
             IUserAccountService userService,
+            IRepository<TBMasterHospital, int> masterHospitalRepository,
         IUnitOfWork unitOfWork)
         {
             _repository = repository;
@@ -36,16 +38,18 @@ namespace BYBY.Services.Implementations
             _cacheService = cacheService;
             _userService = userService;
             _unitOfWork = unitOfWork;
+            _masterHospitalRepository = masterHospitalRepository;
         }
 
         public async Task<IList<SelectItem>> GetDoctorChildHospitals()
         {
-            var doctor = await GetLoginDoctorInfo();
-            if (doctor.IsMasterDoctor)
+            var user = await GetLoginInfoAsync();
+            if (user.IsMasterUser)
             {
-                var hospitalId = doctor.Hospital.Id;
-                var list = await _hospitalRepository.FindAsync(d => d.ParentHospitalId == hospitalId);
-                return list.ConvertTo_SelectItem();
+                //  var hospitalId = doctor.Hospital.Id;
+                // var list = await _hospitalRepository.FindAsync(d => d.ParentHospitalId == hospitalId);
+                var list = user.ChildHospitalIds.ConvertTo_SelectItem();
+              //  return list.ConvertTo_SelectItem();
             }
             return new List<SelectItem>();
         }
@@ -65,7 +69,7 @@ namespace BYBY.Services.Implementations
             foreach (var item in masterList)
             {
                 hosp = new SelectItem { id = item.Id.ToString(), text = item.Name + "-母院" };
-                var childList = await _hospitalRepository.FindAsync(d => d.ParentHospitalId == item.Id);
+                var childList = (await _masterHospitalRepository.FindAsync(d => d.MasterHospitalId == item.Id)).Select(d=>d.ChildHospital).ToList();
                 hosp.children = childList.ConvertTo_SelectItem();
                 hosp.children.Insert(0, new SelectItem { id = item.Id.ToString(), text = item.Name });
                 pList.Add(hosp);

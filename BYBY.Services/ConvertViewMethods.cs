@@ -331,6 +331,10 @@ namespace BYBY.Services
 
         public static IList<SelectItem> ConvertTo_SelectItem(this IEnumerable<TBHospital> source)
         {
+            if (source == null)
+            {
+                return null;
+            }
             var dest = new List<SelectItem>();
             SelectItem sitem;
             foreach (var item in source)
@@ -457,6 +461,22 @@ namespace BYBY.Services
                 views.Add(view);
             }
             return views;
+        }
+
+
+        public static IList<SelectItem> C_To_PlanSelectItems(this IList<TBPlan> source)
+        {
+            var dest = new List<SelectItem>();
+            SelectItem sitem;
+            foreach (var plan in source)
+            {
+                sitem = new SelectItem();
+                sitem.id = plan.Id.ToString();
+                sitem.text = plan.ShowText();
+                dest.Add(sitem);
+            }
+            return dest;
+
         }
 
 

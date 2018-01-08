@@ -152,37 +152,44 @@
                         <div class="form-group">
                             <label class="control-label col-xs-3">会诊医院</label>
                             <div class="col-xs-6">
-                                <select2 id="HospitalId" class="w250 required" data-placeholder="--请选择医院--" :value="masterHospitalId" :options="HospitalList">
+                                <select2 id="HospitalId" class="w400 required" data-placeholder="--请选择医院--" :options="info.MasterHospitalList">
                                 </select2>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-xs-3">申请会诊日期</label>
+                            <label class="control-label col-xs-3">选择母院排班</label>
                             <div class="col-xs-6">
-                                <date-picker-simple id="RequestDate" class="w250 required"></date-picker-simple>
+                                <select2 id="PlanId" class="w400 required" data-placeholder="--请选择母院排班--" :options="PlanList">
+                                </select2>
                             </div>
                         </div>
                         @*<div class="form-group">
-                            <label class="control-label col-xs-3 ">会诊医生</label>
-                            <div class="col-xs-6">
-                                <select2 id="DoctorId" class="w250 required" data-placeholder="--会诊医生--" :options="DoctorList">
-                                </select2>
-                            </div>
-                        </div>*@
-                        <div class="form-group">
-                            <label class="control-label col-xs-3 ">会诊时间段</label>
-                            <div class="col-xs-6">
-                                <div class="input-group input-datetime-range">
-                                    <input type="text" id="STime" class="form-control  required" name="STime">
-                                    <span class="input-group-addon"> 到 </span>
-                                    <input type="text" id="ETime" class="form-control required" name="ETime">
+                                <label class="control-label col-xs-3">申请会诊日期</label>
+                                <div class="col-xs-6">
+                                    <date-picker-simple id="RequestDate" class="w250 required"></date-picker-simple>
                                 </div>
-                            </div>
-                        </div>
+                            </div>*@
+                        @*<div class="form-group">
+                                <label class="control-label col-xs-3 ">会诊医生</label>
+                                <div class="col-xs-6">
+                                    <select2 id="DoctorId" class="w250 required" data-placeholder="--会诊医生--" :options="DoctorList">
+                                    </select2>
+                                </div>
+                            </div>*@
+                        @*<div class="form-group">
+                                <label class="control-label col-xs-3 ">会诊时间段</label>
+                                <div class="col-xs-6">
+                                    <div class="input-group input-datetime-range">
+                                        <input type="text" id="STime" class="form-control  required" name="STime">
+                                        <span class="input-group-addon"> 到 </span>
+                                        <input type="text" id="ETime" class="form-control required" name="ETime">
+                                    </div>
+                                </div>
+                            </div>*@
                         <div class="form-group">
                             <label class="control-label col-xs-3 ">申请备注</label>
                             <div class="col-xs-6">
-                                <textarea name="Remark" class="form-control w300" maxlength="500" rows="3" cols="20"></textarea>
+                                <textarea name="Remark" class="form-control w400" maxlength="500" rows="3" cols="20"></textarea>
                             </div>
                         </div>
                     </div>
@@ -203,16 +210,16 @@
                     @Html.AntiForgeryToken()
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <label class="control-label col-xs-3">会诊医院</label>
+                            <label class="control-label col-xs-3">转诊医院</label>
                             <div class="col-xs-6">
                                 <select2 id="HospitalId" class="w250 " data-placeholder="--请选择医院--" :value="masterHospitalId" :options="HospitalList">
                                 </select2>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-xs-3">申请会诊日期</label>
+                            <label class="control-label col-xs-3">申请转诊日期</label>
                             <div class="col-xs-6">
-                                <date-picker-simple id="RequestDate" class="w250 "></date-picker-simple>
+                                <date-picker-simple id="RequestDate"   class="w250 "></date-picker-simple>
                             </div>
                         </div>
                         <div class="form-group">
@@ -265,14 +272,21 @@
                         data: {}
 
                     },
-                    HospitalList: allData.HospitalList,
-                    DoctorList: allData.DoctorList,
-                    masterHospitalId: allData.MasterHospitalId
+                    info: allData,
+                    PlanList:[]
 
                 },
                 mounted: function () {
                     $("#saveConsultationForm").validateForm();
                     com.handleDateTimePicker();
+                    $("#HospitalId", "#saveConsultationForm").on("change", function () {
+                        var id = $(this).val();
+                        com.ajaxquery("/MedicalHistory/GetPlanList", { Id: id }).then(function (list) {
+                            vueConsultation.PlanList = list;
+                        });
+                    }).val(allData.DefaultMasterHospitalId).trigger('change');
+
+
                 }
 
             });

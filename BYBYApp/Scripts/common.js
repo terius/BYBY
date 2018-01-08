@@ -403,108 +403,108 @@ com.confirm = function (title, yesFun, noFun, yesText, noText) {
 
 
 
-//com.initImageUpload = function (target, url, successFun, isSingle) {
-//    var $dvfile = $(target);
-//    var reader = new FileReader();
-//    var img = "<li onmouseenter=\"$('.delete',this).show();\" onmouseleave=\"$('.delete',this).hide();\" >"
-//        + "<img src=\"{0}\" height=\"150\" width=\"100\"  />"
-//        + "<i class=\"fa fa-2x fa-trash-o blue delete\" data-fileid=\"{1}\" title=\"取消上传\"></i>"
-//        + "<p>{2}</p>"
-//        + "</li>";
-//    var len = 1;
-//    var readURL = function (input) {
-//        if (input.files && input.files[0]) {
-//            selectFile = input.files[0];
-//            if (!/image\/\w+/.test(selectFile.type)) {
-//                ShowLayerAlert("请确保文件类型为图像类型");
-//                input.outerHTML = input.outerHTML;
-//                return false;
-//            }
+com.initImageUpload = function (target, url, successFun, isSingle) {
+    var $dvfile = $(target);
+    var reader = new FileReader();
+    var img = "<li onmouseenter=\"$('.delete',this).show();\" onmouseleave=\"$('.delete',this).hide();\" >"
+        + "<img src=\"{0}\" height=\"150\" width=\"100\"  />"
+        + "<i class=\"fa fa-2x fa-trash-o blue delete\" data-fileid=\"{1}\" title=\"取消上传\"></i>"
+        + "<p>{2}</p>"
+        + "</li>";
+    var len = 1;
+    var readURL = function (input) {
+        if (input.files && input.files[0]) {
+            selectFile = input.files[0];
+            if (!/image\/\w+/.test(selectFile.type)) {
+                ShowLayerAlert("请确保文件类型为图像类型");
+                input.outerHTML = input.outerHTML;
+                return false;
+            }
 
-//            var size = selectFile.size / 1024 / 1024;
-//            if (size > 10) {
-//                ShowLayerAlert("请勿上传超过10M的图片");
-//                input.outerHTML = input.outerHTML;
-//                return false;
-//            }
-//            reader.readAsDataURL(selectFile);
-//            reader.onload = function (e) {
-//                var fileid = input.id;
-//                if (!isSingle) {
-//                    $(".ul-img-list", $dvfile).append(img.replace("{0}", e.target.result).replace("{1}", fileid).replace("{2}", selectFile.name));
-//                    $(":file", $dvfile).hide();
-//                    len += 1;
-//                    $(".fileinput-button", $dvfile).append("<input type=\"file\" accept=\"image/*\" id=\"upfile" + len + "\"/>");
-//                } else {
-//                    $(".ul-img-list", $dvfile).html(img.replace("{0}", e.target.result).replace("{1}", fileid).replace("{2}", selectFile.name));
-//                }
-//            };
-//            reader.onloadstart = function (e) {
-//                // $(".load").show();
-//            }
-//        }
-//    };
-
-
-
-//    var SaveFile = function () {
-
-//        var data = new FormData();
-//        var hasFile = false;
-//        $(":file", $dvfile).each(function (index, ele) {
-//            if (ele.files.length > 0) {
-//                hasFile = true;
-//                data.append('upload_file' + index, ele.files[0]);
-//            }
-//        })
-
-//        if (!hasFile) {
-//            ShowWarningMessage("请先选择要上传的图片");
-//            return false;
-//        }
-
-//        //删除图片
-//        $.ajax({
-//            url: url,
-//            type: 'POST',
-//            data: data,
-//            cache: false,
-//            contentType: false,    //不可缺
-//            processData: false    //不可缺
-//        }).done(function (res) {
-//            if (typeof successFun === "function") {
-//                successFun(res);
-//            }
-//            else {
-//                if (res.Result) {
-//                    ShowSuccessThenReload(res.SuccessMessage)
-//                }
-//                else {
-//                    ShowErrorMessage(res.ErrorMessage)
-//                }
-//            }
-//        }).fail(function (xhr, status, error) {
-//            ShowLayerAlert('上传失败, 原因: ' + error.message);
-//        });
-
-//    }
+            var size = selectFile.size / 1024 / 1024;
+            if (size > 10) {
+                ShowLayerAlert("请勿上传超过10M的图片");
+                input.outerHTML = input.outerHTML;
+                return false;
+            }
+            reader.readAsDataURL(selectFile);
+            reader.onload = function (e) {
+                var fileid = input.id;
+                if (!isSingle) {
+                    $(".ul-img-list", $dvfile).append(img.replace("{0}", e.target.result).replace("{1}", fileid).replace("{2}", selectFile.name));
+                    $(":file", $dvfile).hide();
+                    len += 1;
+                    $(".fileinput-button", $dvfile).append("<input type=\"file\" accept=\"image/*\" id=\"upfile" + len + "\"/>");
+                } else {
+                    $(".ul-img-list", $dvfile).html(img.replace("{0}", e.target.result).replace("{1}", fileid).replace("{2}", selectFile.name));
+                }
+            };
+            reader.onloadstart = function (e) {
+                // $(".load").show();
+            }
+        }
+    };
 
 
-//    $dvfile.on("change", ":file", function () {
-//        readURL(this);
-//    }).on("click", ".start", function () {
-//        SaveFile();
-//    }).on("click", ".delete", function () {
-//        $(this).closest("li").remove();
-//        var fileid = $(this).data("fileid");
-//        if (!isSingle) {
-//            $("#" + fileid).remove();
-//        }
-//        else {
-//            $("#" + fileid).val("");
-//        }
-//    })
-//};
+
+    var SaveFile = function () {
+
+        var data = new FormData();
+        var hasFile = false;
+        $(":file", $dvfile).each(function (index, ele) {
+            if (ele.files.length > 0) {
+                hasFile = true;
+                data.append('upload_file' + index, ele.files[0]);
+            }
+        })
+
+        if (!hasFile) {
+            ShowWarningMessage("请先选择要上传的图片");
+            return false;
+        }
+
+        //删除图片
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: data,
+            cache: false,
+            contentType: false,    //不可缺
+            processData: false    //不可缺
+        }).done(function (res) {
+            if (typeof successFun === "function") {
+                successFun(res);
+            }
+            else {
+                if (res.Result) {
+                    ShowSuccessThenReload(res.SuccessMessage)
+                }
+                else {
+                    ShowErrorMessage(res.ErrorMessage)
+                }
+            }
+        }).fail(function (xhr, status, error) {
+            ShowLayerAlert('上传失败, 原因: ' + error.message);
+        });
+
+    }
+
+
+    $dvfile.on("change", ":file", function () {
+        readURL(this);
+    }).on("click", ".start", function () {
+        SaveFile();
+    }).on("click", ".delete", function () {
+        $(this).closest("li").remove();
+        var fileid = $(this).data("fileid");
+        if (!isSingle) {
+            $("#" + fileid).remove();
+        }
+        else {
+            $("#" + fileid).val("");
+        }
+    })
+};
 
 
 ; (function ($) {

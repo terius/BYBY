@@ -1,4 +1,5 @@
-﻿using BYBY.Repository.Entities;
+﻿using BYBY.Infrastructure;
+using BYBY.Repository.Entities;
 using BYBY.Services.Account;
 using BYBY.Services.Interfaces;
 using BYBY.Services.Request;
@@ -85,10 +86,10 @@ namespace BYBY.Services.Implementations
         }
 
 
-        public async Task<int> GetDoctorMasterHospitalId()
+        public async Task<IList<SelectItem>> GetLoginUserMasterHospitalList()
         {
             var userInfo = await GetLoginInfoAsync();
-            return userInfo.MasterHospitalId;
+            return userInfo.MasterHospitalIds.ConvertTo_SelectItem();
         }
 
         //public async Task<int> GetLoginUserHospitalId()

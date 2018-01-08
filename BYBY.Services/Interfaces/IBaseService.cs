@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using BYBY.Infrastructure;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BYBY.Services.Interfaces
 {
     public interface IBaseService
     {
-        Task<int> GetDoctorMasterHospitalId();
+        Task<IList<SelectItem>> GetLoginUserMasterHospitalList();
 
 
         bool IsMasterDoctor { get; }

@@ -315,56 +315,61 @@
                         });
 
                     })
+
+                    var viewer = new Viewer(document.getElementById('mdimages'), {
+                        url: 'data-original',
+                        zIndex: 99999,
+                        toolbar: {
+                            zoomIn: 4,
+                            zoomOut: 4,
+                            oneToOne: 4,
+                            reset: 4,
+                            prev: 4,
+                            play: {
+                                show: 4,
+                                size: 'large',
+                            },
+                            next: 4,
+                            rotateLeft: 4,
+                            rotateRight: 4,
+                            flipHorizontal: 4,
+                            flipVertical: 4,
+                        }
+                    });
+
+                        com.initImageUpload("#uploadfile", "/MedicalHistory/UploadFile?patientId=" + allData.EditModel.MHId, function(res) {
+                 if (res.Result) {
+                     var newurl = com.replaceUrlParam(location.href, "tab", 4);
+                     ShowSuccessThenGotoUrl(res.SuccessMessage,newurl);
+                 }
+                 else {
+                     ShowErrorMessage(res.ErrorMessage)
+                 }
+                });
+
+                    //$('#uploadfile').myUploadImage({
+                    //    url: "/MedicalHistory/UploadFile?patientId=" + allData.EditModel.MHId,
+                    //    successFun: function (res) {
+                    //        if (res.Result) {
+                    //            var newurl = com.replaceUrlParam(location.href, "tab", 4);
+                    //            ShowSuccessThenGotoUrl(res.SuccessMessage, newurl);
+                    //        }
+                    //        else {
+                    //            ShowErrorMessage(res.ErrorMessage)
+                    //        }
+                    //    }
+                    //});
+
                 }
             })
 
 
             //$("#mdimages").viewer();
           //  var options = {};
-             var viewer = new Viewer(document.getElementById('mdimages'), {
-                 url: 'data-original',
-                 zIndex: 99999,
-                 toolbar: {
-                     zoomIn: 4,
-                     zoomOut: 4,
-                     oneToOne: 4,
-                     reset: 4,
-                     prev: 4,
-                     play: {
-                         show: 4,
-                         size: 'large',
-                     },
-                     next: 4,
-                     rotateLeft: 4,
-                     rotateRight: 4,
-                     flipHorizontal: 4,
-                     flipVertical: 4,
-                 }
-            });
-
-             $('#uploadfile').myUploadImage({
-                 url: "/MedicalHistory/UploadFile?patientId=" + allData.EditModel.MHId,
-                 successFun: function(res) {
-                     if (res.Result) {
-                         var newurl = com.replaceUrlParam(location.href, "tab", 4);
-                         ShowSuccessThenGotoUrl(res.SuccessMessage, newurl);
-                     }
-                     else {
-                         ShowErrorMessage(res.ErrorMessage)
-                     }
-                 }
-             });
 
 
-             //com.initImageUpload("#uploadfile", "/MedicalHistory/UploadFile?patientId=" + allData.EditModel.MHId, function(res) {
-             //    if (res.Result) {
-             //        var newurl = com.replaceUrlParam(location.href, "tab", 4);
-             //        ShowSuccessThenGotoUrl(res.SuccessMessage,newurl);
-             //    }
-             //    else {
-             //        ShowErrorMessage(res.ErrorMessage)
-             //    }
-             //});
+
+
         })
 
 

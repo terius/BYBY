@@ -7,6 +7,6 @@ namespace BYBYApp.Models
     {
         public IList<SelectItem> HospitalList { get; set; }
 
-        public int MasterHospitalId { get; set; }
+       // public int MasterHospitalId { get; set; }
     }
 }

@@ -51,6 +51,12 @@ namespace BYBY.Repository.Entities
             }
         }
 
+
+        public string ShowText()
+        {
+            return string.Format("[{0}]{1}", Room.Name, PlanDate.ToString("yyyy-MM-dd") + "   " + STime.ToString("HH:mm") + " - " + ETime.ToString("HH:mm"));
+        }
+
         protected override void Validate()
         {
             if (dbaction == DBAction.Delete)

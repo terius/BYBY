@@ -40,6 +40,8 @@ namespace BYBY.Repository
         public DbSet<TBDateSetup> TBDateSetups { get; set; }
 
         public DbSet<TBPlan> TBPlans { get; set; }
+
+        public DbSet<TBMasterHospital> TBMasterHospitals { get; set; }
         public BYBYDBContext()
             : base("name=conn1")
         {
@@ -61,6 +63,9 @@ namespace BYBY.Repository
 
             modelBuilder.Entity<TBHospital>().HasMany(t => t.Doctors).WithRequired(p => p.Hospital).WillCascadeOnDelete(false);
             modelBuilder.Entity<TBPlan>().HasMany(t => t.Consultations).WithRequired(p => p.Plan).WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<TBHospital>().HasMany(t => t.MasterHospitals).WithRequired(p => p.ChildHospital).WillCascadeOnDelete(false);
+            modelBuilder.Entity<TBHospital>().HasMany(t => t.ChildHospitals).WithRequired(p => p.MasterHospital).WillCascadeOnDelete(false);
         }
     }
 }

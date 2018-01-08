@@ -14,12 +14,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using BYBY.Services.Models;
+using BYBY.Services;
 
 namespace BYBY.Services.Implementations
 {
     public class HospitalService : BaseService, IHospitalService
     {
-
+        readonly IRepository<TBHospital, int> _repository;
         readonly IRepository<TBConsultationRoom, int> _roomRepository;
         readonly IRepository<TBDateSetup, int> _dateRepository;
         readonly IRepository<TBPlan, int> _planRepository;
@@ -30,6 +31,7 @@ namespace BYBY.Services.Implementations
             IRepository<TBDateSetup, int> dateRepository,
             IRepository<TBPlan, int> planRepository,
             ICacheService cacheService,
+            IRepository<TBHospital, int> repository,
             IUnitOfWork unitOfWork
             )
         {
@@ -38,6 +40,7 @@ namespace BYBY.Services.Implementations
             _planRepository = planRepository;
             _unitOfWork = unitOfWork;
             _cacheService = cacheService;
+            _repository = repository;
         }
 
 
@@ -186,7 +189,7 @@ namespace BYBY.Services.Implementations
             return rs > 0 ? EmptyResponse.CreateSuccess("删除成功") : EmptyResponse.CreateError("删除失败");
         }
 
-
+        #region 排班模块
         public async Task<PlanListView> GetPlanList(PlanQueryRequest request)
         {
             var query = await _dateRepository.FindAllAsync();
@@ -358,6 +361,22 @@ namespace BYBY.Services.Implementations
             }
 
         }
+
+
+        public async Task<IList<SelectItem>> GetPlansByHospitalId(OnlyHasIdRequest request)
+        {
+            if (request.Id <=0)
+            {
+                return new List<SelectItem>();
+            }
+            DateTime dtNow = DateTime.Now.Date;
+            var list = (await _planRepository.FindAsync(d => d.Room.HospitalId == request.Id && d.STime >= dtNow)).OrderBy(d=>d.RoomId).OrderBy(d => d.STime).ToList();
+           // var hosp = await _repository.GetAsync(request.Id);
+           // var list = hosp.GetPlanStartToday();
+            var views = list.C_To_PlanSelectItems();
+            return views;
+        }
+        #endregion
 
 
 

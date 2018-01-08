@@ -14,10 +14,12 @@ namespace BYBYApp.Controllers
     public class MedicalHistoryController : BaseController
     {
         readonly IMedicalHistoryService _medicalHistoryService;
+        readonly IHospitalService _hospitalService;
 
-        public MedicalHistoryController(IMedicalHistoryService medicalHistoryService)
+        public MedicalHistoryController(IMedicalHistoryService medicalHistoryService, IHospitalService hospitalService)
         {
             _medicalHistoryService = medicalHistoryService;
+            _hospitalService = hospitalService;
         }
 
         /// <summary>
@@ -29,8 +31,17 @@ namespace BYBYApp.Controllers
             var model = new MedicalHistoryListModel();
             model.HospitalList = await GetCacheAsync(CacheKeys.Hospital);
             model.DoctorList = await GetCacheAsync(CacheKeys.Doctor);
-            model.MasterHospitalId = await _medicalHistoryService.GetDoctorMasterHospitalId();
+            model.MasterHospitalList = await _medicalHistoryService.GetLoginUserMasterHospitalList();
+            model.DefaultMasterHospitalId = model.MasterHospitalList.Count > 0 ? model.MasterHospitalList[0].id : "0";
+
+
             return View(model);
+        }
+
+        public async Task<JsonResult> GetPlanList(OnlyHasIdRequest request)
+        {
+            var response = await _hospitalService.GetPlansByHospitalId(request);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -147,8 +158,9 @@ namespace BYBYApp.Controllers
         public async Task<ActionResult> SaveConsultationAdd(ConsultationAddRequest request)
         {
             request.DoctorId = LoginDoctorId;
-            //request.RequestDate = DateTime.Now.Date;
-
+            request.RequestDate = DateTime.Now.Date;
+            request.STime = DateTime.Now;
+            request.ETime = DateTime.Now;
             var response = await _medicalHistoryService.SaveConsultationAdd(request);
             return Json(response, JsonRequestBehavior.AllowGet);
         }

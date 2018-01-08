@@ -23,7 +23,7 @@ namespace BYBYApp.Controllers
         {
             ReferralListModel model = new ReferralListModel();
             model.HospitalList = await GetCacheAsync(CacheKeys.Hospital);
-            model.MasterHospitalId = await _medicalHistoryService.GetDoctorMasterHospitalId();
+          //  model.MasterHospitalId = await _medicalHistoryService.GetDoctorMasterHospitalId();
             ViewBag.IsMasterDoctor = LoginUserInfo.IsMasterDoctor;
             ViewBag.Status = status;
             return View(model);

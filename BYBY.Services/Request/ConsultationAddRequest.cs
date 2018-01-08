@@ -19,5 +19,7 @@ namespace BYBY.Services.Request
         public DateTime ETime { get; set; }
 
         public string Remark { get; set; }
+
+        public int PlanId { get; set; }
     }
 }

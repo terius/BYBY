@@ -81,7 +81,7 @@ Vue.component('date-picker', {
 })
 
 Vue.component('date-picker-simple', {
-    props: ['id', 'myclass', 'value', 'defaultDate'],
+    props: ['id', 'myclass', 'value', 'defaultDate','startSelectDate'],
     template: '<input type="text" :value="value"   readonly @input="updateSelf($event.target.value)" class="form-control date-picker" :class="myclass" :id="id" :name="id" >',
     mounted: function () {
         var vm = this
@@ -91,6 +91,14 @@ Vue.component('date-picker-simple', {
             language: "zh-CN",
             clearBtn: true
         }
+         if (!this.startSelectDate)
+{
+option.startDate= new Date();
+}
+else
+{
+option.startDate= this.startSelectDate;
+}
         var dfdate = this.$attrs.defaultdate;
         if (dfdate) {
             var sp = dfdate.split('-');

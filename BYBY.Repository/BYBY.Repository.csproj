@@ -61,6 +61,7 @@
     <Compile Include="Entities\TBCheckAssay.cs" />
     <Compile Include="Entities\TBDateSetup.cs" />
     <Compile Include="Entities\TBConsultationRoom.cs" />
+    <Compile Include="Entities\TBMasterHospital.cs" />
     <Compile Include="Entities\TBMedicine.cs" />
     <Compile Include="Entities\TBPlan.cs" />
     <Compile Include="Entities\TBReferral.cs" />
@@ -343,6 +344,18 @@
     <Compile Include="Migrations\201801071208127_TBConsultationAddPlanId2.Designer.cs">
       <DependentUpon>201801071208127_TBConsultationAddPlanId2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801080340281_AddTableTBMasterHospital.cs" />
+    <Compile Include="Migrations\201801080340281_AddTableTBMasterHospital.Designer.cs">
+      <DependentUpon>201801080340281_AddTableTBMasterHospital.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801080432098_AddTableTBMasterHospital2.cs" />
+    <Compile Include="Migrations\201801080432098_AddTableTBMasterHospital2.Designer.cs">
+      <DependentUpon>201801080432098_AddTableTBMasterHospital2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801080606292_AddTableTBMasterHospital3.cs" />
+    <Compile Include="Migrations\201801080606292_AddTableTBMasterHospital3.Designer.cs">
+      <DependentUpon>201801080606292_AddTableTBMasterHospital3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -551,6 +564,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801071208127_TBConsultationAddPlanId2.resx">
       <DependentUpon>201801071208127_TBConsultationAddPlanId2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801080340281_AddTableTBMasterHospital.resx">
+      <DependentUpon>201801080340281_AddTableTBMasterHospital.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801080432098_AddTableTBMasterHospital2.resx">
+      <DependentUpon>201801080432098_AddTableTBMasterHospital2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801080606292_AddTableTBMasterHospital3.resx">
+      <DependentUpon>201801080606292_AddTableTBMasterHospital3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
