@@ -111,7 +111,9 @@ $.fn.validateForm = function (option) {
 com.jqFormOption = {
     data: {},
     checkval: null,
+    loadid:"",
     error: function (result, textStatus, errorThrown) {
+        com.unblockUI(com.jqFormOption.loadid);
         com.showLog(result);
         ShowLayerAlert(result.responseText);
     },
@@ -125,9 +127,15 @@ com.jqFormOption = {
         })
     },
     beforeSubmit: function (arr, $form, options) {
+        if (com.jqFormOption.loadid=="")
+     {
+        com.jqFormOption.loadid= "#" + $form.attr("id");
+     }
+   
         // The array of form data takes the following form: 
         // [ { name: 'username', value: 'jresig' }, { name: 'password', value: 'secret' } ] 
         // return false to cancel submit   
+        com.blockUI(com.jqFormOption.loadid,"加载中");
         var checkok = true;
         if ($form.valid) {
             checkok = $form.valid();
@@ -139,7 +147,10 @@ com.jqFormOption = {
         }
         return checkok;
 
-    }
+    },
+    complete:function(){
+         com.unblockUI(com.jqFormOption.loadid);
+   }
 }
 
 var ShowLayerAlert = function (msg, callback) {
@@ -686,6 +697,58 @@ com.getBirthdayFromSFZ = function (iIdNo) {
         return tmpStr;
     }
 }
+
+com.getParam = function (pname) {
+
+    var params = location.search.substr(1); //  获取参数 平且去掉？   
+    var ArrParam = params.split('&');
+    //if (ArrParam.length == 1) {
+    //    //只有一个参数的情况   
+    //    return params.split('=')[1];
+    //}
+    //else {
+    //多个参数参数的情况   
+    for (var i = 0; i < ArrParam.length; i++) {
+        if (ArrParam[i].split('=')[0] == pname) {
+
+            return ArrParam[i].split('=')[1];
+        }
+    }
+    return "";
+    // }
+}
+
+com.checkIsHtml = function (str) {
+    return /<(?=.*? .*?\/ ?>|br|hr|input|!--|wbr)[a-z]+.*?>|<([a-z]+).*?<\/\1>/i.test(str);
+}
+
+ com.blockUI = function (target,msg) {
+                var el = $(target);
+                el.block({
+                    message: '<div class="loading-message "><div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div><div class="load-title">' + msg +'</div></div>',
+                    //   baseZ: options.zIndex ? options.zIndex : 1000,
+                    //  centerY: true,
+                    css: {
+                        top: '10%',
+                        border: '0',
+                        padding: '0',
+                        backgroundColor: 'none'
+                    },
+                    overlayCSS: {
+                        backgroundColor: '#555',
+                        opacity: 0.1,
+                        cursor: 'wait'
+                    }
+                });
+            }
+  com.unblockUI = function (target) {
+            $(target).unblock({
+                onUnblock: function () {
+                    $(target).css('position', '');
+                    $(target).css('zoom', '');
+                }
+            });
+        }
 
 
 

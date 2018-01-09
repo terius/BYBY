@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<div class="portlet light bordered" id="rootdiv" v-cloak>
+    <div class="portlet-title">
+        <div class="caption">
+            {{vinfo.Title}}
+        </div>
+        <div class="actions">
+            <a class="btn fa fa-reply btn-default " href="javascript:;" onclick="history.go(-1)" data-original-title="返回" title="返回"> </a>
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+        </div>
+    </div>
+    <div class="portlet-body" id="detail-view">
+        <v-detailinfo v-bind:tinfo="detail.data"></v-detailinfo>
+    </div>
+</div>
+
+@{ Html.RenderPartial("_Detail");}
+
+@section pagejs
+{
+    <script>
+        var lastUrl= '@Html.Raw(@ViewBag.LastUrl)';
+        $(function () {
+            /*************************************定义对象*************************************/
+            var vue_root = null;
+            var detailType = {
+                Referral: 0
+            }
+            /*************************************vue设定*************************************/
+            Vue.component('v-detailinfo', {
+                template: "#detailform-template",
+                props: ["tinfo"]
+            })
+            vue_root = new Vue({
+                el: "#rootdiv",
+                data: {
+                    vinfo:
+                    {
+                        lasturl: lastUrl
+                    },
+                    detail: {
+                        data: []
+                    }
+
+                }
+
+
+            })
+            /*************************************方法****************************************/
+            var getDetail = function () {
+                var type = parseInt(com.getParam("type"));
+                var id = com.getParam("id");
+                switch (type) {
+                    case detailType.Referral:
+                        vue_root.vinfo.Title = "转诊详细信息";
+                        com.ajaxquery("/Tranfer/GetDetail", { Id: id }).then(function (data) {
+                            vue_root.detail.data = data;
+                        })
+                        break;
+                    default:
+
+                }
+            }
+            /*************************************事件****************************************/
+
+
+
+
+            /*************************************初始执行方法********************************/
+            getDetail();
+
+        });
+    </script>
+
+
+
+}

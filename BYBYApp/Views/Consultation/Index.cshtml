@@ -110,7 +110,7 @@
                                 {
                                     //子院医生操作
                                     <a v-if="info.MHConsultationStatus=='无' || info.MHConsultationStatus=='已取消' || info.MHConsultationStatus=='已完成'" href="javascript:;" class="margin-right-10" v-on:click="showConsultationRequest(info.MHId)"><i class="fa fa-2x fa-stethoscope tooltips" data-container="body" data-placement="top" data-original-title="申请会诊"></i></a>
-                                    <a v-if="info.MHConsultationStatus=='申请中'" href="javascript:;" class="margin-right-10" v-on:click="showConsultationConfirmPanel(info.Id,3)"><i class="fa fa-2x fa-mail-forward tooltips" data-container="body" data-placement="top" data-original-title="取消会诊"></i></a>
+                                    <a v-if="info.MHConsultationStatus=='申请中'" href="javascript:;" class="margin-right-10" v-on:click="showConsultationConfirmPanel(info.Id,3)"><i class="fa fa-2x fa-undo tooltips" data-container="body" data-placement="top" data-original-title="取消会诊"></i></a>
                                 }
                                 else
                                 {
@@ -118,7 +118,7 @@
                                     <a v-if="info.MHConsultationStatus=='申请中'" href="javascript:;" class="margin-right-10" v-on:click="showConsultationConfirmPanel(info.Id,4)"><i class="fa fa-2x fa-hand-peace-o tooltips" data-container="body" data-placement="top" data-original-title="确认会诊"></i></a>
                                     <a v-if="info.MHConsultationStatus=='已确认'" href="javascript:;" class="margin-right-10" v-on:click="showConsultationConfirmPanel(info.Id,5)"><i class="fa fa-2x fa-check-square tooltips" data-container="body" data-placement="top" data-original-title="完成会诊"></i></a>
                                 }
-                                <a :href="'/Consultation/Detail/' + info.Id" class="margin-right-10"><i class="fa fa-2x fa-qrcode tooltips" data-container="body" data-placement="top" data-original-title="会诊详细"></i></a>
+                                <a :href="'/Consultation/Detail/' + info.Id" class="margin-right-10"><i class="fa fa-2x fa-user-md tooltips" data-container="body" data-placement="top" data-original-title="会诊详细"></i></a>
                                 <a :href="'/MedicalHistory/Detail/' + info.MHId" class="margin-right-10"><i class="fa fa-2x fa-file-text-o tooltips" data-container="body" data-placement="top" data-original-title="病历详细"></i></a>
 
                             </div>
@@ -432,7 +432,8 @@
             default:
         }
        
-    search();
+        search();
+      
 
 });
     </script>

@@ -1,0 +1,15 @@
+﻿<script type="text/x-template" id="detailform-template">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-inline detail-view">
+                <div class="col-md-12 underline" v-for="item in tinfo">
+                    <div class="form-group">
+                        <label>{{item.Text}}:</label>
+                        <label v-if="com.checkIsHtml(item.Value)" v-html="item.Value"></label>
+                        <label v-else>{{item.Value}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

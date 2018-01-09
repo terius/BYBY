@@ -100,13 +100,13 @@
                                 {
                                     //子院医生操作
                                     <a v-if="info.MHReferralStatus=='无' || info.MHReferralStatus=='已取消'" href="javascript:;" class="margin-right-10" v-on:click="showRequest(info.MHId)"><i class="fa fa-2x fa-stethoscope tooltips" data-container="body" data-placement="top" data-original-title="申请转诊"></i></a>
-                                    <a v-if="info.MHReferralStatus=='申请中'" href="javascript:;" class="margin-right-10" v-on:click="showConfirmPanel(info.Id,3)"><i class="fa fa-2x fa-mail-forward tooltips" data-container="body" data-placement="top" data-original-title="取消转诊"></i></a>
+                                    <a v-if="info.MHReferralStatus=='申请中'" href="javascript:;" class="margin-right-10" v-on:click="showConfirmPanel(info.Id,3)"><i class="fa fa-2x fa-undo tooltips" data-container="body" data-placement="top" data-original-title="取消转诊"></i></a>
                                 }
                                 else
                                 {
                                     //母院医生操作
                                     <a v-if="info.MHReferralStatus=='申请中'" href="javascript:;" class="margin-right-10" v-on:click="showConfirmPanel(info.Id,4)"><i class="fa fa-2x fa-hand-peace-o tooltips" data-container="body" data-placement="top" data-original-title="确认转诊"></i></a>
-                                    <a v-if="info.MHReferralStatus=='申请中'" href="javascript:;" class="margin-right-10" v-on:click="showConfirmPanel(info.Id,3)"><i class="fa fa-2x fa-mail-forward tooltips" data-container="body" data-placement="top" data-original-title="取消转诊"></i></a>
+                                    <a v-if="info.MHReferralStatus=='申请中'" href="javascript:;" class="margin-right-10" v-on:click="showConfirmPanel(info.Id,3)"><i class="fa fa-2x fa-undo tooltips" data-container="body" data-placement="top" data-original-title="取消转诊"></i></a>
                                 }
                                 @*<a :href="'/Tranfer/Detail/' + info.Id" class="margin-right-10"><i class="fa fa-2x fa-file-text-o tooltips" data-container="body" data-placement="top" data-original-title="转诊详细"></i></a>*@
                                 <a :href="'/MedicalHistory/Detail/' + info.MHId" class="margin-right-10"><i class="fa fa-2x fa-file-text-o tooltips" data-container="body" data-placement="top" data-original-title="病历详细"></i></a>

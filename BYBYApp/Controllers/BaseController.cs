@@ -352,6 +352,16 @@ namespace BYBYApp.Controllers
             return list;
         }
 
+        protected string GetLastUrl()
+        {
+            var lasturl = Session["returnurl"] as string;
+            if (string.IsNullOrWhiteSpace(lasturl))
+            {
+                lasturl = Request.UrlReferrer.PathAndQuery;
+            }
+            return lasturl;
+        }
+
 
     }
 }

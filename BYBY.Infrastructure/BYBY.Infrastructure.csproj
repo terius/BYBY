@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\AttributeExtensions.cs" />
+    <Compile Include="ViewAttribute.cs" />
     <Compile Include="Configer.cs" />
     <Compile Include="Domain\PredicateBuilder.cs" />
     <Compile Include="Domain\ErrorMessage.cs" />

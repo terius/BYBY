@@ -210,5 +210,7 @@ namespace BYBY.Services.Interfaces
         /// </summary>
         /// <returns></returns>
         Task<MainModel> GetMainModel();
+
+        Task<IList<DisplayModel>> GetReferralDetail(OnlyHasIdRequest request);
     }
 }

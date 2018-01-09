@@ -96,7 +96,7 @@
                         <td>
                             <a :href="'/MedicalHistory/Detail/' + info.Id" class="margin-right-10"><i class="fa fa-2x fa-file-text-o tooltips" data-container="body" data-placement="top" data-original-title="病历详细"></i></a>
                             <a href="javascript:;" class="margin-right-10" v-on:click="showConsultation(info.ConsultationStatus,info.Id)"><i class="fa fa-2x fa-stethoscope tooltips" data-container="body" data-placement="top" data-original-title="会诊"></i></a>
-                            <a href="javascript:;" class="margin-right-10" v-on:click="showReferral(info.ReferralStatus,info.Id)"><i class="fa fa-2x fa-ambulance tooltips" data-container="body" data-placement="top" data-original-title="转诊"></i></a>
+                            <a href="javascript:;" class="margin-right-10" v-on:click="showReferral(info.ReferralStatus,info.Id,info.NewestReferralId)"><i class="fa fa-2x fa-ambulance tooltips" data-container="body" data-placement="top" data-original-title="转诊"></i></a>
                             <a href="javascript:;" v-on:click="deletemh(info.ConsultationStatus,info.ReferralStatus,info.Id)"><i class="fa fa-2x fa-remove tooltips" data-container="body" data-placement="top" data-original-title="删除"></i></a>
 
                         </td>
@@ -212,14 +212,14 @@
                         <div class="form-group">
                             <label class="control-label col-xs-3">转诊医院</label>
                             <div class="col-xs-6">
-                                <select2 id="HospitalId" class="w250 " data-placeholder="--请选择医院--" :value="masterHospitalId" :options="HospitalList">
+                                <select2 id="HospitalId" class="w300" data-placeholder="--请选择医院--" :value="masterHospitalId" :options="HospitalList">
                                 </select2>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-xs-3">申请转诊日期</label>
                             <div class="col-xs-6">
-                                <date-picker-simple id="RequestDate"   class="w250 "></date-picker-simple>
+                                <date-picker-simple id="RequestDate" class="w300"></date-picker-simple>
                             </div>
                         </div>
                         <div class="form-group">
@@ -236,7 +236,15 @@
 
     </v-modal>
 </div>
+
+<div id="modal-rf-detail" class="detail-modal">
+    <v-modal v-cloak v-bind:tinfo="modalinfo">
+        <v-detailinfo v-bind:tinfo="detail"></v-detailinfo>
+    </v-modal>
+</div>
+
 @{ Html.RenderPartial("_Paginator");}
+@{ Html.RenderPartial("_Detail");}
 @section styles
 {
     @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
@@ -262,6 +270,11 @@
                 template: "#vuetmp-paginator",
                 props: ["page"]
             });
+
+            Vue.component('v-detailinfo', {
+                template: "#detailform-template",
+                props: ["tinfo"]
+            })
 
             var vueConsultation = new Vue({
                 el: '#modal-consultation',
@@ -291,6 +304,18 @@
 
             });
 
+            var vueRfDetail = new Vue({
+                el: '#modal-rf-detail',
+                data: {
+                    modalinfo: {
+                        id: "modalDfDetail",
+                        title: "转诊详细信息",
+                        data: {}
+                    },
+                    detail: []
+
+                }
+            });
 
             var vueReferral = new Vue({
                 el: '#modal-Referral',
@@ -330,8 +355,6 @@
                     });
                 }
             });
-
-
 
             //    $(window).on("resize", App.initSlimScroll('#tableshow'));
 
@@ -395,7 +418,7 @@
                                         });
                                     }
                                 },
-                                showReferral: function (status, id) {//弹出会诊
+                                showReferral: function (status, id,rfid) {//弹出转诊
                                     if (status == "无" || status == "已取消") {
                                         $("#TBMedicalHistoryId", "#saveReferralForm").val(id);
                                         $('#modalReferral').modal('show');
@@ -412,6 +435,14 @@
                                             });
 
                                         });
+                                    }
+                                    else if (status == "已确认") {
+                                      //  location.href = "/Detail/Index?type=0&id=" + rfid;
+                                        com.ajaxquery("/Tranfer/GetDetail", { Id: rfid }).then(function (data) {
+                                            vueRfDetail.detail = data;
+                                           // com.showLog(data);
+                                            $('#modalDfDetail').modal('show');
+                                        })
                                     }
                                 },
                                 deletemh: function (cstatus, rstatus, id) {
@@ -476,6 +507,9 @@
 
             /*******************************初始执行方法***********************************/
             search();
+
+          
+          
 
         });
     </script>

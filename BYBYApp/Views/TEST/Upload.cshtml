@@ -26,19 +26,52 @@
             </button>
             <ul class="ul-img-list" id="upimages">
                 @*<li>
-                    <img data-original="/images/doctorback.png" src="~/images/doctorback.png" height="150" width="100" />
-                    <i class="fa fa-2x fa-trash-o blue delete" title="删除图片"></i>
-                    <p>54.jpg</p>
-                </li>*@
+                        <img data-original="/images/doctorback.png" src="~/images/doctorback.png" height="150" width="100" />
+                        <i class="fa fa-2x fa-trash-o blue delete" title="删除图片"></i>
+                        <p>54.jpg</p>
+                    </li>*@
             </ul>
         </div>
     </div>
 </div>
 
+@*<form id="file-form" action="@Url.Action("UploadFile","TEST")" method="post" enctype="multipart/form-data">*@
+    @*<input type="file" id="myfile" name="myfile">*@
+<div class="upload-file-div">
+    <span class="btn green fileinput-button">
+        <i class="glyphicon glyphicon-plus"></i>
+        <span>选择文件</span>
+        <input type="file" id="myfile" name="myfile" accept="image/*">
+    </span>
+    <button type="button" class="btn blue start" id="submit" name="submit">
+        <i class="fa fa-upload"></i>
+        <span> 开始上传 </span>
+    </button>
+    <ul class="file-list"></ul>
+</div>
+    @*<input type="submit" id="submit" name="submit" value="Upload File Now">*@
+@*</form>*@
+
+<p id="status"></p>
+
 @section styles
 {
     <link href="/Metronic/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" type="text/css" />
+    <style>
+        .file-list {
+            list-style: none;
+            padding: 10px;
+            margin: 0;
+        }
 
+            .file-list > li {
+                margin-bottom: 10px;
+            }
+
+                .file-list > li > a {
+                    margin-left: 10px;
+                }
+    </style>
 }
 
 @section pagejs
@@ -51,9 +84,78 @@
         <script src="/Metronic/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-image.js" type="text/javascript"></script>
         <script src="/Metronic/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js" type="text/javascript"></script>*@
     <script>
-        $(function () {
-            com.initImageUpload("#uploadfile", "/MedicalHistory/UploadFile?patientId=111");
-        })
+        //$(function () {
+        //    // com.initImageUpload("#uploadfile", "/MedicalHistory/UploadFile?patientId=111");
+        //})
+     
+        ; (function () {
+            var form = document.getElementById('file-form');
+            var fileSelect = document.getElementById('myfile');
+            var uploadButton = document.getElementById('submit');
+            var statusDiv = document.getElementById('status');
+            var fileList = $('.file-list');
+            var formData = new FormData();
+            fileSelect.onchange = function (event, a, b, c) {
+                // Get the files from the input
+                var files = fileSelect.files;
+
+                // Create a new FormData object.
+                //Grab just one file, since we are not allowing multiple file uploads
+                var file = files[0];
+
+                //Check the file type
+                if (!file.type.match('image.*')) {
+                    statusDiv.innerHTML = 'This file is not an image. Sorry, it cannot be uploaded. Try again with a valid image.';
+                    return;
+                }
+
+                if (file.size >= 2000000) {
+                    statusDiv.innerHTML = 'This file is larger than 2MB. Sorry, it cannot be uploaded.';
+                    return;
+                }
+                fileList.append("<li><span>"+ file.name + "</span><a class=\"cancel-upload\"  href=\"javascript:;\" title=\"取消上传此文件\"><i class=\"fa fa-remove\"></i></a></li>");
+                // Add the file to the request.
+                formData.append(file.name, file, file.name);
+            }
+
+            fileList.on("click",".cancel-upload", function() {
+                var $this = $(this);
+                var filename = $this.prev().text();
+                $this.closest("li").remove();
+                formData.delete(filename);
+            })
+
+            uploadButton.onclick = function (event) {
+                event.preventDefault();
+              //  alert(formData.entries().length);
+              //  return;
+                com.blockUI(".upload-file-div", "正在上传中");
+                statusDiv.innerHTML = 'Uploading.......';
+
+
+
+                // Set up the AJAX request.
+                var xhr = new XMLHttpRequest();
+
+                // Open the connection.
+                xhr.open('POST', '/TEST/UploadFile', true);
+
+
+                // Set up a handler for when the request finishes.
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        statusDiv.innerHTML = 'The file uploaded successfully.......';
+                        com.unblockUI(".upload-file-div");
+                    } else {
+                        statusDiv.innerHTML = 'An error occurred while uploading the file. Try again';
+                        com.unblockUI(".upload-file-div");
+                    }
+                };
+
+                // Send the Data.
+                xhr.send(formData);
+            }
+        })();
     </script>
 }
 

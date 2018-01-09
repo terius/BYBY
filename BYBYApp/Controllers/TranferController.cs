@@ -45,6 +45,13 @@ namespace BYBYApp.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
-       
+
+        public async Task<JsonResult> GetDetail(OnlyHasIdRequest request)
+        {
+            var response = await _medicalHistoryService.GetReferralDetail(request);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }

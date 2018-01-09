@@ -34,5 +34,8 @@ namespace BYBY.Services.Views
         public string MaleMarrad { get; set; }
         public string MaleFixPhone { get; set; }
         public string AddUserName { get; set; }
+
+        public int NewestConsultationId { get; set; }
+        public int NewestReferralId { get; set; }
     }
 }

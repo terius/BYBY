@@ -107,3 +107,11 @@
     padding-left: 10px;
     display: inline-block;
 }
+
+
+.page-spinner-bar > div, .block-spinner-bar > div {
+    background: #da594a;
+}
+
+
+

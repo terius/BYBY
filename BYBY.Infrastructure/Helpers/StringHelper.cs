@@ -15,6 +15,17 @@ namespace BYBY.Infrastructure.Helpers
             return Convert.ToBase64String(_cipherText);
         }
 
-     
+        /// <summary>
+        /// 字符串的安全转换
+        /// </summary>
+        /// <param name="oInt"></param>
+        /// <param name="defaultVal"></param>
+        /// <returns></returns>
+        public static string SafeGetStringFromObj(object oStr)
+        {
+            return oStr == null ? "" : oStr.ToString();
+        }
+
+
     }
 }

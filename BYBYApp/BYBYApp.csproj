@@ -195,6 +195,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ConsultationController.cs" />
+    <Compile Include="Controllers\DetailController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HospitalController.cs" />
     <Compile Include="Controllers\MainController.cs" />
@@ -5753,6 +5754,8 @@
     <Content Include="Views\System\UserManager.cshtml" />
     <Content Include="Views\PatientStatistics\Index.cshtml" />
     <Content Include="Views\Hospital\DoctorDetail.cshtml" />
+    <Content Include="Views\Detail\Index.cshtml" />
+    <Content Include="Views\Shared\_Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

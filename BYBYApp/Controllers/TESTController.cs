@@ -1,5 +1,6 @@
 ﻿using BYBY.Services.Interfaces;
 using BYBY.Services.Request;
+using BYBY.Services.Response;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -33,7 +34,19 @@ namespace BYBYApp.Controllers
         }
 
 
-       
+        [HttpPost]
+        public async Task<JsonResult> UploadFile()
+        {
+            string msg = "";
+            var newFilePaths = UploadFile("TestFile", out msg);
+            if (msg != "")
+            {
+                return await Task.FromResult(ErrorJson(msg));
+            }
+            return Json(EmptyResponse.CreateSuccess("上传成功"), JsonRequestBehavior.AllowGet);
+        }
+
+
 
     }
 }

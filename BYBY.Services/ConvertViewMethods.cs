@@ -43,7 +43,9 @@ namespace BYBY.Services
                     MaleBirthday = item.MalePatient.Birthday.ToDateString(),
                     AddUserName = item.AddUserName,
                     MaleFixPhone = item.LandlinePhone,
-                    MaleMarrad = item.MalePatient.MaritalStatus.GetEnumDescription()
+                    MaleMarrad = item.MalePatient.MaritalStatus.GetEnumDescription(),
+                    NewestConsultationId = item.NewestConsultationId.ToInt(),
+                    NewestReferralId = item.NewestReferralId.ToInt()
                 };
                 dest.Add(view);
             }
@@ -301,32 +303,35 @@ namespace BYBY.Services
             ReferralListView view;
             foreach (var item in source)
             {
-                var MHInfo = item.MedicalHistory;
-                view = new ReferralListView
-                {
-                    Id = item.Id,
-                    FemaleAge = MHInfo.FeMalePatient.Age.ToInt(),
-                    FemaleName = MHInfo.FeMalePatient.Name,
-                    MaleAge = MHInfo.MalePatient.Age.ToInt(),
-                    MaleName = MHInfo.MalePatient.Name,
-                    AddTime = item.AddTime.ToDateTimeString(),
-                    ReferralStatus = item.ReferralStatus.GetEnumDescription(),
-                    AddUser = GetNameByUserName(item.AddUserName),
-                    Hospital = item.Hospital.Name,
-                    RequestDate = item.RequestDate.ToDateString(),
-                    MHId = item.MedicalHistory.Id,
-                    IsNewest = item.Id == item.MedicalHistory.NewestReferralId,
-                    MHReferralStatus = item.MedicalHistory.ReferralStatus.GetEnumDescription(),
-                    MHReferralStatusColorClass = GetReferralFontColorClass(item.MedicalHistory.ReferralStatus),
-                    ReferralStatusColorClass = GetReferralFontColorClass(item.ReferralStatus),
-                    Remark = item.Remark
-
-
-                };
-
+                view = item.C_To_ReferralListView();
                 dest.Add(view);
             }
             return dest;
+        }
+
+        public static ReferralListView C_To_ReferralListView(this TBReferral source)
+        {
+            var MHInfo = source.MedicalHistory;
+            var view = new ReferralListView
+            {
+                Id = source.Id,
+                FemaleAge = MHInfo.FeMalePatient.Age.ToInt(),
+                FemaleName = MHInfo.FeMalePatient.Name,
+                MaleAge = MHInfo.MalePatient.Age.ToInt(),
+                MaleName = MHInfo.MalePatient.Name,
+                AddTime = source.AddTime.ToDateTimeString(),
+                ReferralStatus = source.ReferralStatus.GetEnumDescription(),
+                AddUser = GetNameByUserName(source.AddUserName),
+                Hospital = source.Hospital.Name,
+                RequestDate = source.RequestDate.ToDateString(),
+                MHId = source.MedicalHistory.Id,
+                IsNewest = source.Id == source.MedicalHistory.NewestReferralId,
+                MHReferralStatus = source.MedicalHistory.ReferralStatus.GetEnumDescription(),
+                MHReferralStatusColorClass = GetReferralFontColorClass(source.MedicalHistory.ReferralStatus),
+                ReferralStatusColorClass = GetReferralFontColorClass(source.ReferralStatus),
+                Remark = source.Remark
+            };
+            return view;
         }
 
         public static IList<SelectItem> ConvertTo_SelectItem(this IEnumerable<TBHospital> source)

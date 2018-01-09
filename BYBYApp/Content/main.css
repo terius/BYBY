@@ -808,7 +808,7 @@ td.no-data {
     .plan-date-range h3 {
         font-weight: 600;
         font-size: 16px;
-        margin:0;
+        margin: 0;
     }
 
 
@@ -868,3 +868,22 @@ td.no-data {
             font-size: 18px;
             color: #2D5F8B;
         }
+
+/************************************************详细信息模态框************************************************/
+.detail-modal .modal-body {
+    padding: 0 15px;
+}
+
+.detail-modal .modal-footer {
+    border-top: none;
+}
+
+
+/************************************************加载状态样式************************************************/
+.loading-message .load-title {
+    display: inline-block;
+    color: #4a83b6;
+    font-size: 14px;
+    line-height: 22px;
+    padding-bottom: 10px;
+}

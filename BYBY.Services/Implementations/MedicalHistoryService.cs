@@ -646,6 +646,15 @@ namespace BYBY.Services.Implementations
             return rs > 0 ? EmptyResponse.CreateSuccess("转诊已" + msg) : EmptyResponse.CreateError("转诊" + msg + "失败");
         }
 
+
+        public async Task<IList<DisplayModel>> GetReferralDetail(OnlyHasIdRequest request)
+        {
+            var info = await _referralRepository.GetAsync(request.Id);
+            var view = info.C_To_ReferralListView();
+            var detailView = GetDisplayView(view);
+            return detailView;
+        }
+
         #endregion
 
     }

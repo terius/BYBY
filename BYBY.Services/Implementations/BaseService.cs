@@ -1,4 +1,5 @@
 ﻿using BYBY.Infrastructure;
+using BYBY.Infrastructure.Helpers;
 using BYBY.Repository.Entities;
 using BYBY.Services.Account;
 using BYBY.Services.Interfaces;
@@ -10,6 +11,7 @@ using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -139,7 +141,22 @@ namespace BYBY.Services.Implementations
             return System.Web.HttpContext.Current.User.Identity.GetUserName();
         }
 
-
+        public IList<DisplayModel> GetDisplayView<T>(T t) where T : class, new()
+        {
+            IList<DisplayModel> list = new List<DisplayModel>();
+            ViewAttribute vi;
+            string text;
+            foreach (PropertyInfo item in t.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                vi = item.GetAttribute<ViewAttribute>();
+                if (vi != null)
+                {
+                    text = vi.DisplayName;
+                    list.Add(new DisplayModel { Text = text, Value = StringHelper.SafeGetStringFromObj(item.GetValue(t, null)) });
+                }
+            }
+            return list;
+        }
 
 
     }

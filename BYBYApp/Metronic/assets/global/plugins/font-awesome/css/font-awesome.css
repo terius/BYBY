@@ -470,7 +470,7 @@
 .fa-arrow-down:before {
   content: "\f063";
 }
-.fa-mail-forward:before,
+.fa-undo:before,
 .fa-share:before {
   content: "\f064";
 }
