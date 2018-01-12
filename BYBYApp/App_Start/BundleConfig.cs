@@ -128,6 +128,10 @@ namespace BYBYApp
                  .Include(
                  "~/Metronic/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"
                  ));
+
+            //echarts
+            bundles.Add(
+         new ScriptBundle("~/bundles/js/echarts").Include("~/Scripts/echarts.common.min.js"));
         }
     }
 }
