@@ -174,6 +174,7 @@ namespace BYBYApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SaveReferralAdd(ReferralAddRequest request)
         {
+            request.DoctorId = LoginDoctorId;
             var response = await _medicalHistoryService.SaveReferralAdd(request);
             return Json(response, JsonRequestBehavior.AllowGet);
         }

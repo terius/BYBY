@@ -316,9 +316,9 @@
             $('#uploadfile').myUploadImage({ isSingle: true });
           //  com.singleImage("#uploadfile");
             com.handleiCheck();
-            //if (allData.LockHospitalId > 0) {
-            //    $("#HospitalId").select2("enable", false)
-            //}
+            if (allData.LockHospitalId > 0) {
+                $("#HospitalId").select2("enable", false)
+            }
         },
         methods: {
             save: function () {

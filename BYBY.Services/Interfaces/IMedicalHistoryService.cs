@@ -212,5 +212,11 @@ namespace BYBY.Services.Interfaces
         Task<MainModel> GetMainModel();
 
         Task<IList<DisplayModel>> GetReferralDetail(OnlyHasIdRequest request);
+
+        Task<ReportView> GetReport(ReportQueryRequest request);
+
+        Task<PagedData<ReportListView>> GetConsultationListInReport(ReportQueryRequest request);
+
+        Task<PagedData<ReportListView>> GetReferralListInReport(ReportQueryRequest request);
     }
 }

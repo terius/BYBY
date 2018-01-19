@@ -1,4 +1,4 @@
-﻿@model IList<BYBY.Services.Views.DateSetupListView>
+﻿@model BYBY.Services.Models.PatientStatisticsModel
 @{
     ViewBag.Title = "患者统计";
 }
@@ -14,58 +14,264 @@
     </div>
 
     <div class="portlet-title">
+        <div class="querycontent">
+            <div class="form-inline" id="query-content">
+                <div class="form-group">
+                    <label for="search-key">诊治类型：</label>
+                    <select class="selectpicker show-tick " data-width="100px" id="SelectType">
+                        <option value="1">会诊</option>
+                        <option value="2">转诊</option>
+                    </select>
+                </div>
+                @if ((bool)ViewBag.IsMasterDoctor)
+                {
+                    <div class="form-group">
+                        <label for="search-key">基层医院：</label>
+                        <select class="selectpicker show-tick " data-width="200px" id="SelectHospital">
+                            <option value="0">所有医院</option>
+                            @foreach (var hosp in Model.ChildHospitalList)
+                            {
+                                <option value="@hosp.id">@hosp.text</option>
+                            }
+                        </select>
+                    </div>
+                }
+                else
+                {
+                    <input id="SelectHospital" type="hidden" value="@Model.MyHospitalId" />
+                }
+                <div class="form-group">
+                    <label for="search-key">查询方式：</label>
+                    <select class="selectpicker show-tick " data-width="100px" id="SelectDateRange">
+                        <option value="1">最近7天</option>
+                        <option value="2">最近15天</option>
+                        <option value="3">最近30天</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>开始日期：</label>
+                    <div class="input-group date-picker input-daterange">
+                        <input type="text" id="txt_stime" class="form-control s-time" name="txt_stime" readonly>
+                        <span class="input-group-addon"> 到 </span>
+                        <input type="text" id="txt_etime" class="form-control e-time" name="txt_etime" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn blue btn-outline margin-left-20" id="btn-query">
+                        <i class="fa fa-search"></i> 查询
+                    </button>
+                </div>
+            </div>
+        </div>
 
     </div>
     <div class="portlet-body">
-        <div id="main" style="height:400px"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="main" style="height:400px"></div>
+            </div>
+            <div class="col-md-12">
+                <table class="table  table-bordered" id="query-table" v-cloak>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>女方姓名</th>
+                            <th>男方姓名</th>
+                            <th v-if="stype=='1'">会诊完成时间</th>
+                            <th v-else>转诊完成时间</th>
+                            <th>所属上级医院</th>
+                            <th>所属基层医院</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr v-for="(info,index) in datas.Data">
+                            <td>{{index+1}}</td>
+                            <td>{{info.FemaleName}}</td>
+                            <td>{{info.MaleName}}</td>
+                            <td>{{info.CompleteDate}}</td>
+                            <td>{{info.MasterHospital}}</td>
+                            <td>{{info.ChildHospital}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr><td colspan="20"><v-page v-bind:page="datas"></v-page></td></tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
 
     </div>
 </div>
 
-
+@{ Html.RenderPartial("_Paginator");}
 
 @section styles
 {
-
+    @System.Web.Optimization.Styles.Render("~/bundles/css/bootstrapselect")
+    @System.Web.Optimization.Styles.Render("~/bundles/css/datepicker")
 }
 
 @section pagejs
 {
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/bootstrapselect")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/datepicker")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/echarts")
     <script>
         $(function () {
+            Vue.component('v-page', {
+                template: "#vuetmp-paginator",
+                props: ["page"]
+            });
+            var vuetable;
             // 基于准备好的dom，初始化echarts图表
             var myChart = echarts.init(document.getElementById('main'));
 
             var option = {
+                title: {
+                    text: ''
+                },
+                grid: {
+                    top: 80
+                },
                 tooltip: {
-                    show: true
+                    trigger: 'axis',
+                    axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataView: { show: true, readOnly: false },
+                        magicType: { show: true, type: ['line', 'bar'] },
+                        restore: { show: true },
+                        saveAsImage: { show: true }
+                    }
                 },
                 legend: {
-                    data: ['销量']
+                    data: []
                 },
                 xAxis: [
                     {
                         type: 'category',
-                        data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+                        data: [],
+                        name: "日期",
+                        axisLabel: {
+                            interval: 0,//横轴信息全部显示
+                            // rotate: -30,//-30度角倾斜显示
+                        }
                     }
                 ],
-                yAxis: [
-                    {
-                        type: 'value'
-                    }
-                ],
-                series: [
-                    {
-                        "name": "销量",
-                        "type": "bar",
-                        "data": [5, 20, 40, 10, 10, 20]
-                    }
-                ]
+                yAxis: {
+                    type: 'value',
+                    name: "数量(单位:个)"
+                },
+                series: []
             };
 
-            // 为echarts对象加载数据 
-            myChart.setOption(option); 
+            // 为echarts对象加载数据
+            myChart.setOption(option);
+            var queryReport = function () {
+                var para = {};
+                para.Type = $("#SelectType").val();
+                para.HospitalId = $("#SelectHospital").val();
+              
+                para.STime = $("#txt_stime").val();
+                para.ETime = $("#txt_etime").val();
+                myChart.showLoading();
+                var createChart = function (data) {
+                    myChart.hideLoading();
+                    option.legend.data = data.Hospitals;
+                    option.xAxis[0].data = data.XDates;
+                    option.series = data.Series;
+                    if (para.Type == "1") {
+                        option.title.text = "会诊统计情况";
+                    }
+                    else {
+                        option.title.text = "转诊统计情况";
+                    }
+                    // option.title.x = "center";
+                    option.title.subtext = para.STime + " - " + para.ETime;
+                    if (data.XDates.length >= 30) {
+                        option.xAxis[0].axisLabel.rotate = -30;
+                    }
+                    else {
+                        option.xAxis[0].axisLabel.rotate = 0;
+                    }
+                    myChart.setOption(option, true);
+                    com.showLog(data);
+                }
+                com.ajaxquery("/PatientStatistics/QueryReport", para).then(function (data) {
+                    createChart(data);
+                });
+            }
+
+            var queryList = function (pageIndex, sortIndex, sortType) {
+                var para = {};
+                para.PageIndex = pageIndex || 1;
+                para.SortIndex = sortIndex || -1;
+                para.SortType = sortType || 0;
+                para.Type = $("#SelectType").val();
+                para.HospitalId = $("#SelectHospital").val();
+                para.STime = $("#txt_stime").val();
+                para.ETime = $("#txt_etime").val();
+                com.ajaxquery("/PatientStatistics/QueryList", para).then(function (data) {
+                    data.query = function (pageIndex, sortIndex, sortType) {
+                        queryList(pageIndex, sortIndex, sortType);
+                    }
+                    if (vuetable == null) {
+                        vuetable = new Vue({
+                            el: '#query-table',
+                            data: {
+                                datas: data,
+                                stype: para.Type
+                            },
+                            mounted: function () {
+                            }
+                        })
+                    }
+                    else {
+                        vuetable.datas = data
+                        vuetable.stype = para.Type;
+                    }
+                });
+            }
+
+
+
+
+            $("#SelectDateRange").on("change", function () {
+                var val = $(this).val();
+                var stime;
+                switch (val) {
+                    case "1":
+                        stime = com.addDayfromNow(-7);
+                        break;
+                    case "2":
+                        stime = com.addDayfromNow(-15);
+                        break;
+                    case "3":
+                        stime = com.addDayfromNow(-30);
+                        break;
+                    default:
+                }
+                $("#txt_stime").datepicker("update", stime);
+                $("#txt_etime").datepicker("update", com.getNowDate());
+            })
+
+
+            $("#btn-query").on("click", function () {
+                queryReport();
+                queryList();
+            })
+
+            com.handleDateRangePicker();
+            $("#txt_stime").datepicker("update", com.addDayfromNow(-7));
+            $("#txt_etime").datepicker("update", com.getNowDate());
+            queryReport();
+            queryList();
         })
     </script>
 }

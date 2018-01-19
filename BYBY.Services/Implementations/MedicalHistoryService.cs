@@ -30,6 +30,7 @@ namespace BYBY.Services.Implementations
         readonly IRepository<TBMedicine, int> _medicineRepository;
         readonly IRepository<TBConsultationCheck, int> _consultationCheckRepository;
         readonly IRepository<TBCheckAssay, int> _checkRepository;
+        readonly IRepository<TBHospital, int> _hospitalRepository;
         readonly IUnitOfWork _unitOfWork;
 
         public MedicalHistoryService(IRepository<TBMedicalHistory, int> repository,
@@ -42,6 +43,7 @@ namespace BYBY.Services.Implementations
             IRepository<TBMedicine, int> medicineRepository,
             IRepository<TBConsultationCheck, int> consultationCheckRepository,
            IRepository<TBCheckAssay, int> checkRepository,
+           IRepository<TBHospital, int> hospitalRepository,
             IUnitOfWork unitOfWork)
         {
             _repository = repository;
@@ -54,6 +56,7 @@ namespace BYBY.Services.Implementations
             _medicineRepository = medicineRepository;
             _consultationCheckRepository = consultationCheckRepository;
             _checkRepository = checkRepository;
+            _hospitalRepository = hospitalRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -402,7 +405,7 @@ namespace BYBY.Services.Implementations
         public async Task<MainModel> GetMainModel()
         {
             MainModel model = new MainModel();
-            var status = (await _consultationRepository.FindAsync(d => d.Id == d.MedicalHistory.NewestConsultationId)).Select(d=>d.ConsultationStatus).ToList();
+            var status = (await _consultationRepository.FindAsync(d => d.Id == d.MedicalHistory.NewestConsultationId)).Select(d => d.ConsultationStatus).ToList();
             model.ConsultationCancelCount = status.Count(d => d == ConsultationStatus.Cancel);
             model.ConsultationConfirmCount = status.Count(d => d == ConsultationStatus.Confirm);
             model.ConsultationRequestCount = status.Count(d => d == ConsultationStatus.Requesting);
@@ -412,7 +415,7 @@ namespace BYBY.Services.Implementations
             model.ReferralConfirmCount = rstatus.Count(d => d == ReferralStatus.Confirm);
             model.ReferralRequestCount = rstatus.Count(d => d == ReferralStatus.Requesting);
 
-            
+
 
             return model;
 
@@ -541,7 +544,7 @@ namespace BYBY.Services.Implementations
                 }
             }
 
-          
+
             return rs > 0 ? EmptyResponse.CreateSuccess("保存成功") : EmptyResponse.CreateError("保存失败");
         }
 
@@ -654,6 +657,112 @@ namespace BYBY.Services.Implementations
             var detailView = GetDisplayView(view);
             return detailView;
         }
+
+        #endregion
+
+
+        #region 患者报表
+        public async Task<ReportView> GetReport(ReportQueryRequest request)
+        {
+            var view = new ReportView();
+            DateTime stime = Convert.ToDateTime(request.STime);
+            DateTime etime = Convert.ToDateTime(request.ETime);
+            int totalDays = (int)etime.Subtract(stime).TotalDays;
+            view.XDates = new string[totalDays];
+            ReportItemView reportItem;
+            DateTime day = stime.Date;
+            //    int masterHospital = LoginUserHospitalId
+            //  var hosps = (await _hospitalRepository.FindAsync(d => d.MasterHospitals.Any(f => f.Id == masterHospital))).ToList();
+            IList<TBHospital> hosps = null;
+            if (IsMasterDoctor)
+            {
+                hosps = await GetLoginUserChildHospList();
+                if (request.HospitalId > 0)
+                {
+                    hosps = hosps.Where(d => d.Id == request.HospitalId).ToList();
+                }
+            }
+            else
+            {
+
+                hosps = (await _hospitalRepository.FindAsync(d => d.Id == LoginUserHospitalId)).ToList();
+            }
+
+            view.Hospitals = hosps.Select(d => d.Name).ToArray();
+            if (request.Type == 1)
+            {
+                IList<TBConsultation> oneDayData;
+                var query = await _consultationRepository.FindAsync(d => d.ConsultationStatus == ConsultationStatus.Complete && d.Plan.STime >= stime && d.Plan.ETime <= etime && d.Id == d.MedicalHistory.NewestConsultationId);
+
+
+                foreach (var hosp in hosps)
+                {
+                    reportItem = new ReportItemView { name = hosp.Name, type = "bar", data = new int[totalDays] };
+                    day = stime.Date;
+                    for (int i = 0; i < totalDays; i++)
+                    {
+                        oneDayData = query.Where(d => d.Plan.PlanDate == day && d.Doctor.HospitalId == hosp.Id).ToList();
+                        reportItem.data[i] = oneDayData.Count();
+                        view.XDates[i] = day.ToString("M-d");
+                        day = day.AddDays(1);
+                    }
+                    view.Series.Add(reportItem);
+                }
+            }
+            else
+            {
+                IList<TBReferral> oneDayData = null;
+                var query = await _referralRepository.FindAsync(d => d.ReferralStatus == ReferralStatus.Confirm && d.RequestDate >= stime && d.RequestDate <= etime && d.Id == d.MedicalHistory.NewestReferralId);
+
+                //if (request.HospitalId > 0)
+                //{
+                //    hosps = hosps.Where(d => d.Id == request.HospitalId).ToList();
+                //}
+                //view.Hospitals = hosps.Select(d => d.Name).ToArray();
+                foreach (var hosp in hosps)
+                {
+                    reportItem = new ReportItemView { name = hosp.Name, type = "bar", data = new int[totalDays] };
+                    day = stime.Date;
+                    for (int i = 0; i < totalDays; i++)
+                    {
+                        oneDayData = query.Where(d => d.RequestDate == day && d.Doctor.HospitalId == hosp.Id).ToList();
+                        reportItem.data[i] = oneDayData.Count();
+                        view.XDates[i] = day.ToString("M-d");
+                        day = day.AddDays(1);
+                    }
+                    view.Series.Add(reportItem);
+                }
+            }
+            return view;
+        }
+
+        public async Task<PagedData<ReportListView>> GetConsultationListInReport(ReportQueryRequest request)
+        {
+            DateTime stime = Convert.ToDateTime(request.STime);
+            DateTime etime = Convert.ToDateTime(request.ETime);
+            var query = await _consultationRepository.FindAsync(d => d.ConsultationStatus == ConsultationStatus.Complete && d.Plan.STime >= stime && d.Plan.ETime <= etime && d.Id == d.MedicalHistory.NewestConsultationId);
+            if (request.HospitalId > 0)
+            {
+                query = query.Where(d => d.Id == request.HospitalId);
+            }
+            var pageData = PageQuery(query.OrderBy(d => d.Id), request, d => d.C_To_ReportListViews());
+            return pageData;
+        }
+
+
+        public async Task<PagedData<ReportListView>> GetReferralListInReport(ReportQueryRequest request)
+        {
+            DateTime stime = Convert.ToDateTime(request.STime);
+            DateTime etime = Convert.ToDateTime(request.ETime);
+            var query = await _referralRepository.FindAsync(d => d.ReferralStatus == ReferralStatus.Confirm && d.RequestDate >= stime && d.RequestDate <= etime && d.Id == d.MedicalHistory.NewestReferralId);
+            if (request.HospitalId > 0)
+            {
+                query = query.Where(d => d.Id == request.HospitalId);
+            }
+            var pageData = PageQuery(query.OrderBy(d => d.Id), request, d => d.C_To_ReportListViews());
+            return pageData;
+        }
+
 
         #endregion
 

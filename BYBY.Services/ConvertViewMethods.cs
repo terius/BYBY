@@ -256,6 +256,48 @@ namespace BYBY.Services
             return dest;
         }
 
+        public static IList<ReportListView> C_To_ReportListViews(this IEnumerable<TBConsultation> source)
+        {
+            IList<ReportListView> dest = new List<ReportListView>();
+            ReportListView view;
+            foreach (var item in source)
+            {
+                var MHInfo = item.MedicalHistory;
+                view = new ReportListView
+                {
+                  ChildHospital= item.Doctor.Hospital.Name,
+                  MasterHospital = item.Hospital.Name,
+                  CompleteDate = item.RequestDate.ToDateString(),
+                  FemaleName = MHInfo.FeMalePatient.Name,
+                  MaleName = MHInfo.MalePatient.Name
+                };
+
+                dest.Add(view);
+            }
+            return dest;
+        }
+
+        public static IList<ReportListView> C_To_ReportListViews(this IEnumerable<TBReferral> source)
+        {
+            IList<ReportListView> dest = new List<ReportListView>();
+            ReportListView view;
+            foreach (var item in source)
+            {
+                var MHInfo = item.MedicalHistory;
+                view = new ReportListView
+                {
+                    ChildHospital = item.Doctor.Hospital.Name,
+                    MasterHospital = item.Hospital.Name,
+                    CompleteDate = item.RequestDate.ToDateString(),
+                    FemaleName = MHInfo.FeMalePatient.Name,
+                    MaleName = MHInfo.MalePatient.Name
+                };
+
+                dest.Add(view);
+            }
+            return dest;
+        }
+
 
 
         private static string GetFontColorClass(ConsultationStatus status)

@@ -22,9 +22,9 @@
         return $.Deferred(function ($dfd) {
             $.ajax(options)
                 .done(function (data, textStatus, jqXHR) {
-
+                    com.unblockUI("body");
                     //terius add 2017/03/07
-                    showHideLoading(false);
+                  //  showHideLoading(false);
                     $dfd.resolve(data);
 
                     //if (data.__abp) {
@@ -33,7 +33,8 @@
                     //    $dfd.resolve(data);
                     //    userOptions.success && userOptions.success(data);
                     //}
-                }).fail(function (jqXHR,aa,bb,cc) {
+                }).fail(function (jqXHR, aa, bb, cc) {
+                    com.unblockUI("body");
                     com.showLog(jqXHR,"ajax错误");
                     ShowLayerAlert(jqXHR.responseText);
                     //if (jqXHR.responseJSON && jqXHR.responseJSON.__abp) {
@@ -71,7 +72,8 @@
             contentType: 'application/json',
             //terius add 2017/03/07
             beforeSend: function (xhr) {
-                showHideLoading(true);
+               // showHideLoading(true);
+                com.blockUI("body", "");
             }
         },
 
@@ -215,57 +217,6 @@
         //}
     });
 
-    //$(document).ajaxSend(function (event, request, settings) {
-    //    return abp.ajax.ajaxSendHandler(event, request, settings);
-    //});
-
-    /* JQUERY PLUGIN ENHANCEMENTS ********************************************/
-
-    /* jQuery Form Plugin 
-     * http://www.malsup.com/jquery/form/
-     */
-
-    // abpAjaxForm -> uses ajaxForm ------------------------------------------
-
-    //if ($.fn.ajaxForm) {
-    //    $.fn.abpAjaxForm = function (userOptions) {
-    //        userOptions = userOptions || {};
-
-    //        var options = $.extend({}, $.fn.abpAjaxForm.defaults, userOptions);
-
-    //        options.beforeSubmit = function () {
-    //            abp.ajax.blockUI(options);
-    //            userOptions.beforeSubmit && userOptions.beforeSubmit.apply(this, arguments);
-    //        };
-
-    //        options.success = function (data) {
-    //            abp.ajax.handleResponse(data, userOptions);
-    //        };
-
-    //        //TODO: Error?
-
-    //        options.complete = function () {
-    //            abp.ajax.unblockUI(options);
-    //            userOptions.complete && userOptions.complete.apply(this, arguments);
-    //        };
-
-    //        return this.ajaxForm(options);
-    //    };
-
-    //    $.fn.abpAjaxForm.defaults = {
-    //        method: 'POST'
-    //    };
-    //}
-
-    //abp.event.on('abp.dynamicScriptsInitialized', function () {
-    //    abp.ajax.defaultError.message = abp.localization.abpWeb('DefaultError');
-    //    abp.ajax.defaultError.details = abp.localization.abpWeb('DefaultErrorDetail');
-    //    abp.ajax.defaultError401.message = abp.localization.abpWeb('DefaultError401');
-    //    abp.ajax.defaultError401.details = abp.localization.abpWeb('DefaultErrorDetail401');
-    //    abp.ajax.defaultError403.message = abp.localization.abpWeb('DefaultError403');
-    //    abp.ajax.defaultError403.details = abp.localization.abpWeb('DefaultErrorDetail403');
-    //    abp.ajax.defaultError404.message = abp.localization.abpWeb('DefaultError404');
-    //    abp.ajax.defaultError404.details = abp.localization.abpWeb('DefaultErrorDetail404');
-    //});
+   
 
 })(jQuery);

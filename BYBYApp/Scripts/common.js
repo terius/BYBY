@@ -111,7 +111,7 @@ $.fn.validateForm = function (option) {
 com.jqFormOption = {
     data: {},
     checkval: null,
-    loadid:"",
+    loadid: "",
     error: function (result, textStatus, errorThrown) {
         com.unblockUI(com.jqFormOption.loadid);
         com.showLog(result);
@@ -127,15 +127,14 @@ com.jqFormOption = {
         })
     },
     beforeSubmit: function (arr, $form, options) {
-        if (com.jqFormOption.loadid=="")
-     {
-        com.jqFormOption.loadid= "#" + $form.attr("id");
-     }
-   
+        if (com.jqFormOption.loadid == "") {
+            com.jqFormOption.loadid = "#" + $form.attr("id");
+        }
+
         // The array of form data takes the following form: 
         // [ { name: 'username', value: 'jresig' }, { name: 'password', value: 'secret' } ] 
         // return false to cancel submit   
-        com.blockUI(com.jqFormOption.loadid,"加载中");
+        com.blockUI(com.jqFormOption.loadid, "");
         var checkok = true;
         if ($form.valid) {
             checkok = $form.valid();
@@ -145,12 +144,15 @@ com.jqFormOption = {
                 return com.jqFormOption.checkval();
             }
         }
+        if (!checkok) {
+            com.unblockUI(com.jqFormOption.loadid);
+        }
         return checkok;
 
     },
-    complete:function(){
-         com.unblockUI(com.jqFormOption.loadid);
-   }
+    complete: function () {
+        com.unblockUI(com.jqFormOption.loadid);
+    }
 }
 
 var ShowLayerAlert = function (msg, callback) {
@@ -215,7 +217,7 @@ function ShowSuccessThenReload(msg) {
 
 
 com.showLog = function (msg, title) {
-    var now = com.getNowDate();
+    var now = com.getNowDateTime();
     var t = title ? title : "";
     if (msg instanceof Object) {
         console.log(now + " ----" + t + "---- " + JSON.stringify(msg, null, 4))
@@ -225,9 +227,14 @@ com.showLog = function (msg, title) {
     }
 }
 
-com.getNowDate = function () {
+com.getNowDateTime = function () {
     var now = new Date();
     return com.getDateTime(now);
+}
+
+com.getNowDate = function () {
+    var now = new Date();
+    return com.getDate(now);
 }
 
 com.getDate = function (d) {
@@ -253,6 +260,12 @@ com.getRandomDateTime = function () {
 
 com.getRandomInt = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+com.addDayfromNow = function (days) {
+    var dat = new Date();
+    dat.setDate(dat.getDate() + days);
+    return com.getDate(dat);
 }
 
 
@@ -519,7 +532,7 @@ com.initImageUpload = function (target, url, successFun, isSingle) {
 
 
 ; (function ($) {
-
+    
     var img = "<li onmouseenter=\"$('.delete',this).show();\" onmouseleave=\"$('.delete',this).hide();\" >"
         + "<img src=\"{0}\" height=\"150\" width=\"100\"  />"
         + "<i class=\"fa fa-2x fa-trash-o blue delete\" data-fileid=\"{1}\" title=\"取消上传\"></i>"
@@ -683,7 +696,7 @@ com.setDisabled = function (dom, setdis) {
 com.getBirthdayFromSFZ = function (iIdNo) {
     var tmpStr = "";
     iIdNo = com.valtrim(iIdNo);
-    if ((iIdNo.length != 15) && (iIdNo.length != 18)) {
+    if ((iIdNo.length != 15) && (iIdNo.length !== 18)) {
         return '';
     }
     if (iIdNo.length == 15) {
@@ -722,34 +735,47 @@ com.checkIsHtml = function (str) {
     return /<(?=.*? .*?\/ ?>|br|hr|input|!--|wbr)[a-z]+.*?>|<([a-z]+).*?<\/\1>/i.test(str);
 }
 
- com.blockUI = function (target,msg) {
-                var el = $(target);
-                el.block({
-                    message: '<div class="loading-message "><div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div><div class="load-title">' + msg +'</div></div>',
-                    //   baseZ: options.zIndex ? options.zIndex : 1000,
-                    //  centerY: true,
-                    css: {
-                        top: '10%',
-                        border: '0',
-                        padding: '0',
-                        backgroundColor: 'none'
-                    },
-                    overlayCSS: {
-                        backgroundColor: '#555',
-                        opacity: 0.1,
-                        cursor: 'wait'
-                    }
-                });
-            }
-  com.unblockUI = function (target) {
-            $(target).unblock({
-                onUnblock: function () {
-                    $(target).css('position', '');
-                    $(target).css('zoom', '');
-                }
-            });
+com.blockUI = function (target, msg) {
+    var el = $(target);
+    el.block({
+        message: '<div class="loading-message "><div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div><div class="load-title">' + msg + '</div></div>',
+        //   baseZ: options.zIndex ? options.zIndex : 1000,
+        //  centerY: true,
+        css: {
+            top: '10%',
+            border: '0',
+            padding: '0',
+            backgroundColor: 'none'
+        },
+        overlayCSS: {
+            backgroundColor: '#555',
+            opacity: 0.1,
+            cursor: 'wait'
         }
+    });
+}
+com.unblockUI = function (target) {
+    $(target).unblock({
+        onUnblock: function () {
+            $(target).css('position', '');
+            $(target).css('zoom', '');
+        }
+    });
+}
 
+com.minmax = function (value, min, max) {
+    if (parseInt(value) < min || isNaN(parseInt(value)))
+        return min;
+    else if (parseInt(value) > max)
+        return max;
+    else return value;
+}
+
+
+$(".error-msg").on("click", function () {
+    alert('ssss')
+    $(this).hide();
+})
 
 
 

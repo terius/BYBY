@@ -76,7 +76,7 @@ namespace BYBY.Cache
                         break;
                     case CacheKeys.Hospital:
                         var hospitalData = await _hospitalRepository.FindAllAsync();
-                        cacheData = hospitalData.ConvertTo_SelectItem();
+                        cacheData = hospitalData.CacheConvertTo_SelectItem();
                         break;
                     case CacheKeys.Doctor:
                         var doctorData = await _doctorRepository.FindAllAsync();
@@ -84,7 +84,7 @@ namespace BYBY.Cache
                         break;
                     case CacheKeys.MotherHospital:
                         var motherHospitalData = await _hospitalRepository.FindAsync(d => d.IsMaster == true);
-                        cacheData = motherHospitalData.ToList().ConvertTo_SelectItem();
+                        cacheData = motherHospitalData.ToList().CacheConvertTo_SelectItem();
                         break;
                     case CacheKeys.MotherDoctor:
                         var motherDoctorData = await _doctorRepository.FindAsync(d => d.Hospital.IsMaster == true);
@@ -192,7 +192,7 @@ namespace BYBY.Cache
             return dest;
         }
 
-        public static IList<SelectItem> ConvertTo_SelectItem(this IEnumerable<TBHospital> source)
+        public static IList<SelectItem> CacheConvertTo_SelectItem(this IEnumerable<TBHospital> source)
         {
             var dest = new List<SelectItem>();
             SelectItem sitem;

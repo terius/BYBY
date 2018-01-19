@@ -21,6 +21,7 @@ using System.Web.Mvc;
 
 namespace BYBYApp.Controllers
 {
+    [Authorize]
     public class BaseController : Controller
     {
         readonly ICacheService _cacheService = CacheManager.GetCacheService();
@@ -360,6 +361,12 @@ namespace BYBYApp.Controllers
                 lasturl = Request.UrlReferrer.PathAndQuery;
             }
             return lasturl;
+        }
+
+        protected async Task<IList<SelectItem>> GetLoginUserChildHospList()
+        {
+            var user = await GetLoginInfoAsync();
+            return user.ChildHospitalIds.ConvertTo_SelectItem();
         }
 
 

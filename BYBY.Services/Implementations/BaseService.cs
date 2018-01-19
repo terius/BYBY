@@ -158,6 +158,12 @@ namespace BYBY.Services.Implementations
             return list;
         }
 
+        protected async Task<IList<TBHospital>> GetLoginUserChildHospList()
+        {
+            var user = await GetLoginInfoAsync();
+            return user.ChildHospitalIds;
+        }
+
 
     }
 

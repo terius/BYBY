@@ -26,6 +26,11 @@ namespace BYBY.Repository.Entities
         /// </summary>
         public DateTime RequestDate { get; set; }
 
+        /// <summary>
+        /// 转诊医生
+        /// </summary>
+        public int DoctorId { get; set; }
+
 
         /// <summary>
         /// 转诊状态
@@ -44,5 +49,8 @@ namespace BYBY.Repository.Entities
 
         [ForeignKey("TBMedicalHistoryId")]
         public virtual TBMedicalHistory MedicalHistory { get; set; }
+
+        [ForeignKey("DoctorId")]
+        public virtual TBDoctor Doctor { get; set; }
     }
 }

@@ -11,5 +11,7 @@ namespace BYBY.Services.Request
         public DateTime RequestDate { get; set; }
 
         public string Remark { get; set; }
+
+        public int DoctorId { get; set; }
     }
 }

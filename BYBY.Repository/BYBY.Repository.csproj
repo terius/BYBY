@@ -356,6 +356,14 @@
     <Compile Include="Migrations\201801080606292_AddTableTBMasterHospital3.Designer.cs">
       <DependentUpon>201801080606292_AddTableTBMasterHospital3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801160812597_TBReferralAddDoctorId.cs" />
+    <Compile Include="Migrations\201801160812597_TBReferralAddDoctorId.Designer.cs">
+      <DependentUpon>201801160812597_TBReferralAddDoctorId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801160815238_TBReferralAddDoctorId2.cs" />
+    <Compile Include="Migrations\201801160815238_TBReferralAddDoctorId2.Designer.cs">
+      <DependentUpon>201801160815238_TBReferralAddDoctorId2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="BYBYDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -573,6 +581,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801080606292_AddTableTBMasterHospital3.resx">
       <DependentUpon>201801080606292_AddTableTBMasterHospital3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801160812597_TBReferralAddDoctorId.resx">
+      <DependentUpon>201801160812597_TBReferralAddDoctorId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801160815238_TBReferralAddDoctorId2.resx">
+      <DependentUpon>201801160815238_TBReferralAddDoctorId2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

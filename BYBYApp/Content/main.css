@@ -259,11 +259,16 @@ div {
     padding: 0 0 0 10px;
 }
 
+.querycontent .form-group {
+    margin-right: 20px;
+}
+
 @media (min-width: 768px) {
     .querycontent .form-group {
         padding-bottom: 10px;
     }
 }
+
 
 .portlet-title .myactions {
     float: right;

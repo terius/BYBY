@@ -930,7 +930,7 @@
                     // Refresh error/success class
                     error.removeClass(this.settings.validClass).addClass(this.settings.errorClass);
                     // Replace message on existing label
-                    error.html('<div class="error-content" style="background-color: rgb(242, 65, 0);">' + message + '<i class="error-arrow" style= "border-bottom-color: rgb(242, 65, 0);" ></i></div>'); //terius add 2017/11/09
+                    error.html('<div class="error-content" onclick="$(this).hide()" style="background-color: rgb(242, 65, 0);">' + message + '<i class="error-arrow" style= "border-bottom-color: rgb(242, 65, 0);" ></i></div>'); //terius add 2017/11/09
                     //  error.html(message);  old
                 } else {
 
@@ -938,7 +938,7 @@
                     error = $("<" + this.settings.errorElement + ">")
                         .attr("id", elementID + "-error")
                         .addClass(this.settings.errorClass)
-                        .html('<div class="error-content" style="background-color: rgb(242, 65, 0);">' + (message || "") + '<i class="error-arrow" style= "border-bottom-color: rgb(242, 65, 0);" ></i></div>'); //terius add 2017/11/09
+                        .html('<div class="error-content" onclick="$(this).hide()" style="background-color: rgb(242, 65, 0);">' + (message || "") + '<i class="error-arrow" style= "border-bottom-color: rgb(242, 65, 0);" ></i></div>'); //terius add 2017/11/09
                     //.html( message || "" );  old
                     // Maintain reference to the element to be placed into the DOM
                     place = error;

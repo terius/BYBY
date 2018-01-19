@@ -263,7 +263,7 @@
         $(function () {
 
             var allData = @Html.RenderAsJson(Model);
-
+            com.showLog(allData)
             var vuetable;
             //  com.responsiveHeight("#tableshow", "#mycontent");
             Vue.component('v-page', {
@@ -326,8 +326,8 @@
                         data: {}
 
                     },
-                    HospitalList: allData.HospitalList,
-                    masterHospitalId: allData.MasterHospitalId
+                    HospitalList: allData.MasterHospitalList,
+                    masterHospitalId: allData.DefaultMasterHospitalId
 
                 },
                 mounted: function () {
