@@ -16,7 +16,7 @@
     <div class="portlet-title">
         <div class="querycontent">
             <div class="form-inline" id="query-content">
-                <div class="form-group " style="margin-right:50px;margin-top:5px">
+                <div class="form-group " style="margin-top:5px">
                     <label for="search-key">状态：</label>
                     <div class="input-group">
                         <div class="icheck-inline">
@@ -40,17 +40,17 @@
                 </div>
                 @if (Html.IsMasterDoctor() || Html.GetRoleType() == BYBY.Infrastructure.RoleType.customerservice)
                 {
-                    <div class="form-group margin-left-20">
+                    <div class="form-group">
                         <label for="search-key">选择医院：</label>
                         <select2 id="Hostpital" class="w196" data-placeholder="--请选择医院--" :options="info.HospitalList">
                         </select2>
                     </div>
                 }
-                <div class="form-group margin-left-20">
+                <div class="form-group">
                     <label for="search-key">患者信息：</label>
                     <input type="text" class="form-control" id="search-key" placeholder="输入患者信息">
                 </div>
-                <div class="form-group margin-left-20">
+                <div class="form-group">
                     <label>开始日期：</label>
                     <div class="input-group date-picker input-daterange">
                         <input type="text" id="txt_stime" class="form-control s-time" name="txt_stime" readonly>
@@ -230,7 +230,7 @@
         /**/
         var allData =  @Html.RenderAsJson(Model);
         var status = "@ViewBag.Status";
-
+        com.showLog(allData)
     /**/
 
     var vuetable;

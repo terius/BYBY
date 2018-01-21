@@ -46,10 +46,8 @@ namespace BYBY.Services.Implementations
             var user = await GetLoginInfoAsync();
             if (user.IsMasterUser)
             {
-                //  var hospitalId = doctor.Hospital.Id;
-                // var list = await _hospitalRepository.FindAsync(d => d.ParentHospitalId == hospitalId);
                 var list = user.ChildHospitalIds.ConvertTo_SelectItem();
-              //  return list.ConvertTo_SelectItem();
+                return list;
             }
             return new List<SelectItem>();
         }

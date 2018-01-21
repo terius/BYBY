@@ -757,7 +757,7 @@ namespace BYBY.Services.Implementations
             var query = await _referralRepository.FindAsync(d => d.ReferralStatus == ReferralStatus.Confirm && d.RequestDate >= stime && d.RequestDate <= etime && d.Id == d.MedicalHistory.NewestReferralId);
             if (request.HospitalId > 0)
             {
-                query = query.Where(d => d.Id == request.HospitalId);
+                query = query.Where(d => d.Doctor.HospitalId == request.HospitalId);
             }
             var pageData = PageQuery(query.OrderBy(d => d.Id), request, d => d.C_To_ReportListViews());
             return pageData;
