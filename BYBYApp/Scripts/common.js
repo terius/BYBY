@@ -141,7 +141,7 @@ com.jqFormOption = {
         }
         if (checkok) {
             if (typeof com.jqFormOption.checkval === "function") {
-                return com.jqFormOption.checkval();
+                checkok = com.jqFormOption.checkval();
             }
         }
         if (!checkok) {
@@ -532,7 +532,7 @@ com.initImageUpload = function (target, url, successFun, isSingle) {
 
 
 ; (function ($) {
-    
+
     var img = "<li onmouseenter=\"$('.delete',this).show();\" onmouseleave=\"$('.delete',this).hide();\" >"
         + "<img src=\"{0}\" height=\"150\" width=\"100\"  />"
         + "<i class=\"fa fa-2x fa-trash-o blue delete\" data-fileid=\"{1}\" title=\"取消上传\"></i>"

@@ -8,23 +8,23 @@
     /* JQUERY ENHANCEMENTS ***************************************************/
 
     // abp.ajax -> uses $.ajax ------------------------------------------------
-
+    var loadTarget;
     abp.ajax = function (userOptions) {
-      
+
         userOptions = userOptions || {};
 
         var options = $.extend({}, abp.ajax.defaultOpts, userOptions);
         options.success = undefined;
         options.error = undefined;
         //terius add 2017/03/07
-        ajaxTarget = options.target;
+        loadTarget = options.target || "body";
 
         return $.Deferred(function ($dfd) {
             $.ajax(options)
                 .done(function (data, textStatus, jqXHR) {
-                    com.unblockUI("body");
+                    com.unblockUI(loadTarget);
                     //terius add 2017/03/07
-                  //  showHideLoading(false);
+                    //  showHideLoading(false);
                     $dfd.resolve(data);
 
                     //if (data.__abp) {
@@ -34,8 +34,8 @@
                     //    userOptions.success && userOptions.success(data);
                     //}
                 }).fail(function (jqXHR, aa, bb, cc) {
-                    com.unblockUI("body");
-                    com.showLog(jqXHR,"ajax错误");
+                    com.unblockUI(loadTarget);
+                    com.showLog(jqXHR, "ajax错误");
                     ShowLayerAlert(jqXHR.responseText);
                     //if (jqXHR.responseJSON && jqXHR.responseJSON.__abp) {
                     //    abp.ajax.handleResponse(jqXHR.responseJSON, userOptions, $dfd, jqXHR);
@@ -48,21 +48,21 @@
     };
 
     //terius add 2017/03/07--------------------------------------s
-    var ajaxTarget;
-    var loading = $("<div class=\"myloading\">执行中...</div>");
-    var showHideLoading = function (isshow) {
-        if (typeof ajaxTarget != "undefined") {
-            if (isshow) {
-                if ($(ajaxTarget).find(".myloading").length <= 0) {
-                    $(ajaxTarget).append(loading);
-                }
-                loading.fadeIn();
-            }
-            else {
-                loading.fadeOut();
-            }
-        }
-    }
+
+    //var loading = $("<div class=\"myloading\">执行中...</div>");
+    //var showHideLoading = function (isshow) {
+    //    if (typeof ajaxTarget != "undefined") {
+    //        if (isshow) {
+    //            if ($(ajaxTarget).find(".myloading").length <= 0) {
+    //                $(ajaxTarget).append(loading);
+    //            }
+    //            loading.fadeIn();
+    //        }
+    //        else {
+    //            loading.fadeOut();
+    //        }
+    //    }
+    //}
     //-----------------------------------------------------------e
 
     $.extend(abp.ajax, {
@@ -72,8 +72,8 @@
             contentType: 'application/json',
             //terius add 2017/03/07
             beforeSend: function (xhr) {
-               // showHideLoading(true);
-                com.blockUI("body", "");
+                // showHideLoading(true);
+                com.blockUI(loadTarget, "");
             }
         },
 
@@ -217,6 +217,6 @@
         //}
     });
 
-   
+
 
 })(jQuery);

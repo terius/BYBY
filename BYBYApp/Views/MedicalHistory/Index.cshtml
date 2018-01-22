@@ -145,7 +145,7 @@
     <v-modal v-cloak v-bind:tinfo="modalinfo" ref="consultationmodal">
         <div class="row">
             <div class="col-md-12">
-                <form method="post" action="@Url.Action(" SaveConsultationAdd","MedicalHistory")" id="saveConsultationForm">
+                <form method="post" action='@Url.Action("SaveConsultationAdd","MedicalHistory")' id="saveConsultationForm">
                     <input id="TBMedicalHistoryId" name="TBMedicalHistoryId" type="hidden" />
                     @Html.AntiForgeryToken()
                     <div class="form-horizontal">
@@ -165,6 +165,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-xs-12 plan-select">
+                                <input id="PlanId" name="PlanId" type="hidden" />
                                 <h3>日期选择范围：{{PlanList.DateSelect}} - {{PlanList.EndDate}}</h3>
                                 <ul>
                                     <li style="width:50px"><a href="javascript:;" v-on:click="queryprevweek"><i class="fa fa-2x fa-chevron-left"></i></a></li>
@@ -182,9 +183,10 @@
                                                     <td>{{index+1}}</td>
                                                     <td>{{info.STime}} - {{info.ETime}}</td>
                                                     <td v-for="dayPlan in info.DayPlans" :class="dayPlan.IsCanSelect==true?'':'disabled'">
-                                                        <div class="plan-item" v-for="planView in dayPlan.PlanViews" v-on:click="selectday(planView,$event)">
+                                                        <div v-if="dayPlan.IsCanSelect" class="plan-item" v-for="planView in dayPlan.PlanViews" v-on:click="selectday(planView.Id,$event)">
                                                             {{planView.DoctorName}}<i class="fa fa-check"></i>
                                                         </div>
+                                                        <span v-else>{{planView.DoctorName}}</span>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -236,7 +238,7 @@
     <v-modal v-cloak v-bind:tinfo="modalinfo" ref="Referralmodal">
         <div class="row">
             <div class="col-md-12">
-                <form method="post" action="@Url.Action(" SaveReferralAdd","MedicalHistory")" id="saveReferralForm">
+                <form method="post" action="@Url.Action("SaveReferralAdd","MedicalHistory")" id="saveReferralForm">
                     <input id="TBMedicalHistoryId" name="TBMedicalHistoryId" type="hidden" />
                     @Html.AntiForgeryToken()
                     <div class="form-horizontal">
@@ -315,7 +317,7 @@
 
             .plan-select .plan-item.selected {
                 background-color: green;
-                color:#fff;
+                color: #fff;
             }
 
         .plan-select .disabled {
@@ -390,7 +392,8 @@
 
             },
             info: allData,
-            PlanList: {}
+            PlanList: {},
+            selectPlanId:0
 
         },
         mounted: function () {
@@ -403,16 +406,19 @@
 
         },
         methods: {
-            queryprevweek: function() {
+            queryprevweek: function () {
+             //   alert("开始查询")
                 queryPlan(1);
             },
             querynextweek: function () {
+              //  alert("开始查询")
                 queryPlan(2);
             },
-            selectday: function(planView,event) {
+            selectday: function(id,event) {
                 //  alert(planView.DoctorName);
                 $(".plan-item.selected", ".plan-select").removeClass("selected");
                 $(event.target).addClass("selected");
+                $("#PlanId").val(id);
             }
         }
 
@@ -594,7 +600,15 @@
     });
 
 
-    $("#btnSaveConsultation").on("click", function () {
+        $("#btnSaveConsultation").on("click", function () {
+            com.jqFormOption.checkval = function () {
+
+                if (!$("#PlanId").val()) {
+                    ShowLayerAlert("请先选择医生排班");
+                    return false;
+                }
+                return true;
+            }
         com.jqFormOption.success = function (res) {
             if (res.Result) {
                 ShowSuccessThenReload(res.SuccessMessage);
