@@ -61,6 +61,8 @@ namespace BYBY.Services.Views
         public int ConsultationCount { get; set; }
 
         public IList<PlanConsultationView> ConsultationList { get; set; }
+
+        public bool IsFull { get; set; }
     }
 
     public class PlanConsultationView

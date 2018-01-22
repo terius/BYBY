@@ -48,7 +48,7 @@
             </div>
         </div>
         <div class="myactions">
-            <a href="@Url.Action("AddNew", "MedicalHistory")" class="btn blue btn-outline">
+            <a href="@Url.Action(" AddNew", "MedicalHistory" )" class="btn blue btn-outline">
                 <i class="fa fa-plus"></i> 新增患者
             </a>
         </div>
@@ -145,7 +145,7 @@
     <v-modal v-cloak v-bind:tinfo="modalinfo" ref="consultationmodal">
         <div class="row">
             <div class="col-md-12">
-                <form method="post" action="@Url.Action("SaveConsultationAdd","MedicalHistory")" id="saveConsultationForm">
+                <form method="post" action="@Url.Action(" SaveConsultationAdd","MedicalHistory")" id="saveConsultationForm">
                     <input id="TBMedicalHistoryId" name="TBMedicalHistoryId" type="hidden" />
                     @Html.AntiForgeryToken()
                     <div class="form-horizontal">
@@ -158,9 +158,40 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label col-xs-3">选择母院排班</label>
-                            <div class="col-xs-6">
-                                <select2 id="PlanId" class="w400 required" data-placeholder="--请选择母院排班--" :options="PlanList">
-                                </select2>
+                            @*<div class="col-xs-6">
+                                    <select2 id="PlanId" class="w400 required" data-placeholder="--请选择母院--" :options="PlanList">
+                                    </select2>
+                                </div>*@
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12 plan-select">
+                                <h3>日期选择范围：{{PlanList.DateSelect}} - {{PlanList.EndDate}}</h3>
+                                <ul>
+                                    <li style="width:50px"><a href="javascript:;" v-on:click="queryprevweek"><i class="fa fa-2x fa-chevron-left"></i></a></li>
+                                    <li class="table-view">
+                                        <table class="table  table-bordered plan-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>序号</th>
+                                                    <th>时段</th>
+                                                    <th v-for="week in PlanList.WeekTitles">{{week}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(info,index) in PlanList.DateViews">
+                                                    <td>{{index+1}}</td>
+                                                    <td>{{info.STime}} - {{info.ETime}}</td>
+                                                    <td v-for="dayPlan in info.DayPlans" :class="dayPlan.IsCanSelect==true?'':'disabled'">
+                                                        <div class="plan-item" v-for="planView in dayPlan.PlanViews" v-on:click="selectday(planView,$event)">
+                                                            {{planView.DoctorName}}<i class="fa fa-check"></i>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </li>
+                                    <li style="width:50px"><a href="javascript:;" v-on:click="querynextweek"><i class="fa fa-2x fa-chevron-right"></i></a></li>
+                                </ul>
                             </div>
                         </div>
                         @*<div class="form-group">
@@ -205,7 +236,7 @@
     <v-modal v-cloak v-bind:tinfo="modalinfo" ref="Referralmodal">
         <div class="row">
             <div class="col-md-12">
-                <form method="post" action="@Url.Action("SaveReferralAdd","MedicalHistory")" id="saveReferralForm">
+                <form method="post" action="@Url.Action(" SaveReferralAdd","MedicalHistory")" id="saveReferralForm">
                     <input id="TBMedicalHistoryId" name="TBMedicalHistoryId" type="hidden" />
                     @Html.AntiForgeryToken()
                     <div class="form-horizontal">
@@ -250,6 +281,59 @@
     @System.Web.Optimization.Styles.Render("~/bundles/css/select2")
     @System.Web.Optimization.Styles.Render("~/bundles/css/datepicker")
     @System.Web.Optimization.Styles.Render("~/bundles/css/datetimepicker")
+    <style>
+        .plan-select ul {
+            list-style: none;
+            margin: 0;
+            padding: 10px;
+        }
+
+            .plan-select ul li {
+                display: inline-block;
+                padding: 5px;
+                text-align: center;
+                vertical-align: middle;
+            }
+
+            .plan-select ul .table-view {
+                width: calc(100% - 110px);
+            }
+
+        .plan-select h3 {
+            text-align: center;
+            margin: 0;
+        }
+
+        .plan-select .plan-item {
+            border: 1px solid green;
+            padding: 4px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            position: relative;
+            background-color: #fff;
+        }
+
+            .plan-select .plan-item.selected {
+                background-color: green;
+                color:#fff;
+            }
+
+        .plan-select .disabled {
+            background-color: #ddd;
+        }
+
+        .plan-select .fa-check {
+            color: #fff;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            display: none;
+        }
+
+        .plan-select .plan-item.selected .fa-check {
+            display: block;
+        }
+    </style>
 }
 
 @section pagejs
@@ -260,258 +344,289 @@
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
     <script>
-        $(function () {
+    $(function () {
 
-            var allData = @Html.RenderAsJson(Model);
-            com.showLog(allData)
-            var vuetable;
-            //  com.responsiveHeight("#tableshow", "#mycontent");
-            Vue.component('v-page', {
-                template: "#vuetmp-paginator",
-                props: ["page"]
+        /**/
+        /**/
+        var allData = @Html.RenderAsJson(Model);
+    /**/
+    /**/
+
+    var vuetable;
+        var vueplantable;
+        var startDate;
+    //  com.responsiveHeight("#tableshow", "#mycontent");
+    Vue.component('v-page', {
+        template: "#vuetmp-paginator",
+        props: ["page"]
+    });
+
+    Vue.component('v-detailinfo', {
+        template: "#detailform-template",
+        props: ["tinfo"]
+    })
+
+    var queryPlan = function (weekType) {
+        var hosId = $("#HospitalId").val();
+        var para = {};
+        para.WeekSelect = weekType || 3;
+        para.HospitalId = hosId;
+        para.DateSelect = startDate;
+        com.ajaxquery("/Hospital/QueryPlanByHospital", para).then(function (plans) {
+            com.showLog(plans, "排班");
+            vueConsultation.PlanList = plans;
+            startDate = plans.DateSelect;
+        });
+    }
+
+    var vueConsultation = new Vue({
+        el: '#modal-consultation',
+        data: {
+            modalinfo: {
+                id: "modalconsultation",
+                title: "填写会诊信息",
+                data: {},
+                modalclass: "modal-myfull"
+
+            },
+            info: allData,
+            PlanList: {}
+
+        },
+        mounted: function () {
+            $("#saveConsultationForm").validateForm();
+            com.handleDateTimePicker();
+            $("#HospitalId", "#saveConsultationForm").on("change", function () {
+                queryPlan();
+            }).val(allData.DefaultMasterHospitalId).trigger('change');
+
+
+        },
+        methods: {
+            queryprevweek: function() {
+                queryPlan(1);
+            },
+            querynextweek: function () {
+                queryPlan(2);
+            },
+            selectday: function(planView,event) {
+                //  alert(planView.DoctorName);
+                $(".plan-item.selected", ".plan-select").removeClass("selected");
+                $(event.target).addClass("selected");
+            }
+        }
+
+    });
+
+
+
+    var vueRfDetail = new Vue({
+        el: '#modal-rf-detail',
+        data: {
+            modalinfo: {
+                id: "modalDfDetail",
+                title: "转诊详细信息",
+                data: {}
+            },
+            detail: []
+
+        }
+    });
+
+    var vueReferral = new Vue({
+        el: '#modal-Referral',
+        data: {
+            modalinfo: {
+                id: "modalReferral",
+                title: "填写转诊信息",
+                data: {}
+
+            },
+            HospitalList: allData.MasterHospitalList,
+            masterHospitalId: allData.DefaultMasterHospitalId
+
+        },
+        mounted: function () {
+            $("#saveReferralForm").validateForm();
+            //  com.handleDateTimePicker();
+        }
+
+    });
+    allData.STime = "";
+    allData.ETime = "";
+    allData.skey = "";
+    var vuequery = new Vue({
+        el: '#query-content',
+        data: {
+            info: allData
+        },
+        mounted: function () {
+            var vm = this;
+            com.handleDateRangePicker();
+            $(".input-daterange input.s-time").on('change', function (ob) {
+                vm.info.STime = ob.target.value;
             });
+            $(".input-daterange input.e-time").on('change', function (ob) {
+                vm.info.ETime = ob.target.value;
+            });
+        }
+    });
 
-            Vue.component('v-detailinfo', {
-                template: "#detailform-template",
-                props: ["tinfo"]
-            })
+    //    $(window).on("resize", App.initSlimScroll('#tableshow'));
 
-            var vueConsultation = new Vue({
-                el: '#modal-consultation',
-                data: {
-                    modalinfo: {
-                        id: "modalconsultation",
-                        title: "填写会诊信息",
-                        data: {}
-
+    var search = function (pageIndex, sortIndex, sortType) {
+        var para = {};
+        para.PageIndex = pageIndex || 1;
+        para.SortIndex = sortIndex || -1;
+        para.SortType = sortType || 0;
+        para.SearchKey = $("#search-key").val();
+        com.ajaxquery("/MedicalHistory/PageQuery", para).then(function (mydata) {
+            mydata.query = function (pageIndex, sortIndex, sortType) {
+                search(pageIndex, sortIndex, sortType);
+            }
+            //  com.showLog(mydata);
+            if (vuetable == null) {
+                vuetable = new Vue({
+                    el: '#query-table',
+                    data: {
+                        datas: mydata
                     },
-                    info: allData,
-                    PlanList:[]
-
-                },
-                mounted: function () {
-                    $("#saveConsultationForm").validateForm();
-                    com.handleDateTimePicker();
-                    $("#HospitalId", "#saveConsultationForm").on("change", function () {
-                        var id = $(this).val();
-                        com.ajaxquery("/MedicalHistory/GetPlanList", { Id: id }).then(function (list) {
-                            vueConsultation.PlanList = list;
-                        });
-                    }).val(allData.DefaultMasterHospitalId).trigger('change');
-
-
-                }
-
-            });
-
-            var vueRfDetail = new Vue({
-                el: '#modal-rf-detail',
-                data: {
-                    modalinfo: {
-                        id: "modalDfDetail",
-                        title: "转诊详细信息",
-                        data: {}
+                    mounted: function () {
+                        $('.tooltips').tooltip();
+                        //  App.initSlimScroll('#tableshow');
                     },
-                    detail: []
+                    methods: {
+                        showDetail: function (event) {
+                            //  alert(event);
+                            if (event) {
+                                var $currBtn = $(event.target);
+                                $("#query-table tbody .tb-detail-view").removeClass("open");
+                                var isDetailClosed = $currBtn.hasClass("fa-plus");
+                                //  alert(isDetailClosed);
+                                if (isDetailClosed) {
+                                    $("#query-table tbody .fa-minus").removeClass("fa-minus").addClass("fa-plus");
+                                    $currBtn.removeClass("fa-plus").addClass("fa-minus").closest("tr").next().addClass("open");
 
-                }
-            });
+                                }
+                                else {
+                                    $currBtn.removeClass("fa-minus").addClass("fa-plus");
 
-            var vueReferral = new Vue({
-                el: '#modal-Referral',
-                data: {
-                    modalinfo: {
-                        id: "modalReferral",
-                        title: "填写转诊信息",
-                        data: {}
+                                }
 
-                    },
-                    HospitalList: allData.MasterHospitalList,
-                    masterHospitalId: allData.DefaultMasterHospitalId
-
-                },
-                mounted: function () {
-                    $("#saveReferralForm").validateForm();
-                    //  com.handleDateTimePicker();
-                }
-
-            });
-            allData.STime = "";
-            allData.ETime = "";
-            allData.skey = "";
-            var vuequery = new Vue({
-                el: '#query-content',
-                data: {
-                    info: allData
-                },
-                mounted: function () {
-                    var vm = this;
-                    com.handleDateRangePicker();
-                    $(".input-daterange input.s-time").on('change', function (ob) {
-                        vm.info.STime = ob.target.value;
-                    });
-                    $(".input-daterange input.e-time").on('change', function (ob) {
-                        vm.info.ETime = ob.target.value;
-                    });
-                }
-            });
-
-            //    $(window).on("resize", App.initSlimScroll('#tableshow'));
-
-            var search = function (pageIndex, sortIndex, sortType) {
-                var para = {};
-                para.PageIndex = pageIndex || 1;
-                para.SortIndex = sortIndex || -1;
-                para.SortType = sortType || 0;
-                para.SearchKey = $("#search-key").val();
-                com.ajaxquery("/MedicalHistory/PageQuery", para).then(function (mydata) {
-                    mydata.query = function (pageIndex, sortIndex, sortType) {
-                        search(pageIndex, sortIndex, sortType);
-                    }
-                    //  com.showLog(mydata);
-                    if (vuetable == null) {
-                        vuetable = new Vue({
-                            el: '#query-table',
-                            data: {
-                                datas: mydata
-                            },
-                            mounted: function () {
-                                $('.tooltips').tooltip();
-                                //  App.initSlimScroll('#tableshow');
-                            },
-                            methods: {
-                                showDetail: function (event) {
-                                    //  alert(event);
-                                    if (event) {
-                                        var $currBtn = $(event.target);
-                                        $("#query-table tbody .tb-detail-view").removeClass("open");
-                                        var isDetailClosed = $currBtn.hasClass("fa-plus");
-                                        //  alert(isDetailClosed);
-                                        if (isDetailClosed) {
-                                            $("#query-table tbody .fa-minus").removeClass("fa-minus").addClass("fa-plus");
-                                            $currBtn.removeClass("fa-plus").addClass("fa-minus").closest("tr").next().addClass("open");
-
+                            }
+                        },
+                        showConsultation: function (status, id) {//弹出会诊
+                            if (status == "无" || status == "已取消" || status == "已完成") {
+                                $("#TBMedicalHistoryId", "#saveConsultationForm").val(id);
+                                $('#modalconsultation').modal('show');
+                            }
+                            else if (status == "申请中") {
+                                com.confirm("是否要取消申请会诊？", function () {
+                                    com.ajaxquery("/MedicalHistory/UpdateConsultationToCancel", { MHId: id }).then(function (res) {
+                                        if (res.Result) {
+                                            ShowSuccessThenReload(res.SuccessMessage);
                                         }
                                         else {
-                                            $currBtn.removeClass("fa-minus").addClass("fa-plus");
-
+                                            ShowErrorMessage(res.ErrorMessage);
                                         }
-
-                                    }
-                                },
-                                showConsultation: function (status, id) {//弹出会诊
-                                    if (status == "无" || status == "已取消" || status == "已完成") {
-                                        $("#TBMedicalHistoryId", "#saveConsultationForm").val(id);
-                                        $('#modalconsultation').modal('show');
-                                    }
-                                    else if (status == "申请中") {
-                                        com.confirm("是否要取消申请会诊？", function () {
-                                            com.ajaxquery("/MedicalHistory/UpdateConsultationToCancel", { MHId: id }).then(function (res) {
-                                                if (res.Result) {
-                                                    ShowSuccessThenReload(res.SuccessMessage);
-                                                }
-                                                else {
-                                                    ShowErrorMessage(res.ErrorMessage);
-                                                }
-                                            });
-
-                                        });
-                                    }
-                                },
-                                showReferral: function (status, id,rfid) {//弹出转诊
-                                    if (status == "无" || status == "已取消") {
-                                        $("#TBMedicalHistoryId", "#saveReferralForm").val(id);
-                                        $('#modalReferral').modal('show');
-                                    }
-                                    else if (status == "申请中") {
-                                        com.confirm("是否要取消申请转诊？", function () {
-                                            com.ajaxquery("/MedicalHistory/UpdateReferralToCancel", { MHId: id }).then(function (res) {
-                                                if (res.Result) {
-                                                    ShowSuccessThenReload(res.SuccessMessage);
-                                                }
-                                                else {
-                                                    ShowErrorMessage(res.ErrorMessage);
-                                                }
-                                            });
-
-                                        });
-                                    }
-                                    else if (status == "已确认") {
-                                      //  location.href = "/Detail/Index?type=0&id=" + rfid;
-                                        com.ajaxquery("/Tranfer/GetDetail", { Id: rfid }).then(function (data) {
-                                            vueRfDetail.detail = data;
-                                           // com.showLog(data);
-                                            $('#modalDfDetail').modal('show');
-                                        })
-                                    }
-                                },
-                                deletemh: function (cstatus, rstatus, id) {
-                                    if (cstatus == "申请中" || cstatus == "已确认" || cstatus == "已完成" ||
-                                        rstatus == "申请中" || rstatus == "已确认" || rstatus == "已完成" )
-                                    {
-                                        ShowWarningMessage("当前病历会诊或转诊状态处于(申请中|已确认|已完成),无法删除")
-                                        return;
-                                    }
-                                    com.confirm("是否要删除此条病历信息？<br/>所有相关信息将一并删除", function () {
-                                        com.ajaxquery("/MedicalHistory/Delete", { Id: id }).then(function (res) {
-                                            if (res.Result) {
-                                                ShowSuccessThenReload(res.SuccessMessage);
-                                            }
-                                            else {
-                                                ShowErrorMessage(res.ErrorMessage);
-                                            }
-                                        });
-
                                     });
-                                }
+
+                                });
                             }
-                        })
+                        },
+                        showReferral: function (status, id, rfid) {//弹出转诊
+                            if (status == "无" || status == "已取消") {
+                                $("#TBMedicalHistoryId", "#saveReferralForm").val(id);
+                                $('#modalReferral').modal('show');
+                            }
+                            else if (status == "申请中") {
+                                com.confirm("是否要取消申请转诊？", function () {
+                                    com.ajaxquery("/MedicalHistory/UpdateReferralToCancel", { MHId: id }).then(function (res) {
+                                        if (res.Result) {
+                                            ShowSuccessThenReload(res.SuccessMessage);
+                                        }
+                                        else {
+                                            ShowErrorMessage(res.ErrorMessage);
+                                        }
+                                    });
+
+                                });
+                            }
+                            else if (status == "已确认") {
+                                //  location.href = "/Detail/Index?type=0&id=" + rfid;
+                                com.ajaxquery("/Tranfer/GetDetail", { Id: rfid }).then(function (data) {
+                                    vueRfDetail.detail = data;
+                                    // com.showLog(data);
+                                    $('#modalDfDetail').modal('show');
+                                })
+                            }
+                        },
+                        deletemh: function (cstatus, rstatus, id) {
+                            if (cstatus == "申请中" || cstatus == "已确认" || cstatus == "已完成" ||
+                                rstatus == "申请中" || rstatus == "已确认" || rstatus == "已完成") {
+                                ShowWarningMessage("当前病历会诊或转诊状态处于(申请中|已确认|已完成),无法删除")
+                                return;
+                            }
+                            com.confirm("是否要删除此条病历信息？<br/>所有相关信息将一并删除", function () {
+                                com.ajaxquery("/MedicalHistory/Delete", { Id: id }).then(function (res) {
+                                    if (res.Result) {
+                                        ShowSuccessThenReload(res.SuccessMessage);
+                                    }
+                                    else {
+                                        ShowErrorMessage(res.ErrorMessage);
+                                    }
+                                });
+
+                            });
+                        }
                     }
-                    else {
-                        vuetable.datas = mydata;
-                    }
-                });
-            };
-
-            $("#btn-query").on("click", function () {
-                //   com.showLog(vuequery.info);
-                search();
-            });
-
-
-            $("#btnSaveConsultation").on("click", function () {
-                com.jqFormOption.success = function (res) {
-                    if (res.Result) {
-                        ShowSuccessThenReload(res.SuccessMessage);
-                    }
-                    else {
-                        ShowErrorMessage(res.ErrorMessage);
-                    }
-                }
-                $("#saveConsultationForm").ajaxSubmit(com.jqFormOption);
-
-            });
-
-            $("#btnSaveReferral").on("click", function () {
-                com.jqFormOption.success = function (res) {
-                    if (res.Result) {
-                        ShowSuccessThenReload(res.SuccessMessage);
-                    }
-                    else {
-                        ShowErrorMessage(res.ErrorMessage);
-                    }
-                }
-                $("#saveReferralForm").ajaxSubmit(com.jqFormOption);
-
-            });
-
-            /*******************************初始执行方法***********************************/
-            search();
-
-          
-          
-
+                })
+            }
+            else {
+                vuetable.datas = mydata;
+            }
         });
+    };
+
+    $("#btn-query").on("click", function () {
+        //   com.showLog(vuequery.info);
+        search();
+    });
+
+
+    $("#btnSaveConsultation").on("click", function () {
+        com.jqFormOption.success = function (res) {
+            if (res.Result) {
+                ShowSuccessThenReload(res.SuccessMessage);
+            }
+            else {
+                ShowErrorMessage(res.ErrorMessage);
+            }
+        }
+        $("#saveConsultationForm").ajaxSubmit(com.jqFormOption);
+
+    });
+
+    $("#btnSaveReferral").on("click", function () {
+        com.jqFormOption.success = function (res) {
+            if (res.Result) {
+                ShowSuccessThenReload(res.SuccessMessage);
+            }
+            else {
+                ShowErrorMessage(res.ErrorMessage);
+            }
+        }
+        $("#saveReferralForm").ajaxSubmit(com.jqFormOption);
+
+    });
+
+    /*******************************初始执行方法***********************************/
+    search();
+
+
+
+
+});
     </script>
 }
 

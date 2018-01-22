@@ -193,7 +193,11 @@ namespace BYBY.Services.Implementations
         public async Task<PlanListView> GetPlanList(PlanQueryRequest request)
         {
             var query = await _dateRepository.FindAllAsync();
-            var hospitalId = LoginUserHospitalId;
+            int hospitalId = request.HospitalId;
+            if (hospitalId == 0)
+            {
+                hospitalId = LoginUserHospitalId;
+            }
             PlanListView plan = new PlanListView();
             DateSetupView dataView;
             DateTime monday = DateTime.MinValue;
@@ -280,6 +284,99 @@ namespace BYBY.Services.Implementations
             return plan;
         }
 
+        public async Task<PlanListViewByHospital> GetPlanListByHospital(PlanQueryRequestByHospital request)
+        {
+            var query = await _dateRepository.FindAllAsync();
+            int hospitalId = request.HospitalId;
+            var plan = new PlanListViewByHospital();
+            DateSetupViewByHospital dataView;
+            DateTime monday = DateTime.MinValue;
+            DateTime dateSelect = string.IsNullOrWhiteSpace(request.DateSelect) ? DateTime.Now : DateTime.Parse(request.DateSelect);
+
+            switch (request.WeekSelect)
+            {
+                case WeekSelect.PrevWeek:
+                    monday = dateSelect.AddDays(-7).StartOfWeek(DayOfWeek.Monday);
+                    break;
+                case WeekSelect.NextWeek:
+                    monday = dateSelect.AddDays(7).StartOfWeek(DayOfWeek.Monday);
+                    break;
+                case WeekSelect.ThisWeek:
+                    monday = DateTime.Now.StartOfWeek(DayOfWeek.Monday);
+                    break;
+                default:
+                    monday = DateTime.Now.StartOfWeek(DayOfWeek.Monday);
+                    break;
+            }
+            var nextMonday = monday.AddDays(7);
+            var planDatas = await _planRepository.FindAsync(d => d.PlanDate >= monday && d.PlanDate < nextMonday && d.Doctor.HospitalId == hospitalId);
+            var planDataList = planDatas.ToList();
+            DateTime stepDate = DateTime.MinValue;
+            //  DateTime stepDateNext = DateTime.MinValue;
+            PlanView planView;
+         //   TBPlan tablePlan;
+            DateTime _stime = DateTime.MinValue;
+            DateTime _etime = DateTime.MinValue;
+            IEnumerable<TBPlan> ondayplans;
+            DayPlan dayPlan;
+            foreach (var dataSetup in query)
+            {
+                dataView = new DateSetupViewByHospital();
+                dataView.STime = dataSetup.STime.ToString("HH:mm");
+                dataView.ETime = dataSetup.ETime.ToString("HH:mm");
+
+                for (int i = 0; i < 7; i++)
+                {
+
+                    stepDate = monday.AddDays(i);
+                    _stime = DateTime.Parse(stepDate.ToString("yyyy-MM-dd ") + dataView.STime);
+                    _etime = DateTime.Parse(stepDate.ToString("yyyy-MM-dd ") + dataView.ETime);
+                    ondayplans = planDataList.Where(d => d.STime == _stime && d.ETime == _etime);
+                    dayPlan = new DayPlan();
+                    foreach (var tablePlan in ondayplans)
+                    {
+                        planView = Mapper.Map<PlanView>(tablePlan);
+                        planView.IsFull = tablePlan.CheckIsFull();
+                        dayPlan.PlanViews.Add(planView);
+                    }
+                    dayPlan.IsCanSelect = DateTime.Now.Date <= stepDate;
+                    dataView.DayPlans.Add(dayPlan);
+                    //if (tablePlan != null)
+                    //{
+                    //    planView = Mapper.Map<PlanView>(tablePlan);
+                    //    planView.ConsultationCount = tablePlan.ValidConsultations.Count();
+                    //    planView.ConsultationList = Mapper.Map<IList<PlanConsultationView>>(tablePlan.ValidConsultations);
+                    //}
+                    //else
+                    //{
+                    //    planView = new PlanView();
+                    //    planView.STime = _stime.ToString("yyyy-MM-dd HH:mm:ss");
+                    //    planView.ETime = _etime.ToString("yyyy-MM-dd HH:mm:ss");
+                    //    planView.People = dataSetup.DefaultPeople;
+                    //    planView.PlanDate = stepDate.ToString("yyyy-MM-dd HH:mm:ss");
+                    //    planView.RoomId = request.RoomId;
+                    //    //if (request.DoctorId > 0)
+                    //    //{
+                    //    //    planView.DoctorId = request.DoctorId;
+                    //    //}
+
+                    //}
+                    
+                }
+                plan.DateViews.Add(dataView);
+            }
+            string weekTitle = "";
+            for (int i = 0; i < 7; i++)
+            {
+                stepDate = monday.AddDays(i);
+                weekTitle = stepDate.ToString("MM-dd") + " (" + stepDate.DayOfWeek.GetDayOfWeekText() + ")";
+                plan.WeekTitles.Add(weekTitle);
+            }
+            plan.DateSelect = monday.ToString("yyyy-MM-dd");
+            plan.EndDate = monday.AddDays(6).ToString("yyyy-MM-dd");
+            return plan;
+        }
+
         public async Task<EmptyResponse> SavePlan(IList<DateSetupView> request)
         {
             TBPlan info;
@@ -302,7 +399,7 @@ namespace BYBY.Services.Implementations
                         }
                         else
                         {
-                          
+
                             await _planRepository.DeleteAsync(info);
                         }
 
@@ -365,14 +462,14 @@ namespace BYBY.Services.Implementations
 
         public async Task<IList<SelectItem>> GetPlansByHospitalId(OnlyHasIdRequest request)
         {
-            if (request.Id <=0)
+            if (request.Id <= 0)
             {
                 return new List<SelectItem>();
             }
             DateTime dtNow = DateTime.Now.Date;
-            var list = (await _planRepository.FindAsync(d => d.Room.HospitalId == request.Id && d.STime >= dtNow)).OrderBy(d=>d.RoomId).OrderBy(d => d.STime).ToList();
-           // var hosp = await _repository.GetAsync(request.Id);
-           // var list = hosp.GetPlanStartToday();
+            var list = (await _planRepository.FindAsync(d => d.Room.HospitalId == request.Id && d.STime >= dtNow)).OrderBy(d => d.RoomId).OrderBy(d => d.STime).ToList();
+            // var hosp = await _repository.GetAsync(request.Id);
+            // var list = hosp.GetPlanStartToday();
             var views = list.C_To_PlanSelectItems();
             return views;
         }

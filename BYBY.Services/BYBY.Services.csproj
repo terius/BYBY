@@ -143,6 +143,7 @@
     <Compile Include="Response\ResponseBase.cs" />
     <Compile Include="ServiceExtensions.cs" />
     <Compile Include="Views\CheckListView.cs" />
+    <Compile Include="Views\PlanListViewByHospital.cs" />
     <Compile Include="Views\ReportListView.cs" />
     <Compile Include="Views\DisplayModel.cs" />
     <Compile Include="Views\ConsultationRoomListView.cs" />

@@ -52,5 +52,7 @@ namespace BYBY.Services.Interfaces
 
         Task<IList<SelectItem>> GetPlansByHospitalId(OnlyHasIdRequest request);
 
+        Task<PlanListViewByHospital> GetPlanListByHospital(PlanQueryRequestByHospital request);
+
     }
 }

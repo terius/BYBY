@@ -100,6 +100,12 @@ namespace BYBYApp.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+        public async Task<JsonResult> QueryPlanByHospital(PlanQueryRequestByHospital request)
+        {
+            var response = await _service.GetPlanListByHospital(request);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public async Task<ActionResult> SavePlan(IList<DateSetupView> request)
         {

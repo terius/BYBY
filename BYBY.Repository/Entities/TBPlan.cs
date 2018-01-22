@@ -57,6 +57,12 @@ namespace BYBY.Repository.Entities
             return string.Format("[{0}]{1}", Room.Name, PlanDate.ToString("yyyy-MM-dd") + "   " + STime.ToString("HH:mm") + " - " + ETime.ToString("HH:mm"));
         }
 
+        public bool CheckIsFull()
+        {
+            var alreadyPeople = this.Consultations.Count();
+            return People <= alreadyPeople;
+        }
+
         protected override void Validate()
         {
             if (dbaction == DBAction.Delete)
