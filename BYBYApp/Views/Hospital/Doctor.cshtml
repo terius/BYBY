@@ -43,7 +43,7 @@
                     <th>性别</th>
                     <th>年龄</th>
                     <th>职称</th>
-                    <th>所属医院</th>
+                    @*<th>所属医院</th>*@
                     <th>用户角色</th>
                     <th>操作</th>
                 </tr>
@@ -56,7 +56,7 @@
                     <td>{{info.SexText}}</td>
                     <td>{{info.Age}}</td>
                     <td>{{info.JobTitle}}</td>
-                    <td>{{info.HospitalName}}</td>
+                    @*<td>{{info.HospitalName}}</td>*@
                     <td>{{info.RoleText}}</td>
                     <td>
                         <a href="javascript:;" class="margin-right-10" v-on:click="showEdit(info)"><i class="fa fa-2x fa-edit tooltips" data-container="body" data-placement="top" data-original-title="编辑医生"></i></a>
@@ -81,7 +81,7 @@
                     @Html.AntiForgeryToken()
                     <input id="Id" name="Id" type="hidden" :value="addinfo.Id" />
                     <input id="UserId" name="UserId" type="hidden" :value="addinfo.UserId" />
-
+                    <input id="UserId" name="UserId" type="hidden" :value="addinfo.UserId" />
                     <div class="form-horizontal">
                         <div class="form-group">
                             <label class="control-label col-xs-3">登录用户名<span class="requiredspan">*</span></label>
@@ -132,13 +132,13 @@
                                 <input type="text" name="Address" class="form-control  w300" :value="addinfo.Address">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-3">所属医院<span class="requiredspan">*</span></label>
-                            <div class="col-xs-6">
-                                <select2 id="HospitalId" class="w300 required" data-placeholder="--请选择医院--" :value="addinfo.HospitalId" :options="HospitalList">
-                                </select2>
-                            </div>
-                        </div>
+                        @*<div class="form-group">
+                <label class="control-label col-xs-3">所属医院<span class="requiredspan">*</span></label>
+                <div class="col-xs-6">
+                    <select2 id="HospitalId" class="w300 required" data-placeholder="--请选择医院--" :value="addinfo.HospitalId" :options="HospitalList">
+                    </select2>
+                </div>
+            </div>*@
                         <div class="form-group">
                             <label class="control-label col-xs-3">所属部门</label>
                             <div class="col-xs-6">
@@ -316,9 +316,9 @@
             $('#uploadfile').myUploadImage({ isSingle: true });
           //  com.singleImage("#uploadfile");
             com.handleiCheck();
-            if (allData.LockHospitalId > 0) {
-                $("#HospitalId").select2("enable", false)
-            }
+            //if (allData.LockHospitalId > 0) {
+            //    $("#HospitalId").select2("enable", false)
+            //}
         },
         methods: {
             save: function () {

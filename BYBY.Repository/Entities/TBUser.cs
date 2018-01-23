@@ -76,7 +76,8 @@ namespace BYBY.Repository.Entities
         {
             get
             {
-                return RoleName == "doctor";
+                return UserRoles.Any(d => d.Role.Name == "doctor");
+                // return RoleName == "doctor";
 
             }
         }
@@ -90,8 +91,9 @@ namespace BYBY.Repository.Entities
                 {
                     return false;
                 }
-                var d = Doctors.FirstOrDefault();
-                return d == null ? false : d.IsMasterDoctor;
+                return IsMasterUser;
+                //  var d = Doctors.FirstOrDefault();
+                //   return d == null ? false : d.IsMasterDoctor;
 
             }
         }
@@ -101,7 +103,7 @@ namespace BYBY.Repository.Entities
         {
             get
             {
-                return Hospital == null ? false : (Hospital.IsMaster ? true : false);
+                return Hospital == null ? false : Hospital.IsMaster;
 
             }
         }
@@ -115,9 +117,10 @@ namespace BYBY.Repository.Entities
                 {
                     return false;
                 }
-                var d = Doctors.FirstOrDefault();
-                var rs = d == null ? false : d.IsMasterDoctor;
-                return !rs;
+                return !IsMasterUser;
+                //var d = Doctors.FirstOrDefault();
+                //var rs = d == null ? false : d.IsMasterDoctor;
+                //return !rs;
             }
         }
 

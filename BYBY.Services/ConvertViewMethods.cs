@@ -265,11 +265,11 @@ namespace BYBY.Services
                 var MHInfo = item.MedicalHistory;
                 view = new ReportListView
                 {
-                  ChildHospital= item.Doctor.Hospital.Name,
-                  MasterHospital = item.Hospital.Name,
-                  CompleteDate = item.RequestDate.ToDateString(),
-                  FemaleName = MHInfo.FeMalePatient.Name,
-                  MaleName = MHInfo.MalePatient.Name
+                    ChildHospital = item.Doctor.Hospital.Name,
+                    MasterHospital = item.Hospital.Name,
+                    CompleteDate = item.RequestDate.ToDateString(),
+                    FemaleName = MHInfo.FeMalePatient.Name,
+                    MaleName = MHInfo.MalePatient.Name
                 };
 
                 dest.Add(view);
@@ -487,7 +487,7 @@ namespace BYBY.Services
             {
                 view = Mapper.Map<DoctorListView>(item);
                 view.Age = item.Birthday.GetAge();
-                view.HospitalName = item.Hospital.Name;
+                // view.HospitalName = item.Hospital.Name;
                 //view.IsMasterDoctor = item.IsMasterDoctor ? "是" : "否";
                 //  view.JobTitle = item.JobTitle;
                 //  view.Name = item.Name;

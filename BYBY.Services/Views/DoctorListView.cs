@@ -1,5 +1,4 @@
 ﻿using BYBY.Infrastructure;
-using System;
 
 namespace BYBY.Services.Views
 {
@@ -14,9 +13,9 @@ namespace BYBY.Services.Views
         public string JobTitle { get; set; }
 
 
-        public string HospitalName { get; set; }
+     //   public string HospitalName { get; set; }
 
-        public int HospitalId { get; set; }
+       // public int HospitalId { get; set; }
 
 
        

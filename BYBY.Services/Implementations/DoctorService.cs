@@ -82,6 +82,8 @@ namespace BYBY.Services.Implementations
             {
                 query = query.Where(d => d.Name.Contains(request.SearchKey) || d.User.UserName.Contains(request.SearchKey));
             }
+            var hosId = LoginUserHospitalId;
+            query = query.Where(d => d.HospitalId == hosId);
             //   var data = await _repository.FindAsync(d => d.MedicalHistoryNo == "9999");
             var pageData = PageQuery(query.OrderBy(d => d.Id), request, d => d.C_To_DoctorListView());
             return await Task.FromResult(pageData);
@@ -90,6 +92,7 @@ namespace BYBY.Services.Implementations
 
         public async Task<AddDoctorResponse> AddDoctor(DoctorListView request)
         {
+            var hosId = LoginUserHospitalId;
             var res = new AddDoctorResponse();
             string newUserId = null;
             if (!string.IsNullOrWhiteSpace(request.UserName))
@@ -98,7 +101,7 @@ namespace BYBY.Services.Implementations
                 userCreate.Name = request.Name;
                 userCreate.RoleName = RoleType.doctor.ToString();
                 userCreate.UserName = request.UserName;
-                userCreate.HospitalId = request.HospitalId;
+                userCreate.HospitalId = hosId;
                 newUserId = await _userService.CreateUserReturnUserId(userCreate);
                 if (newUserId == null)
                 {
@@ -108,6 +111,7 @@ namespace BYBY.Services.Implementations
 
             var info = Mapper.Map<TBDoctor>(request);
             info.AddUserName = GetLoginUserName();
+            info.HospitalId = hosId;
             if (newUserId != null)
             {
                 info.UserId = newUserId;
