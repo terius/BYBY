@@ -13,6 +13,7 @@ namespace BYBY.Infrastructure.Domain
         Task<List<T>> FindAllAsync();
         Task<T> FindSingleAsync(Expression<Func<T, bool>> predicate);
         Task<IQueryable<T>> FindAsync(Expression<Func<T, bool>> predicate);
+        Task<IOrderedQueryable<T>> FindOrderByAsync<Tkey>(Expression<Func<T, bool>> predicate, Expression<Func<T, Tkey>> orderby);
 
         Task<int> FindCountAsync(Expression<Func<T, bool>> predicate);
 

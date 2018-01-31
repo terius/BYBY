@@ -431,7 +431,7 @@ namespace BYBY.Services
             view.ConsultationStatus = GetEnumDescription(source.ConsultationStatus);
             view.ApprovedUser = GetNameByUserName(source.ApprovedUser);
             view.ApprovedTime = source.ApprovedTime.ToDateTimeString();
-            view.Doctor = source.Doctor.Name;
+            view.Doctor = source.Plan.Doctor.Name;
             view.RecordUser = GetNameByUserName(source.RecordUser);
             view.RecordTime = source.RecordTime.ToDateTimeString();
             view.ConsultationMedicineList = source.ConsultationMedicines.C_To_ConsultationMedicineList();

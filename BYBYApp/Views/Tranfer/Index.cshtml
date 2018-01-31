@@ -153,16 +153,16 @@
                     @Html.AntiForgeryToken()
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <label class="control-label col-xs-3">会诊医院</label>
+                            <label class="control-label col-xs-3">转诊医院</label>
                             <div class="col-xs-6">
                                 <select2 id="HospitalId" class="w250 " data-placeholder="--请选择医院--" :value="masterHospitalId" :options="HospitalList">
                                 </select2>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-xs-3">申请会诊日期</label>
+                            <label class="control-label col-xs-3">申请转诊日期</label>
                             <div class="col-xs-6">
-                                <date-picker-simple id="RequestDate" class="w250 "></date-picker-simple>
+                                <date-picker-simple after-now="1" id="RequestDate" class="w250 "></date-picker-simple>
                             </div>
                         </div>
                         <div class="form-group">

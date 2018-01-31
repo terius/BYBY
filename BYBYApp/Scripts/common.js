@@ -71,7 +71,15 @@ $.fn.validateForm = function (option) {
             //com.showLog(valInputWrap.attr("id"))
             //com.showLog(p, "p")
             //com.showLog(len)
-            error.css({ left: p.left + len + 8, top: p.top })
+            var errorpos = element.attr("errorpos") || "right";
+            if (errorpos === "right") {
+                error.css({ left: p.left + len + 8, top: p.top })
+            }
+            else if (errorpos === "left") {
+                var errlen = error.outerWidth();
+                error.css({ left: -(errlen + 8), top: p.top })
+            }
+
             // error.offset({ left: emoffset.left + len + 8, top: emoffset.top });
 
 
@@ -438,7 +446,7 @@ com.initImageUpload = function (target, url, successFun, isSingle) {
     var len = 1;
     var readURL = function (input) {
         if (input.files && input.files[0]) {
-            selectFile = input.files[0];
+            var selectFile = input.files[0];
             if (!/image\/\w+/.test(selectFile.type)) {
                 ShowLayerAlert("请确保文件类型为图像类型");
                 input.outerHTML = input.outerHTML;

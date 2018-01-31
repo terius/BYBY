@@ -8,8 +8,8 @@ namespace BYBY.Infrastructure.UnitOfWork
 {
     public interface IUnitOfWorkRepository
     {
-        void PersistCreationOf(IEntity entity);
-        void PersistUpdateOf(IEntity entity);
-        void PersistDeletionOf(IEntity entity);
+        //void PersistCreationOf(IEntity entity);
+        //void PersistUpdateOf(IEntity entity);
+        //void PersistDeletionOf(IEntity entity);
     }
 }

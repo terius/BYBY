@@ -2,8 +2,8 @@
 {
     public interface IEntity
     {
-
-          void ThrowExceptionIfInvalid(DBAction action);
+        //T Id { get; set; }
+        void ThrowExceptionIfInvalid(DBAction action);
     }
 
 }

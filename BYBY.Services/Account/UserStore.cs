@@ -47,7 +47,6 @@ namespace BYBY.Services.Account
 
         public async Task<TBUser> FindByIdAsync(string userId)
         {
-
             return await _userRepository.GetAsync(userId);
         }
 

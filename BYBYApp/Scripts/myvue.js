@@ -14,10 +14,10 @@
             })
             .val(this.value)
             .trigger('change')
-        // emit event on change.
-        .on('change', function () {
-            vm.$emit('input', this.value)
-        })
+            // emit event on change.
+            .on('change', function () {
+                vm.$emit('input', this.value)
+            })
 
     },
     watch: {
@@ -81,7 +81,7 @@ Vue.component('date-picker', {
 })
 
 Vue.component('date-picker-simple', {
-    props: ['id', 'myclass', 'value', 'defaultDate','startSelectDate'],
+    props: ['id', 'myclass', 'value', 'defaultDate', 'startSelectDate','afterNow'],
     template: '<input type="text" :value="value"   readonly @input="updateSelf($event.target.value)" class="form-control date-picker" :class="myclass" :id="id" :name="id" >',
     mounted: function () {
         var vm = this
@@ -91,14 +91,13 @@ Vue.component('date-picker-simple', {
             language: "zh-CN",
             clearBtn: true
         }
-         if (!this.startSelectDate)
-{
-option.startDate= new Date();
-}
-else
-{
-option.startDate= this.startSelectDate;
-}
+        if (this.startSelectDate) {
+            option.startDate = this.startSelectDate;
+        }
+        else if (this.afterNow == "1") {
+            option.startDate = new Date();
+        }
+
         var dfdate = this.$attrs.defaultdate;
         if (dfdate) {
             var sp = dfdate.split('-');
@@ -127,7 +126,7 @@ Vue.component('test-vue', {
     watch: {
         value: function (value) {
             // update value
-               alert(value);
+            alert(value);
             $(".s-time", this.$el).val(value[0])
             $(".e-time", this.$el).val(value[1])
         }

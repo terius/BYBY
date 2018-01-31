@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace BYBY.Services.Account
 {
@@ -101,6 +102,11 @@ namespace BYBY.Services.Account
                 await UpdateAsync(userInfo);
             }
         }
+
+       //public virtual Task<TBUser> FindByUserId(string userId)
+       // {
+       //     return Task.FromResult(Users.FirstOrDefault(d => d.Id == userId));
+       // }
 
 
 

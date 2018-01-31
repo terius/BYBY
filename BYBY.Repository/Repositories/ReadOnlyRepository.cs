@@ -14,14 +14,18 @@ namespace BYBY.Repository.Repositories
     {
         public IQueryable<T> GetDbQuerySet()
         {
-            return DataContextFactory.GetDataContext().Set<T>().AsNoTracking();
+            return DataContextFactory.GetDataContext().Set<T>();
         }
 
-        public virtual Task<T> GetAsync(EntityKey Id)
+        public virtual Task<T> GetAsync(EntityKey id)
         {
-            Contract.Requires(Id != null);
-            return DataContextFactory.GetDataContext().Set<T>().FindAsync(Id);
+            Contract.Requires(id != null);
+            return DataContextFactory.GetDataContext().Set<T>().FindAsync(id);
+            //   return DataContextFactory.GetDataContext().Set<T>().FirstOrDefaultAsync(CreateEqualityExpressionForId(Id));
+
         }
+
+     
 
         public virtual Task<List<T>> FindAllAsync()
         {
@@ -38,6 +42,13 @@ namespace BYBY.Repository.Repositories
             return Task.FromResult(GetDbQuerySet().Where(predicate));
         }
 
+
+
+        public virtual Task<IOrderedQueryable<T>> FindOrderByAsync<Tkey>(Expression<Func<T, bool>> predicate, Expression<Func<T, Tkey>> orderby)
+        {
+            return Task.FromResult(GetDbQuerySet().Where(predicate).OrderBy(orderby));
+        }
+
         public virtual Task<int> FindCountAsync(Expression<Func<T, bool>> predicate)
         {
             return Task.FromResult(GetDbQuerySet().Where(predicate).Count());
@@ -46,7 +57,7 @@ namespace BYBY.Repository.Repositories
 
         public virtual Task<bool> ExistAsync(Expression<Func<T, bool>> predicate)
         {
-            return Task.FromResult(GetDbQuerySet().Where(predicate).Count() > 0);
+            return Task.FromResult(GetDbQuerySet().Count(predicate)> 0);
 
         }
 

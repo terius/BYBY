@@ -116,7 +116,7 @@ namespace BYBY.Services.Implementations
             {
                 info.UserId = newUserId;
             }
-            //  var hosp = await _hospitalRepository.FindSingleAsync(d => d.Id == info.HospitalId);
+            //  var hosp = await _hospitalRepository.GetAsync(info.HospitalId);
             //   info.Hospital = hosp;
             info.Hospital = null;
             await _repository.InsertAsync(info);
@@ -158,7 +158,7 @@ namespace BYBY.Services.Implementations
             info = Mapper.Map(request, info);
             info.ModifyUserName = GetLoginUserName();
 
-            //var hosp = await _hospitalRepository.FindSingleAsync(d => d.Id == info.HospitalId);
+            //var hosp = await _hospitalRepository.GetAsync(info.HospitalId);
             // info.Hospital = hosp;
             await _repository.UpdateAsync(info);
             int rs = _unitOfWork.Commit();

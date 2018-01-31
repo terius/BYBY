@@ -77,9 +77,9 @@
             </thead>
             <tbody>
                 <tr v-for="(info,index) in list.DateViews">
-                    <td style="width:50px">{{index+1}}</td>
-                    <td style="width:120px">{{info.STime}} - {{info.ETime}}</td>
-                    <td v-for="planView in info.OneDayPlans">
+                    <td style="width:4%">{{index+1}}</td>
+                    <td style="width:12%">{{info.STime}} - {{info.ETime}}</td>
+                    <td v-for="planView in info.OneDayPlans" class="plan-day-content">
                         <div v-if="planView.Id !=0 && editmodel==0" class="view-content" v-on:mouseenter="showConsultation" v-on:mouseleave="hideConsultation">
                             <p><strong>排班医生：</strong>{{planView.DoctorName}}</p>
                             <p><strong>排班人数：</strong>{{planView.People}}</p>
@@ -101,7 +101,7 @@
 
 
                         </div>
-                        <div v-if="editmodel==1">
+                        <div v-if="editmodel==1 && checkDateIsNow(planView.PlanDate)">
                             <select2 id="DoctorId" class="w150" data-placeholder="无" v-model="planView.DoctorId" :options="DoctorList">
                             </select2>
                             <input type="text" name="People" placeholder="会诊人数" v-model="planView.People" style="width:150px;margin-top:10px" class="form-control">
@@ -146,6 +146,7 @@
             var vuetable = null;
             var dateSelect = null;
             var allData = @Html.RenderAsJson(Model);
+            var nowDate = com.getNowDate();
 
           //   com.showLog(allData,"默认")
 
@@ -165,7 +166,7 @@
              //   com.showLog(para,"查询参数");
                 com.ajaxquery("/Hospital/QueryPlan", para).then(function (mydata) {
                     $("#date-range-text").text("日期选择范围：" + mydata.DateSelect + " - " + mydata.EndDate);
-                  //  com.showLog(mydata);
+                    com.showLog(mydata);
                     if (vuetable == null) {
                         vuetable = new Vue({
                             el: '#query-table',
@@ -216,6 +217,12 @@
                                             tips.hide();
                                         }
                                     }, 100);
+                                },
+                                checkDateIsNow: function(selectDate) {
+                                    if (selectDate < nowDate) {
+                                        return false;
+                                    }
+                                    return true;
                                 }
                             }
 

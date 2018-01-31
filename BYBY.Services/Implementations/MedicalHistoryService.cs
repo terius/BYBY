@@ -74,7 +74,7 @@ namespace BYBY.Services.Implementations
             }
 
             //   var data = await _repository.FindAsync(d => d.MedicalHistoryNo == "9999");
-            var pageData = PageQuery(query.OrderBy(d => d.Id), request, d => d.C_To_MedicalHistoryListViews());
+            var pageData = PageQuery(query.OrderByDescending(d => d.AddTime), request, d => d.C_To_MedicalHistoryListViews());
             return await Task.FromResult(pageData);
 
         }
@@ -558,11 +558,15 @@ namespace BYBY.Services.Implementations
             MHInfo.ReferralStatus = ReferralStatus.Cancel;
             MHInfo.ModifyUserName = loginUserName;
             await _repository.UpdateAsync(MHInfo);
+            var refid = MHInfo.NewestReferralId;
+            if (refid != null)
+            {
+                var cInfo = await _referralRepository.GetAsync(refid.Value);
+                cInfo.ReferralStatus = ReferralStatus.Cancel;
+                cInfo.ModifyUserName = loginUserName;
+                await _referralRepository.UpdateAsync(cInfo);
+            }
 
-            var cInfo = await _referralRepository.GetAsync(MHInfo.Referrals.OrderByDescending(d => d.Id).First().Id);
-            cInfo.ReferralStatus = ReferralStatus.Cancel;
-            cInfo.ModifyUserName = loginUserName;
-            await _referralRepository.UpdateAsync(cInfo);
 
             int rs = _unitOfWork.Commit();
             return rs > 0 ? EmptyResponse.CreateSuccess("转诊取消成功") : EmptyResponse.CreateError("转诊取消失败");
@@ -743,7 +747,7 @@ namespace BYBY.Services.Implementations
             var query = await _consultationRepository.FindAsync(d => d.ConsultationStatus == ConsultationStatus.Complete && d.Plan.STime >= stime && d.Plan.ETime <= etime && d.Id == d.MedicalHistory.NewestConsultationId);
             if (request.HospitalId > 0)
             {
-                query = query.Where(d => d.Id == request.HospitalId);
+                query = query.Where(d => d.Doctor.HospitalId == request.HospitalId);
             }
             var pageData = PageQuery(query.OrderBy(d => d.Id), request, d => d.C_To_ReportListViews());
             return pageData;

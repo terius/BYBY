@@ -40,6 +40,11 @@ namespace BYBY.Infrastructure.Helpers
             return val.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
+        public static string ToTimeString(this DateTime val)
+        {
+            return val.ToString("HH:mm");
+        }
+
 
         public static string ToDateTimeString(this DateTime? val)
         {

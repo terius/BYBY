@@ -115,9 +115,9 @@
                 </thead>
                 <tbody>
                     <tr v-for="(info,index) in list.DateViews">
-                        <td>{{index+1}}</td>
-                        <td>{{info.STime}} - {{info.ETime}}</td>
-                        <td v-for="planView in info.OneDayPlans">
+                        <td width="4%">{{index+1}}</td>
+                        <td width="12%">{{info.STime}} - {{info.ETime}}</td>
+                        <td v-for="planView in info.OneDayPlans" width="12%">
                             <div v-if="planView.Id !=0" class="view-content" v-on:mouseenter="showConsultation" v-on:mouseleave="hideConsultation">
                                 <p><strong>会诊室：</strong>{{planView.RoomName}}</p>
                                 <p><strong>排班医生：</strong>{{planView.DoctorName}}</p>

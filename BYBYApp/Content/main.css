@@ -613,7 +613,7 @@ td.no-data {
 
         .error-msg .error-content .error-arrow {
             position: absolute;
-            left: -8px;
+            /*left: -8px;*/
             top: 5px;
             border-bottom-style: solid;
             width: 0;
@@ -623,7 +623,13 @@ td.no-data {
             border-style: dashed;
         }
 
+            .error-msg .error-content .error-arrow.right {
+                left: -8px;
+            }
 
+            .error-msg .error-content .error-arrow.left {
+                right: -8px;
+            }
 /************************Modal样式************************/
 .modal-dialog {
     margin-top: 100px;
@@ -855,6 +861,10 @@ td.no-data {
         border-bottom: 1px solid red;
         white-space: nowrap;
     }
+
+.plan-day-content {
+    width: 12%;
+}
 /************************************************医生详细信息页面************************************************/
 .doctor-detail {
     display: inline-block

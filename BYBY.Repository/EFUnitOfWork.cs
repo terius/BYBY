@@ -16,6 +16,7 @@ namespace BYBY.Repository
             try
             {
                 rs = DataContextFactory.GetDataContext().SaveChanges();
+         
 
             }
             catch (DbUpdateConcurrencyException ex2)
@@ -49,6 +50,7 @@ namespace BYBY.Repository
             //}
             catch (Exception ex)
             {
+              
               //  LoggingFactory.GetLogger().Log("保存时处理" + ex.ToString());
                 throw;
             }
@@ -56,19 +58,19 @@ namespace BYBY.Repository
             return rs;
         }
 
-        public void RegisterAmended(IEntity entity, IUnitOfWorkRepository unitofWorkRepository)
-        {
-            unitofWorkRepository.PersistUpdateOf(entity);
-        }
+        //public void RegisterAmended(IEntity entity, IUnitOfWorkRepository unitofWorkRepository)
+        //{
+        //    unitofWorkRepository.PersistUpdateOf(entity);
+        //}
 
-        public void RegisterNew(IEntity entity, IUnitOfWorkRepository unitofWorkRepository)
-        {
-            unitofWorkRepository.PersistCreationOf(entity);
-        }
+        //public void RegisterNew(IEntity entity, IUnitOfWorkRepository unitofWorkRepository)
+        //{
+        //    unitofWorkRepository.PersistCreationOf(entity);
+        //}
 
-        public void RegisterRemoved(IEntity entity, IUnitOfWorkRepository unitofWorkRepository)
-        {
-            unitofWorkRepository.PersistDeletionOf(entity);
-        }
+        //public void RegisterRemoved(IEntity entity, IUnitOfWorkRepository unitofWorkRepository)
+        //{
+        //    unitofWorkRepository.PersistDeletionOf(entity);
+        //}
     }
 }

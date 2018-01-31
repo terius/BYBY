@@ -71,6 +71,7 @@ namespace BYBYApp.Controllers
             model.AddModel.FemaleNation = model.AddModel.MaleNation = DefaultChinaId;
             model.AddModel.FemaleEthnic = model.AddModel.MaleEthnic = DefaultEthnicId;
             model.AddModel.FemaleCardType = model.AddModel.MaleCardType = (CardType)(Convert.ToInt32(model.CardTypeList.First(d => d.text == "身份证").id));
+            model.AddModel.FemaleMarriage = model.AddModel.MaleMarriage = MaritalStatus.YiHun;
             return View(model);
         }
 

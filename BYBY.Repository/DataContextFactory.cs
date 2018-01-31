@@ -9,6 +9,7 @@
             if (_context == null)
             {
                 _context = new BYBYDBContext();
+                
             }
             return _context;
         }

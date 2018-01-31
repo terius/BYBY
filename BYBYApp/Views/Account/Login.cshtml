@@ -54,7 +54,7 @@
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-addon"><i class="fa fa-eye fa-fw"></i></div>
-                            <input class="form-control" required style="width:155px" type="text" maxlength="4" errormessage="验证码不能为空" autocomplete="off" placeholder="验证码" id="ValidCode" name="ValidCode" tabindex="3" />
+                            <input class="form-control" errorpos="left" required style="width:155px" type="text" maxlength="4" errormessage="验证码不能为空" autocomplete="off" placeholder="验证码" id="ValidCode" name="ValidCode" tabindex="3" />
 
                         </div>
                         <div class="valid-code"><img src='/Account/CreateValidCode?ID=@DateTime.Now.Ticks' style="cursor:pointer" id="imgCode" title="单击可刷新" onclick="ClickRemoveChangeCode()" /></div>
@@ -123,7 +123,7 @@
                 $("#form1").ajaxSubmit(com.jqFormOption);
             })
 
-            autoLogin();
+          //  autoLogin();
         })
 
 

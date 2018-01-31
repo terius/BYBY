@@ -151,10 +151,14 @@
                                             </div>
                                         </div>
                                         <div class="col-md-12" style="padding-top:10px">
-                                            <div class="form-group" style="width:30%">
+                                            @*<div class="form-group" style="width:30%">
                                                 <label>会诊医生:</label>
                                                 <select2 id="DoctorId" class="w196" data-placeholder="--请选择医生--" :value="info.DoctorId" :options="info.DoctorList">
                                                 </select2>
+                                            </div>*@
+                                            <div class="form-group" style="width:30%">
+                                                <label>会诊医生:</label>
+                                                <label>@Model.Doctor</label>
                                             </div>
                                             <div class="form-group" style="width:30%">
                                                 <label>记录人:</label>
@@ -329,14 +333,14 @@
                     <div class="form-horizontal">
                         <div class="form-group">
                             <label class="control-label col-xs-3 ">药品名称</label>
-                            <div class="col-xs-6">
-                                <select2 id="MedicineId" class="w300 required" data-placeholder="--请选择药品名称--" :options="MedicineList" :value="addinfo.MedicineId">
+                            <div class="col-xs-9">
+                                <select2 id="MedicineId" style="width:300px" class="required" data-placeholder="--请选择药品名称--" :options="MedicineList" :value="addinfo.MedicineId">
                                 </select2>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-xs-3 ">剂量</label>
-                            <div class="col-xs-6">
+                            <div class="col-xs-9">
                                 <input type="text" name="Dose" readonly class="form-control w300" maxlength="100" :value="addinfo.Dose">
                             </div>
                         </div>
@@ -397,7 +401,7 @@
                         <div class="form-group">
                             <label class="control-label col-xs-3 ">检查项目</label>
                             <div class="col-xs-6">
-                                <select2 id="CheckId" class="w300 required" data-placeholder="--请选择检查项目--" :options="CheckList" :value="addinfo.CheckId">
+                                <select2 id="CheckId" style="width:300px" class="required" data-placeholder="--请选择检查项目--" :options="CheckList" :value="addinfo.CheckId">
                                 </select2>
                             </div>
                         </div>

@@ -11,7 +11,7 @@ namespace BYBY.Services.Account
     {
         readonly IRepository<TBRole, string> _roleRepository;
         readonly IUnitOfWork _unitOfWork;
-      //  readonly int defaultTenantId = ApplicationSettingsFactory.GetApplicationSettings().ProductTenantId;
+        //  readonly int defaultTenantId = ApplicationSettingsFactory.GetApplicationSettings().ProductTenantId;
         public RoleStore(IRepository<TBRole, string> roleRepository, IUnitOfWork unitOfWork)
         {
             _roleRepository = roleRepository;
@@ -19,7 +19,7 @@ namespace BYBY.Services.Account
         }
         public async Task CreateAsync(TBRole role)
         {
-          //  role.TenantId = defaultTenantId;
+            //  role.TenantId = defaultTenantId;
             await _roleRepository.InsertAsync(role);
             _unitOfWork.Commit();
         }

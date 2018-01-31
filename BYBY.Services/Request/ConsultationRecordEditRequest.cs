@@ -22,20 +22,20 @@ namespace BYBY.Services.Request
         public string TreatmentRemark { get; set; }
 
 
-        /// <summary>
-        /// 会诊医生
-        /// </summary>
-        public int DoctorId { get; set; }
+        ///// <summary>
+        ///// 会诊医生
+        ///// </summary>
+        //public int DoctorId { get; set; }
 
-        /// <summary>
-        /// 记录人
-        /// </summary>
-        public string RecordUser { get; set; }
+        ///// <summary>
+        ///// 记录人
+        ///// </summary>
+        //public string RecordUser { get; set; }
 
 
-        /// <summary>
-        /// 记录时间
-        /// </summary>
-        public DateTime? RecordTime { get; set; }
+        ///// <summary>
+        ///// 记录时间
+        ///// </summary>
+        //public DateTime? RecordTime { get; set; }
     }
 }
