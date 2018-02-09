@@ -34,25 +34,25 @@
                 <div class="form-group">
                     <select class="selectpicker show-tick " data-width="196px" id="SelectRoom">
                         @foreach (var item in Model.RoomList)
-            {
-                <option value="@item.id">@item.text</option>
-}
+                        {
+                            <option value="@item.id">@item.text</option>
+                        }
 
                     </select>
                     <select class="selectpicker show-tick " data-width="196px" id="SelectDoctor">
                         <option>--所有医生--</option>
                         @foreach (var item in Model.DoctorList)
-            {
-                <option value="@item.id">@item.text</option>
-}
+                        {
+                            <option value="@item.id">@item.text</option>
+                        }
 
                     </select>
                     @*<select2 id="SelectHospital" class="w150" data-placeholder="--请选择医院--" :options="HospitalList">
-            </select2>
-            <select2 id="SelectRoom" class="w150" data-placeholder="--请选择会诊室--" :options="RoomList">
-            </select2>
-            <select2 id="SelectDoctor" class="w150" data-placeholder="--请选择医生--" :options="DoctorList">
-            </select2>*@
+                        </select2>
+                        <select2 id="SelectRoom" class="w150" data-placeholder="--请选择会诊室--" :options="RoomList">
+                        </select2>
+                        <select2 id="SelectDoctor" class="w150" data-placeholder="--请选择医生--" :options="DoctorList">
+                        </select2>*@
                 </div>
                 <div class="form-group plan-date-range">
                     <h3 id="date-range-text">日期选择范围：2018-01-01 - 2018-01-07</h3>
@@ -63,6 +63,9 @@
             <button type="button" class="btn blue btn-outline margin-right-20" id="btn-edit" v-on:click="showEdit()">
                 <span v-if="editmodel==0">编辑</span>
                 <span v-else>取消编辑</span>
+            </button>
+            <button v-if="editmodel==0" type="button" class="btn blue btn-outline margin-right-20" v-on:click="print()">
+                <span>打印排班</span>
             </button>
         </div>
     </div>
@@ -113,7 +116,7 @@
 
             </tbody>
             <tfoot>
-                <tr>
+                <tr v-if="editmodel==1">
                     <td colspan="10" class="action">
 
                         <button type="button" class="btn blue btn-outline" v-if="editmodel==1" id="btn-save" v-on:click="save()">
@@ -141,6 +144,7 @@
     @System.Web.Optimization.Scripts.Render("~/bundles/js/bootstrapselect")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryvalidate")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/jqueryform")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/jqprint")
     <script>
         $(function () {
             var vuetable = null;
@@ -194,7 +198,7 @@
                                     });
                                 },
                                 showConsultation: function (event) {
-                                  
+
                                     var $this = $(".show-tips", event.target);
                                     var val = $this.text();
                                     if (val == "0") {
@@ -305,12 +309,15 @@
                             vuequery.editmodel = vuetable.editmodel = 0;
                             com.setDisabled("#query-content", false);
                         }
+                    },
+                    print: function() {
+                        $("#query-table").jqprint();
                     }
                 }
 
             })
 
-      
+
 
 
 

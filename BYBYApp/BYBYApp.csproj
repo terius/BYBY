@@ -232,6 +232,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\main.css" />
+    <Content Include="Content\print.css" />
     <Content Include="error.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -263,9 +264,11 @@
     <Content Include="Scripts\inputmask.js" />
     <Content Include="Scripts\jquery-2.2.4.js" />
     <Content Include="Scripts\jquery-2.2.4.min.js" />
+    <Content Include="Scripts\jquery-migrate-1.1.0.min.js" />
     <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.form.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.jqprint-0.3.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\layui\css\layui.css" />
     <Content Include="Scripts\layui\css\layui.mobile.css" />
@@ -5757,6 +5760,7 @@
     <Content Include="Views\Hospital\DoctorDetail.cshtml" />
     <Content Include="Views\Detail\Index.cshtml" />
     <Content Include="Views\Shared\_Detail.cshtml" />
+    <Content Include="Views\TEST\Print.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

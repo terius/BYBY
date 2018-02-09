@@ -80,6 +80,7 @@
     @System.Web.Optimization.Styles.Render("~/bundles/css/bootstrapselect")
     <link href="/Scripts/viewer.min.css" rel="stylesheet" type="text/css" />
     @System.Web.Optimization.Styles.Render("~/bundles/css/jqfileupload")
+    <link href="~/Content/print.css" rel="stylesheet" media="print" />
 }
 
 @section pagejs
@@ -91,6 +92,7 @@
     @System.Web.Optimization.Scripts.Render("~/bundles/js/bootstrapselect")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/viewerjs")
     @System.Web.Optimization.Scripts.Render("~/bundles/js/inputmask")
+    @System.Web.Optimization.Scripts.Render("~/bundles/js/jqprint")
     <script>
         $(function () {
 
@@ -176,6 +178,15 @@
                 //  }
             });
               /*********************女方病历*********************/
+            var vueFemalePrint = new Vue({
+                el: '#female-print',
+                data: {
+                    info: {}
+                }
+
+            });
+
+
             var vueFemaleDetail = new Vue({
                 el: '#medical-detail-female',
                 data: {
@@ -186,6 +197,19 @@
                     $(".MarriageChildren").formatInput({ dateStr: "现有子女_-领养子女_" });
                     $(".MarriageFertility").formatInput({ dateStr: "足月产_-早产_-引产_-自然流产_-人工流产_-药流_" });
                     $("form").validateForm();
+                },
+                methods: {
+                    print: function (id) {
+                        com.ajaxquery("/MedicalHistory/GetFemalePrint", { Id: id, No: allData.EditModel.MedicalHistoryNo }).then(function (res) {
+                          //  com.showLog(res, "打印数据");
+                            vueFemalePrint.info = res;
+                            setTimeout(function() {
+                                $("#female-print").jqprint();
+                            },500)
+
+                        });
+
+                    }
                 }
             })
 
@@ -212,6 +236,13 @@
 
 
             /*********************男方病历*********************/
+            var vueMalePrint = new Vue({
+                el: '#male-print',
+                data: {
+                    info: {}
+                }
+
+            });
             var vueMaleDetail = new Vue({
                 el: '#medical-detail-male',
                 data: {
@@ -219,6 +250,19 @@
                 },
                 mounted: function () {
 
+                },
+                methods: {
+                    print: function (id) {
+                        com.ajaxquery("/MedicalHistory/GetMalePrint", { Id: id, No: allData.EditModel.MedicalHistoryNo }).then(function (res) {
+                            //  com.showLog(res, "打印数据");
+                            vueMalePrint.info = res;
+                            setTimeout(function () {
+                                $("#male-print").jqprint();
+                            }, 500)
+
+                        });
+
+                    }
                 }
             })
 
@@ -373,16 +417,17 @@
         })
 
 
-        //$("#btnCreateNewFemale").on("click", function () {
-        //    layer.open({
-        //        type: 1,
-        //        shade: false,
-        //        title: "新建女方病历", //不显示标题
-        //        content: $('#FemaleMDAddForm'),
-        //        area: ['90%', '900px'], //宽高
-        //        skin: 'layui-layer-rim', //加上边框
-        //    });
-        //});
+       // $("#btnPrintFemale").on("click", function () {
+
+            //layer.open({
+            //    type: 1,
+            //    shade: false,
+            //    title: "新建女方病历", //不显示标题
+            //    content: $('#FemaleMDAddForm'),
+            //    area: ['90%', '900px'], //宽高
+            //    skin: 'layui-layer-rim', //加上边框
+            //});
+      //  });
 
 
 

@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "门诊病历";
+}
+<div class="print-area" style="display:none">
+    <h2 class="print-head">门诊病历</h2>
+    <table class="print-table">
+        <tr>
+            <td width="33%"><span class="td-title">姓名</span><div class="value">陈小春</div></td>
+            <td width="33%"><span class="td-title">性别</span><div class="value">男</div></td>
+            <td width="34%"><span class="td-title">病历号</span><div class="value">123123123123</div></td>
+        </tr>
+        <tr>
+            <td><span class="td-title">民族</span><div class="value">汉族</div></td>
+            <td><span class="td-title">婚姻</span><div class="value">已婚</div></td>
+            <td><span class="td-title">年龄</span><div class="value">30</div></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div style="width:50%;float:left"><span class="td-title">职业</span><div class="value">工程师</div></div>
+                <div style="width:50%;float:left"><span class="td-title">电话</span><div class="value">12323453534545</div></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <span class="td-title">证件号</span><div class="value">3205838576886059654</div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="padding:10px 10px 10px 0">
+                <table class="print-detail">
+                    <tr>
+                        <td width="100px">主诉</td>
+                        <td>3205838576886059654</td>
+                    </tr>
+                    <tr>
+                        <td>现病史</td>
+                        <td>对方规定发给法国获得国家法律规划法律改好了风光好风光好积分工会经费改好了的发给对方给对方感到反感大范甘迪法规的法规对方规定发给的风格大方个风光好风光好法规回复后</td>
+                    </tr>
+                    <tr>
+                        <td>既往史</td>
+                        <td>对方规定发给法国获得国家法律规划法律改好了风光好风光好积分工会经费改好了的发给对方给对方感到反感大范甘迪法规的法规对方规定发给的风格大方个风光好风光好法规回复后</td>
+                    </tr>
+                    <tr>
+                        <td>个人史</td>
+                        <td>对方规定发给法国获得国家法律规划法律改好了风光好风光好积分工会经费改好了的发给对方给对方感到反感大范甘迪法规的法规对方规定发给的风格大方个风光好风光好法规回复后</td>
+                    </tr>
+                    <tr>
+                        <td>月经史</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>婚育史</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>体格检查</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>妇科检查</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>诊断</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>治疗意见</td>
+                        <td></td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="text-align:right">
+                <span class="table-bottom">医师：</span>
+                <span class="table-bottom">2018-02-05 12:00:00</span>
+            </td>
+        </tr>
+
+    </table>
+</div>
+
+<input type="button" onclick="Print()" value="打印" />
+
+@section styles
+{
+
+    <link href="~/Content/print.css" rel="stylesheet" media="print"/>
+}
+
+@section pagejs
+{
+    <script src="~/Scripts/jquery-migrate-1.1.0.min.js"></script>
+    <script src="~/Scripts/jquery.jqprint-0.3.js"></script>
+    <script>
+        function Print() {
+            $(".print-area").jqprint();
+        }
+    </script>
+
+}
+

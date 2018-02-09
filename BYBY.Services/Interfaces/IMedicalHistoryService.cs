@@ -218,5 +218,9 @@ namespace BYBY.Services.Interfaces
         Task<PagedData<ReportListView>> GetConsultationListInReport(ReportQueryRequest request);
 
         Task<PagedData<ReportListView>> GetReferralListInReport(ReportQueryRequest request);
+
+        Task<FemalePrintResponse> GetFemalePrint(PrintMDRequest request);
+
+        Task<MalePrintResponse> GetMalePrint(PrintMDRequest request);
     }
 }

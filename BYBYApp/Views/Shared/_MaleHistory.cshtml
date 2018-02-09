@@ -14,6 +14,9 @@
             <div class="panel-body person-medical-detail">
                 @*男方病历查看页面开始*@
                 <div class="form-inline detail-view">
+                    <div class="col-md-12" style="text-align:right;padding-bottom:10px;">
+                        <a type="button" href="javascript:;" class="btn btn-outline blue" v-on:click="print(md.MDId)">打印男方病历</a>
+                    </div>
                     <div class="col-md-12 pg-title">
                         <div>现病史</div>
                     </div>
@@ -168,7 +171,7 @@
                 @*男方病历查看页面结束*@
 
                 @*男方病历编辑页面开始*@
-                <form method="post" action="@Url.Action("MedicalDetailUpdate","MedicalHistory")" >
+                <form method="post" action="@Url.Action("MedicalDetailUpdate","MedicalHistory")">
                     <input name="MDId" type="hidden" :value="md.MDId" />
                     <input name="Title" type="hidden" :value="md.Title" />
                     @Html.AntiForgeryToken()
@@ -179,13 +182,13 @@
                         <div class="col-md-12  ">
                             <div class="form-group">
                                 <label for="CurrentInfoMain">主诉:</label>
-                                <textarea  name="CurrentInfoMain" class="form-control w500" rows="3" cols="20" :value="md.CurrentInfoMain"></textarea>
+                                <textarea name="CurrentInfoMain" class="form-control w500" rows="3" cols="20" :value="md.CurrentInfoMain"></textarea>
                             </div>
                         </div>
                         <div class="col-md-12 ">
                             <div class="form-group">
                                 <label for="CurrentInfo">现病史:</label>
-                                <textarea  name="CurrentInfo" class="form-control w500" rows="3" cols="20" :value="md.CurrentInfo"></textarea>
+                                <textarea name="CurrentInfo" class="form-control w500" rows="3" cols="20" :value="md.CurrentInfo"></textarea>
                             </div>
                         </div>
                         <div class="col-md-12 pg-title">
@@ -194,15 +197,15 @@
                         <div class="col-md-12 ">
                             <div class="form-group">
                                 <label>肝炎:</label>
-                                <input type="text"  maxlength="100"  name="PastHepatitis" class="form-control" :value="md.PastHepatitis">
+                                <input type="text" maxlength="100" name="PastHepatitis" class="form-control" :value="md.PastHepatitis">
                             </div>
                             <div class="form-group">
                                 <label>结核:</label>
-                                <input type="text"  maxlength="100"  name="PastTuberculosis" class="form-control" :value="md.PastTuberculosis">
+                                <input type="text" maxlength="100" name="PastTuberculosis" class="form-control" :value="md.PastTuberculosis">
                             </div>
                             <div class="form-group">
                                 <label>性传播疾病:</label>
-                                <input type="text"  maxlength="100" name="PastSTD" class="form-control" :value="md.PastSTD">
+                                <input type="text" maxlength="100" name="PastSTD" class="form-control" :value="md.PastSTD">
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -281,7 +284,7 @@
                             </div>
                             <div class="form-group">
                                 <label>近亲结婚:</label>
-                                <select class="selectpicker show-tick " data-width="196px" :value="md.MarriageRelatives"  name="MarriageRelatives">
+                                <select class="selectpicker show-tick " data-width="196px" :value="md.MarriageRelatives" name="MarriageRelatives">
                                     <option value="否">否</option>
                                     <option value="是">是</option>
                                 </select>
@@ -290,7 +293,7 @@
                         <div class="col-md-12 ">
                             <div class="form-group">
                                 <label>再婚:</label>
-                                <select class="selectpicker show-tick " data-width="196px" :value="md.MarriageRemarry"  name="MarriageRemarry">
+                                <select class="selectpicker show-tick " data-width="196px" :value="md.MarriageRemarry" name="MarriageRemarry">
                                     <option value="否">否</option>
                                     <option value="是">是</option>
                                 </select>
@@ -302,11 +305,11 @@
                         <div class="col-md-12 ">
                             <div class="form-group">
                                 <label>身高(cm):</label>
-                                <input type="number" maxlength="100"  name="PhysiqueHeight" class="form-control" :value="md.PhysiqueHeight">
+                                <input type="number" maxlength="100" name="PhysiqueHeight" class="form-control" :value="md.PhysiqueHeight">
                             </div>
                             <div class="form-group">
                                 <label>体重(kg):</label>
-                                <input type="number" maxlength="100"  name="PhysiqueWeight" class="form-control" :value="md.PhysiqueWeight">
+                                <input type="number" maxlength="100" name="PhysiqueWeight" class="form-control" :value="md.PhysiqueWeight">
                             </div>
                             <div class="form-group">
                                 <label>体重指数:</label>
@@ -331,7 +334,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>诊治医生:</label>
-                                <input type="text" maxlength="100"  name="DiagnosisDoctor" class="form-control" :value="md.DiagnosisDoctor">
+                                <input type="text" maxlength="100" name="DiagnosisDoctor" class="form-control" :value="md.DiagnosisDoctor">
                             </div>
                         </div>
                         <div class="col-md-12 action-content">
@@ -357,6 +360,7 @@
             <input name="PatientId" type="hidden" :value="md.PatientId" />
             @Html.AntiForgeryToken()
             <div class="form-inline edit-view ">
+              
                 <div class="col-md-12 pg-title">
                     <div>现病史</div>
                 </div>
@@ -369,7 +373,7 @@
                 <div class="col-md-12 ">
                     <div class="form-group">
                         <label for="CurrentInfo">现病史:</label>
-                        <textarea name="CurrentInfo" class="form-control w500" rows="3" cols="20" ></textarea>
+                        <textarea name="CurrentInfo" class="form-control w500" rows="3" cols="20"></textarea>
                     </div>
                 </div>
                 <div class="col-md-12 pg-title">
@@ -396,7 +400,7 @@
                     </div>
                     <div class="form-group">
                         <label>睾丸手术:</label>
-                        <input type="text" maxlength="100" class="form-control" name="PastTesticularSurgery" >
+                        <input type="text" maxlength="100" class="form-control" name="PastTesticularSurgery">
                     </div>
                     <div class="form-group">
                         <label>附睾手术:</label>
@@ -411,7 +415,7 @@
                     </div>
                     <div class="form-group">
                         <label>尿道手术:</label>
-                        <input type="text" maxlength="100" class="form-control" name="PastUrethralSurgery" >
+                        <input type="text" maxlength="100" class="form-control" name="PastUrethralSurgery">
                     </div>
                     <div class="form-group">
                         <label>其他:</label>
@@ -462,7 +466,7 @@
                     </div>
                     <div class="form-group">
                         <label>近亲结婚:</label>
-                        <select class="selectpicker show-tick " data-width="196px"  name="MarriageRelatives">
+                        <select class="selectpicker show-tick " data-width="196px" name="MarriageRelatives">
                             <option value="否">否</option>
                             <option value="是">是</option>
                         </select>
@@ -471,7 +475,7 @@
                 <div class="col-md-12 ">
                     <div class="form-group">
                         <label>再婚:</label>
-                        <select class="selectpicker show-tick " data-width="196px"  name="MarriageRemarry">
+                        <select class="selectpicker show-tick " data-width="196px" name="MarriageRemarry">
                             <option value="否">否</option>
                             <option value="是">是</option>
                         </select>
@@ -487,7 +491,7 @@
                     </div>
                     <div class="form-group">
                         <label>体重(kg):</label>
-                        <input type="number" maxlength="100"  name="PhysiqueWeight" class="form-control">
+                        <input type="number" maxlength="100" name="PhysiqueWeight" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>体重指数:</label>
@@ -500,13 +504,13 @@
                 <div class="col-md-12 ">
                     <div class="form-group">
                         <label>诊断:</label>
-                        <textarea  name="TreatmentAdviceDiagnosis" class="form-control w500" rows="3" cols="20"></textarea>
+                        <textarea name="TreatmentAdviceDiagnosis" class="form-control w500" rows="3" cols="20"></textarea>
                     </div>
                 </div>
                 <div class="col-md-12 ">
                     <div class="form-group">
                         <label>治疗意见:</label>
-                        <textarea  name="TreatmentAdvice" class="form-control w500" rows="3" cols="20"></textarea>
+                        <textarea name="TreatmentAdvice" class="form-control w500" rows="3" cols="20"></textarea>
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -519,4 +523,79 @@
         </form>
         <button type="button" slot="bottom" class="btn blue btn-outline btn-save-md add" data-tab="3">保  存</button>
     </v-modal>
+</div>
+
+@*男方病历打印*@
+<div class="print-area" id="male-print" style="display:none">
+    <h2 class="print-head">门诊病历</h2>
+    <table class="print-table">
+        <tr>
+            <td width="33%"><span class="td-title">姓名</span><div class="value">{{info.Name}}</div></td>
+            <td width="33%"><span class="td-title">性别</span><div class="value">{{info.Sex}}</div></td>
+            <td width="34%"><span class="td-title">病历号</span><div class="value">{{info.No}}</div></td>
+        </tr>
+        <tr>
+            <td><span class="td-title">民族</span><div class="value">{{info.Ethnic}}</div></td>
+            <td><span class="td-title">婚姻</span><div class="value">{{info.Marriage}}</div></td>
+            <td><span class="td-title">年龄</span><div class="value">{{info.Age}}</div></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div style="width:50%;float:left"><span class="td-title">职业</span><div class="value">{{info.Job}}</div></div>
+                <div style="width:50%;float:left"><span class="td-title">电话</span><div class="value">{{info.Phone}}</div></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <span class="td-title">证件号</span><div class="value">{{info.CardNo}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="padding:10px 10px 10px 0">
+                <table class="print-detail">
+                    <tr>
+                        <td width="100px">主诉</td>
+                        <td>{{info.MainInfo}}</td>
+                    </tr>
+                    <tr>
+                        <td>现病史</td>
+                        <td>{{info.CurrentInfo}}</td>
+                    </tr>
+                    <tr>
+                        <td>既往史</td>
+                        <td>{{info.PastInfo}}</td>
+                    </tr>
+                    <tr>
+                        <td>个人史</td>
+                        <td>{{info.PersonalInfo}}</td>
+                    </tr>
+                    <tr>
+                        <td>婚育史</td>
+                        <td>{{info.MarriageInfo}}</td>
+                    </tr>
+                    <tr>
+                        <td>体格检查</td>
+                        <td>{{info.PhysiqueCheckInfo}}</td>
+                    </tr>
+                    <tr>
+                        <td>诊断</td>
+                        <td>{{info.DiagnosisInfo}}</td>
+                    </tr>
+                    <tr>
+                        <td>治疗意见</td>
+                        <td>{{info.AdviceInfo}}</td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="text-align:right">
+                <span class="table-bottom">医师：{{info.Doctor}}</span>
+                <span class="table-bottom">{{info.Time}}</span>
+            </td>
+        </tr>
+
+    </table>
 </div>

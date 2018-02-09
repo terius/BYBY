@@ -11,6 +11,7 @@ using AutoMapper;
 using BYBY.Services.Account;
 using System.Threading.Tasks;
 using BYBY.Services.Models;
+using BYBY.Services.Response;
 
 namespace BYBY.Services
 {
@@ -176,6 +177,122 @@ namespace BYBY.Services
         {
             var view = Mapper.Map<MedicalDetailRequest>(source);
             view.MDId = source.Id;
+            return view;
+        }
+
+        public static FemalePrintResponse C_To_FemalePrintResponse(this TBMedicalDetail source, string medicalHistoryNo)
+        {
+            var view = new FemalePrintResponse();
+            var patient = source.Patient;
+            view.Name = patient.Name;
+            view.Sex = patient.Sex.GetEnumDescription();
+            view.No = medicalHistoryNo;
+            view.Ethnic = patient.Ethnic == null ? "" : patient.Ethnic.Name;
+            view.Marriage = patient.MaritalStatus.GetEnumDescription();
+            view.Age = patient.Age.ToStringData();
+            view.Job = patient.Job == null ? "" : patient.Job.Name;
+            view.Phone = patient.ContactPhone;
+            view.CardNo = patient.CardNo;
+
+            view.MainInfo = source.CurrentInfoMain;
+            view.CurrentInfo = source.CurrentInfo;
+            view.PastInfo = string.Format("肝炎:{0}，手术史:{1}，结核:{2}，泌尿系统疾病:{3}，心血管疾病:{4}，盆腔炎:{5}，性传播疾病:{6}，肾脏疾病:{7}",
+                source.PastHepatitis,
+                source.PastSurgery,
+                source.PastTuberculosis,
+                source.PastUrinarySystemDisease,
+                source.PastCardiovascularDisease,
+                source.PastPelvicInflammatoryDisease,
+                source.PastSTD,
+                source.PastKidneyDisease);
+            view.PersonalInfo = string.Format("吸烟:{0}，酗酒:{1}，吸毒:{2}，习惯用药:{3}，药物过敏:{4}",
+              source.PersonalSmoke,
+              source.PersonalAlcoholism,
+              source.PersonalDrug,
+              source.PersonalHabitMedication,
+              source.PersonalDrugAllergy);
+            view.MenstruationInfo = string.Format("初潮(岁):{0}，月经周期(天):{1}，持续时间(天):{2}，经量:{3}，痛经:{4}，血块:{5}，末次月经:{6}",
+            source.MenstruationFirstAge,
+            source.MenstruationCycle,
+            source.MenstruationDuration,
+            source.MenstruationVolume,
+            source.MenstruationDysmenorrhea,
+            source.MenstruationGore,
+            source.MenstruationLast);
+            view.MarriageInfo = string.Format("近亲结婚:{0}，再婚:{1}，末次妊娠时间:{2}，子女:{3}，生育:{4}，异位妊娠次数:{5}，手术名称及时间:{6}",
+                   source.MarriageRelatives,
+                   source.MarriageRemarry,
+                   source.MarriageLastPregnancyDate,
+                   source.MarriageChildren,
+                   source.MarriageFertility,
+                   source.MarriageEctopicPregnancy,
+                   source.MarriageSurgeryAndDate);
+            view.PhysiqueCheckInfo = string.Format("身高(cm):{0}，体重(kg):{1}，体重指数:{2}",
+                 source.PhysiqueHeight,
+                 source.PhysiqueWeight,
+                 source.PhysiqueBMI);
+            view.GynecologyCheckInfo = string.Format("外阴:{0}，阴道:{1}，宫颈:{2}，宫体:{3}，双附件:{4}",
+              source.GynecologyVulva,
+              source.GynecologyVaginal,
+              source.GynecologyCervix,
+              source.GynecologyCervixBody,
+              source.GynecologyDoubleAtt);
+            view.DiagnosisInfo = source.TreatmentAdviceDiagnosis;
+            view.AdviceInfo = source.TreatmentAdvice;
+            view.Doctor = source.DiagnosisDoctor;
+            view.Time = source.AddTime.ToDateTimeString();
+            return view;
+        }
+
+        public static MalePrintResponse C_To_MalePrintResponse(this TBMedicalDetail source, string medicalHistoryNo)
+        {
+            var view = new MalePrintResponse();
+            var patient = source.Patient;
+            view.Name = patient.Name;
+            view.Sex = patient.Sex.GetEnumDescription();
+            view.No = medicalHistoryNo;
+            view.Ethnic = patient.Ethnic == null ? "" : patient.Ethnic.Name;
+            view.Marriage = patient.MaritalStatus.GetEnumDescription();
+            view.Age = patient.Age.ToStringData();
+            view.Job = patient.Job == null ? "" : patient.Job.Name;
+            view.Phone = patient.ContactPhone;
+            view.CardNo = patient.CardNo;
+
+            view.MainInfo = source.CurrentInfoMain;
+            view.CurrentInfo = source.CurrentInfo;
+            view.PastInfo = string.Format("肝炎:{0}，结核:{1}，性传播疾病:{2}，腮腺炎:{3}，睾丸手术:{4}，附睾手术:{5}，输精管手术:{6}，尿道手术:{7}，其他:{8}",
+                source.PastHepatitis,
+                source.PastTuberculosis,
+                source.PastSTD,
+                source.PastMumps,
+                source.PastTesticularSurgery,
+                source.PastEpididymisSurgery,
+                source.PastVasectomy,
+                source.PastUrethralSurgery,
+                source.PastOther
+                );
+            view.PersonalInfo = string.Format("吸烟:{0}，酗酒:{1}，吸毒:{2}，习惯用药:{3}，药物过敏:{4}",
+              source.PersonalSmoke,
+              source.PersonalAlcoholism,
+              source.PersonalDrug,
+              source.PersonalHabitMedication,
+              source.PersonalDrugAllergy);
+
+            view.MarriageInfo = string.Format("结婚年龄:{0}，最后生育时间:{1}，近亲结婚:{2}，再婚:{3}",
+                   source.ManMarriageAge,
+                   source.ManLastMarriageDate,
+                   source.MarriageRelatives,
+                   source.MarriageRemarry
+                   );
+            view.PhysiqueCheckInfo = string.Format("身高(cm):{0}，体重(kg):{1}，体重指数:{2}",
+                 source.PhysiqueHeight,
+                 source.PhysiqueWeight,
+                 source.PhysiqueBMI);
+
+            view.DiagnosisInfo = source.TreatmentAdviceDiagnosis;
+            view.AdviceInfo = source.TreatmentAdvice;
+            view.Doctor = source.DiagnosisDoctor;
+            view.Time = source.AddTime.ToDateTimeString();
             return view;
         }
 

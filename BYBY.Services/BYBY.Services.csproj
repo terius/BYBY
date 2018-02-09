@@ -113,6 +113,7 @@
     <Compile Include="Request\MedicineQueryRequest.cs" />
     <Compile Include="Request\OnlyHasIdRequest.cs" />
     <Compile Include="Request\PlanQueryRequest.cs" />
+    <Compile Include="Request\PrintMDRequest.cs" />
     <Compile Include="Request\QueryDoctorRequest.cs" />
     <Compile Include="Request\ReportQueryRequest.cs" />
     <Compile Include="Request\UpdateReferralStatusRequest.cs" />
@@ -137,6 +138,8 @@
     <Compile Include="Request\UserCreateRequest.cs" />
     <Compile Include="Response\EditDoctorResponse.cs" />
     <Compile Include="Response\AddDoctorResponse.cs" />
+    <Compile Include="Response\MalePrintResponse.cs" />
+    <Compile Include="Response\FemalePrintResponse.cs" />
     <Compile Include="Response\PagedData.cs" />
     <Compile Include="Response\LoginResponse.cs" />
     <Compile Include="Response\MedicalHistoryResponse.cs" />

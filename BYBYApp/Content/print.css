@@ -1,0 +1,54 @@
+﻿.print-area {
+    margin: 20px;
+    text-align: center;
+    display:block !important;
+}
+
+.print-head {
+    margin-bottom: 30px;
+}
+
+.print-table {
+    width: 100%;
+}
+
+    .print-table td {
+        padding: 0 20px 20px 0;
+        text-align:left;
+    }
+
+    .print-table .td-title {
+        display: inline-block;
+        width: 50px;
+        text-align: center;
+    }
+
+    .print-table .value {
+        border-bottom: 1px solid #413d3d;
+        display: inline-block;
+        width: calc(100% - 50px);
+        text-align: center;
+    }
+
+
+
+.print-detail {
+    width: 100%;
+    border-bottom: 2px solid #413d3d;
+}
+
+
+    .print-detail td {
+        font-weight: 700;
+        padding: 0 10px 20px 10px;
+    }
+
+
+.table-bottom {
+    -webkit-print-color-adjust: exact;
+    border: 1px solid #c29d0b;
+    background-color: #f9e491 !important;
+    border-radius: 4px;
+    padding: 4px;
+    margin-left: 30px;
+}

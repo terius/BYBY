@@ -132,6 +132,10 @@ namespace BYBYApp
             //echarts
             bundles.Add(
          new ScriptBundle("~/bundles/js/echarts").Include("~/Scripts/echarts.common.min.js"));
+
+            //jqprint
+            bundles.Add(
+         new ScriptBundle("~/bundles/js/jqprint").Include("~/Scripts/jquery-migrate-1.1.0.min.js", "~/Scripts/jquery.jqprint-0.3.js"));
         }
     }
 }

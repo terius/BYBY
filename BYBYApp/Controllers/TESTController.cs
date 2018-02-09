@@ -24,6 +24,10 @@ namespace BYBYApp.Controllers
         {
             return View();
         }
+        public ActionResult Print()
+        {
+            return View();
+        }
 
         [HttpPost]
         public async Task<ActionResult> CreateUser(UserCreateRequest request)
@@ -45,6 +49,9 @@ namespace BYBYApp.Controllers
             }
             return Json(EmptyResponse.CreateSuccess("上传成功"), JsonRequestBehavior.AllowGet);
         }
+
+
+
 
 
 

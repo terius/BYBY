@@ -1,6 +1,7 @@
 ﻿<div class="row">
     <div class="col-md-12" style="padding:0 15px 15px">
-        <a type="button" href="#modal-female" data-toggle='modal'  class="btn btn-outline blue" id="btnCreateNewFemale">新建女方病历</a>
+        <a type="button" href="#modal-female" data-toggle='modal' class="btn btn-outline blue" id="btnCreateNewFemale">新建女方病历</a>
+     
     </div>
 </div>
 <div class="panel-group accordion" id="medical-detail-female" v-cloak>
@@ -14,6 +15,9 @@
             <div class="panel-body person-medical-detail">
                 @*女方病历查看页面开始*@
                 <div class="form-inline detail-view">
+                    <div class="col-md-12" style="text-align:right;padding-bottom:10px;">
+                        <a type="button" href="javascript:;" class="btn btn-outline blue" id="btnPrintFemale" v-on:click="print(md.MDId)">打印女方病历</a>
+                    </div>
                     <div class="col-md-12 pg-title">
                         <div>现病史</div>
                     </div>
@@ -803,6 +807,90 @@
         </form>
         <button type="button" slot="bottom" class="btn blue btn-outline btn-save-md add" data-tab="2">保  存</button>
     </v-modal>
+</div>
+
+
+@*女方病历打印*@
+<div class="print-area"  id="female-print" style="display:none">
+    <h2 class="print-head">门诊病历</h2>
+    <table class="print-table">
+        <tr>
+            <td width="33%"><span class="td-title">姓名</span><div class="value">{{info.Name}}</div></td>
+            <td width="33%"><span class="td-title">性别</span><div class="value">{{info.Sex}}</div></td>
+            <td width="34%"><span class="td-title">病历号</span><div class="value">{{info.No}}</div></td>
+        </tr>
+        <tr>
+            <td><span class="td-title">民族</span><div class="value">{{info.Ethnic}}</div></td>
+            <td><span class="td-title">婚姻</span><div class="value">{{info.Marriage}}</div></td>
+            <td><span class="td-title">年龄</span><div class="value">{{info.Age}}</div></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div style="width:50%;float:left"><span class="td-title">职业</span><div class="value">{{info.Job}}</div></div>
+                <div style="width:50%;float:left"><span class="td-title">电话</span><div class="value">{{info.Phone}}</div></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <span class="td-title">证件号</span><div class="value">{{info.CardNo}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="padding:10px 10px 10px 0">
+                <table class="print-detail">
+                    <tr>
+                        <td width="100px">主诉</td>
+                        <td>{{info.MainInfo}}</td>
+                    </tr>
+                    <tr>
+                        <td>现病史</td>
+                        <td>{{info.CurrentInfo}}</td>
+                    </tr>
+                    <tr>
+                        <td>既往史</td>
+                        <td>{{info.PastInfo}}</td>
+                    </tr>
+                    <tr>
+                        <td>个人史</td>
+                        <td>{{info.PersonalInfo}}</td>
+                    </tr>
+                    <tr>
+                        <td>月经史</td>
+                        <td>{{info.MenstruationInfo}}</td>
+                    </tr>
+                    <tr>
+                        <td>婚育史</td>
+                        <td>{{info.MarriageInfo}}</td>
+                    </tr>
+                    <tr>
+                        <td>体格检查</td>
+                        <td>{{info.PhysiqueCheckInfo}}</td>
+                    </tr>
+                    <tr>
+                        <td>妇科检查</td>
+                        <td>{{info.GynecologyCheckInfo}}</td>
+                    </tr>
+                    <tr>
+                        <td>诊断</td>
+                        <td>{{info.DiagnosisInfo}}</td>
+                    </tr>
+                    <tr>
+                        <td>治疗意见</td>
+                        <td>{{info.AdviceInfo}}</td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="text-align:right">
+                <span class="table-bottom">医师：{{info.Doctor}}</span>
+                <span class="table-bottom">{{info.Time}}</span>
+            </td>
+        </tr>
+
+    </table>
 </div>
 
 

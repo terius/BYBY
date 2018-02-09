@@ -132,6 +132,19 @@ namespace BYBY.Services.Implementations
         }
 
 
+        public async Task<FemalePrintResponse> GetFemalePrint(PrintMDRequest request)
+        {
+            var info = await _medicalDetailRepository.GetAsync(request.Id);
+            return info.C_To_FemalePrintResponse(request.No);
+        }
+
+        public async Task<MalePrintResponse> GetMalePrint(PrintMDRequest request)
+        {
+            var info = await _medicalDetailRepository.GetAsync(request.Id);
+            return info.C_To_MalePrintResponse(request.No);
+        }
+
+
         public async Task<IList<MedicalDetailRequest>> GetMedicalDetails(TBPatient patient)
         {
             var rs = Task.Run(() =>

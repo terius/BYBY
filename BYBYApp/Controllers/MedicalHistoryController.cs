@@ -108,6 +108,20 @@ namespace BYBYApp.Controllers
             return View(model);
         }
 
+        public async Task<JsonResult> GetFemalePrint(PrintMDRequest request)
+        {
+            var response = await _medicalHistoryService.GetFemalePrint(request);
+            return Json(response, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public async Task<JsonResult> GetMalePrint(PrintMDRequest request)
+        {
+            var response = await _medicalHistoryService.GetMalePrint(request);
+            return Json(response, JsonRequestBehavior.AllowGet);
+
+        }
+
 
         /// <summary>
         /// 编辑病历基本信息
