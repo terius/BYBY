@@ -171,7 +171,7 @@ namespace BYBY.Services.Implementations
             }
             else
             {
-                res.Result = false;
+                res.Result = false;  
                 res.ErrorMessage = "编辑失败";
             }
             return res;
