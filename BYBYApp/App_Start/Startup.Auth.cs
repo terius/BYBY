@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using BYBY.Repository.Entities;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
